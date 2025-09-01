@@ -1,0 +1,55 @@
+model User {
+    id             String         @id @default(uuid()) @db.Uuid
+    fullname       String         @db.VarChar(50)
+    username       String         @db.VarChar(50)
+    email          String         @db.VarChar(255)
+    phone          String?        @db.VarChar(20)
+    hasingPassword String         @map("hasing_password") @db.VarChar(255)
+    avatarUrl      String?        @map("avatar_url") @db.VarChar(500)
+    address        String?        @db.VarChar(500)
+    city           String?        @db.VarChar(50)
+    state          String?        @db.VarChar(50)
+    roles          UserRole[]
+    flags          UserFlag[]
+    createdAt      DateTime       @default(now()) @map("created_at") @db.Timestamptz()
+    updatedAt      DateTime       @updatedAt @map("updated_at") @db.Timestamptz()
+    visible        UserVisibility @default(PUBLIC)
+    isBanned       Boolean        @default(false) @map("is_banned")
+    isLocked       Boolean        @default(false) @map("is_locked")
+    isVerified     Boolean        @default(false) @map("is_verified")
+    lastActived    DateTime?      @map("last_actived") @db.Timestamptz()
+
+    // relation
+    sessions Session[] @relation("sessions")
+    codes    Code?
+}
+
+enum UserRole {
+    ROOT
+    ADMINSTRATOR
+    SUPPORTER
+    COLLABORATOR
+    SELLER
+    USER
+
+    @@map("user_role")
+}
+
+enum UserFlag {
+    BEST_CUSTOMER
+    DIAMOND_CUSTOMER
+    GOLD_CUSTOMER
+    SILVER_CUSTOMER
+    COPPER_CUSTOMER
+    CUSTOMER
+
+    @@map("user_flag")
+}
+
+enum UserVisibility {
+    PUBLIC
+    PRIVATE
+    CONTACT_ONLY
+
+    @@map("user_visibility")
+}
