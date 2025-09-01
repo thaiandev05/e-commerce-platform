@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en" style="margin: 0; padding: 0">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Verify Your Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .verification-code {
+        background-color: #f3f4f6;
+        border: 2px dashed #d1d5db;
+        color: #111827;
+        font-family: 'Courier New', monospace;
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        padding: 20px;
+        margin: 24px 0;
+        border-radius: 8px;
+        letter-spacing: 4px;
+      }
+      .container {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 600px;
+        margin: auto;
+        padding: 32px;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .footer {
+        text-align: center;
+        font-size: 12px;
+        color: #888888;
+        margin-top: 32px;
+      }
+      .highlight {
+        background-color: #fef3c7;
+        color: #92400e;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body style="background-color: #f4f4f5; margin: 0; padding: 40px 0">
+    <div class="container">
+      <h2 style="color: #111827">Verify your registration</h2>
+      <p style="color: #374151">
+        Hello <span class="highlight">{{USER_EMAIL}}</span>, thank you for registering with us. Please use the verification code below to complete your registration:
+      </p>
+      
+      <div class="verification-code">
+        {{CODE_VERIFY}}
+      </div>
+      
+      <p style="color: #6b7280; text-align: center; margin: 24px 0; font-size: 14px;">
+        Enter this code in the verification form to activate your account
+      </p>
+      
+      <p style="color: #ef4444; font-size: 14px; background-color: #fef2f2; padding: 12px; border-radius: 6px; border-left: 4px solid #ef4444;">
+        <strong>Important:</strong> This code will expire in 15 minutes for security reasons.
+      </p>
+      
+      <p style="color: #6b7280; font-size: 14px;">
+        If you didn't create this account, you can safely ignore this email. If you're having trouble, please contact our support team.
+      </p>
+      
+      <div class="footer">&copy; 2025 Your Company. All rights reserved.</div>
+    </div>
+  </body>
+</html>
