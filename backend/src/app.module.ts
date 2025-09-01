@@ -5,6 +5,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { EmailModule } from './email/email.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { EmailModule } from './email/email.module';
         }
       ]
     }),
-    EmailModule
+    EmailModule, AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

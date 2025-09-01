@@ -27,6 +27,7 @@ model Code {
     user   User   @relation(fields: [userId], references: [id])
 
     @@map("code")
+    @@index([userId])
 }
 
 enum TYPECODE {

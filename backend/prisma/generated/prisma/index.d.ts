@@ -4936,12 +4936,12 @@ export namespace Prisma {
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    username?: string
+    email?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     fullname?: StringFilter<"User"> | string
-    username?: StringFilter<"User"> | string
-    email?: StringFilter<"User"> | string
     phone?: StringNullableFilter<"User"> | string | null
     hasingPassword?: StringFilter<"User"> | string
     avatarUrl?: StringNullableFilter<"User"> | string | null
@@ -4959,7 +4959,7 @@ export namespace Prisma {
     lastActived?: DateTimeNullableFilter<"User"> | Date | string | null
     sessions?: SessionListRelationFilter
     codes?: XOR<CodeNullableScalarRelationFilter, CodeWhereInput> | null
-  }, "id">
+  }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
