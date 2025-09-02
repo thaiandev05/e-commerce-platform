@@ -146,7 +146,8 @@ exports.Prisma.UserScalarFieldEnum = {
   username: 'username',
   email: 'email',
   phone: 'phone',
-  hasingPassword: 'hasingPassword',
+  hashingPassword: 'hashingPassword',
+  accountType: 'accountType',
   avatarUrl: 'avatarUrl',
   address: 'address',
   city: 'city',
@@ -160,6 +161,22 @@ exports.Prisma.UserScalarFieldEnum = {
   isLocked: 'isLocked',
   isVerified: 'isVerified',
   lastActived: 'lastActived'
+};
+
+exports.Prisma.Oauth2UserScalarFieldEnum = {
+  id: 'id',
+  provider: 'provider',
+  providerUserId: 'providerUserId',
+  email: 'email',
+  phone: 'phone',
+  firstname: 'firstname',
+  lastname: 'lastname',
+  fullname: 'fullname',
+  avatarUrl: 'avatarUrl',
+  username: 'username',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
 };
 
 exports.Prisma.SortOrder = {
@@ -176,6 +193,11 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.AccountType = exports.$Enums.AccountType = {
+  EMAIL: 'EMAIL',
+  OAUTH2: 'OAUTH2'
+};
+
 exports.UserVisibility = exports.$Enums.UserVisibility = {
   PUBLIC: 'PUBLIC',
   PRIVATE: 'PRIVATE',
@@ -200,10 +222,16 @@ exports.UserFlag = exports.$Enums.UserFlag = {
   CUSTOMER: 'CUSTOMER'
 };
 
+exports.Provider = exports.$Enums.Provider = {
+  FACEBOOK: 'FACEBOOK',
+  GOOGLE: 'GOOGLE'
+};
+
 exports.Prisma.ModelName = {
   Session: 'Session',
   Code: 'Code',
-  User: 'User'
+  User: 'User',
+  Oauth2User: 'Oauth2User'
 };
 
 /**

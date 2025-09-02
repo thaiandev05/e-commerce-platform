@@ -44,17 +44,47 @@ export class EmailService {
 		try {
 			// get template
 			const template = await this.getTemplate(`notification-register-code`)
+			const subject = `Verify email`
 			const html = template
 				.replace('{CODE_VERIFY}', code)
 				.replace('{USER_EMAIL}', toEmail)
 
 			const mailOptions = {
 				from: `Thaiandev Service: ${this.configService.getOrThrow<string>("EMAIL_USER")}`,
+				subject,
 				to: toEmail,
 				html
 			}
 
 			// send email using nodemailer's sendMail
+			const info = await this.transporter.sendMail(mailOptions)
+			return !!(info && (Array.isArray((info as any).accepted) ? (info as any).accepted.length > 0 : (info as any).messageId))
+		} catch (error) {
+			this.logger.error('Send email failed:', error)
+			return false
+		}
+	}
+
+	// send email detect other device
+	async sendDetectOtherDevice(toEmail: string, userAgent: string, userIp: string) {
+		try {
+			// get template
+			const template = await this.getTemplate(`notification-detect-device`)
+			const subject = 'Detect other device'
+			const loginTime = new Date().toISOString()
+			const html = (await template)
+				.replace(`{LOGIN_TIME}`, loginTime)
+				.replace(`{IP_ADDRESS}`, userIp)
+				.replace(`{USER_AGENT}`, userAgent)
+
+			const mailOptions = {
+				from: `Thaiandev Service: ${this.configService.getOrThrow<string>("EMAIL_USER")}`,
+				subject,
+				to: toEmail,
+				html
+			}
+
+			// send email 
 			const info = await this.transporter.sendMail(mailOptions)
 			return !!(info && (Array.isArray((info as any).accepted) ? (info as any).accepted.length > 0 : (info as any).messageId))
 		} catch (error) {

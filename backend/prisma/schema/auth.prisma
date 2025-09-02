@@ -1,13 +1,13 @@
 model Session {
     id                  String   @id @default(uuid()) @db.Uuid
     hashingRefreshToken String?  @map("hasing_refreshtoken") @db.VarChar(255)
-    userAgent           String   @unique @db.VarChar(50)
+    userAgent           String   @db.VarChar(1000) @unique
     userIp              String?  @db.VarChar(100)
     createdAt           DateTime @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt           DateTime @updatedAt @map("updated_at")
 
-    loginedAt  DateTime @map("logined_at") @db.Timestamptz()
-    logoutedAt DateTime @map("logouted_at") @db.Timestamptz()
+    loginedAt  DateTime? @map("logined_at") @db.Timestamptz()
+    logoutedAt DateTime? @map("logouted_at") @db.Timestamptz()
 
     // realtion
     userId String @db.Uuid
@@ -26,8 +26,8 @@ model Code {
     userId String @unique @db.Uuid
     user   User   @relation(fields: [userId], references: [id])
 
-    @@map("code")
     @@index([userId])
+    @@map("code")
 }
 
 enum TYPECODE {
@@ -35,4 +35,11 @@ enum TYPECODE {
     PHONE
 
     @@map("type_code")
+}
+
+enum AccountType {
+    EMAIL
+    OAUTH2
+
+    @@map("account_type")
 }

@@ -10,4 +10,8 @@ export class EmailProducer {
 	async sendVerifyCodeRegister(data: { to: string, code: string }) {
 		await this.client.emit('send-code-register', data)
 	}
+
+	async sendDetectOtherDevice(data: { to: string, userAgent: string, userIp: string }) {
+		await this.client.emit('send-detect-other-device', data)
+	}
 }
