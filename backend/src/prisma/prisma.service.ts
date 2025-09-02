@@ -11,7 +11,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 				{ emit: 'event', level: 'info' },
 				{ emit: 'event', level: 'warn' }
 			],
-			omit: { user: { hasingPassword: true } }
+			omit: { user: { hashingPassword: true } }
 		})
 	}
 	async onModuleInit() {

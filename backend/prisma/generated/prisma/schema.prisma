@@ -1,13 +1,13 @@
 model Session {
   id                  String   @id @default(uuid()) @db.Uuid
   hashingRefreshToken String?  @map("hasing_refreshtoken") @db.VarChar(255)
-  userAgent           String   @unique @db.VarChar(50)
+  userAgent           String   @unique @db.VarChar(1000)
   userIp              String?  @db.VarChar(100)
   createdAt           DateTime @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt           DateTime @updatedAt @map("updated_at")
 
-  loginedAt  DateTime @map("logined_at") @db.Timestamptz()
-  logoutedAt DateTime @map("logouted_at") @db.Timestamptz()
+  loginedAt  DateTime? @map("logined_at") @db.Timestamptz()
+  logoutedAt DateTime? @map("logouted_at") @db.Timestamptz()
 
   // realtion
   userId String @db.Uuid
@@ -37,6 +37,13 @@ enum TYPECODE {
   @@map("type_code")
 }
 
+enum AccountType {
+  EMAIL
+  OAUTH2
+
+  @@map("account_type")
+}
+
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -48,32 +55,54 @@ datasource db {
 }
 
 model User {
-  id             String         @id @default(uuid()) @db.Uuid
-  fullname       String         @db.VarChar(50)
-  username       String         @unique @db.VarChar(50)
-  email          String         @unique @db.VarChar(255)
-  phone          String?        @db.VarChar(20)
-  hasingPassword String         @map("hasing_password") @db.VarChar(255)
-  avatarUrl      String?        @map("avatar_url") @db.VarChar(500)
-  address        String?        @db.VarChar(500)
-  city           String?        @db.VarChar(50)
-  state          String?        @db.VarChar(50)
-  roles          UserRole[]
-  flags          UserFlag[]
-  createdAt      DateTime       @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt      DateTime       @updatedAt @map("updated_at") @db.Timestamptz()
-  visible        UserVisibility @default(PUBLIC)
-  isBanned       Boolean        @default(false) @map("is_banned")
-  isLocked       Boolean        @default(false) @map("is_locked")
-  isVerified     Boolean        @default(false) @map("is_verified")
-  lastActived    DateTime?      @map("last_actived") @db.Timestamptz()
+  id              String         @id @default(uuid()) @db.Uuid
+  fullname        String         @db.VarChar(50)
+  username        String         @unique @db.VarChar(50)
+  email           String         @unique @db.VarChar(255)
+  phone           String?        @db.VarChar(20)
+  hashingPassword String?        @map("hashing_password") @db.VarChar(255)
+  accountType     AccountType    @default(EMAIL) @map("account_type")
+  avatarUrl       String?        @map("avatar_url") @db.VarChar(500)
+  address         String?        @db.VarChar(500)
+  city            String?        @db.VarChar(50)
+  state           String?        @db.VarChar(50)
+  roles           UserRole[]
+  flags           UserFlag[]
+  createdAt       DateTime       @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt       DateTime       @updatedAt @map("updated_at") @db.Timestamptz()
+  visible         UserVisibility @default(PUBLIC)
+  isBanned        Boolean        @default(false) @map("is_banned")
+  isLocked        Boolean        @default(false) @map("is_locked")
+  isVerified      Boolean        @default(false) @map("is_verified")
+  lastActived     DateTime?      @map("last_actived") @db.Timestamptz()
 
   // relation
-  sessions Session[] @relation("sessions")
-  codes    Code?
+  sessions   Session[]    @relation("sessions")
+  codes      Code?
+  Oauth2User Oauth2User[] @relation("oauth2")
 
   @@index([email])
   @@index([username])
+}
+
+model Oauth2User {
+  id             String   @id @default(uuid()) @db.Uuid
+  provider       Provider
+  providerUserId String   @map("provider_user_id") @db.VarChar(500)
+  email          String   @unique @db.VarChar(255)
+  phone          String?  @db.VarChar(20)
+  firstname      String?  @db.VarChar(50)
+  lastname       String?  @db.VarChar(50)
+  fullname       String?  @db.VarChar(50)
+  avatarUrl      String?  @map("avatar_url") @db.VarChar(500)
+  username       String?  @db.VarChar(50)
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  userId String @map("user_id") @db.Uuid
+  user   User   @relation(name: "oauth2", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("oauth2_user")
 }
 
 enum UserRole {
@@ -104,4 +133,9 @@ enum UserVisibility {
   CONTACT_ONLY
 
   @@map("user_visibility")
+}
+
+enum Provider {
+  FACEBOOK
+  GOOGLE
 }

@@ -1,12 +1,27 @@
-import { Module } from '@nestjs/common';
-import { AuthService } from './services/auth.service';
-import { AuthController } from './auth.controller';
 import { EmailModule } from '@/email/email.module';
-import { PrismaModule } from '@/prisma/prisma.module';
+import { Module } from '@nestjs/common';
+import { AuthController } from './auth.controller';
+import { AuthService } from './services/auth.service';
+import { TokenService } from './services/token.service';
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { GoogleStrategy } from './strategys/google.strategy';
+import { FacebookStrategy } from './strategys/facebook.strategy';
+import { JwtStrategy } from './strategys/jwt.strategy';
 
 @Module({
-  imports: [EmailModule],
-  providers: [AuthService],
+  imports: [
+    EmailModule,
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        secret: configService.getOrThrow<string>("JWT_SECRET"),
+        signOptions: { expiresIn: '1d' }
+      })
+    })
+  ],
+  providers: [AuthService, TokenService, GoogleStrategy, FacebookStrategy, JwtStrategy],
   controllers: [AuthController],
   exports: [AuthService]
 })
