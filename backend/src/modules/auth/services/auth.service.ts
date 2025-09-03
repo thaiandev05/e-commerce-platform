@@ -1,46 +1,27 @@
+import { EmailProducer } from '@/email/email.producer';
 import { PrismaService } from '@/prisma/prisma.service';
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { hash, verify } from 'argon2'
-import { RegisterDto } from '../dto/register.dto';
+import { Provider } from '@prisma/generated/prisma';
+import { hash, verify } from 'argon2';
 import { randomInt, randomUUID } from 'crypto';
-import { EmailProducer } from '@/email/email.producer';
-import { VerifyAccountWithCodeDto } from '../dto/verify-account-with-code.dto';
-import { LoginDto } from '../dto/login.dto';
 import { Request, Response } from 'express';
-import { TokenService } from './token.service';
-import { User, Provider } from '@prisma/generated/prisma';
 import { AUTH_CONSTANT } from '../auth.constant';
-import { GoogleOAuth2User, FacebookOAuth2User } from '../user.interface';
 import { ChangePasswordDto } from '../dto/change-password.dto';
-
+import { LoginDto } from '../dto/login.dto';
+import { RegisterDto } from '../dto/register.dto';
+import { VerifyAccountWithCodeDto } from '../dto/verify-account-with-code.dto';
+import { FacebookOAuth2User, GoogleOAuth2User } from '../user.interface';
+import { TokenService } from './token.service';
+import { OtherService } from './auth.other.service';
 
 @Injectable()
-export class AuthService {
+export class AuthService extends OtherService {
 	constructor(
 		private readonly prismaService: PrismaService,
 		private readonly emailProducer: EmailProducer,
-		private readonly tokenService: TokenService
-	) { }
-
-	// hasing 
-	private hasing(text: string) {
-		return hash(text)
-	}
-
-	// get hardware user
-	private getClientInfo(req: Request) {
-		// Fastest IP extraction with fallback chain
-		const ip = req.ip ||
-			req.socket.remoteAddress ||
-			req.connection.remoteAddress ||
-			(req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() ||
-			req.headers['x-real-ip'] as string ||
-			'unknown';
-
-		// Fastest User-Agent extraction
-		const userAgent = req.headers['user-agent'] || 'unknown';
-
-		return { ip, userAgent }
+		tokenService: TokenService
+	) {
+		super(tokenService)
 	}
 
 	// detect other device
@@ -185,36 +166,6 @@ export class AuthService {
 			},
 			tokens
 		}
-	}
-
-	// create session 
-	async createSession(userAgent: string, userIp: string, user: User, res: Response) {
-		// generate tokens
-		const tokens = await this.tokenService.generateTokens(user)
-
-		// hasing refreshToken
-		const hashingRefreshToken = await this.hasing(tokens.refreshToken)
-
-		// store session
-		const sid = res.req.cookies.session_id
-		const session = await this.tokenService.storeSession(userAgent, userIp, hashingRefreshToken, user, sid)
-
-		// config sesison
-		res
-			.cookie('session_id', session.id, {
-				maxAge: AUTH_CONSTANT.TIME_LIFE_SESSION,
-				...AUTH_CONSTANT.COOKIE_CONFIG.SESSION
-			})
-			.cookie('access_token', tokens.accessToken, {
-				maxAge: AUTH_CONSTANT.TIME_LIFE_ACCESS_TOKEN,
-				...AUTH_CONSTANT.COOKIE_CONFIG.ACCESS_TOKEN
-			})
-			.cookie('refresh_token', tokens.refreshToken, {
-				maxAge: AUTH_CONSTANT.TIME_LIFE_REFRESH_TOKEN,
-				...AUTH_CONSTANT.COOKIE_CONFIG.REFRESH_TOKEN
-			})
-
-		return { session, tokens }
 	}
 
 	// validate oauth user (works for both Google and Facebook)
