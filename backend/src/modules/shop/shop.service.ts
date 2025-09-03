@@ -1,9 +1,10 @@
+import { EmailProducer } from '@/email/email.producer';
 import { PrismaService } from '@/prisma/prisma.service';
-import { BadGatewayException, BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadGatewayException, BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { CreateShopDto } from './dto/create-shop.dto';
 import { SHOP_CONSTANT } from './shop.constant';
-import { EmailProducer } from '@/email/email.producer';
+import { UpdateShopDto } from './dto/update-shop.dto';
 
 @Injectable()
 export class ShopService {
@@ -76,7 +77,7 @@ export class ShopService {
 		if (!availableShop) throw new NotFoundException("Shop not found")
 
 		//send email verify
-		const verifyLink = `http://localhost:4000/shop/verify-shop-link?shopId=${shopId}`
+		const verifyLink = `http://localhost:4000/shop/verify-shop-link?shopId=${shopId}&&email=${existingUser.email}`
 		await this.emailProducer.sendVerifyShop({ to: existingUser.email, linkVerify: verifyLink })
 
 		return {
@@ -85,7 +86,7 @@ export class ShopService {
 	}
 
 	// api verify shop
-	async verifyShopLink(shopId: string, res: Response) {
+	async verifyShopLink(shopId: string, email: string, res: Response) {
 		// check availabe shop
 		const availableShop = await this.prismaService.shop.findUnique({
 			where: { id: shopId }
@@ -99,7 +100,8 @@ export class ShopService {
 				data: {
 					status: "APPROVED",
 					isVerified: true,
-					isActive: true
+					isActive: true,
+					email: email
 				}
 			})
 
@@ -117,5 +119,36 @@ export class ShopService {
 		}
 	}
 
-	
+	async updateDetailShop(req: Request, shopId: string, dto: UpdateShopDto) {
+		// check valid request
+		const userId = req.user?.id
+		if (!userId) throw new BadRequestException("User not in request")
+
+		const shop = await this.prismaService.shop.findUnique({
+			where: { id: shopId }
+		})
+
+		if (!shop) throw new ForbiddenException("Not authorized to update this shop")
+
+		// check if shop change name
+		let newSlug: string | undefined
+		if (dto.name && dto.name !== shop?.name) {
+			newSlug = SHOP_CONSTANT.slugShop(dto.name, "shop")
+		}
+
+		// update detail shop
+		return await this.prismaService.shop.update({
+			where: { id: shopId },
+			data: {
+				...(dto.name && { name: dto.name }),
+				...(dto.desciption && { desciption: dto.desciption }),
+				...(dto.logoUrl && { logoUrl: dto.logoUrl }),
+				...(dto.bannerUrl && { bannerUrl: dto.bannerUrl }),
+				...(dto.email && { email: dto.email }),
+				...(dto.phone && { phone: dto.phone }),
+				...(dto.address && { address: dto.address }),
+				...(dto.website && { website: dto.website }),
+			}
+		})
+	}
 }
