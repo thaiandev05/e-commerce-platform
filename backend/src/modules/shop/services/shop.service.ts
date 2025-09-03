@@ -2,17 +2,20 @@ import { EmailProducer } from '@/email/email.producer';
 import { PrismaService } from '@/prisma/prisma.service';
 import { BadGatewayException, BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { CreateShopDto } from './dto/create-shop.dto';
-import { SHOP_CONSTANT } from './shop.constant';
-import { UpdateShopDto } from './dto/update-shop.dto';
+import { CreateShopDto } from '../dto/create-shop.dto';
+import { UpdateShopDto } from '../dto/update-shop.dto';
+import { SHOP_CONSTANT } from '../shop.constant';
+import { SearchServiceShop } from './shop.search.service';
 
 @Injectable()
-export class ShopService {
+export class ShopService extends SearchServiceShop {
 
 	constructor(
-		private readonly prismaService: PrismaService,
-		private readonly emailProducer: EmailProducer
-	) { }
+		prismaService: PrismaService,
+		private readonly emailProducer: EmailProducer,
+	) {
+		super(prismaService);
+	}
 
 	//create shop
 	async createShop(req: Request, dto: CreateShopDto) {
@@ -141,6 +144,7 @@ export class ShopService {
 			where: { id: shopId },
 			data: {
 				...(dto.name && { name: dto.name }),
+				...(newSlug && { slug: newSlug }),
 				...(dto.desciption && { desciption: dto.desciption }),
 				...(dto.logoUrl && { logoUrl: dto.logoUrl }),
 				...(dto.bannerUrl && { bannerUrl: dto.bannerUrl }),
@@ -151,4 +155,16 @@ export class ShopService {
 			}
 		})
 	}
+
+	async deleteShop(req: Request, shopId: string) {
+		// delete shop
+		await this.prismaService.shop.delete({
+			where: { id: shopId }
+		})
+
+		return {
+			success: true
+		}
+	}
+
 }

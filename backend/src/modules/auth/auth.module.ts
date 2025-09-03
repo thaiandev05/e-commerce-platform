@@ -9,6 +9,7 @@ import { GoogleStrategy } from './strategy/google.strategy';
 import { FacebookStrategy } from './strategy/facebook.strategy';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { CookieStrategy } from './strategy/cookie.strategy';
+import { OtherService } from './services/auth.other.service';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { CookieStrategy } from './strategy/cookie.strategy';
       })
     })
   ],
-  providers: [AuthService, TokenService, GoogleStrategy, FacebookStrategy, JwtStrategy, CookieStrategy],
+  providers: [AuthService, TokenService, GoogleStrategy, FacebookStrategy, JwtStrategy, CookieStrategy, OtherService],
   controllers: [AuthController],
   exports: [AuthService]
 })
