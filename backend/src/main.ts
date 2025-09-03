@@ -4,9 +4,13 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AuthModule } from './modules/auth/auth.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  // Enable cookie parser middleware
+  app.use(cookieParser());
 
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.RMQ,

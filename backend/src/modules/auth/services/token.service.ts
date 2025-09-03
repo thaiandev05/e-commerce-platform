@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '@/prisma/prisma.service';
 import { AuthService } from './auth.service';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class TokenService {
@@ -42,15 +43,16 @@ export class TokenService {
 	}
 
 	// store session
-	async storeSession(userAgent: string, userIp: string, hashingRefreshToken: string, user: User) {
+	async storeSession(userAgent: string, userIp: string, hashingRefreshToken: string, user: User, sid?: string) {
 		// find existing session for this user and user agent
+		const sessionId = sid || randomUUID()
 		const existingSession = await this.prismaService.session.findUnique({
-			where: { userAgent: userAgent }
+			where: { id: sessionId }
 		})
 
 		if (existingSession) {
 			// detect other device login
-			await this.authService.detectDevice(user.email, userAgent, userIp)
+			await this.authService.detectDevice(user.email, userAgent, userIp, existingSession.id)
 
 			// update existing session
 			return await this.prismaService.session.update({

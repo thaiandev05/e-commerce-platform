@@ -92,4 +92,34 @@ export class EmailService {
 			return false
 		}
 	}
+
+	// send notificaiton changepassword
+	async sendNotificationChangePassword(toEmail: string, userName: string, userIp: string, userAgent: string) {
+		try {
+			const template = await this.getTemplate(`notificaiton-change-password`)
+			const changeTime = new Date().toISOString()
+			const subject = 'Change password'
+			const html = (await template)
+				.replace(`{USER_NAME}`, userName)
+				.replace(`{CHANGE_TIME}`, changeTime)
+				.replace(`{IP_ADDRESS}`, userIp)
+				.replace(`{USER_AGENT}`, userAgent)
+
+			const mailOptions = {
+				from: `Thaiandev Service: ${this.configService.getOrThrow<string>("EMAIL_USER")}`,
+				subject,
+				to: toEmail,
+				html
+			}
+
+			// send email
+			const info = await this.transporter.sendMail(mailOptions)
+			return !!(info && (Array.isArray((info as any).accepted) ? (info as any).accepted.length > 0 : (info as any).messageId))
+		} catch (error) {
+			this.logger.error('Send email failed:', error)
+			console.log(error)
+			return false
+		}
+	}
+
 }
