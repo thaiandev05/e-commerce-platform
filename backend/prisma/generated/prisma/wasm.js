@@ -165,27 +165,6 @@ exports.Prisma.BrandScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.ShopScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  slug: 'slug',
-  description: 'description',
-  logoUrl: 'logoUrl',
-  bannerUrl: 'bannerUrl',
-  email: 'email',
-  phone: 'phone',
-  address: 'address',
-  website: 'website',
-  status: 'status',
-  isActive: 'isActive',
-  isVerified: 'isVerified',
-  rating: 'rating',
-  totalReviews: 'totalReviews',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  ownerId: 'ownerId'
-};
-
 exports.Prisma.SpuScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -315,6 +294,27 @@ exports.Prisma.SpuTagScalarFieldEnum = {
   tagId: 'tagId'
 };
 
+exports.Prisma.ShopScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  logoUrl: 'logoUrl',
+  bannerUrl: 'bannerUrl',
+  email: 'email',
+  phone: 'phone',
+  address: 'address',
+  website: 'website',
+  status: 'status',
+  isActive: 'isActive',
+  isVerified: 'isVerified',
+  rating: 'rating',
+  totalReviews: 'totalReviews',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  ownerId: 'ownerId'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   fullname: 'fullname',
@@ -368,14 +368,6 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.ShopStatus = exports.$Enums.ShopStatus = {
-  PENDING: 'PENDING',
-  APPROVED: 'APPROVED',
-  REJECTED: 'REJECTED',
-  SUSPENDED: 'SUSPENDED',
-  CLOSED: 'CLOSED'
-};
-
 exports.SpuStatus = exports.$Enums.SpuStatus = {
   DRAFT: 'DRAFT',
   PENDING_REVIEW: 'PENDING_REVIEW',
@@ -400,6 +392,14 @@ exports.AttributeType = exports.$Enums.AttributeType = {
   IMAGE: 'IMAGE',
   SELECT: 'SELECT',
   MULTI_SELECT: 'MULTI_SELECT'
+};
+
+exports.ShopStatus = exports.$Enums.ShopStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  SUSPENDED: 'SUSPENDED',
+  CLOSED: 'CLOSED'
 };
 
 exports.AccountType = exports.$Enums.AccountType = {
@@ -441,7 +441,6 @@ exports.Prisma.ModelName = {
   Code: 'Code',
   Category: 'Category',
   Brand: 'Brand',
-  Shop: 'Shop',
   Spu: 'Spu',
   Sku: 'Sku',
   SpuImage: 'SpuImage',
@@ -454,6 +453,7 @@ exports.Prisma.ModelName = {
   SkuVariationValue: 'SkuVariationValue',
   Tag: 'Tag',
   SpuTag: 'SpuTag',
+  Shop: 'Shop',
   User: 'User',
   Oauth2User: 'Oauth2User'
 };

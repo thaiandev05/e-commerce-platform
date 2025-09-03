@@ -18,4 +18,8 @@ export class EmailProducer {
 	async sendChangePasswordNotificaiton(data: { to: string, userName: string, userIp: string, userAgent: string }) {
 		await this.client.emit('send-notification-changepassword', data)
 	}
+
+	async sendVerifyShop(data: { to: string, linkVerify: string }) {
+		await this.client.emit('send-notification-verify-shop', data)
+	}
 }

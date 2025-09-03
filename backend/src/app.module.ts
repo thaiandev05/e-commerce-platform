@@ -8,6 +8,7 @@ import { EmailModule } from './email/email.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { APP_GUARD, Reflector } from '@nestjs/core';
 import { CookieGuard } from './modules/auth/guard/cookie.guard';
+import { ShopModule } from './modules/shop/shop.module';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { CookieGuard } from './modules/auth/guard/cookie.guard';
         }
       ]
     }),
-    EmailModule, AuthModule
+    EmailModule, AuthModule, ShopModule
   ],
   controllers: [AppController],
   providers: [
