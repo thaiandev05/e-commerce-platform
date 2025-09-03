@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" style="margin: 0; padding: 0">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Verify Your Shop Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .activation-button {
+        display: inline-block;
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: #ffffff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 18px;
+        font-weight: bold;
+        text-decoration: none;
+        text-align: center;
+        padding: 16px 32px;
+        margin: 24px 0;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        transition: all 0.3s ease;
+      }
+      .activation-button:hover {
+        background: linear-gradient(135deg, #2563eb, #1e40af);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+      }
+      .button-container {
+        text-align: center;
+        margin: 32px 0;
+      }
+      .container {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 600px;
+        margin: auto;
+        padding: 32px;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .footer {
+        text-align: center;
+        font-size: 12px;
+        color: #888888;
+        margin-top: 32px;
+      }
+      .highlight {
+        background-color: #fef3c7;
+        color: #92400e;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body style="background-color: #f4f4f5; margin: 0; padding: 40px 0">
+    <div class="container">
+      <h2 style="color: #111827">Verify your shop registration</h2>
+      <p style="color: #374151">
+        Hello <span class="highlight">{USER_EMAIL}</span>, thank you for registering your shop with us. Please click the button below to activate your shop account:
+      </p>
+            
+      <div class="button-container">
+        <a href="{LINK_ACTIVE}" class="activation-button">
+          Activate Shop Account
+        </a>
+      </div>
+            
+      <p style="color: #6b7280; text-align: center; margin: 24px 0; font-size: 14px;">
+        Click the button above to complete your shop registration and start selling
+      </p>
+            
+      <p style="color: #ef4444; font-size: 14px; background-color: #fef2f2; padding: 12px; border-radius: 6px; border-left: 4px solid #ef4444;">
+        <strong>Important:</strong> This activation link will expire in 24 hours for security reasons.
+      </p>
+            
+      <p style="color: #6b7280; font-size: 14px;">
+        If you didn't create this shop account, you can safely ignore this email. If you're having trouble, please contact our support team.
+      </p>
+            
+      <div class="footer">&copy; 2025 Your Company. All rights reserved.</div>
+    </div>
+  </body>
+</html>

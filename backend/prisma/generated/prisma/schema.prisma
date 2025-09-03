@@ -91,39 +91,6 @@ model Brand {
 }
 
 // ============= SHOP MODELS =============
-model Shop {
-  id           String     @id @default(uuid()) @db.Uuid
-  name         String     @db.VarChar(200)
-  slug         String     @unique @db.VarChar(200)
-  description  String?    @db.Text
-  logoUrl      String?    @map("logo_url") @db.VarChar(500)
-  bannerUrl    String?    @map("banner_url") @db.VarChar(500)
-  email        String?    @db.VarChar(255)
-  phone        String?    @db.VarChar(20)
-  address      String?    @db.Text
-  website      String?    @db.VarChar(500)
-  status       ShopStatus @default(PENDING)
-  isActive     Boolean    @default(true) @map("is_active")
-  isVerified   Boolean    @default(false) @map("is_verified")
-  rating       Decimal?   @db.Decimal(3, 2) // Average rating 0.00 to 5.00
-  totalReviews Int        @default(0) @map("total_reviews")
-  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt    DateTime   @updatedAt @map("updated_at") @db.Timestamptz()
-
-  // Foreign Keys
-  ownerId String @map("owner_id") @db.Uuid
-
-  // Relations
-  owner User  @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  spus  Spu[]
-
-  @@index([slug])
-  @@index([ownerId])
-  @@index([status])
-  @@index([isActive])
-  @@index([isVerified])
-  @@map("shops")
-}
 
 // ============= SPU (Standard Product Unit) MODELS =============
 model Spu {
@@ -445,6 +412,40 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Shop {
+  id           String     @id @default(uuid()) @db.Uuid
+  name         String     @db.VarChar(200)
+  slug         String     @unique @db.VarChar(200)
+  description  String?    @db.Text
+  logoUrl      String?    @map("logo_url") @db.VarChar(500)
+  bannerUrl    String?    @map("banner_url") @db.VarChar(500)
+  email        String?    @db.VarChar(255)
+  phone        String?    @db.VarChar(20)
+  address      String?    @db.Text
+  website      String?    @db.VarChar(500)
+  status       ShopStatus @default(PENDING)
+  isActive     Boolean    @default(true) @map("is_active")
+  isVerified   Boolean    @default(false) @map("is_verified")
+  rating       Decimal?   @db.Decimal(3, 2) // Average rating 0.00 to 5.00
+  totalReviews Int        @default(0) @map("total_reviews")
+  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt    DateTime   @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // Foreign Keys
+  ownerId String @map("owner_id") @db.Uuid
+
+  // Relations
+  owner User  @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  spus  Spu[]
+
+  @@index([slug])
+  @@index([ownerId])
+  @@index([status])
+  @@index([isActive])
+  @@index([isVerified])
+  @@map("shops")
 }
 
 model User {

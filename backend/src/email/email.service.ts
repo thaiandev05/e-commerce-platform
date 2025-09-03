@@ -122,4 +122,30 @@ export class EmailService {
 		}
 	}
 
+	// send email verify shop
+	async sendVerifyShop(toEmail: string, linkVerify: string) {
+		try {
+			const template = await this.getTemplate(`verification-shop`)
+			const subject = 'Verify shop'
+			const html = (await template)
+				.replace('{USER_EMAIL}', toEmail)
+				.replace('{LINK_ACTIVE}', linkVerify)
+
+			const mailOptions = {
+				from: `Thaiandev Service: ${this.configService.getOrThrow<string>("EMAIL_USER")}`,
+				subject,
+				to: toEmail,
+				html
+			}
+
+			// send
+			const info = await this.transporter.sendMail(mailOptions)
+			return !!(info && (Array.isArray((info as any).accepted) ? (info as any).accepted.length > 0 : (info as any).messageId))
+		} catch (error) {
+			this.logger.error('Send email failed:', error)
+			console.log(error)
+			return false
+		}
+	}
+
 }

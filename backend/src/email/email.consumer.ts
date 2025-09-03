@@ -22,4 +22,9 @@ export class EmailConsumer {
 	async handleNotificaitonChangePassword(@Payload() data: { to: string, userName: string, userIp: string, userAgent: string }) {
 		await this.emailService.sendNotificationChangePassword(data.to, data.userName, data.userIp, data.userAgent)
 	}
+
+	@EventPattern('send-notification-verify-shop')
+	async handleSendVerifyShop(@Payload() data: { to: string, linkVerify: string }) {
+		await this.emailService.sendVerifyShop(data.to, data.linkVerify)
+	}
 }

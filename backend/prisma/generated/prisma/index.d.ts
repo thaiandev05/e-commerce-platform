@@ -34,11 +34,6 @@ export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
  */
 export type Brand = $Result.DefaultSelection<Prisma.$BrandPayload>
 /**
- * Model Shop
- * 
- */
-export type Shop = $Result.DefaultSelection<Prisma.$ShopPayload>
-/**
  * Model Spu
  * 
  */
@@ -98,6 +93,11 @@ export type Tag = $Result.DefaultSelection<Prisma.$TagPayload>
  * 
  */
 export type SpuTag = $Result.DefaultSelection<Prisma.$SpuTagPayload>
+/**
+ * Model Shop
+ * 
+ */
+export type Shop = $Result.DefaultSelection<Prisma.$ShopPayload>
 /**
  * Model User
  * 
@@ -416,16 +416,6 @@ export class PrismaClient<
   get brand(): Prisma.BrandDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.shop`: Exposes CRUD operations for the **Shop** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Shops
-    * const shops = await prisma.shop.findMany()
-    * ```
-    */
-  get shop(): Prisma.ShopDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.spu`: Exposes CRUD operations for the **Spu** model.
     * Example usage:
     * ```ts
@@ -544,6 +534,16 @@ export class PrismaClient<
     * ```
     */
   get spuTag(): Prisma.SpuTagDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.shop`: Exposes CRUD operations for the **Shop** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Shops
+    * const shops = await prisma.shop.findMany()
+    * ```
+    */
+  get shop(): Prisma.ShopDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
@@ -1008,7 +1008,6 @@ export namespace Prisma {
     Code: 'Code',
     Category: 'Category',
     Brand: 'Brand',
-    Shop: 'Shop',
     Spu: 'Spu',
     Sku: 'Sku',
     SpuImage: 'SpuImage',
@@ -1021,6 +1020,7 @@ export namespace Prisma {
     SkuVariationValue: 'SkuVariationValue',
     Tag: 'Tag',
     SpuTag: 'SpuTag',
+    Shop: 'Shop',
     User: 'User',
     Oauth2User: 'Oauth2User'
   };
@@ -1041,7 +1041,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "session" | "code" | "category" | "brand" | "shop" | "spu" | "sku" | "spuImage" | "skuImage" | "attribute" | "attributeValue" | "spuAttribute" | "skuAttribute" | "spuVariation" | "skuVariationValue" | "tag" | "spuTag" | "user" | "oauth2User"
+      modelProps: "session" | "code" | "category" | "brand" | "spu" | "sku" | "spuImage" | "skuImage" | "attribute" | "attributeValue" | "spuAttribute" | "skuAttribute" | "spuVariation" | "skuVariationValue" | "tag" | "spuTag" | "shop" | "user" | "oauth2User"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1338,80 +1338,6 @@ export namespace Prisma {
           count: {
             args: Prisma.BrandCountArgs<ExtArgs>
             result: $Utils.Optional<BrandCountAggregateOutputType> | number
-          }
-        }
-      }
-      Shop: {
-        payload: Prisma.$ShopPayload<ExtArgs>
-        fields: Prisma.ShopFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.ShopFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.ShopFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
-          }
-          findFirst: {
-            args: Prisma.ShopFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.ShopFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
-          }
-          findMany: {
-            args: Prisma.ShopFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopPayload>[]
-          }
-          create: {
-            args: Prisma.ShopCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
-          }
-          createMany: {
-            args: Prisma.ShopCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.ShopCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopPayload>[]
-          }
-          delete: {
-            args: Prisma.ShopDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
-          }
-          update: {
-            args: Prisma.ShopUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
-          }
-          deleteMany: {
-            args: Prisma.ShopDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.ShopUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.ShopUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopPayload>[]
-          }
-          upsert: {
-            args: Prisma.ShopUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
-          }
-          aggregate: {
-            args: Prisma.ShopAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateShop>
-          }
-          groupBy: {
-            args: Prisma.ShopGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ShopGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.ShopCountArgs<ExtArgs>
-            result: $Utils.Optional<ShopCountAggregateOutputType> | number
           }
         }
       }
@@ -2303,6 +2229,80 @@ export namespace Prisma {
           }
         }
       }
+      Shop: {
+        payload: Prisma.$ShopPayload<ExtArgs>
+        fields: Prisma.ShopFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ShopFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ShopFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
+          }
+          findFirst: {
+            args: Prisma.ShopFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ShopFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
+          }
+          findMany: {
+            args: Prisma.ShopFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>[]
+          }
+          create: {
+            args: Prisma.ShopCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
+          }
+          createMany: {
+            args: Prisma.ShopCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ShopCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>[]
+          }
+          delete: {
+            args: Prisma.ShopDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
+          }
+          update: {
+            args: Prisma.ShopUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
+          }
+          deleteMany: {
+            args: Prisma.ShopDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ShopUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ShopUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>[]
+          }
+          upsert: {
+            args: Prisma.ShopUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ShopPayload>
+          }
+          aggregate: {
+            args: Prisma.ShopAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateShop>
+          }
+          groupBy: {
+            args: Prisma.ShopGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ShopGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ShopCountArgs<ExtArgs>
+            result: $Utils.Optional<ShopCountAggregateOutputType> | number
+          }
+        }
+      }
       User: {
         payload: Prisma.$UserPayload<ExtArgs>
         fields: Prisma.UserFieldRefs
@@ -2547,7 +2547,6 @@ export namespace Prisma {
     code?: CodeOmit
     category?: CategoryOmit
     brand?: BrandOmit
-    shop?: ShopOmit
     spu?: SpuOmit
     sku?: SkuOmit
     spuImage?: SpuImageOmit
@@ -2560,6 +2559,7 @@ export namespace Prisma {
     skuVariationValue?: SkuVariationValueOmit
     tag?: TagOmit
     spuTag?: SpuTagOmit
+    shop?: ShopOmit
     user?: UserOmit
     oauth2User?: Oauth2UserOmit
   }
@@ -2704,37 +2704,6 @@ export namespace Prisma {
    * BrandCountOutputType without action
    */
   export type BrandCountOutputTypeCountSpusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SpuWhereInput
-  }
-
-
-  /**
-   * Count Type ShopCountOutputType
-   */
-
-  export type ShopCountOutputType = {
-    spus: number
-  }
-
-  export type ShopCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    spus?: boolean | ShopCountOutputTypeCountSpusArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * ShopCountOutputType without action
-   */
-  export type ShopCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ShopCountOutputType
-     */
-    select?: ShopCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * ShopCountOutputType without action
-   */
-  export type ShopCountOutputTypeCountSpusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SpuWhereInput
   }
 
@@ -3021,6 +2990,37 @@ export namespace Prisma {
    */
   export type TagCountOutputTypeCountSpuTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SpuTagWhereInput
+  }
+
+
+  /**
+   * Count Type ShopCountOutputType
+   */
+
+  export type ShopCountOutputType = {
+    spus: number
+  }
+
+  export type ShopCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    spus?: boolean | ShopCountOutputTypeCountSpusArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ShopCountOutputType without action
+   */
+  export type ShopCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ShopCountOutputType
+     */
+    select?: ShopCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ShopCountOutputType without action
+   */
+  export type ShopCountOutputTypeCountSpusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SpuWhereInput
   }
 
 
@@ -7598,1301 +7598,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: BrandInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Shop
-   */
-
-  export type AggregateShop = {
-    _count: ShopCountAggregateOutputType | null
-    _avg: ShopAvgAggregateOutputType | null
-    _sum: ShopSumAggregateOutputType | null
-    _min: ShopMinAggregateOutputType | null
-    _max: ShopMaxAggregateOutputType | null
-  }
-
-  export type ShopAvgAggregateOutputType = {
-    rating: Decimal | null
-    totalReviews: number | null
-  }
-
-  export type ShopSumAggregateOutputType = {
-    rating: Decimal | null
-    totalReviews: number | null
-  }
-
-  export type ShopMinAggregateOutputType = {
-    id: string | null
-    name: string | null
-    slug: string | null
-    description: string | null
-    logoUrl: string | null
-    bannerUrl: string | null
-    email: string | null
-    phone: string | null
-    address: string | null
-    website: string | null
-    status: $Enums.ShopStatus | null
-    isActive: boolean | null
-    isVerified: boolean | null
-    rating: Decimal | null
-    totalReviews: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
-    ownerId: string | null
-  }
-
-  export type ShopMaxAggregateOutputType = {
-    id: string | null
-    name: string | null
-    slug: string | null
-    description: string | null
-    logoUrl: string | null
-    bannerUrl: string | null
-    email: string | null
-    phone: string | null
-    address: string | null
-    website: string | null
-    status: $Enums.ShopStatus | null
-    isActive: boolean | null
-    isVerified: boolean | null
-    rating: Decimal | null
-    totalReviews: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
-    ownerId: string | null
-  }
-
-  export type ShopCountAggregateOutputType = {
-    id: number
-    name: number
-    slug: number
-    description: number
-    logoUrl: number
-    bannerUrl: number
-    email: number
-    phone: number
-    address: number
-    website: number
-    status: number
-    isActive: number
-    isVerified: number
-    rating: number
-    totalReviews: number
-    createdAt: number
-    updatedAt: number
-    ownerId: number
-    _all: number
-  }
-
-
-  export type ShopAvgAggregateInputType = {
-    rating?: true
-    totalReviews?: true
-  }
-
-  export type ShopSumAggregateInputType = {
-    rating?: true
-    totalReviews?: true
-  }
-
-  export type ShopMinAggregateInputType = {
-    id?: true
-    name?: true
-    slug?: true
-    description?: true
-    logoUrl?: true
-    bannerUrl?: true
-    email?: true
-    phone?: true
-    address?: true
-    website?: true
-    status?: true
-    isActive?: true
-    isVerified?: true
-    rating?: true
-    totalReviews?: true
-    createdAt?: true
-    updatedAt?: true
-    ownerId?: true
-  }
-
-  export type ShopMaxAggregateInputType = {
-    id?: true
-    name?: true
-    slug?: true
-    description?: true
-    logoUrl?: true
-    bannerUrl?: true
-    email?: true
-    phone?: true
-    address?: true
-    website?: true
-    status?: true
-    isActive?: true
-    isVerified?: true
-    rating?: true
-    totalReviews?: true
-    createdAt?: true
-    updatedAt?: true
-    ownerId?: true
-  }
-
-  export type ShopCountAggregateInputType = {
-    id?: true
-    name?: true
-    slug?: true
-    description?: true
-    logoUrl?: true
-    bannerUrl?: true
-    email?: true
-    phone?: true
-    address?: true
-    website?: true
-    status?: true
-    isActive?: true
-    isVerified?: true
-    rating?: true
-    totalReviews?: true
-    createdAt?: true
-    updatedAt?: true
-    ownerId?: true
-    _all?: true
-  }
-
-  export type ShopAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Shop to aggregate.
-     */
-    where?: ShopWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Shops to fetch.
-     */
-    orderBy?: ShopOrderByWithRelationInput | ShopOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: ShopWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Shops from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Shops.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Shops
-    **/
-    _count?: true | ShopCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: ShopAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: ShopSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: ShopMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: ShopMaxAggregateInputType
-  }
-
-  export type GetShopAggregateType<T extends ShopAggregateArgs> = {
-        [P in keyof T & keyof AggregateShop]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateShop[P]>
-      : GetScalarType<T[P], AggregateShop[P]>
-  }
-
-
-
-
-  export type ShopGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ShopWhereInput
-    orderBy?: ShopOrderByWithAggregationInput | ShopOrderByWithAggregationInput[]
-    by: ShopScalarFieldEnum[] | ShopScalarFieldEnum
-    having?: ShopScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: ShopCountAggregateInputType | true
-    _avg?: ShopAvgAggregateInputType
-    _sum?: ShopSumAggregateInputType
-    _min?: ShopMinAggregateInputType
-    _max?: ShopMaxAggregateInputType
-  }
-
-  export type ShopGroupByOutputType = {
-    id: string
-    name: string
-    slug: string
-    description: string | null
-    logoUrl: string | null
-    bannerUrl: string | null
-    email: string | null
-    phone: string | null
-    address: string | null
-    website: string | null
-    status: $Enums.ShopStatus
-    isActive: boolean
-    isVerified: boolean
-    rating: Decimal | null
-    totalReviews: number
-    createdAt: Date
-    updatedAt: Date
-    ownerId: string
-    _count: ShopCountAggregateOutputType | null
-    _avg: ShopAvgAggregateOutputType | null
-    _sum: ShopSumAggregateOutputType | null
-    _min: ShopMinAggregateOutputType | null
-    _max: ShopMaxAggregateOutputType | null
-  }
-
-  type GetShopGroupByPayload<T extends ShopGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<ShopGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof ShopGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], ShopGroupByOutputType[P]>
-            : GetScalarType<T[P], ShopGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type ShopSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    slug?: boolean
-    description?: boolean
-    logoUrl?: boolean
-    bannerUrl?: boolean
-    email?: boolean
-    phone?: boolean
-    address?: boolean
-    website?: boolean
-    status?: boolean
-    isActive?: boolean
-    isVerified?: boolean
-    rating?: boolean
-    totalReviews?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    ownerId?: boolean
-    owner?: boolean | UserDefaultArgs<ExtArgs>
-    spus?: boolean | Shop$spusArgs<ExtArgs>
-    _count?: boolean | ShopCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["shop"]>
-
-  export type ShopSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    slug?: boolean
-    description?: boolean
-    logoUrl?: boolean
-    bannerUrl?: boolean
-    email?: boolean
-    phone?: boolean
-    address?: boolean
-    website?: boolean
-    status?: boolean
-    isActive?: boolean
-    isVerified?: boolean
-    rating?: boolean
-    totalReviews?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    ownerId?: boolean
-    owner?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["shop"]>
-
-  export type ShopSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    slug?: boolean
-    description?: boolean
-    logoUrl?: boolean
-    bannerUrl?: boolean
-    email?: boolean
-    phone?: boolean
-    address?: boolean
-    website?: boolean
-    status?: boolean
-    isActive?: boolean
-    isVerified?: boolean
-    rating?: boolean
-    totalReviews?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    ownerId?: boolean
-    owner?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["shop"]>
-
-  export type ShopSelectScalar = {
-    id?: boolean
-    name?: boolean
-    slug?: boolean
-    description?: boolean
-    logoUrl?: boolean
-    bannerUrl?: boolean
-    email?: boolean
-    phone?: boolean
-    address?: boolean
-    website?: boolean
-    status?: boolean
-    isActive?: boolean
-    isVerified?: boolean
-    rating?: boolean
-    totalReviews?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    ownerId?: boolean
-  }
-
-  export type ShopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "logoUrl" | "bannerUrl" | "email" | "phone" | "address" | "website" | "status" | "isActive" | "isVerified" | "rating" | "totalReviews" | "createdAt" | "updatedAt" | "ownerId", ExtArgs["result"]["shop"]>
-  export type ShopInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    owner?: boolean | UserDefaultArgs<ExtArgs>
-    spus?: boolean | Shop$spusArgs<ExtArgs>
-    _count?: boolean | ShopCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type ShopIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    owner?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type ShopIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    owner?: boolean | UserDefaultArgs<ExtArgs>
-  }
-
-  export type $ShopPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Shop"
-    objects: {
-      owner: Prisma.$UserPayload<ExtArgs>
-      spus: Prisma.$SpuPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      name: string
-      slug: string
-      description: string | null
-      logoUrl: string | null
-      bannerUrl: string | null
-      email: string | null
-      phone: string | null
-      address: string | null
-      website: string | null
-      status: $Enums.ShopStatus
-      isActive: boolean
-      isVerified: boolean
-      rating: Prisma.Decimal | null
-      totalReviews: number
-      createdAt: Date
-      updatedAt: Date
-      ownerId: string
-    }, ExtArgs["result"]["shop"]>
-    composites: {}
-  }
-
-  type ShopGetPayload<S extends boolean | null | undefined | ShopDefaultArgs> = $Result.GetResult<Prisma.$ShopPayload, S>
-
-  type ShopCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ShopFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ShopCountAggregateInputType | true
-    }
-
-  export interface ShopDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Shop'], meta: { name: 'Shop' } }
-    /**
-     * Find zero or one Shop that matches the filter.
-     * @param {ShopFindUniqueArgs} args - Arguments to find a Shop
-     * @example
-     * // Get one Shop
-     * const shop = await prisma.shop.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends ShopFindUniqueArgs>(args: SelectSubset<T, ShopFindUniqueArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Shop that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {ShopFindUniqueOrThrowArgs} args - Arguments to find a Shop
-     * @example
-     * // Get one Shop
-     * const shop = await prisma.shop.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends ShopFindUniqueOrThrowArgs>(args: SelectSubset<T, ShopFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Shop that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ShopFindFirstArgs} args - Arguments to find a Shop
-     * @example
-     * // Get one Shop
-     * const shop = await prisma.shop.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends ShopFindFirstArgs>(args?: SelectSubset<T, ShopFindFirstArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Shop that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ShopFindFirstOrThrowArgs} args - Arguments to find a Shop
-     * @example
-     * // Get one Shop
-     * const shop = await prisma.shop.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends ShopFindFirstOrThrowArgs>(args?: SelectSubset<T, ShopFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Shops that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ShopFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Shops
-     * const shops = await prisma.shop.findMany()
-     * 
-     * // Get first 10 Shops
-     * const shops = await prisma.shop.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const shopWithIdOnly = await prisma.shop.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends ShopFindManyArgs>(args?: SelectSubset<T, ShopFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Shop.
-     * @param {ShopCreateArgs} args - Arguments to create a Shop.
-     * @example
-     * // Create one Shop
-     * const Shop = await prisma.shop.create({
-     *   data: {
-     *     // ... data to create a Shop
-     *   }
-     * })
-     * 
-     */
-    create<T extends ShopCreateArgs>(args: SelectSubset<T, ShopCreateArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Shops.
-     * @param {ShopCreateManyArgs} args - Arguments to create many Shops.
-     * @example
-     * // Create many Shops
-     * const shop = await prisma.shop.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends ShopCreateManyArgs>(args?: SelectSubset<T, ShopCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Shops and returns the data saved in the database.
-     * @param {ShopCreateManyAndReturnArgs} args - Arguments to create many Shops.
-     * @example
-     * // Create many Shops
-     * const shop = await prisma.shop.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Shops and only return the `id`
-     * const shopWithIdOnly = await prisma.shop.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends ShopCreateManyAndReturnArgs>(args?: SelectSubset<T, ShopCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Shop.
-     * @param {ShopDeleteArgs} args - Arguments to delete one Shop.
-     * @example
-     * // Delete one Shop
-     * const Shop = await prisma.shop.delete({
-     *   where: {
-     *     // ... filter to delete one Shop
-     *   }
-     * })
-     * 
-     */
-    delete<T extends ShopDeleteArgs>(args: SelectSubset<T, ShopDeleteArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Shop.
-     * @param {ShopUpdateArgs} args - Arguments to update one Shop.
-     * @example
-     * // Update one Shop
-     * const shop = await prisma.shop.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends ShopUpdateArgs>(args: SelectSubset<T, ShopUpdateArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Shops.
-     * @param {ShopDeleteManyArgs} args - Arguments to filter Shops to delete.
-     * @example
-     * // Delete a few Shops
-     * const { count } = await prisma.shop.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends ShopDeleteManyArgs>(args?: SelectSubset<T, ShopDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Shops.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ShopUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Shops
-     * const shop = await prisma.shop.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends ShopUpdateManyArgs>(args: SelectSubset<T, ShopUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Shops and returns the data updated in the database.
-     * @param {ShopUpdateManyAndReturnArgs} args - Arguments to update many Shops.
-     * @example
-     * // Update many Shops
-     * const shop = await prisma.shop.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Shops and only return the `id`
-     * const shopWithIdOnly = await prisma.shop.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends ShopUpdateManyAndReturnArgs>(args: SelectSubset<T, ShopUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Shop.
-     * @param {ShopUpsertArgs} args - Arguments to update or create a Shop.
-     * @example
-     * // Update or create a Shop
-     * const shop = await prisma.shop.upsert({
-     *   create: {
-     *     // ... data to create a Shop
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Shop we want to update
-     *   }
-     * })
-     */
-    upsert<T extends ShopUpsertArgs>(args: SelectSubset<T, ShopUpsertArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Shops.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ShopCountArgs} args - Arguments to filter Shops to count.
-     * @example
-     * // Count the number of Shops
-     * const count = await prisma.shop.count({
-     *   where: {
-     *     // ... the filter for the Shops we want to count
-     *   }
-     * })
-    **/
-    count<T extends ShopCountArgs>(
-      args?: Subset<T, ShopCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], ShopCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Shop.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ShopAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends ShopAggregateArgs>(args: Subset<T, ShopAggregateArgs>): Prisma.PrismaPromise<GetShopAggregateType<T>>
-
-    /**
-     * Group by Shop.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {ShopGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends ShopGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ShopGroupByArgs['orderBy'] }
-        : { orderBy?: ShopGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, ShopGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShopGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Shop model
-   */
-  readonly fields: ShopFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Shop.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__ShopClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    spus<T extends Shop$spusArgs<ExtArgs> = {}>(args?: Subset<T, Shop$spusArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpuPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Shop model
-   */
-  interface ShopFieldRefs {
-    readonly id: FieldRef<"Shop", 'String'>
-    readonly name: FieldRef<"Shop", 'String'>
-    readonly slug: FieldRef<"Shop", 'String'>
-    readonly description: FieldRef<"Shop", 'String'>
-    readonly logoUrl: FieldRef<"Shop", 'String'>
-    readonly bannerUrl: FieldRef<"Shop", 'String'>
-    readonly email: FieldRef<"Shop", 'String'>
-    readonly phone: FieldRef<"Shop", 'String'>
-    readonly address: FieldRef<"Shop", 'String'>
-    readonly website: FieldRef<"Shop", 'String'>
-    readonly status: FieldRef<"Shop", 'ShopStatus'>
-    readonly isActive: FieldRef<"Shop", 'Boolean'>
-    readonly isVerified: FieldRef<"Shop", 'Boolean'>
-    readonly rating: FieldRef<"Shop", 'Decimal'>
-    readonly totalReviews: FieldRef<"Shop", 'Int'>
-    readonly createdAt: FieldRef<"Shop", 'DateTime'>
-    readonly updatedAt: FieldRef<"Shop", 'DateTime'>
-    readonly ownerId: FieldRef<"Shop", 'String'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Shop findUnique
-   */
-  export type ShopFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Shop
-     */
-    select?: ShopSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Shop
-     */
-    omit?: ShopOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ShopInclude<ExtArgs> | null
-    /**
-     * Filter, which Shop to fetch.
-     */
-    where: ShopWhereUniqueInput
-  }
-
-  /**
-   * Shop findUniqueOrThrow
-   */
-  export type ShopFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Shop
-     */
-    select?: ShopSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Shop
-     */
-    omit?: ShopOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ShopInclude<ExtArgs> | null
-    /**
-     * Filter, which Shop to fetch.
-     */
-    where: ShopWhereUniqueInput
-  }
-
-  /**
-   * Shop findFirst
-   */
-  export type ShopFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Shop
-     */
-    select?: ShopSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Shop
-     */
-    omit?: ShopOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ShopInclude<ExtArgs> | null
-    /**
-     * Filter, which Shop to fetch.
-     */
-    where?: ShopWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Shops to fetch.
-     */
-    orderBy?: ShopOrderByWithRelationInput | ShopOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Shops.
-     */
-    cursor?: ShopWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Shops from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Shops.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Shops.
-     */
-    distinct?: ShopScalarFieldEnum | ShopScalarFieldEnum[]
-  }
-
-  /**
-   * Shop findFirstOrThrow
-   */
-  export type ShopFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Shop
-     */
-    select?: ShopSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Shop
-     */
-    omit?: ShopOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ShopInclude<ExtArgs> | null
-    /**
-     * Filter, which Shop to fetch.
-     */
-    where?: ShopWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Shops to fetch.
-     */
-    orderBy?: ShopOrderByWithRelationInput | ShopOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Shops.
-     */
-    cursor?: ShopWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Shops from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Shops.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Shops.
-     */
-    distinct?: ShopScalarFieldEnum | ShopScalarFieldEnum[]
-  }
-
-  /**
-   * Shop findMany
-   */
-  export type ShopFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Shop
-     */
-    select?: ShopSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Shop
-     */
-    omit?: ShopOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ShopInclude<ExtArgs> | null
-    /**
-     * Filter, which Shops to fetch.
-     */
-    where?: ShopWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Shops to fetch.
-     */
-    orderBy?: ShopOrderByWithRelationInput | ShopOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Shops.
-     */
-    cursor?: ShopWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Shops from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Shops.
-     */
-    skip?: number
-    distinct?: ShopScalarFieldEnum | ShopScalarFieldEnum[]
-  }
-
-  /**
-   * Shop create
-   */
-  export type ShopCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Shop
-     */
-    select?: ShopSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Shop
-     */
-    omit?: ShopOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ShopInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Shop.
-     */
-    data: XOR<ShopCreateInput, ShopUncheckedCreateInput>
-  }
-
-  /**
-   * Shop createMany
-   */
-  export type ShopCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Shops.
-     */
-    data: ShopCreateManyInput | ShopCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Shop createManyAndReturn
-   */
-  export type ShopCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Shop
-     */
-    select?: ShopSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Shop
-     */
-    omit?: ShopOmit<ExtArgs> | null
-    /**
-     * The data used to create many Shops.
-     */
-    data: ShopCreateManyInput | ShopCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ShopIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Shop update
-   */
-  export type ShopUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Shop
-     */
-    select?: ShopSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Shop
-     */
-    omit?: ShopOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ShopInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Shop.
-     */
-    data: XOR<ShopUpdateInput, ShopUncheckedUpdateInput>
-    /**
-     * Choose, which Shop to update.
-     */
-    where: ShopWhereUniqueInput
-  }
-
-  /**
-   * Shop updateMany
-   */
-  export type ShopUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Shops.
-     */
-    data: XOR<ShopUpdateManyMutationInput, ShopUncheckedUpdateManyInput>
-    /**
-     * Filter which Shops to update
-     */
-    where?: ShopWhereInput
-    /**
-     * Limit how many Shops to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Shop updateManyAndReturn
-   */
-  export type ShopUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Shop
-     */
-    select?: ShopSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Shop
-     */
-    omit?: ShopOmit<ExtArgs> | null
-    /**
-     * The data used to update Shops.
-     */
-    data: XOR<ShopUpdateManyMutationInput, ShopUncheckedUpdateManyInput>
-    /**
-     * Filter which Shops to update
-     */
-    where?: ShopWhereInput
-    /**
-     * Limit how many Shops to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ShopIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Shop upsert
-   */
-  export type ShopUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Shop
-     */
-    select?: ShopSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Shop
-     */
-    omit?: ShopOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ShopInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Shop to update in case it exists.
-     */
-    where: ShopWhereUniqueInput
-    /**
-     * In case the Shop found by the `where` argument doesn't exist, create a new Shop with this data.
-     */
-    create: XOR<ShopCreateInput, ShopUncheckedCreateInput>
-    /**
-     * In case the Shop was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ShopUpdateInput, ShopUncheckedUpdateInput>
-  }
-
-  /**
-   * Shop delete
-   */
-  export type ShopDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Shop
-     */
-    select?: ShopSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Shop
-     */
-    omit?: ShopOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ShopInclude<ExtArgs> | null
-    /**
-     * Filter which Shop to delete.
-     */
-    where: ShopWhereUniqueInput
-  }
-
-  /**
-   * Shop deleteMany
-   */
-  export type ShopDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Shops to delete
-     */
-    where?: ShopWhereInput
-    /**
-     * Limit how many Shops to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Shop.spus
-   */
-  export type Shop$spusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Spu
-     */
-    select?: SpuSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Spu
-     */
-    omit?: SpuOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SpuInclude<ExtArgs> | null
-    where?: SpuWhereInput
-    orderBy?: SpuOrderByWithRelationInput | SpuOrderByWithRelationInput[]
-    cursor?: SpuWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SpuScalarFieldEnum | SpuScalarFieldEnum[]
-  }
-
-  /**
-   * Shop without action
-   */
-  export type ShopDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Shop
-     */
-    select?: ShopSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Shop
-     */
-    omit?: ShopOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ShopInclude<ExtArgs> | null
   }
 
 
@@ -22782,6 +21487,1301 @@ export namespace Prisma {
 
 
   /**
+   * Model Shop
+   */
+
+  export type AggregateShop = {
+    _count: ShopCountAggregateOutputType | null
+    _avg: ShopAvgAggregateOutputType | null
+    _sum: ShopSumAggregateOutputType | null
+    _min: ShopMinAggregateOutputType | null
+    _max: ShopMaxAggregateOutputType | null
+  }
+
+  export type ShopAvgAggregateOutputType = {
+    rating: Decimal | null
+    totalReviews: number | null
+  }
+
+  export type ShopSumAggregateOutputType = {
+    rating: Decimal | null
+    totalReviews: number | null
+  }
+
+  export type ShopMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    slug: string | null
+    description: string | null
+    logoUrl: string | null
+    bannerUrl: string | null
+    email: string | null
+    phone: string | null
+    address: string | null
+    website: string | null
+    status: $Enums.ShopStatus | null
+    isActive: boolean | null
+    isVerified: boolean | null
+    rating: Decimal | null
+    totalReviews: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    ownerId: string | null
+  }
+
+  export type ShopMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    slug: string | null
+    description: string | null
+    logoUrl: string | null
+    bannerUrl: string | null
+    email: string | null
+    phone: string | null
+    address: string | null
+    website: string | null
+    status: $Enums.ShopStatus | null
+    isActive: boolean | null
+    isVerified: boolean | null
+    rating: Decimal | null
+    totalReviews: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    ownerId: string | null
+  }
+
+  export type ShopCountAggregateOutputType = {
+    id: number
+    name: number
+    slug: number
+    description: number
+    logoUrl: number
+    bannerUrl: number
+    email: number
+    phone: number
+    address: number
+    website: number
+    status: number
+    isActive: number
+    isVerified: number
+    rating: number
+    totalReviews: number
+    createdAt: number
+    updatedAt: number
+    ownerId: number
+    _all: number
+  }
+
+
+  export type ShopAvgAggregateInputType = {
+    rating?: true
+    totalReviews?: true
+  }
+
+  export type ShopSumAggregateInputType = {
+    rating?: true
+    totalReviews?: true
+  }
+
+  export type ShopMinAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    description?: true
+    logoUrl?: true
+    bannerUrl?: true
+    email?: true
+    phone?: true
+    address?: true
+    website?: true
+    status?: true
+    isActive?: true
+    isVerified?: true
+    rating?: true
+    totalReviews?: true
+    createdAt?: true
+    updatedAt?: true
+    ownerId?: true
+  }
+
+  export type ShopMaxAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    description?: true
+    logoUrl?: true
+    bannerUrl?: true
+    email?: true
+    phone?: true
+    address?: true
+    website?: true
+    status?: true
+    isActive?: true
+    isVerified?: true
+    rating?: true
+    totalReviews?: true
+    createdAt?: true
+    updatedAt?: true
+    ownerId?: true
+  }
+
+  export type ShopCountAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    description?: true
+    logoUrl?: true
+    bannerUrl?: true
+    email?: true
+    phone?: true
+    address?: true
+    website?: true
+    status?: true
+    isActive?: true
+    isVerified?: true
+    rating?: true
+    totalReviews?: true
+    createdAt?: true
+    updatedAt?: true
+    ownerId?: true
+    _all?: true
+  }
+
+  export type ShopAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Shop to aggregate.
+     */
+    where?: ShopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shops to fetch.
+     */
+    orderBy?: ShopOrderByWithRelationInput | ShopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ShopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shops.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Shops
+    **/
+    _count?: true | ShopCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ShopAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ShopSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ShopMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ShopMaxAggregateInputType
+  }
+
+  export type GetShopAggregateType<T extends ShopAggregateArgs> = {
+        [P in keyof T & keyof AggregateShop]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateShop[P]>
+      : GetScalarType<T[P], AggregateShop[P]>
+  }
+
+
+
+
+  export type ShopGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ShopWhereInput
+    orderBy?: ShopOrderByWithAggregationInput | ShopOrderByWithAggregationInput[]
+    by: ShopScalarFieldEnum[] | ShopScalarFieldEnum
+    having?: ShopScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ShopCountAggregateInputType | true
+    _avg?: ShopAvgAggregateInputType
+    _sum?: ShopSumAggregateInputType
+    _min?: ShopMinAggregateInputType
+    _max?: ShopMaxAggregateInputType
+  }
+
+  export type ShopGroupByOutputType = {
+    id: string
+    name: string
+    slug: string
+    description: string | null
+    logoUrl: string | null
+    bannerUrl: string | null
+    email: string | null
+    phone: string | null
+    address: string | null
+    website: string | null
+    status: $Enums.ShopStatus
+    isActive: boolean
+    isVerified: boolean
+    rating: Decimal | null
+    totalReviews: number
+    createdAt: Date
+    updatedAt: Date
+    ownerId: string
+    _count: ShopCountAggregateOutputType | null
+    _avg: ShopAvgAggregateOutputType | null
+    _sum: ShopSumAggregateOutputType | null
+    _min: ShopMinAggregateOutputType | null
+    _max: ShopMaxAggregateOutputType | null
+  }
+
+  type GetShopGroupByPayload<T extends ShopGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ShopGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ShopGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ShopGroupByOutputType[P]>
+            : GetScalarType<T[P], ShopGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ShopSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    description?: boolean
+    logoUrl?: boolean
+    bannerUrl?: boolean
+    email?: boolean
+    phone?: boolean
+    address?: boolean
+    website?: boolean
+    status?: boolean
+    isActive?: boolean
+    isVerified?: boolean
+    rating?: boolean
+    totalReviews?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    ownerId?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+    spus?: boolean | Shop$spusArgs<ExtArgs>
+    _count?: boolean | ShopCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shop"]>
+
+  export type ShopSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    description?: boolean
+    logoUrl?: boolean
+    bannerUrl?: boolean
+    email?: boolean
+    phone?: boolean
+    address?: boolean
+    website?: boolean
+    status?: boolean
+    isActive?: boolean
+    isVerified?: boolean
+    rating?: boolean
+    totalReviews?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    ownerId?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shop"]>
+
+  export type ShopSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    description?: boolean
+    logoUrl?: boolean
+    bannerUrl?: boolean
+    email?: boolean
+    phone?: boolean
+    address?: boolean
+    website?: boolean
+    status?: boolean
+    isActive?: boolean
+    isVerified?: boolean
+    rating?: boolean
+    totalReviews?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    ownerId?: boolean
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["shop"]>
+
+  export type ShopSelectScalar = {
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    description?: boolean
+    logoUrl?: boolean
+    bannerUrl?: boolean
+    email?: boolean
+    phone?: boolean
+    address?: boolean
+    website?: boolean
+    status?: boolean
+    isActive?: boolean
+    isVerified?: boolean
+    rating?: boolean
+    totalReviews?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    ownerId?: boolean
+  }
+
+  export type ShopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "logoUrl" | "bannerUrl" | "email" | "phone" | "address" | "website" | "status" | "isActive" | "isVerified" | "rating" | "totalReviews" | "createdAt" | "updatedAt" | "ownerId", ExtArgs["result"]["shop"]>
+  export type ShopInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+    spus?: boolean | Shop$spusArgs<ExtArgs>
+    _count?: boolean | ShopCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ShopIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ShopIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    owner?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $ShopPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Shop"
+    objects: {
+      owner: Prisma.$UserPayload<ExtArgs>
+      spus: Prisma.$SpuPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      slug: string
+      description: string | null
+      logoUrl: string | null
+      bannerUrl: string | null
+      email: string | null
+      phone: string | null
+      address: string | null
+      website: string | null
+      status: $Enums.ShopStatus
+      isActive: boolean
+      isVerified: boolean
+      rating: Prisma.Decimal | null
+      totalReviews: number
+      createdAt: Date
+      updatedAt: Date
+      ownerId: string
+    }, ExtArgs["result"]["shop"]>
+    composites: {}
+  }
+
+  type ShopGetPayload<S extends boolean | null | undefined | ShopDefaultArgs> = $Result.GetResult<Prisma.$ShopPayload, S>
+
+  type ShopCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ShopFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ShopCountAggregateInputType | true
+    }
+
+  export interface ShopDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Shop'], meta: { name: 'Shop' } }
+    /**
+     * Find zero or one Shop that matches the filter.
+     * @param {ShopFindUniqueArgs} args - Arguments to find a Shop
+     * @example
+     * // Get one Shop
+     * const shop = await prisma.shop.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ShopFindUniqueArgs>(args: SelectSubset<T, ShopFindUniqueArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Shop that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ShopFindUniqueOrThrowArgs} args - Arguments to find a Shop
+     * @example
+     * // Get one Shop
+     * const shop = await prisma.shop.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ShopFindUniqueOrThrowArgs>(args: SelectSubset<T, ShopFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Shop that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopFindFirstArgs} args - Arguments to find a Shop
+     * @example
+     * // Get one Shop
+     * const shop = await prisma.shop.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ShopFindFirstArgs>(args?: SelectSubset<T, ShopFindFirstArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Shop that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopFindFirstOrThrowArgs} args - Arguments to find a Shop
+     * @example
+     * // Get one Shop
+     * const shop = await prisma.shop.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ShopFindFirstOrThrowArgs>(args?: SelectSubset<T, ShopFindFirstOrThrowArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Shops that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Shops
+     * const shops = await prisma.shop.findMany()
+     * 
+     * // Get first 10 Shops
+     * const shops = await prisma.shop.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const shopWithIdOnly = await prisma.shop.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ShopFindManyArgs>(args?: SelectSubset<T, ShopFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Shop.
+     * @param {ShopCreateArgs} args - Arguments to create a Shop.
+     * @example
+     * // Create one Shop
+     * const Shop = await prisma.shop.create({
+     *   data: {
+     *     // ... data to create a Shop
+     *   }
+     * })
+     * 
+     */
+    create<T extends ShopCreateArgs>(args: SelectSubset<T, ShopCreateArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Shops.
+     * @param {ShopCreateManyArgs} args - Arguments to create many Shops.
+     * @example
+     * // Create many Shops
+     * const shop = await prisma.shop.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ShopCreateManyArgs>(args?: SelectSubset<T, ShopCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Shops and returns the data saved in the database.
+     * @param {ShopCreateManyAndReturnArgs} args - Arguments to create many Shops.
+     * @example
+     * // Create many Shops
+     * const shop = await prisma.shop.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Shops and only return the `id`
+     * const shopWithIdOnly = await prisma.shop.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ShopCreateManyAndReturnArgs>(args?: SelectSubset<T, ShopCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Shop.
+     * @param {ShopDeleteArgs} args - Arguments to delete one Shop.
+     * @example
+     * // Delete one Shop
+     * const Shop = await prisma.shop.delete({
+     *   where: {
+     *     // ... filter to delete one Shop
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ShopDeleteArgs>(args: SelectSubset<T, ShopDeleteArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Shop.
+     * @param {ShopUpdateArgs} args - Arguments to update one Shop.
+     * @example
+     * // Update one Shop
+     * const shop = await prisma.shop.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ShopUpdateArgs>(args: SelectSubset<T, ShopUpdateArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Shops.
+     * @param {ShopDeleteManyArgs} args - Arguments to filter Shops to delete.
+     * @example
+     * // Delete a few Shops
+     * const { count } = await prisma.shop.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ShopDeleteManyArgs>(args?: SelectSubset<T, ShopDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Shops.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Shops
+     * const shop = await prisma.shop.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ShopUpdateManyArgs>(args: SelectSubset<T, ShopUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Shops and returns the data updated in the database.
+     * @param {ShopUpdateManyAndReturnArgs} args - Arguments to update many Shops.
+     * @example
+     * // Update many Shops
+     * const shop = await prisma.shop.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Shops and only return the `id`
+     * const shopWithIdOnly = await prisma.shop.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ShopUpdateManyAndReturnArgs>(args: SelectSubset<T, ShopUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Shop.
+     * @param {ShopUpsertArgs} args - Arguments to update or create a Shop.
+     * @example
+     * // Update or create a Shop
+     * const shop = await prisma.shop.upsert({
+     *   create: {
+     *     // ... data to create a Shop
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Shop we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ShopUpsertArgs>(args: SelectSubset<T, ShopUpsertArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Shops.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopCountArgs} args - Arguments to filter Shops to count.
+     * @example
+     * // Count the number of Shops
+     * const count = await prisma.shop.count({
+     *   where: {
+     *     // ... the filter for the Shops we want to count
+     *   }
+     * })
+    **/
+    count<T extends ShopCountArgs>(
+      args?: Subset<T, ShopCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ShopCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Shop.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ShopAggregateArgs>(args: Subset<T, ShopAggregateArgs>): Prisma.PrismaPromise<GetShopAggregateType<T>>
+
+    /**
+     * Group by Shop.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ShopGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ShopGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ShopGroupByArgs['orderBy'] }
+        : { orderBy?: ShopGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ShopGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetShopGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Shop model
+   */
+  readonly fields: ShopFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Shop.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ShopClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    spus<T extends Shop$spusArgs<ExtArgs> = {}>(args?: Subset<T, Shop$spusArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpuPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Shop model
+   */
+  interface ShopFieldRefs {
+    readonly id: FieldRef<"Shop", 'String'>
+    readonly name: FieldRef<"Shop", 'String'>
+    readonly slug: FieldRef<"Shop", 'String'>
+    readonly description: FieldRef<"Shop", 'String'>
+    readonly logoUrl: FieldRef<"Shop", 'String'>
+    readonly bannerUrl: FieldRef<"Shop", 'String'>
+    readonly email: FieldRef<"Shop", 'String'>
+    readonly phone: FieldRef<"Shop", 'String'>
+    readonly address: FieldRef<"Shop", 'String'>
+    readonly website: FieldRef<"Shop", 'String'>
+    readonly status: FieldRef<"Shop", 'ShopStatus'>
+    readonly isActive: FieldRef<"Shop", 'Boolean'>
+    readonly isVerified: FieldRef<"Shop", 'Boolean'>
+    readonly rating: FieldRef<"Shop", 'Decimal'>
+    readonly totalReviews: FieldRef<"Shop", 'Int'>
+    readonly createdAt: FieldRef<"Shop", 'DateTime'>
+    readonly updatedAt: FieldRef<"Shop", 'DateTime'>
+    readonly ownerId: FieldRef<"Shop", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Shop findUnique
+   */
+  export type ShopFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * Filter, which Shop to fetch.
+     */
+    where: ShopWhereUniqueInput
+  }
+
+  /**
+   * Shop findUniqueOrThrow
+   */
+  export type ShopFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * Filter, which Shop to fetch.
+     */
+    where: ShopWhereUniqueInput
+  }
+
+  /**
+   * Shop findFirst
+   */
+  export type ShopFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * Filter, which Shop to fetch.
+     */
+    where?: ShopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shops to fetch.
+     */
+    orderBy?: ShopOrderByWithRelationInput | ShopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Shops.
+     */
+    cursor?: ShopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shops.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Shops.
+     */
+    distinct?: ShopScalarFieldEnum | ShopScalarFieldEnum[]
+  }
+
+  /**
+   * Shop findFirstOrThrow
+   */
+  export type ShopFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * Filter, which Shop to fetch.
+     */
+    where?: ShopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shops to fetch.
+     */
+    orderBy?: ShopOrderByWithRelationInput | ShopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Shops.
+     */
+    cursor?: ShopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shops.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Shops.
+     */
+    distinct?: ShopScalarFieldEnum | ShopScalarFieldEnum[]
+  }
+
+  /**
+   * Shop findMany
+   */
+  export type ShopFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * Filter, which Shops to fetch.
+     */
+    where?: ShopWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Shops to fetch.
+     */
+    orderBy?: ShopOrderByWithRelationInput | ShopOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Shops.
+     */
+    cursor?: ShopWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Shops from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Shops.
+     */
+    skip?: number
+    distinct?: ShopScalarFieldEnum | ShopScalarFieldEnum[]
+  }
+
+  /**
+   * Shop create
+   */
+  export type ShopCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Shop.
+     */
+    data: XOR<ShopCreateInput, ShopUncheckedCreateInput>
+  }
+
+  /**
+   * Shop createMany
+   */
+  export type ShopCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Shops.
+     */
+    data: ShopCreateManyInput | ShopCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Shop createManyAndReturn
+   */
+  export type ShopCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * The data used to create many Shops.
+     */
+    data: ShopCreateManyInput | ShopCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Shop update
+   */
+  export type ShopUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Shop.
+     */
+    data: XOR<ShopUpdateInput, ShopUncheckedUpdateInput>
+    /**
+     * Choose, which Shop to update.
+     */
+    where: ShopWhereUniqueInput
+  }
+
+  /**
+   * Shop updateMany
+   */
+  export type ShopUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Shops.
+     */
+    data: XOR<ShopUpdateManyMutationInput, ShopUncheckedUpdateManyInput>
+    /**
+     * Filter which Shops to update
+     */
+    where?: ShopWhereInput
+    /**
+     * Limit how many Shops to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Shop updateManyAndReturn
+   */
+  export type ShopUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * The data used to update Shops.
+     */
+    data: XOR<ShopUpdateManyMutationInput, ShopUncheckedUpdateManyInput>
+    /**
+     * Filter which Shops to update
+     */
+    where?: ShopWhereInput
+    /**
+     * Limit how many Shops to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Shop upsert
+   */
+  export type ShopUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Shop to update in case it exists.
+     */
+    where: ShopWhereUniqueInput
+    /**
+     * In case the Shop found by the `where` argument doesn't exist, create a new Shop with this data.
+     */
+    create: XOR<ShopCreateInput, ShopUncheckedCreateInput>
+    /**
+     * In case the Shop was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ShopUpdateInput, ShopUncheckedUpdateInput>
+  }
+
+  /**
+   * Shop delete
+   */
+  export type ShopDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+    /**
+     * Filter which Shop to delete.
+     */
+    where: ShopWhereUniqueInput
+  }
+
+  /**
+   * Shop deleteMany
+   */
+  export type ShopDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Shops to delete
+     */
+    where?: ShopWhereInput
+    /**
+     * Limit how many Shops to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Shop.spus
+   */
+  export type Shop$spusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Spu
+     */
+    select?: SpuSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Spu
+     */
+    omit?: SpuOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpuInclude<ExtArgs> | null
+    where?: SpuWhereInput
+    orderBy?: SpuOrderByWithRelationInput | SpuOrderByWithRelationInput[]
+    cursor?: SpuWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SpuScalarFieldEnum | SpuScalarFieldEnum[]
+  }
+
+  /**
+   * Shop without action
+   */
+  export type ShopDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Shop
+     */
+    select?: ShopSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Shop
+     */
+    omit?: ShopOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ShopInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model User
    */
 
@@ -25350,30 +25350,6 @@ export namespace Prisma {
   export type BrandScalarFieldEnum = (typeof BrandScalarFieldEnum)[keyof typeof BrandScalarFieldEnum]
 
 
-  export const ShopScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    slug: 'slug',
-    description: 'description',
-    logoUrl: 'logoUrl',
-    bannerUrl: 'bannerUrl',
-    email: 'email',
-    phone: 'phone',
-    address: 'address',
-    website: 'website',
-    status: 'status',
-    isActive: 'isActive',
-    isVerified: 'isVerified',
-    rating: 'rating',
-    totalReviews: 'totalReviews',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    ownerId: 'ownerId'
-  };
-
-  export type ShopScalarFieldEnum = (typeof ShopScalarFieldEnum)[keyof typeof ShopScalarFieldEnum]
-
-
   export const SpuScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -25539,6 +25515,30 @@ export namespace Prisma {
   export type SpuTagScalarFieldEnum = (typeof SpuTagScalarFieldEnum)[keyof typeof SpuTagScalarFieldEnum]
 
 
+  export const ShopScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    slug: 'slug',
+    description: 'description',
+    logoUrl: 'logoUrl',
+    bannerUrl: 'bannerUrl',
+    email: 'email',
+    phone: 'phone',
+    address: 'address',
+    website: 'website',
+    status: 'status',
+    isActive: 'isActive',
+    isVerified: 'isVerified',
+    rating: 'rating',
+    totalReviews: 'totalReviews',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    ownerId: 'ownerId'
+  };
+
+  export type ShopScalarFieldEnum = (typeof ShopScalarFieldEnum)[keyof typeof ShopScalarFieldEnum]
+
+
   export const UserScalarFieldEnum: {
     id: 'id',
     fullname: 'fullname',
@@ -25663,16 +25663,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'ShopStatus'
+   * Reference to a field of type 'SpuStatus'
    */
-  export type EnumShopStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShopStatus'>
+  export type EnumSpuStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SpuStatus'>
     
 
 
   /**
-   * Reference to a field of type 'ShopStatus[]'
+   * Reference to a field of type 'SpuStatus[]'
    */
-  export type ListEnumShopStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShopStatus[]'>
+  export type ListEnumSpuStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SpuStatus[]'>
     
 
 
@@ -25687,20 +25687,6 @@ export namespace Prisma {
    * Reference to a field of type 'Decimal[]'
    */
   export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'SpuStatus'
-   */
-  export type EnumSpuStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SpuStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'SpuStatus[]'
-   */
-  export type ListEnumSpuStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SpuStatus[]'>
     
 
 
@@ -25729,6 +25715,20 @@ export namespace Prisma {
    * Reference to a field of type 'AttributeType[]'
    */
   export type ListEnumAttributeTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AttributeType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ShopStatus'
+   */
+  export type EnumShopStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShopStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ShopStatus[]'
+   */
+  export type ListEnumShopStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShopStatus[]'>
     
 
 
@@ -26110,131 +26110,6 @@ export namespace Prisma {
     isActive?: BoolWithAggregatesFilter<"Brand"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Brand"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Brand"> | Date | string
-  }
-
-  export type ShopWhereInput = {
-    AND?: ShopWhereInput | ShopWhereInput[]
-    OR?: ShopWhereInput[]
-    NOT?: ShopWhereInput | ShopWhereInput[]
-    id?: UuidFilter<"Shop"> | string
-    name?: StringFilter<"Shop"> | string
-    slug?: StringFilter<"Shop"> | string
-    description?: StringNullableFilter<"Shop"> | string | null
-    logoUrl?: StringNullableFilter<"Shop"> | string | null
-    bannerUrl?: StringNullableFilter<"Shop"> | string | null
-    email?: StringNullableFilter<"Shop"> | string | null
-    phone?: StringNullableFilter<"Shop"> | string | null
-    address?: StringNullableFilter<"Shop"> | string | null
-    website?: StringNullableFilter<"Shop"> | string | null
-    status?: EnumShopStatusFilter<"Shop"> | $Enums.ShopStatus
-    isActive?: BoolFilter<"Shop"> | boolean
-    isVerified?: BoolFilter<"Shop"> | boolean
-    rating?: DecimalNullableFilter<"Shop"> | Decimal | DecimalJsLike | number | string | null
-    totalReviews?: IntFilter<"Shop"> | number
-    createdAt?: DateTimeFilter<"Shop"> | Date | string
-    updatedAt?: DateTimeFilter<"Shop"> | Date | string
-    ownerId?: UuidFilter<"Shop"> | string
-    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
-    spus?: SpuListRelationFilter
-  }
-
-  export type ShopOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    slug?: SortOrder
-    description?: SortOrderInput | SortOrder
-    logoUrl?: SortOrderInput | SortOrder
-    bannerUrl?: SortOrderInput | SortOrder
-    email?: SortOrderInput | SortOrder
-    phone?: SortOrderInput | SortOrder
-    address?: SortOrderInput | SortOrder
-    website?: SortOrderInput | SortOrder
-    status?: SortOrder
-    isActive?: SortOrder
-    isVerified?: SortOrder
-    rating?: SortOrderInput | SortOrder
-    totalReviews?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    ownerId?: SortOrder
-    owner?: UserOrderByWithRelationInput
-    spus?: SpuOrderByRelationAggregateInput
-  }
-
-  export type ShopWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    slug?: string
-    AND?: ShopWhereInput | ShopWhereInput[]
-    OR?: ShopWhereInput[]
-    NOT?: ShopWhereInput | ShopWhereInput[]
-    name?: StringFilter<"Shop"> | string
-    description?: StringNullableFilter<"Shop"> | string | null
-    logoUrl?: StringNullableFilter<"Shop"> | string | null
-    bannerUrl?: StringNullableFilter<"Shop"> | string | null
-    email?: StringNullableFilter<"Shop"> | string | null
-    phone?: StringNullableFilter<"Shop"> | string | null
-    address?: StringNullableFilter<"Shop"> | string | null
-    website?: StringNullableFilter<"Shop"> | string | null
-    status?: EnumShopStatusFilter<"Shop"> | $Enums.ShopStatus
-    isActive?: BoolFilter<"Shop"> | boolean
-    isVerified?: BoolFilter<"Shop"> | boolean
-    rating?: DecimalNullableFilter<"Shop"> | Decimal | DecimalJsLike | number | string | null
-    totalReviews?: IntFilter<"Shop"> | number
-    createdAt?: DateTimeFilter<"Shop"> | Date | string
-    updatedAt?: DateTimeFilter<"Shop"> | Date | string
-    ownerId?: UuidFilter<"Shop"> | string
-    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
-    spus?: SpuListRelationFilter
-  }, "id" | "slug">
-
-  export type ShopOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    slug?: SortOrder
-    description?: SortOrderInput | SortOrder
-    logoUrl?: SortOrderInput | SortOrder
-    bannerUrl?: SortOrderInput | SortOrder
-    email?: SortOrderInput | SortOrder
-    phone?: SortOrderInput | SortOrder
-    address?: SortOrderInput | SortOrder
-    website?: SortOrderInput | SortOrder
-    status?: SortOrder
-    isActive?: SortOrder
-    isVerified?: SortOrder
-    rating?: SortOrderInput | SortOrder
-    totalReviews?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    ownerId?: SortOrder
-    _count?: ShopCountOrderByAggregateInput
-    _avg?: ShopAvgOrderByAggregateInput
-    _max?: ShopMaxOrderByAggregateInput
-    _min?: ShopMinOrderByAggregateInput
-    _sum?: ShopSumOrderByAggregateInput
-  }
-
-  export type ShopScalarWhereWithAggregatesInput = {
-    AND?: ShopScalarWhereWithAggregatesInput | ShopScalarWhereWithAggregatesInput[]
-    OR?: ShopScalarWhereWithAggregatesInput[]
-    NOT?: ShopScalarWhereWithAggregatesInput | ShopScalarWhereWithAggregatesInput[]
-    id?: UuidWithAggregatesFilter<"Shop"> | string
-    name?: StringWithAggregatesFilter<"Shop"> | string
-    slug?: StringWithAggregatesFilter<"Shop"> | string
-    description?: StringNullableWithAggregatesFilter<"Shop"> | string | null
-    logoUrl?: StringNullableWithAggregatesFilter<"Shop"> | string | null
-    bannerUrl?: StringNullableWithAggregatesFilter<"Shop"> | string | null
-    email?: StringNullableWithAggregatesFilter<"Shop"> | string | null
-    phone?: StringNullableWithAggregatesFilter<"Shop"> | string | null
-    address?: StringNullableWithAggregatesFilter<"Shop"> | string | null
-    website?: StringNullableWithAggregatesFilter<"Shop"> | string | null
-    status?: EnumShopStatusWithAggregatesFilter<"Shop"> | $Enums.ShopStatus
-    isActive?: BoolWithAggregatesFilter<"Shop"> | boolean
-    isVerified?: BoolWithAggregatesFilter<"Shop"> | boolean
-    rating?: DecimalNullableWithAggregatesFilter<"Shop"> | Decimal | DecimalJsLike | number | string | null
-    totalReviews?: IntWithAggregatesFilter<"Shop"> | number
-    createdAt?: DateTimeWithAggregatesFilter<"Shop"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Shop"> | Date | string
-    ownerId?: UuidWithAggregatesFilter<"Shop"> | string
   }
 
   export type SpuWhereInput = {
@@ -27155,6 +27030,131 @@ export namespace Prisma {
     tagId?: UuidWithAggregatesFilter<"SpuTag"> | string
   }
 
+  export type ShopWhereInput = {
+    AND?: ShopWhereInput | ShopWhereInput[]
+    OR?: ShopWhereInput[]
+    NOT?: ShopWhereInput | ShopWhereInput[]
+    id?: UuidFilter<"Shop"> | string
+    name?: StringFilter<"Shop"> | string
+    slug?: StringFilter<"Shop"> | string
+    description?: StringNullableFilter<"Shop"> | string | null
+    logoUrl?: StringNullableFilter<"Shop"> | string | null
+    bannerUrl?: StringNullableFilter<"Shop"> | string | null
+    email?: StringNullableFilter<"Shop"> | string | null
+    phone?: StringNullableFilter<"Shop"> | string | null
+    address?: StringNullableFilter<"Shop"> | string | null
+    website?: StringNullableFilter<"Shop"> | string | null
+    status?: EnumShopStatusFilter<"Shop"> | $Enums.ShopStatus
+    isActive?: BoolFilter<"Shop"> | boolean
+    isVerified?: BoolFilter<"Shop"> | boolean
+    rating?: DecimalNullableFilter<"Shop"> | Decimal | DecimalJsLike | number | string | null
+    totalReviews?: IntFilter<"Shop"> | number
+    createdAt?: DateTimeFilter<"Shop"> | Date | string
+    updatedAt?: DateTimeFilter<"Shop"> | Date | string
+    ownerId?: UuidFilter<"Shop"> | string
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    spus?: SpuListRelationFilter
+  }
+
+  export type ShopOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrderInput | SortOrder
+    logoUrl?: SortOrderInput | SortOrder
+    bannerUrl?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    status?: SortOrder
+    isActive?: SortOrder
+    isVerified?: SortOrder
+    rating?: SortOrderInput | SortOrder
+    totalReviews?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    ownerId?: SortOrder
+    owner?: UserOrderByWithRelationInput
+    spus?: SpuOrderByRelationAggregateInput
+  }
+
+  export type ShopWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    AND?: ShopWhereInput | ShopWhereInput[]
+    OR?: ShopWhereInput[]
+    NOT?: ShopWhereInput | ShopWhereInput[]
+    name?: StringFilter<"Shop"> | string
+    description?: StringNullableFilter<"Shop"> | string | null
+    logoUrl?: StringNullableFilter<"Shop"> | string | null
+    bannerUrl?: StringNullableFilter<"Shop"> | string | null
+    email?: StringNullableFilter<"Shop"> | string | null
+    phone?: StringNullableFilter<"Shop"> | string | null
+    address?: StringNullableFilter<"Shop"> | string | null
+    website?: StringNullableFilter<"Shop"> | string | null
+    status?: EnumShopStatusFilter<"Shop"> | $Enums.ShopStatus
+    isActive?: BoolFilter<"Shop"> | boolean
+    isVerified?: BoolFilter<"Shop"> | boolean
+    rating?: DecimalNullableFilter<"Shop"> | Decimal | DecimalJsLike | number | string | null
+    totalReviews?: IntFilter<"Shop"> | number
+    createdAt?: DateTimeFilter<"Shop"> | Date | string
+    updatedAt?: DateTimeFilter<"Shop"> | Date | string
+    ownerId?: UuidFilter<"Shop"> | string
+    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    spus?: SpuListRelationFilter
+  }, "id" | "slug">
+
+  export type ShopOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrderInput | SortOrder
+    logoUrl?: SortOrderInput | SortOrder
+    bannerUrl?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    status?: SortOrder
+    isActive?: SortOrder
+    isVerified?: SortOrder
+    rating?: SortOrderInput | SortOrder
+    totalReviews?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    ownerId?: SortOrder
+    _count?: ShopCountOrderByAggregateInput
+    _avg?: ShopAvgOrderByAggregateInput
+    _max?: ShopMaxOrderByAggregateInput
+    _min?: ShopMinOrderByAggregateInput
+    _sum?: ShopSumOrderByAggregateInput
+  }
+
+  export type ShopScalarWhereWithAggregatesInput = {
+    AND?: ShopScalarWhereWithAggregatesInput | ShopScalarWhereWithAggregatesInput[]
+    OR?: ShopScalarWhereWithAggregatesInput[]
+    NOT?: ShopScalarWhereWithAggregatesInput | ShopScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Shop"> | string
+    name?: StringWithAggregatesFilter<"Shop"> | string
+    slug?: StringWithAggregatesFilter<"Shop"> | string
+    description?: StringNullableWithAggregatesFilter<"Shop"> | string | null
+    logoUrl?: StringNullableWithAggregatesFilter<"Shop"> | string | null
+    bannerUrl?: StringNullableWithAggregatesFilter<"Shop"> | string | null
+    email?: StringNullableWithAggregatesFilter<"Shop"> | string | null
+    phone?: StringNullableWithAggregatesFilter<"Shop"> | string | null
+    address?: StringNullableWithAggregatesFilter<"Shop"> | string | null
+    website?: StringNullableWithAggregatesFilter<"Shop"> | string | null
+    status?: EnumShopStatusWithAggregatesFilter<"Shop"> | $Enums.ShopStatus
+    isActive?: BoolWithAggregatesFilter<"Shop"> | boolean
+    isVerified?: BoolWithAggregatesFilter<"Shop"> | boolean
+    rating?: DecimalNullableWithAggregatesFilter<"Shop"> | Decimal | DecimalJsLike | number | string | null
+    totalReviews?: IntWithAggregatesFilter<"Shop"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Shop"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Shop"> | Date | string
+    ownerId?: UuidWithAggregatesFilter<"Shop"> | string
+  }
+
   export type UserWhereInput = {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
@@ -27711,156 +27711,6 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ShopCreateInput = {
-    id?: string
-    name: string
-    slug: string
-    description?: string | null
-    logoUrl?: string | null
-    bannerUrl?: string | null
-    email?: string | null
-    phone?: string | null
-    address?: string | null
-    website?: string | null
-    status?: $Enums.ShopStatus
-    isActive?: boolean
-    isVerified?: boolean
-    rating?: Decimal | DecimalJsLike | number | string | null
-    totalReviews?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    owner: UserCreateNestedOneWithoutShopsInput
-    spus?: SpuCreateNestedManyWithoutShopInput
-  }
-
-  export type ShopUncheckedCreateInput = {
-    id?: string
-    name: string
-    slug: string
-    description?: string | null
-    logoUrl?: string | null
-    bannerUrl?: string | null
-    email?: string | null
-    phone?: string | null
-    address?: string | null
-    website?: string | null
-    status?: $Enums.ShopStatus
-    isActive?: boolean
-    isVerified?: boolean
-    rating?: Decimal | DecimalJsLike | number | string | null
-    totalReviews?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    ownerId: string
-    spus?: SpuUncheckedCreateNestedManyWithoutShopInput
-  }
-
-  export type ShopUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumShopStatusFieldUpdateOperationsInput | $Enums.ShopStatus
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
-    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
-    spus?: SpuUpdateManyWithoutShopNestedInput
-  }
-
-  export type ShopUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumShopStatusFieldUpdateOperationsInput | $Enums.ShopStatus
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
-    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ownerId?: StringFieldUpdateOperationsInput | string
-    spus?: SpuUncheckedUpdateManyWithoutShopNestedInput
-  }
-
-  export type ShopCreateManyInput = {
-    id?: string
-    name: string
-    slug: string
-    description?: string | null
-    logoUrl?: string | null
-    bannerUrl?: string | null
-    email?: string | null
-    phone?: string | null
-    address?: string | null
-    website?: string | null
-    status?: $Enums.ShopStatus
-    isActive?: boolean
-    isVerified?: boolean
-    rating?: Decimal | DecimalJsLike | number | string | null
-    totalReviews?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    ownerId: string
-  }
-
-  export type ShopUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumShopStatusFieldUpdateOperationsInput | $Enums.ShopStatus
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
-    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ShopUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumShopStatusFieldUpdateOperationsInput | $Enums.ShopStatus
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
-    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    totalReviews?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ownerId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SpuCreateInput = {
@@ -28814,6 +28664,156 @@ export namespace Prisma {
     tagId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type ShopCreateInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    bannerUrl?: string | null
+    email?: string | null
+    phone?: string | null
+    address?: string | null
+    website?: string | null
+    status?: $Enums.ShopStatus
+    isActive?: boolean
+    isVerified?: boolean
+    rating?: Decimal | DecimalJsLike | number | string | null
+    totalReviews?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutShopsInput
+    spus?: SpuCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUncheckedCreateInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    bannerUrl?: string | null
+    email?: string | null
+    phone?: string | null
+    address?: string | null
+    website?: string | null
+    status?: $Enums.ShopStatus
+    isActive?: boolean
+    isVerified?: boolean
+    rating?: Decimal | DecimalJsLike | number | string | null
+    totalReviews?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ownerId: string
+    spus?: SpuUncheckedCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumShopStatusFieldUpdateOperationsInput | $Enums.ShopStatus
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
+    spus?: SpuUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumShopStatusFieldUpdateOperationsInput | $Enums.ShopStatus
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+    spus?: SpuUncheckedUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopCreateManyInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    bannerUrl?: string | null
+    email?: string | null
+    phone?: string | null
+    address?: string | null
+    website?: string | null
+    status?: $Enums.ShopStatus
+    isActive?: boolean
+    isVerified?: boolean
+    rating?: Decimal | DecimalJsLike | number | string | null
+    totalReviews?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ownerId: string
+  }
+
+  export type ShopUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumShopStatusFieldUpdateOperationsInput | $Enums.ShopStatus
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ShopUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumShopStatusFieldUpdateOperationsInput | $Enums.ShopStatus
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ownerId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type UserCreateInput = {
     id?: string
     fullname: string
@@ -29490,123 +29490,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type EnumShopStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.ShopStatus | EnumShopStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumShopStatusFilter<$PrismaModel> | $Enums.ShopStatus
-  }
-
-  export type DecimalNullableFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-  }
-
-  export type ShopCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    slug?: SortOrder
-    description?: SortOrder
-    logoUrl?: SortOrder
-    bannerUrl?: SortOrder
-    email?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
-    website?: SortOrder
-    status?: SortOrder
-    isActive?: SortOrder
-    isVerified?: SortOrder
-    rating?: SortOrder
-    totalReviews?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    ownerId?: SortOrder
-  }
-
-  export type ShopAvgOrderByAggregateInput = {
-    rating?: SortOrder
-    totalReviews?: SortOrder
-  }
-
-  export type ShopMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    slug?: SortOrder
-    description?: SortOrder
-    logoUrl?: SortOrder
-    bannerUrl?: SortOrder
-    email?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
-    website?: SortOrder
-    status?: SortOrder
-    isActive?: SortOrder
-    isVerified?: SortOrder
-    rating?: SortOrder
-    totalReviews?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    ownerId?: SortOrder
-  }
-
-  export type ShopMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    slug?: SortOrder
-    description?: SortOrder
-    logoUrl?: SortOrder
-    bannerUrl?: SortOrder
-    email?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
-    website?: SortOrder
-    status?: SortOrder
-    isActive?: SortOrder
-    isVerified?: SortOrder
-    rating?: SortOrder
-    totalReviews?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    ownerId?: SortOrder
-  }
-
-  export type ShopSumOrderByAggregateInput = {
-    rating?: SortOrder
-    totalReviews?: SortOrder
-  }
-
-  export type EnumShopStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.ShopStatus | EnumShopStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumShopStatusWithAggregatesFilter<$PrismaModel> | $Enums.ShopStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumShopStatusFilter<$PrismaModel>
-    _max?: NestedEnumShopStatusFilter<$PrismaModel>
-  }
-
-  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedDecimalNullableFilter<$PrismaModel>
-    _sum?: NestedDecimalNullableFilter<$PrismaModel>
-    _min?: NestedDecimalNullableFilter<$PrismaModel>
-    _max?: NestedDecimalNullableFilter<$PrismaModel>
-  }
-
   export type EnumSpuStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.SpuStatus | EnumSpuStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SpuStatus[] | ListEnumSpuStatusFieldRefInput<$PrismaModel>
@@ -29745,6 +29628,17 @@ export namespace Prisma {
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
   export type EnumSkuStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.SkuStatus | EnumSkuStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SkuStatus[] | ListEnumSkuStatusFieldRefInput<$PrismaModel>
@@ -29875,6 +29769,22 @@ export namespace Prisma {
     _sum?: NestedDecimalFilter<$PrismaModel>
     _min?: NestedDecimalFilter<$PrismaModel>
     _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type EnumSkuStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -30297,6 +30207,96 @@ export namespace Prisma {
     tagId?: SortOrder
   }
 
+  export type EnumShopStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShopStatus | EnumShopStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumShopStatusFilter<$PrismaModel> | $Enums.ShopStatus
+  }
+
+  export type ShopCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    logoUrl?: SortOrder
+    bannerUrl?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
+    website?: SortOrder
+    status?: SortOrder
+    isActive?: SortOrder
+    isVerified?: SortOrder
+    rating?: SortOrder
+    totalReviews?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    ownerId?: SortOrder
+  }
+
+  export type ShopAvgOrderByAggregateInput = {
+    rating?: SortOrder
+    totalReviews?: SortOrder
+  }
+
+  export type ShopMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    logoUrl?: SortOrder
+    bannerUrl?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
+    website?: SortOrder
+    status?: SortOrder
+    isActive?: SortOrder
+    isVerified?: SortOrder
+    rating?: SortOrder
+    totalReviews?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    ownerId?: SortOrder
+  }
+
+  export type ShopMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    logoUrl?: SortOrder
+    bannerUrl?: SortOrder
+    email?: SortOrder
+    phone?: SortOrder
+    address?: SortOrder
+    website?: SortOrder
+    status?: SortOrder
+    isActive?: SortOrder
+    isVerified?: SortOrder
+    rating?: SortOrder
+    totalReviews?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    ownerId?: SortOrder
+  }
+
+  export type ShopSumOrderByAggregateInput = {
+    rating?: SortOrder
+    totalReviews?: SortOrder
+  }
+
+  export type EnumShopStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShopStatus | EnumShopStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumShopStatusWithAggregatesFilter<$PrismaModel> | $Enums.ShopStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumShopStatusFilter<$PrismaModel>
+    _max?: NestedEnumShopStatusFilter<$PrismaModel>
+  }
+
   export type EnumAccountTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.AccountType | EnumAccountTypeFieldRefInput<$PrismaModel>
     in?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
@@ -30710,74 +30710,6 @@ export namespace Prisma {
     deleteMany?: SpuScalarWhereInput | SpuScalarWhereInput[]
   }
 
-  export type UserCreateNestedOneWithoutShopsInput = {
-    create?: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutShopsInput
-    connect?: UserWhereUniqueInput
-  }
-
-  export type SpuCreateNestedManyWithoutShopInput = {
-    create?: XOR<SpuCreateWithoutShopInput, SpuUncheckedCreateWithoutShopInput> | SpuCreateWithoutShopInput[] | SpuUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: SpuCreateOrConnectWithoutShopInput | SpuCreateOrConnectWithoutShopInput[]
-    createMany?: SpuCreateManyShopInputEnvelope
-    connect?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
-  }
-
-  export type SpuUncheckedCreateNestedManyWithoutShopInput = {
-    create?: XOR<SpuCreateWithoutShopInput, SpuUncheckedCreateWithoutShopInput> | SpuCreateWithoutShopInput[] | SpuUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: SpuCreateOrConnectWithoutShopInput | SpuCreateOrConnectWithoutShopInput[]
-    createMany?: SpuCreateManyShopInputEnvelope
-    connect?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
-  }
-
-  export type EnumShopStatusFieldUpdateOperationsInput = {
-    set?: $Enums.ShopStatus
-  }
-
-  export type NullableDecimalFieldUpdateOperationsInput = {
-    set?: Decimal | DecimalJsLike | number | string | null
-    increment?: Decimal | DecimalJsLike | number | string
-    decrement?: Decimal | DecimalJsLike | number | string
-    multiply?: Decimal | DecimalJsLike | number | string
-    divide?: Decimal | DecimalJsLike | number | string
-  }
-
-  export type UserUpdateOneRequiredWithoutShopsNestedInput = {
-    create?: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutShopsInput
-    upsert?: UserUpsertWithoutShopsInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutShopsInput, UserUpdateWithoutShopsInput>, UserUncheckedUpdateWithoutShopsInput>
-  }
-
-  export type SpuUpdateManyWithoutShopNestedInput = {
-    create?: XOR<SpuCreateWithoutShopInput, SpuUncheckedCreateWithoutShopInput> | SpuCreateWithoutShopInput[] | SpuUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: SpuCreateOrConnectWithoutShopInput | SpuCreateOrConnectWithoutShopInput[]
-    upsert?: SpuUpsertWithWhereUniqueWithoutShopInput | SpuUpsertWithWhereUniqueWithoutShopInput[]
-    createMany?: SpuCreateManyShopInputEnvelope
-    set?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
-    disconnect?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
-    delete?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
-    connect?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
-    update?: SpuUpdateWithWhereUniqueWithoutShopInput | SpuUpdateWithWhereUniqueWithoutShopInput[]
-    updateMany?: SpuUpdateManyWithWhereWithoutShopInput | SpuUpdateManyWithWhereWithoutShopInput[]
-    deleteMany?: SpuScalarWhereInput | SpuScalarWhereInput[]
-  }
-
-  export type SpuUncheckedUpdateManyWithoutShopNestedInput = {
-    create?: XOR<SpuCreateWithoutShopInput, SpuUncheckedCreateWithoutShopInput> | SpuCreateWithoutShopInput[] | SpuUncheckedCreateWithoutShopInput[]
-    connectOrCreate?: SpuCreateOrConnectWithoutShopInput | SpuCreateOrConnectWithoutShopInput[]
-    upsert?: SpuUpsertWithWhereUniqueWithoutShopInput | SpuUpsertWithWhereUniqueWithoutShopInput[]
-    createMany?: SpuCreateManyShopInputEnvelope
-    set?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
-    disconnect?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
-    delete?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
-    connect?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
-    update?: SpuUpdateWithWhereUniqueWithoutShopInput | SpuUpdateWithWhereUniqueWithoutShopInput[]
-    updateMany?: SpuUpdateManyWithWhereWithoutShopInput | SpuUpdateManyWithWhereWithoutShopInput[]
-    deleteMany?: SpuScalarWhereInput | SpuScalarWhereInput[]
-  }
-
   export type CategoryCreateNestedOneWithoutSpusInput = {
     create?: XOR<CategoryCreateWithoutSpusInput, CategoryUncheckedCreateWithoutSpusInput>
     connectOrCreate?: CategoryCreateOrConnectWithoutSpusInput
@@ -31084,6 +31016,14 @@ export namespace Prisma {
 
   export type DecimalFieldUpdateOperationsInput = {
     set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
     increment?: Decimal | DecimalJsLike | number | string
     decrement?: Decimal | DecimalJsLike | number | string
     multiply?: Decimal | DecimalJsLike | number | string
@@ -31792,6 +31732,66 @@ export namespace Prisma {
     update?: XOR<XOR<TagUpdateToOneWithWhereWithoutSpuTagsInput, TagUpdateWithoutSpuTagsInput>, TagUncheckedUpdateWithoutSpuTagsInput>
   }
 
+  export type UserCreateNestedOneWithoutShopsInput = {
+    create?: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutShopsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type SpuCreateNestedManyWithoutShopInput = {
+    create?: XOR<SpuCreateWithoutShopInput, SpuUncheckedCreateWithoutShopInput> | SpuCreateWithoutShopInput[] | SpuUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: SpuCreateOrConnectWithoutShopInput | SpuCreateOrConnectWithoutShopInput[]
+    createMany?: SpuCreateManyShopInputEnvelope
+    connect?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
+  }
+
+  export type SpuUncheckedCreateNestedManyWithoutShopInput = {
+    create?: XOR<SpuCreateWithoutShopInput, SpuUncheckedCreateWithoutShopInput> | SpuCreateWithoutShopInput[] | SpuUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: SpuCreateOrConnectWithoutShopInput | SpuCreateOrConnectWithoutShopInput[]
+    createMany?: SpuCreateManyShopInputEnvelope
+    connect?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
+  }
+
+  export type EnumShopStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ShopStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutShopsNestedInput = {
+    create?: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutShopsInput
+    upsert?: UserUpsertWithoutShopsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutShopsInput, UserUpdateWithoutShopsInput>, UserUncheckedUpdateWithoutShopsInput>
+  }
+
+  export type SpuUpdateManyWithoutShopNestedInput = {
+    create?: XOR<SpuCreateWithoutShopInput, SpuUncheckedCreateWithoutShopInput> | SpuCreateWithoutShopInput[] | SpuUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: SpuCreateOrConnectWithoutShopInput | SpuCreateOrConnectWithoutShopInput[]
+    upsert?: SpuUpsertWithWhereUniqueWithoutShopInput | SpuUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: SpuCreateManyShopInputEnvelope
+    set?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
+    disconnect?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
+    delete?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
+    connect?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
+    update?: SpuUpdateWithWhereUniqueWithoutShopInput | SpuUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: SpuUpdateManyWithWhereWithoutShopInput | SpuUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: SpuScalarWhereInput | SpuScalarWhereInput[]
+  }
+
+  export type SpuUncheckedUpdateManyWithoutShopNestedInput = {
+    create?: XOR<SpuCreateWithoutShopInput, SpuUncheckedCreateWithoutShopInput> | SpuCreateWithoutShopInput[] | SpuUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: SpuCreateOrConnectWithoutShopInput | SpuCreateOrConnectWithoutShopInput[]
+    upsert?: SpuUpsertWithWhereUniqueWithoutShopInput | SpuUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: SpuCreateManyShopInputEnvelope
+    set?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
+    disconnect?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
+    delete?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
+    connect?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
+    update?: SpuUpdateWithWhereUniqueWithoutShopInput | SpuUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: SpuUpdateManyWithWhereWithoutShopInput | SpuUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: SpuScalarWhereInput | SpuScalarWhereInput[]
+  }
+
   export type UserCreaterolesInput = {
     set: $Enums.UserRole[]
   }
@@ -32218,50 +32218,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedEnumShopStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.ShopStatus | EnumShopStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumShopStatusFilter<$PrismaModel> | $Enums.ShopStatus
-  }
-
-  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-  }
-
-  export type NestedEnumShopStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.ShopStatus | EnumShopStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumShopStatusWithAggregatesFilter<$PrismaModel> | $Enums.ShopStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumShopStatusFilter<$PrismaModel>
-    _max?: NestedEnumShopStatusFilter<$PrismaModel>
-  }
-
-  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedDecimalNullableFilter<$PrismaModel>
-    _sum?: NestedDecimalNullableFilter<$PrismaModel>
-    _min?: NestedDecimalNullableFilter<$PrismaModel>
-    _max?: NestedDecimalNullableFilter<$PrismaModel>
-  }
-
   export type NestedEnumSpuStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.SpuStatus | EnumSpuStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SpuStatus[] | ListEnumSpuStatusFieldRefInput<$PrismaModel>
@@ -32290,6 +32246,17 @@ export namespace Prisma {
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
   export type NestedEnumSkuStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.SkuStatus | EnumSkuStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SkuStatus[] | ListEnumSkuStatusFieldRefInput<$PrismaModel>
@@ -32311,6 +32278,22 @@ export namespace Prisma {
     _sum?: NestedDecimalFilter<$PrismaModel>
     _min?: NestedDecimalFilter<$PrismaModel>
     _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumSkuStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -32338,6 +32321,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAttributeTypeFilter<$PrismaModel>
     _max?: NestedEnumAttributeTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumShopStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShopStatus | EnumShopStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumShopStatusFilter<$PrismaModel> | $Enums.ShopStatus
+  }
+
+  export type NestedEnumShopStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShopStatus | EnumShopStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ShopStatus[] | ListEnumShopStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumShopStatusWithAggregatesFilter<$PrismaModel> | $Enums.ShopStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumShopStatusFilter<$PrismaModel>
+    _max?: NestedEnumShopStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumAccountTypeFilter<$PrismaModel = never> = {
@@ -32917,190 +32917,6 @@ export namespace Prisma {
   export type SpuUpdateManyWithWhereWithoutBrandInput = {
     where: SpuScalarWhereInput
     data: XOR<SpuUpdateManyMutationInput, SpuUncheckedUpdateManyWithoutBrandInput>
-  }
-
-  export type UserCreateWithoutShopsInput = {
-    id?: string
-    fullname: string
-    username: string
-    email: string
-    phone?: string | null
-    hashingPassword?: string | null
-    accountType?: $Enums.AccountType
-    avatarUrl?: string | null
-    address?: string | null
-    city?: string | null
-    state?: string | null
-    roles?: UserCreaterolesInput | $Enums.UserRole[]
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    visible?: $Enums.UserVisibility
-    isBanned?: boolean
-    isLocked?: boolean
-    isVerified?: boolean
-    lastActived?: Date | string | null
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    codes?: CodeCreateNestedOneWithoutUserInput
-    Oauth2User?: Oauth2UserCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutShopsInput = {
-    id?: string
-    fullname: string
-    username: string
-    email: string
-    phone?: string | null
-    hashingPassword?: string | null
-    accountType?: $Enums.AccountType
-    avatarUrl?: string | null
-    address?: string | null
-    city?: string | null
-    state?: string | null
-    roles?: UserCreaterolesInput | $Enums.UserRole[]
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    visible?: $Enums.UserVisibility
-    isBanned?: boolean
-    isLocked?: boolean
-    isVerified?: boolean
-    lastActived?: Date | string | null
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    codes?: CodeUncheckedCreateNestedOneWithoutUserInput
-    Oauth2User?: Oauth2UserUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutShopsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
-  }
-
-  export type SpuCreateWithoutShopInput = {
-    id?: string
-    name: string
-    slug: string
-    description?: string | null
-    shortDesc?: string | null
-    status?: $Enums.SpuStatus
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    category: CategoryCreateNestedOneWithoutSpusInput
-    brand: BrandCreateNestedOneWithoutSpusInput
-    skus?: SkuCreateNestedManyWithoutSpuInput
-    spuImages?: SpuImageCreateNestedManyWithoutSpuInput
-    spuAttributes?: SpuAttributeCreateNestedManyWithoutSpuInput
-    spuTags?: SpuTagCreateNestedManyWithoutSpuInput
-    spuVariations?: SpuVariationCreateNestedManyWithoutSpuInput
-  }
-
-  export type SpuUncheckedCreateWithoutShopInput = {
-    id?: string
-    name: string
-    slug: string
-    description?: string | null
-    shortDesc?: string | null
-    status?: $Enums.SpuStatus
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    categoryId: string
-    brandId: string
-    skus?: SkuUncheckedCreateNestedManyWithoutSpuInput
-    spuImages?: SpuImageUncheckedCreateNestedManyWithoutSpuInput
-    spuAttributes?: SpuAttributeUncheckedCreateNestedManyWithoutSpuInput
-    spuTags?: SpuTagUncheckedCreateNestedManyWithoutSpuInput
-    spuVariations?: SpuVariationUncheckedCreateNestedManyWithoutSpuInput
-  }
-
-  export type SpuCreateOrConnectWithoutShopInput = {
-    where: SpuWhereUniqueInput
-    create: XOR<SpuCreateWithoutShopInput, SpuUncheckedCreateWithoutShopInput>
-  }
-
-  export type SpuCreateManyShopInputEnvelope = {
-    data: SpuCreateManyShopInput | SpuCreateManyShopInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type UserUpsertWithoutShopsInput = {
-    update: XOR<UserUpdateWithoutShopsInput, UserUncheckedUpdateWithoutShopsInput>
-    create: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutShopsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutShopsInput, UserUncheckedUpdateWithoutShopsInput>
-  }
-
-  export type UserUpdateWithoutShopsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fullname?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    hashingPassword?: NullableStringFieldUpdateOperationsInput | string | null
-    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
-    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    state?: NullableStringFieldUpdateOperationsInput | string | null
-    roles?: UserUpdaterolesInput | $Enums.UserRole[]
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
-    isBanned?: BoolFieldUpdateOperationsInput | boolean
-    isLocked?: BoolFieldUpdateOperationsInput | boolean
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
-    lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    codes?: CodeUpdateOneWithoutUserNestedInput
-    Oauth2User?: Oauth2UserUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutShopsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fullname?: StringFieldUpdateOperationsInput | string
-    username?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    hashingPassword?: NullableStringFieldUpdateOperationsInput | string | null
-    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
-    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
-    city?: NullableStringFieldUpdateOperationsInput | string | null
-    state?: NullableStringFieldUpdateOperationsInput | string | null
-    roles?: UserUpdaterolesInput | $Enums.UserRole[]
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
-    isBanned?: BoolFieldUpdateOperationsInput | boolean
-    isLocked?: BoolFieldUpdateOperationsInput | boolean
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
-    lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    codes?: CodeUncheckedUpdateOneWithoutUserNestedInput
-    Oauth2User?: Oauth2UserUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type SpuUpsertWithWhereUniqueWithoutShopInput = {
-    where: SpuWhereUniqueInput
-    update: XOR<SpuUpdateWithoutShopInput, SpuUncheckedUpdateWithoutShopInput>
-    create: XOR<SpuCreateWithoutShopInput, SpuUncheckedCreateWithoutShopInput>
-  }
-
-  export type SpuUpdateWithWhereUniqueWithoutShopInput = {
-    where: SpuWhereUniqueInput
-    data: XOR<SpuUpdateWithoutShopInput, SpuUncheckedUpdateWithoutShopInput>
-  }
-
-  export type SpuUpdateManyWithWhereWithoutShopInput = {
-    where: SpuScalarWhereInput
-    data: XOR<SpuUpdateManyMutationInput, SpuUncheckedUpdateManyWithoutShopInput>
   }
 
   export type CategoryCreateWithoutSpusInput = {
@@ -35595,6 +35411,190 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserCreateWithoutShopsInput = {
+    id?: string
+    fullname: string
+    username: string
+    email: string
+    phone?: string | null
+    hashingPassword?: string | null
+    accountType?: $Enums.AccountType
+    avatarUrl?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    roles?: UserCreaterolesInput | $Enums.UserRole[]
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    visible?: $Enums.UserVisibility
+    isBanned?: boolean
+    isLocked?: boolean
+    isVerified?: boolean
+    lastActived?: Date | string | null
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    codes?: CodeCreateNestedOneWithoutUserInput
+    Oauth2User?: Oauth2UserCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutShopsInput = {
+    id?: string
+    fullname: string
+    username: string
+    email: string
+    phone?: string | null
+    hashingPassword?: string | null
+    accountType?: $Enums.AccountType
+    avatarUrl?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    roles?: UserCreaterolesInput | $Enums.UserRole[]
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    visible?: $Enums.UserVisibility
+    isBanned?: boolean
+    isLocked?: boolean
+    isVerified?: boolean
+    lastActived?: Date | string | null
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    codes?: CodeUncheckedCreateNestedOneWithoutUserInput
+    Oauth2User?: Oauth2UserUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutShopsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
+  }
+
+  export type SpuCreateWithoutShopInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    shortDesc?: string | null
+    status?: $Enums.SpuStatus
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    category: CategoryCreateNestedOneWithoutSpusInput
+    brand: BrandCreateNestedOneWithoutSpusInput
+    skus?: SkuCreateNestedManyWithoutSpuInput
+    spuImages?: SpuImageCreateNestedManyWithoutSpuInput
+    spuAttributes?: SpuAttributeCreateNestedManyWithoutSpuInput
+    spuTags?: SpuTagCreateNestedManyWithoutSpuInput
+    spuVariations?: SpuVariationCreateNestedManyWithoutSpuInput
+  }
+
+  export type SpuUncheckedCreateWithoutShopInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    shortDesc?: string | null
+    status?: $Enums.SpuStatus
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    categoryId: string
+    brandId: string
+    skus?: SkuUncheckedCreateNestedManyWithoutSpuInput
+    spuImages?: SpuImageUncheckedCreateNestedManyWithoutSpuInput
+    spuAttributes?: SpuAttributeUncheckedCreateNestedManyWithoutSpuInput
+    spuTags?: SpuTagUncheckedCreateNestedManyWithoutSpuInput
+    spuVariations?: SpuVariationUncheckedCreateNestedManyWithoutSpuInput
+  }
+
+  export type SpuCreateOrConnectWithoutShopInput = {
+    where: SpuWhereUniqueInput
+    create: XOR<SpuCreateWithoutShopInput, SpuUncheckedCreateWithoutShopInput>
+  }
+
+  export type SpuCreateManyShopInputEnvelope = {
+    data: SpuCreateManyShopInput | SpuCreateManyShopInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutShopsInput = {
+    update: XOR<UserUpdateWithoutShopsInput, UserUncheckedUpdateWithoutShopsInput>
+    create: XOR<UserCreateWithoutShopsInput, UserUncheckedCreateWithoutShopsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutShopsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutShopsInput, UserUncheckedUpdateWithoutShopsInput>
+  }
+
+  export type UserUpdateWithoutShopsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullname?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    hashingPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    roles?: UserUpdaterolesInput | $Enums.UserRole[]
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    isLocked?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    codes?: CodeUpdateOneWithoutUserNestedInput
+    Oauth2User?: Oauth2UserUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutShopsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullname?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    hashingPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    roles?: UserUpdaterolesInput | $Enums.UserRole[]
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    isLocked?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    codes?: CodeUncheckedUpdateOneWithoutUserNestedInput
+    Oauth2User?: Oauth2UserUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type SpuUpsertWithWhereUniqueWithoutShopInput = {
+    where: SpuWhereUniqueInput
+    update: XOR<SpuUpdateWithoutShopInput, SpuUncheckedUpdateWithoutShopInput>
+    create: XOR<SpuCreateWithoutShopInput, SpuUncheckedCreateWithoutShopInput>
+  }
+
+  export type SpuUpdateWithWhereUniqueWithoutShopInput = {
+    where: SpuWhereUniqueInput
+    data: XOR<SpuUpdateWithoutShopInput, SpuUncheckedUpdateWithoutShopInput>
+  }
+
+  export type SpuUpdateManyWithWhereWithoutShopInput = {
+    where: SpuScalarWhereInput
+    data: XOR<SpuUpdateManyMutationInput, SpuUncheckedUpdateManyWithoutShopInput>
+  }
+
   export type SessionCreateWithoutUserInput = {
     id?: string
     hashingRefreshToken?: string | null
@@ -36173,72 +36173,6 @@ export namespace Prisma {
     shopId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type SpuCreateManyShopInput = {
-    id?: string
-    name: string
-    slug: string
-    description?: string | null
-    shortDesc?: string | null
-    status?: $Enums.SpuStatus
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    categoryId: string
-    brandId: string
-  }
-
-  export type SpuUpdateWithoutShopInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSpuStatusFieldUpdateOperationsInput | $Enums.SpuStatus
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    category?: CategoryUpdateOneRequiredWithoutSpusNestedInput
-    brand?: BrandUpdateOneRequiredWithoutSpusNestedInput
-    skus?: SkuUpdateManyWithoutSpuNestedInput
-    spuImages?: SpuImageUpdateManyWithoutSpuNestedInput
-    spuAttributes?: SpuAttributeUpdateManyWithoutSpuNestedInput
-    spuTags?: SpuTagUpdateManyWithoutSpuNestedInput
-    spuVariations?: SpuVariationUpdateManyWithoutSpuNestedInput
-  }
-
-  export type SpuUncheckedUpdateWithoutShopInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSpuStatusFieldUpdateOperationsInput | $Enums.SpuStatus
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categoryId?: StringFieldUpdateOperationsInput | string
-    brandId?: StringFieldUpdateOperationsInput | string
-    skus?: SkuUncheckedUpdateManyWithoutSpuNestedInput
-    spuImages?: SpuImageUncheckedUpdateManyWithoutSpuNestedInput
-    spuAttributes?: SpuAttributeUncheckedUpdateManyWithoutSpuNestedInput
-    spuTags?: SpuTagUncheckedUpdateManyWithoutSpuNestedInput
-    spuVariations?: SpuVariationUncheckedUpdateManyWithoutSpuNestedInput
-  }
-
-  export type SpuUncheckedUpdateManyWithoutShopInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSpuStatusFieldUpdateOperationsInput | $Enums.SpuStatus
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    categoryId?: StringFieldUpdateOperationsInput | string
-    brandId?: StringFieldUpdateOperationsInput | string
-  }
-
   export type SkuCreateManySpuInput = {
     id?: string
     skuCode: string
@@ -36805,6 +36739,72 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     spuId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SpuCreateManyShopInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    shortDesc?: string | null
+    status?: $Enums.SpuStatus
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    categoryId: string
+    brandId: string
+  }
+
+  export type SpuUpdateWithoutShopInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumSpuStatusFieldUpdateOperationsInput | $Enums.SpuStatus
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: CategoryUpdateOneRequiredWithoutSpusNestedInput
+    brand?: BrandUpdateOneRequiredWithoutSpusNestedInput
+    skus?: SkuUpdateManyWithoutSpuNestedInput
+    spuImages?: SpuImageUpdateManyWithoutSpuNestedInput
+    spuAttributes?: SpuAttributeUpdateManyWithoutSpuNestedInput
+    spuTags?: SpuTagUpdateManyWithoutSpuNestedInput
+    spuVariations?: SpuVariationUpdateManyWithoutSpuNestedInput
+  }
+
+  export type SpuUncheckedUpdateWithoutShopInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumSpuStatusFieldUpdateOperationsInput | $Enums.SpuStatus
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    brandId?: StringFieldUpdateOperationsInput | string
+    skus?: SkuUncheckedUpdateManyWithoutSpuNestedInput
+    spuImages?: SpuImageUncheckedUpdateManyWithoutSpuNestedInput
+    spuAttributes?: SpuAttributeUncheckedUpdateManyWithoutSpuNestedInput
+    spuTags?: SpuTagUncheckedUpdateManyWithoutSpuNestedInput
+    spuVariations?: SpuVariationUncheckedUpdateManyWithoutSpuNestedInput
+  }
+
+  export type SpuUncheckedUpdateManyWithoutShopInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumSpuStatusFieldUpdateOperationsInput | $Enums.SpuStatus
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    brandId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SessionCreateManyUserInput = {
