@@ -24,6 +24,7 @@ model User {
     sessions   Session[]    @relation("sessions")
     codes      Code?
     Oauth2User Oauth2User[] @relation("oauth2")
+    shops      Shop[]
 
     @@index([email])
     @@index([username])

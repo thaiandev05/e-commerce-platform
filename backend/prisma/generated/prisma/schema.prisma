@@ -44,6 +44,399 @@ enum AccountType {
   @@map("account_type")
 }
 
+// ============= CATEGORY MODELS =============
+model Category {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @db.VarChar(100)
+  slug        String   @unique @db.VarChar(100)
+  description String?  @db.Text
+  imageUrl    String?  @map("image_url") @db.VarChar(500)
+  isActive    Boolean  @default(true) @map("is_active")
+  sortOrder   Int      @default(0) @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // Self-referencing relation for nested categories
+  parentId String?    @map("parent_id") @db.Uuid
+  parent   Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children Category[] @relation("CategoryHierarchy")
+
+  // Relations
+  spus Spu[]
+
+  @@index([parentId])
+  @@index([slug])
+  @@index([isActive])
+  @@map("categories")
+}
+
+// ============= BRAND MODELS =============
+model Brand {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique @db.VarChar(100)
+  slug        String   @unique @db.VarChar(100)
+  description String?  @db.Text
+  logoUrl     String?  @map("logo_url") @db.VarChar(500)
+  websiteUrl  String?  @map("website_url") @db.VarChar(500)
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // Relations
+  spus Spu[]
+
+  @@index([slug])
+  @@index([isActive])
+  @@map("brands")
+}
+
+// ============= SHOP MODELS =============
+model Shop {
+  id           String     @id @default(uuid()) @db.Uuid
+  name         String     @db.VarChar(200)
+  slug         String     @unique @db.VarChar(200)
+  description  String?    @db.Text
+  logoUrl      String?    @map("logo_url") @db.VarChar(500)
+  bannerUrl    String?    @map("banner_url") @db.VarChar(500)
+  email        String?    @db.VarChar(255)
+  phone        String?    @db.VarChar(20)
+  address      String?    @db.Text
+  website      String?    @db.VarChar(500)
+  status       ShopStatus @default(PENDING)
+  isActive     Boolean    @default(true) @map("is_active")
+  isVerified   Boolean    @default(false) @map("is_verified")
+  rating       Decimal?   @db.Decimal(3, 2) // Average rating 0.00 to 5.00
+  totalReviews Int        @default(0) @map("total_reviews")
+  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt    DateTime   @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // Foreign Keys
+  ownerId String @map("owner_id") @db.Uuid
+
+  // Relations
+  owner User  @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  spus  Spu[]
+
+  @@index([slug])
+  @@index([ownerId])
+  @@index([status])
+  @@index([isActive])
+  @@index([isVerified])
+  @@map("shops")
+}
+
+// ============= SPU (Standard Product Unit) MODELS =============
+model Spu {
+  id          String    @id @default(uuid()) @db.Uuid
+  name        String    @db.VarChar(200)
+  slug        String    @unique @db.VarChar(200)
+  description String?   @db.Text
+  shortDesc   String?   @map("short_desc") @db.VarChar(500)
+  status      SpuStatus @default(DRAFT)
+  isActive    Boolean   @default(true) @map("is_active")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // Foreign Keys
+  categoryId String @map("category_id") @db.Uuid
+  brandId    String @map("brand_id") @db.Uuid
+  shopId     String @map("shop_id") @db.Uuid
+
+  // Relations
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  brand    Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  shop     Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
+
+  skus          Sku[]
+  spuImages     SpuImage[]
+  spuAttributes SpuAttribute[]
+  spuTags       SpuTag[]
+  spuVariations SpuVariation[]
+
+  @@index([slug])
+  @@index([categoryId])
+  @@index([brandId])
+  @@index([shopId])
+  @@index([status])
+  @@index([isActive])
+  @@map("spus")
+}
+
+// ============= SKU (Stock Keeping Unit) MODELS =============
+model Sku {
+  id            String    @id @default(uuid()) @db.Uuid
+  skuCode       String    @unique @map("sku_code") @db.VarChar(50)
+  name          String    @db.VarChar(200)
+  originalPrice Decimal   @map("original_price") @db.Decimal(12, 2)
+  salePrice     Decimal?  @map("sale_price") @db.Decimal(12, 2)
+  stock         Int       @default(0)
+  weight        Decimal?  @db.Decimal(8, 2) // in grams
+  length        Decimal?  @db.Decimal(8, 2) // in cm
+  width         Decimal?  @db.Decimal(8, 2) // in cm
+  height        Decimal?  @db.Decimal(8, 2) // in cm
+  status        SkuStatus @default(ACTIVE)
+  isActive      Boolean   @default(true) @map("is_active")
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt     DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // Foreign Keys
+  spuId String @map("spu_id") @db.Uuid
+
+  // Relations
+  spu                Spu                 @relation(fields: [spuId], references: [id], onDelete: Cascade)
+  skuImages          SkuImage[]
+  skuAttributes      SkuAttribute[]
+  skuVariationValues SkuVariationValue[]
+
+  @@index([skuCode])
+  @@index([spuId])
+  @@index([status])
+  @@index([isActive])
+  @@map("skus")
+}
+
+// ============= IMAGE MODELS =============
+model SpuImage {
+  id        String   @id @default(uuid()) @db.Uuid
+  imageUrl  String   @map("image_url") @db.VarChar(500)
+  altText   String?  @map("alt_text") @db.VarChar(200)
+  sortOrder Int      @default(0) @map("sort_order")
+  isMain    Boolean  @default(false) @map("is_main")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Foreign Keys
+  spuId String @map("spu_id") @db.Uuid
+
+  // Relations
+  spu Spu @relation(fields: [spuId], references: [id], onDelete: Cascade)
+
+  @@index([spuId])
+  @@index([isMain])
+  @@map("spu_images")
+}
+
+model SkuImage {
+  id        String   @id @default(uuid()) @db.Uuid
+  imageUrl  String   @map("image_url") @db.VarChar(500)
+  altText   String?  @map("alt_text") @db.VarChar(200)
+  sortOrder Int      @default(0) @map("sort_order")
+  isMain    Boolean  @default(false) @map("is_main")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Foreign Keys
+  skuId String @map("sku_id") @db.Uuid
+
+  // Relations
+  sku Sku @relation(fields: [skuId], references: [id], onDelete: Cascade)
+
+  @@index([skuId])
+  @@index([isMain])
+  @@map("sku_images")
+}
+
+// ============= ATTRIBUTE MODELS =============
+model Attribute {
+  id          String        @id @default(uuid()) @db.Uuid
+  name        String        @unique @db.VarChar(100)
+  displayName String        @map("display_name") @db.VarChar(100)
+  type        AttributeType @default(TEXT)
+  isRequired  Boolean       @default(false) @map("is_required")
+  isVariation Boolean       @default(false) @map("is_variation") // True if this attribute can be used for product variations
+  sortOrder   Int           @default(0) @map("sort_order")
+  isActive    Boolean       @default(true) @map("is_active")
+  createdAt   DateTime      @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt   DateTime      @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // Relations
+  spuAttributes   SpuAttribute[]
+  skuAttributes   SkuAttribute[]
+  attributeValues AttributeValue[]
+  spuVariations   SpuVariation[]
+
+  @@index([name])
+  @@index([isVariation])
+  @@index([isActive])
+  @@map("attributes")
+}
+
+model AttributeValue {
+  id          String   @id @default(uuid()) @db.Uuid
+  value       String   @db.VarChar(200)
+  displayName String?  @map("display_name") @db.VarChar(200)
+  colorCode   String?  @map("color_code") @db.VarChar(7) // For color attributes (hex code)
+  imageUrl    String?  @map("image_url") @db.VarChar(500) // For image-based attributes
+  sortOrder   Int      @default(0) @map("sort_order")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // Foreign Keys
+  attributeId String @map("attribute_id") @db.Uuid
+
+  // Relations
+  attribute          Attribute           @relation(fields: [attributeId], references: [id], onDelete: Cascade)
+  spuAttributes      SpuAttribute[]
+  skuAttributes      SkuAttribute[]
+  skuVariationValues SkuVariationValue[]
+
+  @@unique([attributeId, value])
+  @@index([attributeId])
+  @@index([isActive])
+  @@map("attribute_values")
+}
+
+model SpuAttribute {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Foreign Keys
+  spuId            String @map("spu_id") @db.Uuid
+  attributeId      String @map("attribute_id") @db.Uuid
+  attributeValueId String @map("attribute_value_id") @db.Uuid
+
+  // Relations
+  spu            Spu            @relation(fields: [spuId], references: [id], onDelete: Cascade)
+  attribute      Attribute      @relation(fields: [attributeId], references: [id], onDelete: Cascade)
+  attributeValue AttributeValue @relation(fields: [attributeValueId], references: [id], onDelete: Cascade)
+
+  @@unique([spuId, attributeId])
+  @@index([spuId])
+  @@index([attributeId])
+  @@map("spu_attributes")
+}
+
+model SkuAttribute {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Foreign Keys
+  skuId            String @map("sku_id") @db.Uuid
+  attributeId      String @map("attribute_id") @db.Uuid
+  attributeValueId String @map("attribute_value_id") @db.Uuid
+
+  // Relations
+  sku            Sku            @relation(fields: [skuId], references: [id], onDelete: Cascade)
+  attribute      Attribute      @relation(fields: [attributeId], references: [id], onDelete: Cascade)
+  attributeValue AttributeValue @relation(fields: [attributeValueId], references: [id], onDelete: Cascade)
+
+  @@unique([skuId, attributeId])
+  @@index([skuId])
+  @@index([attributeId])
+  @@map("sku_attributes")
+}
+
+// ============= VARIATION MODELS =============
+model SpuVariation {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @db.VarChar(100) // e.g., "Color", "Size"
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Foreign Keys
+  spuId       String @map("spu_id") @db.Uuid
+  attributeId String @map("attribute_id") @db.Uuid
+
+  // Relations
+  spu                Spu                 @relation(fields: [spuId], references: [id], onDelete: Cascade)
+  attribute          Attribute           @relation(fields: [attributeId], references: [id], onDelete: Cascade)
+  skuVariationValues SkuVariationValue[]
+
+  @@unique([spuId, attributeId])
+  @@index([spuId])
+  @@map("spu_variations")
+}
+
+model SkuVariationValue {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Foreign Keys
+  skuId            String @map("sku_id") @db.Uuid
+  spuVariationId   String @map("spu_variation_id") @db.Uuid
+  attributeValueId String @map("attribute_value_id") @db.Uuid
+
+  // Relations
+  sku            Sku            @relation(fields: [skuId], references: [id], onDelete: Cascade)
+  spuVariation   SpuVariation   @relation(fields: [spuVariationId], references: [id], onDelete: Cascade)
+  attributeValue AttributeValue @relation(fields: [attributeValueId], references: [id], onDelete: Cascade)
+
+  @@unique([skuId, spuVariationId])
+  @@index([skuId])
+  @@index([spuVariationId])
+  @@map("sku_variation_values")
+}
+
+// ============= TAG MODELS =============
+model Tag {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String   @unique @db.VarChar(50)
+  slug      String   @unique @db.VarChar(50)
+  color     String?  @db.VarChar(7) // hex color code
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // Relations
+  spuTags SpuTag[]
+
+  @@index([slug])
+  @@index([isActive])
+  @@map("tags")
+}
+
+model SpuTag {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  // Foreign Keys
+  spuId String @map("spu_id") @db.Uuid
+  tagId String @map("tag_id") @db.Uuid
+
+  // Relations
+  spu Spu @relation(fields: [spuId], references: [id], onDelete: Cascade)
+  tag Tag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([spuId, tagId])
+  @@index([spuId])
+  @@index([tagId])
+  @@map("spu_tags")
+}
+
+// ============= ENUMS =============
+enum SpuStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  PUBLISHED
+  ARCHIVED
+}
+
+enum SkuStatus {
+  ACTIVE
+  INACTIVE
+  OUT_OF_STOCK
+  DISCONTINUED
+}
+
+enum AttributeType {
+  TEXT
+  NUMBER
+  BOOLEAN
+  COLOR
+  IMAGE
+  SELECT
+  MULTI_SELECT
+}
+
+enum ShopStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+  CLOSED
+}
+
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -80,6 +473,7 @@ model User {
   sessions   Session[]    @relation("sessions")
   codes      Code?
   Oauth2User Oauth2User[] @relation("oauth2")
+  shops      Shop[]
 
   @@index([email])
   @@index([username])

@@ -140,6 +140,181 @@ exports.Prisma.CodeScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  imageUrl: 'imageUrl',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  parentId: 'parentId'
+};
+
+exports.Prisma.BrandScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  logoUrl: 'logoUrl',
+  websiteUrl: 'websiteUrl',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ShopScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  logoUrl: 'logoUrl',
+  bannerUrl: 'bannerUrl',
+  email: 'email',
+  phone: 'phone',
+  address: 'address',
+  website: 'website',
+  status: 'status',
+  isActive: 'isActive',
+  isVerified: 'isVerified',
+  rating: 'rating',
+  totalReviews: 'totalReviews',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  ownerId: 'ownerId'
+};
+
+exports.Prisma.SpuScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  shortDesc: 'shortDesc',
+  status: 'status',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  categoryId: 'categoryId',
+  brandId: 'brandId',
+  shopId: 'shopId'
+};
+
+exports.Prisma.SkuScalarFieldEnum = {
+  id: 'id',
+  skuCode: 'skuCode',
+  name: 'name',
+  originalPrice: 'originalPrice',
+  salePrice: 'salePrice',
+  stock: 'stock',
+  weight: 'weight',
+  length: 'length',
+  width: 'width',
+  height: 'height',
+  status: 'status',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  spuId: 'spuId'
+};
+
+exports.Prisma.SpuImageScalarFieldEnum = {
+  id: 'id',
+  imageUrl: 'imageUrl',
+  altText: 'altText',
+  sortOrder: 'sortOrder',
+  isMain: 'isMain',
+  createdAt: 'createdAt',
+  spuId: 'spuId'
+};
+
+exports.Prisma.SkuImageScalarFieldEnum = {
+  id: 'id',
+  imageUrl: 'imageUrl',
+  altText: 'altText',
+  sortOrder: 'sortOrder',
+  isMain: 'isMain',
+  createdAt: 'createdAt',
+  skuId: 'skuId'
+};
+
+exports.Prisma.AttributeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  displayName: 'displayName',
+  type: 'type',
+  isRequired: 'isRequired',
+  isVariation: 'isVariation',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AttributeValueScalarFieldEnum = {
+  id: 'id',
+  value: 'value',
+  displayName: 'displayName',
+  colorCode: 'colorCode',
+  imageUrl: 'imageUrl',
+  sortOrder: 'sortOrder',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  attributeId: 'attributeId'
+};
+
+exports.Prisma.SpuAttributeScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  spuId: 'spuId',
+  attributeId: 'attributeId',
+  attributeValueId: 'attributeValueId'
+};
+
+exports.Prisma.SkuAttributeScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  skuId: 'skuId',
+  attributeId: 'attributeId',
+  attributeValueId: 'attributeValueId'
+};
+
+exports.Prisma.SpuVariationScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  spuId: 'spuId',
+  attributeId: 'attributeId'
+};
+
+exports.Prisma.SkuVariationValueScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  skuId: 'skuId',
+  spuVariationId: 'spuVariationId',
+  attributeValueId: 'attributeValueId'
+};
+
+exports.Prisma.TagScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  color: 'color',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SpuTagScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  spuId: 'spuId',
+  tagId: 'tagId'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   fullname: 'fullname',
@@ -193,6 +368,40 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.ShopStatus = exports.$Enums.ShopStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  SUSPENDED: 'SUSPENDED',
+  CLOSED: 'CLOSED'
+};
+
+exports.SpuStatus = exports.$Enums.SpuStatus = {
+  DRAFT: 'DRAFT',
+  PENDING_REVIEW: 'PENDING_REVIEW',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  PUBLISHED: 'PUBLISHED',
+  ARCHIVED: 'ARCHIVED'
+};
+
+exports.SkuStatus = exports.$Enums.SkuStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  OUT_OF_STOCK: 'OUT_OF_STOCK',
+  DISCONTINUED: 'DISCONTINUED'
+};
+
+exports.AttributeType = exports.$Enums.AttributeType = {
+  TEXT: 'TEXT',
+  NUMBER: 'NUMBER',
+  BOOLEAN: 'BOOLEAN',
+  COLOR: 'COLOR',
+  IMAGE: 'IMAGE',
+  SELECT: 'SELECT',
+  MULTI_SELECT: 'MULTI_SELECT'
+};
+
 exports.AccountType = exports.$Enums.AccountType = {
   EMAIL: 'EMAIL',
   OAUTH2: 'OAUTH2'
@@ -230,6 +439,21 @@ exports.Provider = exports.$Enums.Provider = {
 exports.Prisma.ModelName = {
   Session: 'Session',
   Code: 'Code',
+  Category: 'Category',
+  Brand: 'Brand',
+  Shop: 'Shop',
+  Spu: 'Spu',
+  Sku: 'Sku',
+  SpuImage: 'SpuImage',
+  SkuImage: 'SkuImage',
+  Attribute: 'Attribute',
+  AttributeValue: 'AttributeValue',
+  SpuAttribute: 'SpuAttribute',
+  SkuAttribute: 'SkuAttribute',
+  SpuVariation: 'SpuVariation',
+  SkuVariationValue: 'SkuVariationValue',
+  Tag: 'Tag',
+  SpuTag: 'SpuTag',
   User: 'User',
   Oauth2User: 'Oauth2User'
 };
