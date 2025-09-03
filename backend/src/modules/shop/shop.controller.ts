@@ -19,8 +19,8 @@ export class ShopController {
 	// verify shop
 	@Public()
 	@Get('verify-shop-link')
-	async verifyLink(@Res() res: express.Response, @Query('shopId') shopId: string) {
-		return this.shopService.verifyShopLink(shopId, res)
+	async verifyLink(@Res() res: express.Response, @Query('email') email: string, @Query('shopId') shopId: string) {
+		return this.shopService.verifyShopLink(shopId, email, res)
 	}
 
 	@Patch('verify-shop')
