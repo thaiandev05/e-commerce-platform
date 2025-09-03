@@ -1,5 +1,5 @@
 import { PrismaService } from '@/prisma/prisma.service';
-import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { hash, verify } from 'argon2'
 import { RegisterDto } from '../dto/register.dto';
 import { randomInt, randomUUID } from 'crypto';
@@ -11,6 +11,7 @@ import { TokenService } from './token.service';
 import { User, Provider } from '@prisma/generated/prisma';
 import { AUTH_CONSTANT } from '../auth.constant';
 import { GoogleOAuth2User, FacebookOAuth2User } from '../user.interface';
+import { ChangePasswordDto } from '../dto/change-password.dto';
 
 
 @Injectable()
@@ -43,12 +44,12 @@ export class AuthService {
 	}
 
 	// detect other device
-	async detectDevice(userEmail: string, userAgent: string, userIp: string) {
+	async detectDevice(userEmail: string, userAgent: string, userIp: string, sessionId: string) {
 		const otherDevice = await this.prismaService.session.findUnique({
-			where: { userAgent }
+			where: { id: sessionId }
 		})
 
-		if (otherDevice) {
+		if (otherDevice?.userAgent !== userAgent) {
 			// send message in queue detect other device
 			await this.emailProducer.sendDetectOtherDevice({ to: userEmail, userAgent, userIp })
 		}
@@ -195,7 +196,8 @@ export class AuthService {
 		const hashingRefreshToken = await this.hasing(tokens.refreshToken)
 
 		// store session
-		const session = await this.tokenService.storeSession(userAgent, userIp, hashingRefreshToken, user)
+		const sid = res.req.cookies.session_id
+		const session = await this.tokenService.storeSession(userAgent, userIp, hashingRefreshToken, user, sid)
 
 		// config sesison
 		res
@@ -339,7 +341,8 @@ export class AuthService {
 		const hardware = this.getClientInfo(res.req as Request);
 
 		// Detect other device login
-		await this.detectDevice(validatedUser.email, hardware.userAgent, hardware.ip);
+		const sid = res.req.cookies.session_id
+		await this.detectDevice(validatedUser.email, hardware.userAgent, hardware.ip, sid);
 
 		// Create session
 		const { session, tokens } = await this.createSession(
@@ -365,4 +368,78 @@ export class AuthService {
 		};
 	}
 
+	// logout 
+	public async logout(res: Response, sessionId?: string) {
+		// get sessionId in the req
+		const sid = res.req.cookies?.session_id || sessionId
+
+		if (!sid) throw new ConflictException("Session id not require")
+
+		try {
+			// clear refreshtoken
+			await this.prismaService.session.update({
+				where: { id: sid },
+				data: { hashingRefreshToken: null }
+			})
+		} catch (error) {
+			throw new BadRequestException(error)
+		}
+
+		// clear accesstoken and refreshtoken
+		res.clearCookie('access_token', { path: '/' })
+			.clearCookie('refresh_token', { path: '/' })
+			.clearCookie('session_id', { path: '/' })
+
+		return {
+			message: "Done",
+			data: null
+		}
+	}
+
+	// changepassword
+	public async changePassword(req: Request, dto: ChangePasswordDto) {
+		// validate accesstoken
+		const userId = req.user?.id
+		if (!userId) throw new BadRequestException("Accesstoken not found")
+
+		// find available account
+		const exitstingAccount = await this.prismaService.user.findUnique({
+			where: { id: userId },
+			omit: { hashingPassword: false }
+		})
+
+		if (!exitstingAccount) throw new NotFoundException("Account not found")
+
+		// usehardware
+		const hardware = this.getClientInfo(req)
+
+		// verify password
+		if (exitstingAccount.hashingPassword) {
+			const isMatched = verify(exitstingAccount.hashingPassword, dto.oldPassword)
+
+			if (!isMatched) {
+				throw new ForbiddenException("Password not matched")
+			}
+
+			// change password
+			const newHasingPassword = await hash(dto.newPassword)
+			await this.prismaService.user.update({
+				where: { id: exitstingAccount.id },
+				data: { hashingPassword: newHasingPassword }
+			})
+
+			// send email notification
+			await this.emailProducer.sendChangePasswordNotificaiton({
+				to: exitstingAccount.email,
+				userName: exitstingAccount.username,
+				userIp: hardware.ip,
+				userAgent: hardware.userAgent
+			})
+			return {
+				success: true
+			}
+		} else {
+			throw new BadRequestException("It not accept with oauth2 account")
+		}
+	}
 }

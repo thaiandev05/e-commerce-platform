@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { EmailModule } from './email/email.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { APP_GUARD, Reflector } from '@nestjs/core';
+import { CookieGuard } from './modules/auth/guard/cookie.guard';
 
 @Module({
   imports: [
@@ -24,6 +26,13 @@ import { AuthModule } from './modules/auth/auth.module';
     EmailModule, AuthModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      inject: [Reflector],
+      useFactory: (reflector: Reflector) => new CookieGuard(reflector)
+    }
+  ],
 })
 export class AppModule { }

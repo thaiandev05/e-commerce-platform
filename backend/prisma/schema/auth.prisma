@@ -1,7 +1,7 @@
 model Session {
     id                  String   @id @default(uuid()) @db.Uuid
     hashingRefreshToken String?  @map("hasing_refreshtoken") @db.VarChar(255)
-    userAgent           String   @db.VarChar(1000) @unique
+    userAgent           String   @db.VarChar(1000) 
     userIp              String?  @db.VarChar(100)
     createdAt           DateTime @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt           DateTime @updatedAt @map("updated_at")

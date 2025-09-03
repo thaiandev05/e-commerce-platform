@@ -6159,11 +6159,11 @@ export namespace Prisma {
 
   export type SessionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    userAgent?: string
     AND?: SessionWhereInput | SessionWhereInput[]
     OR?: SessionWhereInput[]
     NOT?: SessionWhereInput | SessionWhereInput[]
     hashingRefreshToken?: StringNullableFilter<"Session"> | string | null
+    userAgent?: StringFilter<"Session"> | string
     userIp?: StringNullableFilter<"Session"> | string | null
     createdAt?: DateTimeFilter<"Session"> | Date | string
     updatedAt?: DateTimeFilter<"Session"> | Date | string
@@ -6171,7 +6171,7 @@ export namespace Prisma {
     logoutedAt?: DateTimeNullableFilter<"Session"> | Date | string | null
     userId?: UuidFilter<"Session"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "userAgent">
+  }, "id">
 
   export type SessionOrderByWithAggregationInput = {
     id?: SortOrder

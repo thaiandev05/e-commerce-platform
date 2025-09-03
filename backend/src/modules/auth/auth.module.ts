@@ -5,9 +5,10 @@ import { AuthService } from './services/auth.service';
 import { TokenService } from './services/token.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { GoogleStrategy } from './strategys/google.strategy';
-import { FacebookStrategy } from './strategys/facebook.strategy';
-import { JwtStrategy } from './strategys/jwt.strategy';
+import { GoogleStrategy } from './strategy/google.strategy';
+import { FacebookStrategy } from './strategy/facebook.strategy';
+import { JwtStrategy } from './strategy/jwt.strategy';
+import { CookieStrategy } from './strategy/cookie.strategy';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { JwtStrategy } from './strategys/jwt.strategy';
       })
     })
   ],
-  providers: [AuthService, TokenService, GoogleStrategy, FacebookStrategy, JwtStrategy],
+  providers: [AuthService, TokenService, GoogleStrategy, FacebookStrategy, JwtStrategy, CookieStrategy],
   controllers: [AuthController],
   exports: [AuthService]
 })
