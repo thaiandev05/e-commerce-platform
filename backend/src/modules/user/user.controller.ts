@@ -5,6 +5,7 @@ import { changeDetailUserDto } from "./dto/change-detail.dto";
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery, ApiBody } from '@nestjs/swagger';
 import { ChangeAvataUrlDto } from "./dto/change-avataUrl.dto";
 import { IsAuthorAccount } from "./guard/IsAuthorAccount.guard";
+import { AddCreditCardDto } from "./dto/add-credit-card.dto";
 
 @ApiTags('user')
 @ApiBearerAuth()
@@ -23,7 +24,7 @@ export class UserConctroller {
 	@ApiResponse({ status: 400, description: 'Bad Request.' })
 	@ApiResponse({ status: 401, description: 'Unauthorized.' })
 	async changeDetail(@Req() req: express.Request, @Query('accountId') accountId: string, @Body() dto: changeDetailUserDto) {
-		return await this.userService.changeDetailUser(req, accountId, dto)
+		return this.userService.changeDetailUser(req, accountId, dto)
 	}
 
 	@Patch('change-avataUrl')
@@ -35,6 +36,18 @@ export class UserConctroller {
 	@ApiResponse({ status: 400, description: 'Bad Request.' })
 	@ApiResponse({ status: 401, description: 'Unauthorized.' })
 	async changeAvataUrl(@Req() req: express.Request, @Query('accountId') accountId: string, @Body() dto: ChangeAvataUrlDto) {
-		return await this.userService.changeAvataUrl(req, accountId, dto)
+		return this.userService.changeAvataUrl(req, accountId, dto)
+	}
+
+	@Patch('add-credit-card')
+	@UseGuards(IsAuthorAccount)
+	@ApiOperation({ summary: 'Add a credit card to user account' })
+	@ApiQuery({ name: 'accountId', required: false, description: 'Account id (optional)' })
+	@ApiBody({ type: AddCreditCardDto })
+	@ApiResponse({ status: 200, description: 'Credit card added.' })
+	@ApiResponse({ status: 400, description: 'Bad Request.' })
+	@ApiResponse({ status: 401, description: 'Unauthorized.' })
+	async addCreditCard(@Req() req: express.Request, @Query('accountId') accountId: string, @Body() dto: AddCreditCardDto) {
+		return this.userService.addCreditCard(req, accountId, dto)
 	}
 }
