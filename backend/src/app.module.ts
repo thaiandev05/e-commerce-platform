@@ -9,7 +9,9 @@ import { AuthModule } from './modules/auth/auth.module';
 import { APP_GUARD, Reflector } from '@nestjs/core';
 import { CookieGuard } from './modules/auth/guard/cookie.guard';
 import { ShopModule } from './modules/shop/shop.module';
-
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { join } from 'path';
 @Module({
   imports: [
     PrismaModule,
@@ -23,6 +25,14 @@ import { ShopModule } from './modules/shop/shop.module';
           limit: 10
         }
       ]
+    }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      graphiql: process.env.NODE_ENV !== 'production',
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      sortSchema: true,
+      installSubscriptionHandlers: true,// ho tro realtime socket
+      context: ({ req }) => ({ req })
     }),
     EmailModule, AuthModule, ShopModule
   ],

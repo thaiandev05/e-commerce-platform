@@ -26,7 +26,7 @@ export class AuthController {
 		return this.authService.register(dto)
 	}
 	@Public()
-	@Post('vefify-account-with-code')
+	@Post('verify-account-with-code')
 	@ApiOperation({ summary: 'Verify account with code' })
 	@ApiResponse({ status: 200, description: 'Account verified' })
 	@ApiBadRequestResponse({ description: 'Invalid code or request' })
