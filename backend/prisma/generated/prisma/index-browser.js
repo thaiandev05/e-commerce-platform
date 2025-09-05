@@ -354,6 +354,19 @@ exports.Prisma.Oauth2UserScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.CreditCardScalarFieldEnum = {
+  id: 'id',
+  creditNumber: 'creditNumber',
+  expiredDate: 'expiredDate',
+  ccvSecure: 'ccvSecure',
+  name: 'name',
+  address: 'address',
+  postalCode: 'postalCode',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -455,7 +468,8 @@ exports.Prisma.ModelName = {
   SpuTag: 'SpuTag',
   Shop: 'Shop',
   User: 'User',
-  Oauth2User: 'Oauth2User'
+  Oauth2User: 'Oauth2User',
+  CreditCard: 'CreditCard'
 };
 
 /**
