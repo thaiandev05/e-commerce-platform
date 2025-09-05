@@ -12,6 +12,7 @@ import { ShopModule } from './modules/shop/shop.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
+import { UserModule } from './modules/user/user.module';
 @Module({
   imports: [
     PrismaModule,
@@ -34,7 +35,7 @@ import { join } from 'path';
       installSubscriptionHandlers: true,// ho tro realtime socket
       context: ({ req }) => ({ req })
     }),
-    EmailModule, AuthModule, ShopModule
+    EmailModule, AuthModule, ShopModule, UserModule
   ],
   controllers: [AppController],
   providers: [
