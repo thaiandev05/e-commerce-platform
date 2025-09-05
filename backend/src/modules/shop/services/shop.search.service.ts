@@ -1,6 +1,7 @@
 import { PrismaService } from "@/prisma/prisma.service";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { GetShopDetailWithSpusDto } from "../dto/get-shop-detail-with-spus.dto";
+import { FindShopByNameDto } from "../dto/find-shop.dto";
 
 @Injectable()
 export class SearchServiceShop {
@@ -9,7 +10,6 @@ export class SearchServiceShop {
 	) { }
 
 	async getDetailerShop(shopId: string, dto: GetShopDetailWithSpusDto) {
-
 		// Build shop include options
 		const shopInclude: any = {};
 
@@ -211,6 +211,97 @@ export class SearchServiceShop {
 						page: dto.page || 1,
 						limit: dto.take,
 						total: totalSpus!,
+						totalPages: totalPages!,
+						hasNext: hasNextPage,
+						hasPrev: (dto.page || 1) > 1
+					}
+			}
+		};
+	}
+
+	async findShopHaveNameLike(shopName: string, dto: FindShopByNameDto) {
+		// Build shop include options
+		const shopInclude: any = {};
+
+		if (dto.includeTotalSpuCount) {
+			shopInclude._count = {
+				select: {
+					spus: true
+				}
+			};
+		}
+
+		// Build query options
+		const queryOptions: any = {
+			where: {
+				name: {
+					contains: shopName,
+					mode: "insensitive"
+				},
+				isActive: true // Only show active shops
+			},
+			include: shopInclude,
+			take: dto.take + 1, // Take one extra to check if there's a next page
+			orderBy: { [dto.sortBy || 'createdAt']: dto.sortOrder || 'desc' }
+		};
+
+		// Use cursor-based pagination if cursor is provided
+		if (dto.useCursor && dto.cursor) {
+			queryOptions.cursor = { id: dto.cursor };
+			queryOptions.skip = 1; // Skip the cursor item itself
+		} else if (dto.page) {
+			// Fallback to offset pagination
+			queryOptions.skip = dto.skip;
+			queryOptions.take = dto.take;
+		}
+
+		// Find many shops
+		const shops = await this.prismaService.shop.findMany(queryOptions);
+
+		// Check if there are more items
+		const hasNextPage = shops.length > dto.take;
+		if (hasNextPage) {
+			shops.pop(); // Remove the extra item
+		}
+
+		// Get next cursor
+		const nextCursor = hasNextPage && shops.length > 0 ? shops[shops.length - 1].id : null;
+
+		// For cursor pagination, we don't need total count (expensive operation)
+		// Only calculate if explicitly using offset pagination
+		let totalShops: number | undefined;
+		let totalPages: number | undefined;
+
+		if (dto.page && !dto.useCursor) {
+			totalShops = await this.prismaService.shop.count({
+				where: {
+					name: {
+						contains: shopName,
+						mode: 'insensitive'
+					},
+					isActive: true
+				}
+			});
+			totalPages = Math.ceil(totalShops / dto.take);
+		}
+
+		return {
+			success: true,
+			data: {
+				shops,
+				pagination: dto.useCursor
+					? {
+						// Cursor-based pagination response
+						limit: dto.take,
+						hasNext: hasNextPage,
+						nextCursor,
+						cursor: dto.cursor
+					}
+					: {
+						// Offset-based pagination response
+						page: dto.page || 1,
+						limit: dto.take,
+						total: totalShops!,
 						totalPages: totalPages!,
 						hasNext: hasNextPage,
 						hasPrev: (dto.page || 1) > 1
