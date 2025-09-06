@@ -393,4 +393,6 @@ export class AuthService extends OtherService {
 			throw new BadRequestException("It not accept with oauth2 account")
 		}
 	}
+
+	
 }
