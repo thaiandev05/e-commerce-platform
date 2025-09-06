@@ -13,6 +13,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { UserModule } from './modules/user/user.module';
+import { FileModule } from './modules/file/file.module';
+import { MulterModule } from '@nestjs/platform-express';
 @Module({
   imports: [
     PrismaModule,
@@ -35,7 +37,7 @@ import { UserModule } from './modules/user/user.module';
       installSubscriptionHandlers: true,// ho tro realtime socket
       context: ({ req }) => ({ req })
     }),
-    EmailModule, AuthModule, ShopModule, UserModule
+    EmailModule, AuthModule, ShopModule, UserModule, FileModule
   ],
   controllers: [AppController],
   providers: [
