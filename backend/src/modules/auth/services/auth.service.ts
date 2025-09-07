@@ -155,6 +155,13 @@ export class AuthService extends OtherService {
 		// create session
 		const { session, tokens } = await this.createSession(hardWare.userAgent, hardWare.ip, existingAccount, res)
 
+		if (existingAccount.status === "SOFTDELETE") {
+			await this.prismaService.user.update({
+				where: { id: existingAccount.id },
+				data: { status: "ACTIVE" }
+			})
+		}
+
 		const { hashingPassword, ...userWithoutPassword } = existingAccount
 
 		return {
