@@ -13,6 +13,7 @@ import { VerifyAccountWithCodeDto } from '../dto/verify-account-with-code.dto';
 import { FacebookOAuth2User, GoogleOAuth2User } from '../user.interface';
 import { TokenService } from './token.service';
 import { OtherService } from './auth.other.service';
+import { softDeleteAccountDto } from '../dto/soft-delete-account.dto';
 
 @Injectable()
 export class AuthService extends OtherService {
@@ -394,5 +395,32 @@ export class AuthService extends OtherService {
 		}
 	}
 
-	
+	async softDeleteAccount(req: Request, dto: softDeleteAccountDto) {
+		// check available account
+		const exitsingAccount = await this.prismaService.user.findUnique({
+			where: { id: req.user?.id },
+			omit: { hashingPassword: false }
+		})
+
+		if (!exitsingAccount) throw new NotFoundException("Account not found")
+
+		// checking match password
+		const isMatched = verify(exitsingAccount.hashingPassword || '', dto.password)
+
+		if (!isMatched) throw new BadRequestException("Password is not corrected")
+
+		// update new status account
+		const newAccount = await this.prismaService.user.update({
+			where: { id: exitsingAccount.id },
+			data: {
+				status: 'SOFTDELETE',
+				updatedAt: new Date()
+			}
+		})
+
+		return {
+			success: true,
+			data: newAccount
+		}
+	}
 }

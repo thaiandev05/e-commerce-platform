@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Patch, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiOperation, ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import express from 'express';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
@@ -9,6 +9,7 @@ import { AuthService } from './services/auth.service';
 import { Cookies } from './decorator/cookie.decorator';
 import { Public } from '@/common/decorator/public.decorator';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { softDeleteAccountDto } from './dto/soft-delete-account.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -95,5 +96,15 @@ export class AuthController {
 	@ApiBody({ type: ChangePasswordDto })
 	async changePassword(@Req() req: express.Request, @Body() dto: ChangePasswordDto) {
 		return this.authService.changePassword(req, dto)
+	}
+
+	@Patch('soft-delete-account')
+	@ApiBearerAuth()
+	@ApiOperation({ summary: 'Soft delete authenticated user account' })
+	@ApiResponse({ status: 200, description: 'Account soft deleted.' })
+	@ApiBadRequestResponse({ description: 'Invalid input or request' })
+	@ApiBody({ type: softDeleteAccountDto })
+	async softDeleteAccount(@Req() req: express.Request, @Body() dto: softDeleteAccountDto) {
+		return this.authService.softDeleteAccount(req, dto)
 	}
 }
