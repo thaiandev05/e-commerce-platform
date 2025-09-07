@@ -15,6 +15,8 @@ import { join } from 'path';
 import { UserModule } from './modules/user/user.module';
 import { FileModule } from './modules/file/file.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TaskModule } from './task/task.module';
 @Module({
   imports: [
     PrismaModule,
@@ -37,7 +39,8 @@ import { MulterModule } from '@nestjs/platform-express';
       installSubscriptionHandlers: true,// ho tro realtime socket
       context: ({ req }) => ({ req })
     }),
-    EmailModule, AuthModule, ShopModule, UserModule, FileModule
+    ScheduleModule.forRoot(),
+    EmailModule, AuthModule, ShopModule, UserModule, FileModule, TaskModule
   ],
   controllers: [AppController],
   providers: [

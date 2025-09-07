@@ -220,6 +220,15 @@ export const Provider: {
 
 export type Provider = (typeof Provider)[keyof typeof Provider]
 
+
+export const Status: {
+  ACTIVE: 'ACTIVE',
+  SOFTDELETE: 'SOFTDELETE',
+  PENDING: 'PENDING'
+};
+
+export type Status = (typeof Status)[keyof typeof Status]
+
 }
 
 export type TYPECODE = $Enums.TYPECODE
@@ -261,6 +270,10 @@ export const UserVisibility: typeof $Enums.UserVisibility
 export type Provider = $Enums.Provider
 
 export const Provider: typeof $Enums.Provider
+
+export type Status = $Enums.Status
+
+export const Status: typeof $Enums.Status
 
 /**
  * ##  Prisma Client ʲˢ
@@ -22906,6 +22919,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     visible: $Enums.UserVisibility | null
+    status: $Enums.Status | null
     isBanned: boolean | null
     isLocked: boolean | null
     isVerified: boolean | null
@@ -22927,6 +22941,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     visible: $Enums.UserVisibility | null
+    status: $Enums.Status | null
     isBanned: boolean | null
     isLocked: boolean | null
     isVerified: boolean | null
@@ -22950,6 +22965,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     visible: number
+    status: number
     isBanned: number
     isLocked: number
     isVerified: number
@@ -22973,6 +22989,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     visible?: true
+    status?: true
     isBanned?: true
     isLocked?: true
     isVerified?: true
@@ -22994,6 +23011,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     visible?: true
+    status?: true
     isBanned?: true
     isLocked?: true
     isVerified?: true
@@ -23017,6 +23035,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     visible?: true
+    status?: true
     isBanned?: true
     isLocked?: true
     isVerified?: true
@@ -23113,6 +23132,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     visible: $Enums.UserVisibility
+    status: $Enums.Status
     isBanned: boolean
     isLocked: boolean
     isVerified: boolean
@@ -23153,6 +23173,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     visible?: boolean
+    status?: boolean
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -23182,6 +23203,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     visible?: boolean
+    status?: boolean
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -23205,6 +23227,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     visible?: boolean
+    status?: boolean
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -23228,13 +23251,14 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     visible?: boolean
+    status?: boolean
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullname" | "username" | "email" | "phone" | "hashingPassword" | "accountType" | "avatarUrl" | "address" | "city" | "state" | "roles" | "flags" | "createdAt" | "updatedAt" | "visible" | "isBanned" | "isLocked" | "isVerified" | "lastActived", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullname" | "username" | "email" | "phone" | "hashingPassword" | "accountType" | "avatarUrl" | "address" | "city" | "state" | "roles" | "flags" | "createdAt" | "updatedAt" | "visible" | "status" | "isBanned" | "isLocked" | "isVerified" | "lastActived", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     codes?: boolean | User$codesArgs<ExtArgs>
@@ -23272,6 +23296,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       visible: $Enums.UserVisibility
+      status: $Enums.Status
       isBanned: boolean
       isLocked: boolean
       isVerified: boolean
@@ -23720,6 +23745,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly visible: FieldRef<"User", 'UserVisibility'>
+    readonly status: FieldRef<"User", 'Status'>
     readonly isBanned: FieldRef<"User", 'Boolean'>
     readonly isLocked: FieldRef<"User", 'Boolean'>
     readonly isVerified: FieldRef<"User", 'Boolean'>
@@ -26807,6 +26833,7 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     visible: 'visible',
+    status: 'status',
     isBanned: 'isBanned',
     isLocked: 'isLocked',
     isVerified: 'isVerified',
@@ -27052,6 +27079,20 @@ export namespace Prisma {
    * Reference to a field of type 'UserVisibility[]'
    */
   export type ListEnumUserVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserVisibility[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Status'
+   */
+  export type EnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status'>
+    
+
+
+  /**
+   * Reference to a field of type 'Status[]'
+   */
+  export type ListEnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status[]'>
     
 
 
@@ -28442,6 +28483,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     visible?: EnumUserVisibilityFilter<"User"> | $Enums.UserVisibility
+    status?: EnumStatusFilter<"User"> | $Enums.Status
     isBanned?: BoolFilter<"User"> | boolean
     isLocked?: BoolFilter<"User"> | boolean
     isVerified?: BoolFilter<"User"> | boolean
@@ -28470,6 +28512,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     visible?: SortOrder
+    status?: SortOrder
     isBanned?: SortOrder
     isLocked?: SortOrder
     isVerified?: SortOrder
@@ -28501,6 +28544,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     visible?: EnumUserVisibilityFilter<"User"> | $Enums.UserVisibility
+    status?: EnumStatusFilter<"User"> | $Enums.Status
     isBanned?: BoolFilter<"User"> | boolean
     isLocked?: BoolFilter<"User"> | boolean
     isVerified?: BoolFilter<"User"> | boolean
@@ -28529,6 +28573,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     visible?: SortOrder
+    status?: SortOrder
     isBanned?: SortOrder
     isLocked?: SortOrder
     isVerified?: SortOrder
@@ -28558,6 +28603,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     visible?: EnumUserVisibilityWithAggregatesFilter<"User"> | $Enums.UserVisibility
+    status?: EnumStatusWithAggregatesFilter<"User"> | $Enums.Status
     isBanned?: BoolWithAggregatesFilter<"User"> | boolean
     isLocked?: BoolWithAggregatesFilter<"User"> | boolean
     isVerified?: BoolWithAggregatesFilter<"User"> | boolean
@@ -30181,6 +30227,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
+    status?: $Enums.Status
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -30209,6 +30256,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
+    status?: $Enums.Status
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -30237,6 +30285,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -30265,6 +30314,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -30293,6 +30343,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
+    status?: $Enums.Status
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -30316,6 +30367,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -30339,6 +30391,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -31771,6 +31824,13 @@ export namespace Prisma {
     not?: NestedEnumUserVisibilityFilter<$PrismaModel> | $Enums.UserVisibility
   }
 
+  export type EnumStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
+  }
+
   export type SessionListRelationFilter = {
     every?: SessionWhereInput
     some?: SessionWhereInput
@@ -31833,6 +31893,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     visible?: SortOrder
+    status?: SortOrder
     isBanned?: SortOrder
     isLocked?: SortOrder
     isVerified?: SortOrder
@@ -31854,6 +31915,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     visible?: SortOrder
+    status?: SortOrder
     isBanned?: SortOrder
     isLocked?: SortOrder
     isVerified?: SortOrder
@@ -31875,6 +31937,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     visible?: SortOrder
+    status?: SortOrder
     isBanned?: SortOrder
     isLocked?: SortOrder
     isVerified?: SortOrder
@@ -31899,6 +31962,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumUserVisibilityFilter<$PrismaModel>
     _max?: NestedEnumUserVisibilityFilter<$PrismaModel>
+  }
+
+  export type EnumStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusFilter<$PrismaModel>
+    _max?: NestedEnumStatusFilter<$PrismaModel>
   }
 
   export type EnumProviderFilter<$PrismaModel = never> = {
@@ -33379,6 +33452,10 @@ export namespace Prisma {
     set?: $Enums.UserVisibility
   }
 
+  export type EnumStatusFieldUpdateOperationsInput = {
+    set?: $Enums.Status
+  }
+
   export type SessionUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -33903,6 +33980,13 @@ export namespace Prisma {
     not?: NestedEnumUserVisibilityFilter<$PrismaModel> | $Enums.UserVisibility
   }
 
+  export type NestedEnumStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
+  }
+
   export type NestedEnumAccountTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.AccountType | EnumAccountTypeFieldRefInput<$PrismaModel>
     in?: $Enums.AccountType[] | ListEnumAccountTypeFieldRefInput<$PrismaModel>
@@ -33921,6 +34005,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumUserVisibilityFilter<$PrismaModel>
     _max?: NestedEnumUserVisibilityFilter<$PrismaModel>
+  }
+
+  export type NestedEnumStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusFilter<$PrismaModel>
+    _max?: NestedEnumStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumProviderFilter<$PrismaModel = never> = {
@@ -33957,6 +34051,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
+    status?: $Enums.Status
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -33984,6 +34079,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
+    status?: $Enums.Status
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -34027,6 +34123,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -34054,6 +34151,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -34081,6 +34179,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
+    status?: $Enums.Status
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -34108,6 +34207,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
+    status?: $Enums.Status
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -34151,6 +34251,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -34178,6 +34279,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -36985,6 +37087,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
+    status?: $Enums.Status
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -37012,6 +37115,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
+    status?: $Enums.Status
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -37103,6 +37207,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -37130,6 +37235,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -37513,6 +37619,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
+    status?: $Enums.Status
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -37540,6 +37647,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
+    status?: $Enums.Status
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -37583,6 +37691,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -37610,6 +37719,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -37637,6 +37747,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
+    status?: $Enums.Status
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -37664,6 +37775,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
+    status?: $Enums.Status
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
@@ -37707,6 +37819,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
@@ -37734,6 +37847,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean

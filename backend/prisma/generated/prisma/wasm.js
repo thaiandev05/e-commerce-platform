@@ -332,6 +332,7 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   visible: 'visible',
+  status: 'status',
   isBanned: 'isBanned',
   isLocked: 'isLocked',
   isVerified: 'isVerified',
@@ -424,6 +425,12 @@ exports.UserVisibility = exports.$Enums.UserVisibility = {
   PUBLIC: 'PUBLIC',
   PRIVATE: 'PRIVATE',
   CONTACT_ONLY: 'CONTACT_ONLY'
+};
+
+exports.Status = exports.$Enums.Status = {
+  ACTIVE: 'ACTIVE',
+  SOFTDELETE: 'SOFTDELETE',
+  PENDING: 'PENDING'
 };
 
 exports.UserRole = exports.$Enums.UserRole = {

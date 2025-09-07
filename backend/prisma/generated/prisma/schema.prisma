@@ -465,6 +465,7 @@ model User {
   createdAt       DateTime       @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt       DateTime       @updatedAt @map("updated_at") @db.Timestamptz()
   visible         UserVisibility @default(PUBLIC)
+  status          Status         @default(ACTIVE)
   isBanned        Boolean        @default(false) @map("is_banned")
   isLocked        Boolean        @default(false) @map("is_locked")
   isVerified      Boolean        @default(false) @map("is_verified")
@@ -553,4 +554,10 @@ enum UserVisibility {
 enum Provider {
   FACEBOOK
   GOOGLE
+}
+
+enum Status {
+  ACTIVE
+  SOFTDELETE
+  PENDING
 }
