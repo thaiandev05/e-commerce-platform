@@ -12,6 +12,7 @@ model User {
     state           String?        @db.VarChar(50)
     roles           UserRole[]
     flags           UserFlag[]
+    searchCount     Int            @default(0) @map("search_times")
     createdAt       DateTime       @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt       DateTime       @updatedAt @map("updated_at") @db.Timestamptz()
     visible         UserVisibility @default(PUBLIC)

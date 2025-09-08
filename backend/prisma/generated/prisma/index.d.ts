@@ -22900,8 +22900,18 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    searchCount: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    searchCount: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -22916,6 +22926,7 @@ export namespace Prisma {
     address: string | null
     city: string | null
     state: string | null
+    searchCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
     visible: $Enums.UserVisibility | null
@@ -22938,6 +22949,7 @@ export namespace Prisma {
     address: string | null
     city: string | null
     state: string | null
+    searchCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
     visible: $Enums.UserVisibility | null
@@ -22962,6 +22974,7 @@ export namespace Prisma {
     state: number
     roles: number
     flags: number
+    searchCount: number
     createdAt: number
     updatedAt: number
     visible: number
@@ -22973,6 +22986,14 @@ export namespace Prisma {
     _all: number
   }
 
+
+  export type UserAvgAggregateInputType = {
+    searchCount?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    searchCount?: true
+  }
 
   export type UserMinAggregateInputType = {
     id?: true
@@ -22986,6 +23007,7 @@ export namespace Prisma {
     address?: true
     city?: true
     state?: true
+    searchCount?: true
     createdAt?: true
     updatedAt?: true
     visible?: true
@@ -23008,6 +23030,7 @@ export namespace Prisma {
     address?: true
     city?: true
     state?: true
+    searchCount?: true
     createdAt?: true
     updatedAt?: true
     visible?: true
@@ -23032,6 +23055,7 @@ export namespace Prisma {
     state?: true
     roles?: true
     flags?: true
+    searchCount?: true
     createdAt?: true
     updatedAt?: true
     visible?: true
@@ -23081,6 +23105,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -23111,6 +23147,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
@@ -23129,6 +23167,7 @@ export namespace Prisma {
     state: string | null
     roles: $Enums.UserRole[]
     flags: $Enums.UserFlag[]
+    searchCount: number
     createdAt: Date
     updatedAt: Date
     visible: $Enums.UserVisibility
@@ -23138,6 +23177,8 @@ export namespace Prisma {
     isVerified: boolean
     lastActived: Date | null
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -23170,6 +23211,7 @@ export namespace Prisma {
     state?: boolean
     roles?: boolean
     flags?: boolean
+    searchCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     visible?: boolean
@@ -23200,6 +23242,7 @@ export namespace Prisma {
     state?: boolean
     roles?: boolean
     flags?: boolean
+    searchCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     visible?: boolean
@@ -23224,6 +23267,7 @@ export namespace Prisma {
     state?: boolean
     roles?: boolean
     flags?: boolean
+    searchCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     visible?: boolean
@@ -23248,6 +23292,7 @@ export namespace Prisma {
     state?: boolean
     roles?: boolean
     flags?: boolean
+    searchCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     visible?: boolean
@@ -23258,7 +23303,7 @@ export namespace Prisma {
     lastActived?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullname" | "username" | "email" | "phone" | "hashingPassword" | "accountType" | "avatarUrl" | "address" | "city" | "state" | "roles" | "flags" | "createdAt" | "updatedAt" | "visible" | "status" | "isBanned" | "isLocked" | "isVerified" | "lastActived", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullname" | "username" | "email" | "phone" | "hashingPassword" | "accountType" | "avatarUrl" | "address" | "city" | "state" | "roles" | "flags" | "searchCount" | "createdAt" | "updatedAt" | "visible" | "status" | "isBanned" | "isLocked" | "isVerified" | "lastActived", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     codes?: boolean | User$codesArgs<ExtArgs>
@@ -23293,6 +23338,7 @@ export namespace Prisma {
       state: string | null
       roles: $Enums.UserRole[]
       flags: $Enums.UserFlag[]
+      searchCount: number
       createdAt: Date
       updatedAt: Date
       visible: $Enums.UserVisibility
@@ -23742,6 +23788,7 @@ export namespace Prisma {
     readonly state: FieldRef<"User", 'String'>
     readonly roles: FieldRef<"User", 'UserRole[]'>
     readonly flags: FieldRef<"User", 'UserFlag[]'>
+    readonly searchCount: FieldRef<"User", 'Int'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly visible: FieldRef<"User", 'UserVisibility'>
@@ -26830,6 +26877,7 @@ export namespace Prisma {
     state: 'state',
     roles: 'roles',
     flags: 'flags',
+    searchCount: 'searchCount',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     visible: 'visible',
@@ -28480,6 +28528,7 @@ export namespace Prisma {
     state?: StringNullableFilter<"User"> | string | null
     roles?: EnumUserRoleNullableListFilter<"User">
     flags?: EnumUserFlagNullableListFilter<"User">
+    searchCount?: IntFilter<"User"> | number
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     visible?: EnumUserVisibilityFilter<"User"> | $Enums.UserVisibility
@@ -28509,6 +28558,7 @@ export namespace Prisma {
     state?: SortOrderInput | SortOrder
     roles?: SortOrder
     flags?: SortOrder
+    searchCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     visible?: SortOrder
@@ -28541,6 +28591,7 @@ export namespace Prisma {
     state?: StringNullableFilter<"User"> | string | null
     roles?: EnumUserRoleNullableListFilter<"User">
     flags?: EnumUserFlagNullableListFilter<"User">
+    searchCount?: IntFilter<"User"> | number
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     visible?: EnumUserVisibilityFilter<"User"> | $Enums.UserVisibility
@@ -28570,6 +28621,7 @@ export namespace Prisma {
     state?: SortOrderInput | SortOrder
     roles?: SortOrder
     flags?: SortOrder
+    searchCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     visible?: SortOrder
@@ -28579,8 +28631,10 @@ export namespace Prisma {
     isVerified?: SortOrder
     lastActived?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
@@ -28600,6 +28654,7 @@ export namespace Prisma {
     state?: StringNullableWithAggregatesFilter<"User"> | string | null
     roles?: EnumUserRoleNullableListFilter<"User">
     flags?: EnumUserFlagNullableListFilter<"User">
+    searchCount?: IntWithAggregatesFilter<"User"> | number
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     visible?: EnumUserVisibilityWithAggregatesFilter<"User"> | $Enums.UserVisibility
@@ -30224,6 +30279,7 @@ export namespace Prisma {
     state?: string | null
     roles?: UserCreaterolesInput | $Enums.UserRole[]
     flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
@@ -30253,6 +30309,7 @@ export namespace Prisma {
     state?: string | null
     roles?: UserCreaterolesInput | $Enums.UserRole[]
     flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
@@ -30282,6 +30339,7 @@ export namespace Prisma {
     state?: NullableStringFieldUpdateOperationsInput | string | null
     roles?: UserUpdaterolesInput | $Enums.UserRole[]
     flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
@@ -30311,6 +30369,7 @@ export namespace Prisma {
     state?: NullableStringFieldUpdateOperationsInput | string | null
     roles?: UserUpdaterolesInput | $Enums.UserRole[]
     flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
@@ -30340,6 +30399,7 @@ export namespace Prisma {
     state?: string | null
     roles?: UserCreaterolesInput | $Enums.UserRole[]
     flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
@@ -30364,6 +30424,7 @@ export namespace Prisma {
     state?: NullableStringFieldUpdateOperationsInput | string | null
     roles?: UserUpdaterolesInput | $Enums.UserRole[]
     flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
@@ -30388,6 +30449,7 @@ export namespace Prisma {
     state?: NullableStringFieldUpdateOperationsInput | string | null
     roles?: UserUpdaterolesInput | $Enums.UserRole[]
     flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
@@ -31890,6 +31952,7 @@ export namespace Prisma {
     state?: SortOrder
     roles?: SortOrder
     flags?: SortOrder
+    searchCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     visible?: SortOrder
@@ -31898,6 +31961,10 @@ export namespace Prisma {
     isLocked?: SortOrder
     isVerified?: SortOrder
     lastActived?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    searchCount?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -31912,6 +31979,7 @@ export namespace Prisma {
     address?: SortOrder
     city?: SortOrder
     state?: SortOrder
+    searchCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     visible?: SortOrder
@@ -31934,6 +32002,7 @@ export namespace Prisma {
     address?: SortOrder
     city?: SortOrder
     state?: SortOrder
+    searchCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     visible?: SortOrder
@@ -31942,6 +32011,10 @@ export namespace Prisma {
     isLocked?: SortOrder
     isVerified?: SortOrder
     lastActived?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    searchCount?: SortOrder
   }
 
   export type EnumAccountTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -34048,6 +34121,7 @@ export namespace Prisma {
     state?: string | null
     roles?: UserCreaterolesInput | $Enums.UserRole[]
     flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
@@ -34076,6 +34150,7 @@ export namespace Prisma {
     state?: string | null
     roles?: UserCreaterolesInput | $Enums.UserRole[]
     flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
@@ -34120,6 +34195,7 @@ export namespace Prisma {
     state?: NullableStringFieldUpdateOperationsInput | string | null
     roles?: UserUpdaterolesInput | $Enums.UserRole[]
     flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
@@ -34148,6 +34224,7 @@ export namespace Prisma {
     state?: NullableStringFieldUpdateOperationsInput | string | null
     roles?: UserUpdaterolesInput | $Enums.UserRole[]
     flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
@@ -34176,6 +34253,7 @@ export namespace Prisma {
     state?: string | null
     roles?: UserCreaterolesInput | $Enums.UserRole[]
     flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
@@ -34204,6 +34282,7 @@ export namespace Prisma {
     state?: string | null
     roles?: UserCreaterolesInput | $Enums.UserRole[]
     flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
@@ -34248,6 +34327,7 @@ export namespace Prisma {
     state?: NullableStringFieldUpdateOperationsInput | string | null
     roles?: UserUpdaterolesInput | $Enums.UserRole[]
     flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
@@ -34276,6 +34356,7 @@ export namespace Prisma {
     state?: NullableStringFieldUpdateOperationsInput | string | null
     roles?: UserUpdaterolesInput | $Enums.UserRole[]
     flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
@@ -37084,6 +37165,7 @@ export namespace Prisma {
     state?: string | null
     roles?: UserCreaterolesInput | $Enums.UserRole[]
     flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
@@ -37112,6 +37194,7 @@ export namespace Prisma {
     state?: string | null
     roles?: UserCreaterolesInput | $Enums.UserRole[]
     flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
@@ -37204,6 +37287,7 @@ export namespace Prisma {
     state?: NullableStringFieldUpdateOperationsInput | string | null
     roles?: UserUpdaterolesInput | $Enums.UserRole[]
     flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
@@ -37232,6 +37316,7 @@ export namespace Prisma {
     state?: NullableStringFieldUpdateOperationsInput | string | null
     roles?: UserUpdaterolesInput | $Enums.UserRole[]
     flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
@@ -37616,6 +37701,7 @@ export namespace Prisma {
     state?: string | null
     roles?: UserCreaterolesInput | $Enums.UserRole[]
     flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
@@ -37644,6 +37730,7 @@ export namespace Prisma {
     state?: string | null
     roles?: UserCreaterolesInput | $Enums.UserRole[]
     flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
@@ -37688,6 +37775,7 @@ export namespace Prisma {
     state?: NullableStringFieldUpdateOperationsInput | string | null
     roles?: UserUpdaterolesInput | $Enums.UserRole[]
     flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
@@ -37716,6 +37804,7 @@ export namespace Prisma {
     state?: NullableStringFieldUpdateOperationsInput | string | null
     roles?: UserUpdaterolesInput | $Enums.UserRole[]
     flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
@@ -37744,6 +37833,7 @@ export namespace Prisma {
     state?: string | null
     roles?: UserCreaterolesInput | $Enums.UserRole[]
     flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
@@ -37772,6 +37862,7 @@ export namespace Prisma {
     state?: string | null
     roles?: UserCreaterolesInput | $Enums.UserRole[]
     flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
@@ -37816,6 +37907,7 @@ export namespace Prisma {
     state?: NullableStringFieldUpdateOperationsInput | string | null
     roles?: UserUpdaterolesInput | $Enums.UserRole[]
     flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
@@ -37844,6 +37936,7 @@ export namespace Prisma {
     state?: NullableStringFieldUpdateOperationsInput | string | null
     roles?: UserUpdaterolesInput | $Enums.UserRole[]
     flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility

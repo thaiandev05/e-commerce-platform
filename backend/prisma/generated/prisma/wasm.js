@@ -329,6 +329,7 @@ exports.Prisma.UserScalarFieldEnum = {
   state: 'state',
   roles: 'roles',
   flags: 'flags',
+  searchCount: 'searchCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   visible: 'visible',
