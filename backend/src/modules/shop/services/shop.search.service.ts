@@ -2,12 +2,16 @@ import { PrismaService } from "@/prisma/prisma.service";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { GetShopDetailWithSpusDto } from "../dto/get-shop-detail-with-spus.dto";
 import { FindShopByNameDto } from "../dto/find-shop.dto";
+import { RedisService } from "@/modules/redis/redis.service";
+import { REDIS_CONSTANTS } from "@/modules/redis/redis.constants";
 
 @Injectable()
-export class SearchServiceShop {
+export class SearchServiceShop  {
 	constructor(
-		protected readonly prismaService: PrismaService
-	) { }
+		private readonly prismaService: PrismaService,
+		private readonly redisService: RedisService
+	) {
+	}
 
 	async getDetailerShop(shopId: string, dto: GetShopDetailWithSpusDto) {
 		// Ensure take value is properly calculated
@@ -178,7 +182,7 @@ export class SearchServiceShop {
 		}
 
 		// Get SPUs
-		const spus = await this.prismaService.spu.findMany(queryOptions);
+		const spus = await this.prismaService.spu.findMany(queryOptions)
 
 		// Check if there are more items
 		const hasNextPage = spus.length > takeValue;
@@ -226,6 +230,10 @@ export class SearchServiceShop {
 	}
 
 	async findShopHaveNameLike(shopName: string, dto: FindShopByNameDto) {
+		//check available in cache
+		const cached = await this.redisService.getManyShopLikeName(shopName)
+		if (cached) return cached
+
 		// Ensure take value is properly calculated
 		const takeValue = dto.take || dto.limit || 10;
 		const skipValue = dto.skip || (dto.page ? ((dto.page - 1) * takeValue) : 0);
@@ -242,7 +250,7 @@ export class SearchServiceShop {
 			};
 		}
 
-		// Build query options
+		// Prepare query options
 		const queryOptions: any = {
 			where: {
 				name: {
@@ -270,6 +278,13 @@ export class SearchServiceShop {
 		// Find many shops
 		const shops = await this.prismaService.shop.findMany(queryOptions);
 
+		// checking fallback if shops not found
+		const key = REDIS_CONSTANTS.SHOPS_LIKE_NAME_LEY(shopName)
+		if (!shops) {
+			await this.redisService.saveUserData(key, null)
+			throw new NotFoundException("Shops not found")
+		}
+
 		// Check if there are more items
 		const hasNextPage = shops.length > takeValue;
 		if (hasNextPage) {
@@ -296,6 +311,9 @@ export class SearchServiceShop {
 			});
 			totalPages = Math.ceil(totalShops / takeValue);
 		}
+
+		// save cache
+		await this.redisService.saveUserData(key, shops)
 
 		return {
 			success: true,

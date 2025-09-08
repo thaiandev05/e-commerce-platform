@@ -126,7 +126,7 @@ export class UserSearchService {
 		}
 
 		// save data in cache
-		const key = REDIS_CONSTANTS.ACCOUNT_LIKE_NAME_KEY(name)
+		const key = REDIS_CONSTANTS.ACCOUNTS_LIKE_NAME_KEY(name)
 		await this.redisService.saveUserData(key, accountLikeName)
 
 		return {

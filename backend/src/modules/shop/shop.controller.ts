@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Patch, Post, Put, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post, Put, Query, Req, Res, UseGuards, BadRequestException } from '@nestjs/common';
 import { ShopService } from './services/shop.service';
 import express from 'express';
 import { CreateShopDto } from './dto/create-shop.dto';
@@ -7,6 +7,7 @@ import { Public } from '@/common/decorator/public.decorator';
 import { UpdateShopDto } from './dto/update-shop.dto';
 import { GetShopDetailWithSpusDto } from './dto/get-shop-detail-with-spus.dto';
 import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { FindShopByNameDto } from './dto/find-shop.dto';
 
 @ApiTags('Shop')
 @Controller('shop')
@@ -69,8 +70,22 @@ export class ShopController {
 	@ApiResponse({ status: 200, description: 'Shop detail retrieved' })
 	@ApiBadRequestResponse({ description: 'Invalid request' })
 	async getDetailShop(@Query('shopId') shopId: string, @Query() dto: GetShopDetailWithSpusDto) {
+		if (!shopId) {
+			throw new BadRequestException('shopId is required');
+		}
 		return this.shopService.getDetailerShop(shopId, dto)
 	}
 
+	@Public()
+	@Get('find-shop-like-name')
+	@ApiOperation({ summary: 'Find shops with name like search term' })
+	@ApiResponse({ status: 200, description: 'Shops found' })
+	@ApiBadRequestResponse({ description: 'Invalid request' })
+	async findShopHaveNameLike(@Query('shopName') shopName: string, @Query() dto: FindShopByNameDto) {
+		if (!shopName) {
+			throw new BadRequestException('shopName is required');
+		}
+		return this.shopService.findShopHaveNameLike(shopName, dto)
+	}
 
 }

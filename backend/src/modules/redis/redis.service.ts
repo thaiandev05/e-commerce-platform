@@ -11,7 +11,7 @@ export class RedisService {
 
 	// get many account have name or username like something client import
 	public async getManyAccountLike(name: string) {
-		const key = REDIS_CONSTANTS.ACCOUNT_LIKE_NAME_KEY(name)
+		const key = REDIS_CONSTANTS.ACCOUNTS_LIKE_NAME_KEY(name)
 		const cached = await this.cacheManager.get(key)
 		return cached
 	}
@@ -19,5 +19,12 @@ export class RedisService {
 	// save user data in cache
 	public async saveUserData(key: string, data: any) {
 		return await this.cacheManager.set(key, data, REDIS_CONSTANTS.TIME_FILE_CACHE.CACHE_LARGE_DATA)
+	}
+
+	// get many shop like name 
+	public async getManyShopLikeName(name: string) {
+		const key = REDIS_CONSTANTS.SHOPS_LIKE_NAME_LEY(name)
+		const cached = await this.cacheManager.get(key)
+		return cached
 	}
 }
