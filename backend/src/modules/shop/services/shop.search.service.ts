@@ -10,6 +10,11 @@ export class SearchServiceShop {
 	) { }
 
 	async getDetailerShop(shopId: string, dto: GetShopDetailWithSpusDto) {
+		// Ensure take value is properly calculated
+		const takeValue = dto.take || dto.limit || 10;
+		const skipValue = dto.skip || (dto.page ? ((dto.page - 1) * takeValue) : 0);
+		const useCursor = dto.useCursor || !!dto.cursor;
+
 		// Build shop include options
 		const shopInclude: any = {};
 
@@ -157,25 +162,26 @@ export class SearchServiceShop {
 		const queryOptions: any = {
 			where: spuWhere,
 			include: spuInclude,
-			take: dto.take + 1, // Take one extra to check if there's a next page
+			take: takeValue + 1, // Take one extra to check if there's a next page
 			orderBy: { [dto.sortBy || 'createdAt']: dto.sortOrder || 'desc' }
 		};
 
 		// Use cursor-based pagination if cursor is provided
-		if (dto.useCursor && dto.cursor) {
+		if (useCursor && dto.cursor) {
 			queryOptions.cursor = { id: dto.cursor };
 			queryOptions.skip = 1; // Skip the cursor item itself
+			queryOptions.take = takeValue + 1; // Ensure take is set for cursor pagination
 		} else if (dto.page) {
 			// Fallback to offset pagination
-			queryOptions.skip = dto.skip;
-			queryOptions.take = dto.take;
+			queryOptions.skip = skipValue;
+			queryOptions.take = takeValue;
 		}
 
 		// Get SPUs
 		const spus = await this.prismaService.spu.findMany(queryOptions);
 
 		// Check if there are more items
-		const hasNextPage = spus.length > dto.take;
+		const hasNextPage = spus.length > takeValue;
 		if (hasNextPage) {
 			spus.pop(); // Remove the extra item
 		}
@@ -188,9 +194,9 @@ export class SearchServiceShop {
 		let totalSpus: number | undefined;
 		let totalPages: number | undefined;
 
-		if (dto.page && !dto.useCursor) {
+		if (dto.page && !useCursor) {
 			totalSpus = await this.prismaService.spu.count({ where: spuWhere });
-			totalPages = Math.ceil(totalSpus / dto.take);
+			totalPages = Math.ceil(totalSpus / takeValue);
 		}
 
 		return {
@@ -198,10 +204,10 @@ export class SearchServiceShop {
 			data: {
 				shop,
 				spus,
-				pagination: dto.useCursor
+				pagination: useCursor
 					? {
 						// Cursor-based pagination response
-						limit: dto.take,
+						limit: takeValue,
 						hasNext: hasNextPage,
 						nextCursor,
 						cursor: dto.cursor
@@ -209,7 +215,7 @@ export class SearchServiceShop {
 					: {
 						// Offset-based pagination response
 						page: dto.page || 1,
-						limit: dto.take,
+						limit: takeValue,
 						total: totalSpus!,
 						totalPages: totalPages!,
 						hasNext: hasNextPage,
@@ -220,6 +226,11 @@ export class SearchServiceShop {
 	}
 
 	async findShopHaveNameLike(shopName: string, dto: FindShopByNameDto) {
+		// Ensure take value is properly calculated
+		const takeValue = dto.take || dto.limit || 10;
+		const skipValue = dto.skip || (dto.page ? ((dto.page - 1) * takeValue) : 0);
+		const useCursor = dto.useCursor || !!dto.cursor;
+
 		// Build shop include options
 		const shopInclude: any = {};
 
@@ -241,25 +252,26 @@ export class SearchServiceShop {
 				isActive: true // Only show active shops
 			},
 			include: shopInclude,
-			take: dto.take + 1, // Take one extra to check if there's a next page
+			take: takeValue + 1, // Take one extra to check if there's a next page
 			orderBy: { [dto.sortBy || 'createdAt']: dto.sortOrder || 'desc' }
 		};
 
 		// Use cursor-based pagination if cursor is provided
-		if (dto.useCursor && dto.cursor) {
+		if (useCursor && dto.cursor) {
 			queryOptions.cursor = { id: dto.cursor };
 			queryOptions.skip = 1; // Skip the cursor item itself
+			queryOptions.take = takeValue + 1; // Ensure take is set for cursor pagination
 		} else if (dto.page) {
 			// Fallback to offset pagination
-			queryOptions.skip = dto.skip;
-			queryOptions.take = dto.take;
+			queryOptions.skip = skipValue;
+			queryOptions.take = takeValue;
 		}
 
 		// Find many shops
 		const shops = await this.prismaService.shop.findMany(queryOptions);
 
 		// Check if there are more items
-		const hasNextPage = shops.length > dto.take;
+		const hasNextPage = shops.length > takeValue;
 		if (hasNextPage) {
 			shops.pop(); // Remove the extra item
 		}
@@ -272,7 +284,7 @@ export class SearchServiceShop {
 		let totalShops: number | undefined;
 		let totalPages: number | undefined;
 
-		if (dto.page && !dto.useCursor) {
+		if (dto.page && !useCursor) {
 			totalShops = await this.prismaService.shop.count({
 				where: {
 					name: {
@@ -282,17 +294,17 @@ export class SearchServiceShop {
 					isActive: true
 				}
 			});
-			totalPages = Math.ceil(totalShops / dto.take);
+			totalPages = Math.ceil(totalShops / takeValue);
 		}
 
 		return {
 			success: true,
 			data: {
 				shops,
-				pagination: dto.useCursor
+				pagination: useCursor
 					? {
 						// Cursor-based pagination response
-						limit: dto.take,
+						limit: takeValue,
 						hasNext: hasNextPage,
 						nextCursor,
 						cursor: dto.cursor
@@ -300,7 +312,7 @@ export class SearchServiceShop {
 					: {
 						// Offset-based pagination response
 						page: dto.page || 1,
-						limit: dto.take,
+						limit: takeValue,
 						total: totalShops!,
 						totalPages: totalPages!,
 						hasNext: hasNextPage,
