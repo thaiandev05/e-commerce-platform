@@ -19,7 +19,7 @@ export class GetShopDetailWithSpusDto {
 	@Type(() => Number)
 	@IsInt()
 	@Min(1)
-	page?: number;
+	page?: number = 1;
 
 	// SPU Filtering
 	@IsOptional()
