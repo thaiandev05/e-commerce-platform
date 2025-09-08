@@ -4,9 +4,10 @@ import { ShopController } from './shop.controller';
 import { EmailModule } from '@/email/email.module';
 import { SearchServiceShop } from './services/shop.search.service';
 import { ShopResolver } from './shop.resolver';
+import { RedisModule } from '../redis/redis.module';
 
 @Module({
-  imports: [EmailModule],
+  imports: [EmailModule, RedisModule],
   providers: [ShopService, SearchServiceShop, ShopResolver],
   controllers: [ShopController]
 })

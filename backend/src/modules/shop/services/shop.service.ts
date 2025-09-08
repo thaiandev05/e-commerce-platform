@@ -3,19 +3,20 @@ import { PrismaService } from '@/prisma/prisma.service';
 import { BadGatewayException, BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { CreateShopDto } from '../dto/create-shop.dto';
+import { GetShopDetailWithSpusDto } from '../dto/get-shop-detail-with-spus.dto';
 import { UpdateShopDto } from '../dto/update-shop.dto';
 import { SHOP_CONSTANT } from '../shop.constant';
 import { SearchServiceShop } from './shop.search.service';
+import { FindShopByNameDto } from '../dto/find-shop.dto';
 
 @Injectable()
-export class ShopService extends SearchServiceShop {
+export class ShopService {
 
 	constructor(
-		prismaService: PrismaService,
+		private readonly prismaService: PrismaService,
 		private readonly emailProducer: EmailProducer,
-	) {
-		super(prismaService);
-	}
+		private readonly shopSearchService: SearchServiceShop
+	) { }
 
 	//create shop
 	async createShop(req: Request, dto: CreateShopDto) {
@@ -165,6 +166,14 @@ export class ShopService extends SearchServiceShop {
 		return {
 			success: true
 		}
+	}
+
+	async getDetailerShop(shopId: string, dto: GetShopDetailWithSpusDto) {
+		return this.shopSearchService.getDetailerShop(shopId, dto)
+	}
+
+	async findShopHaveNameLike(shopName: string, dto: FindShopByNameDto) {
+		return this.shopSearchService.findShopHaveNameLike(shopName, dto)
 	}
 
 }
