@@ -1,21 +1,21 @@
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD, Reflector } from '@nestjs/core';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ScheduleModule } from '@nestjs/schedule';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PrismaModule } from './prisma/prisma.module';
-import { ConfigModule } from '@nestjs/config';
-import { ThrottlerModule } from '@nestjs/throttler';
 import { EmailModule } from './email/email.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { APP_GUARD, Reflector } from '@nestjs/core';
 import { CookieGuard } from './modules/auth/guard/cookie.guard';
-import { ShopModule } from './modules/shop/shop.module';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { join } from 'path';
-import { UserModule } from './modules/user/user.module';
 import { FileModule } from './modules/file/file.module';
-import { MulterModule } from '@nestjs/platform-express';
-import { ScheduleModule } from '@nestjs/schedule';
+import { RedisModule } from './modules/redis/redis.module';
+import { ShopModule } from './modules/shop/shop.module';
+import { UserModule } from './modules/user/user.module';
+import { PrismaModule } from './prisma/prisma.module';
 import { TaskModule } from './task/task.module';
 @Module({
   imports: [
@@ -40,7 +40,7 @@ import { TaskModule } from './task/task.module';
       context: ({ req }) => ({ req })
     }),
     ScheduleModule.forRoot(),
-    EmailModule, AuthModule, ShopModule, UserModule, FileModule, TaskModule
+    EmailModule, AuthModule, ShopModule, UserModule, FileModule, TaskModule, RedisModule
   ],
   controllers: [AppController],
   providers: [

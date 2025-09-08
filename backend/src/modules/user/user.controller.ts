@@ -1,4 +1,4 @@
-import { Body, Controller, Patch, Put, Query, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Patch, Put, Query, Req, UseGuards } from "@nestjs/common";
 import { UserService } from "./service/user.service";
 import express from 'express';
 import { changeDetailUserDto } from "./dto/change-detail.dto";
@@ -6,13 +6,17 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery, ApiBody } 
 import { ChangeAvataUrlDto } from "./dto/change-avataUrl.dto";
 import { IsAuthorAccount } from "./guard/IsAuthorAccount.guard";
 import { AddCreditCardDto } from "./dto/add-credit-card.dto";
+import { Public } from "@/common/decorator/public.decorator";
+import { SearchUserLikeNameDto } from "./dto/search-user-like-name.dto";
+import { UserSearchService } from "./service/user.search.service";
 
 @ApiTags('user')
 @ApiBearerAuth()
 @Controller('user')
 export class UserConctroller {
 	constructor(
-		private readonly userService: UserService
+		private readonly userService: UserService,
+		private readonly userSearchService: UserSearchService
 	) { }
 
 	@Put('change-detail')
@@ -49,5 +53,16 @@ export class UserConctroller {
 	@ApiResponse({ status: 401, description: 'Unauthorized.' })
 	async addCreditCard(@Req() req: express.Request, @Query('accountId') accountId: string, @Body() dto: AddCreditCardDto) {
 		return this.userService.addCreditCard(req, accountId, dto)
+	}
+
+	@Public()
+	@Get('search-account-like-name')
+	@ApiOperation({ summary: 'Search accounts by name (username or fullname)' })
+	@ApiQuery({ name: 'name', required: false, description: 'Search term for username or fullname' })
+	@ApiBody({ type: SearchUserLikeNameDto })
+	@ApiResponse({ status: 200, description: 'Search results returned.' })
+	@ApiResponse({ status: 400, description: 'Bad Request.' })
+	async searchAccountLikeName(@Query('name') name: string, @Body() dto: SearchUserLikeNameDto) {
+		return this.userSearchService.searchUserLikeName(name, dto)
 	}
 }
