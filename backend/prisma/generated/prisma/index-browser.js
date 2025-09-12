@@ -318,7 +318,8 @@ exports.Prisma.UserRoleScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   roleId: 'roleId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  attribute: 'attribute'
 };
 
 exports.Prisma.ShopScalarFieldEnum = {
@@ -354,16 +355,17 @@ exports.Prisma.UserScalarFieldEnum = {
   address: 'address',
   city: 'city',
   state: 'state',
-  flags: 'flags',
   searchCount: 'searchCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   visible: 'visible',
   status: 'status',
+  numberIdentify: 'numberIdentify',
   isBanned: 'isBanned',
   isLocked: 'isLocked',
   isVerified: 'isVerified',
-  lastActived: 'lastActived'
+  lastActived: 'lastActived',
+  flags: 'flags'
 };
 
 exports.Prisma.Oauth2UserScalarFieldEnum = {
@@ -400,6 +402,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -408,6 +415,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.SpuStatus = exports.$Enums.SpuStatus = {
   DRAFT: 'DRAFT',

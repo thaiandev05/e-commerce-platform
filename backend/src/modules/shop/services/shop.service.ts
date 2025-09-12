@@ -8,6 +8,7 @@ import { UpdateShopDto } from '../dto/update-shop.dto';
 import { SHOP_CONSTANT } from '../shop.constant';
 import { SearchServiceShop } from './shop.search.service';
 import { FindShopByNameDto } from '../dto/find-shop.dto';
+import { RegisterSellerDto } from '../dto/register-seller.dto';
 
 @Injectable()
 export class ShopService {
@@ -17,6 +18,46 @@ export class ShopService {
 		private readonly emailProducer: EmailProducer,
 		private readonly shopSearchService: SearchServiceShop
 	) { }
+
+	// register seller 
+	async registerSellerRole(req: Request, dto: RegisterSellerDto) {
+		// check available account
+		const availableUSer = await this.prismaService.user.findUnique({
+			where: { id: req.user?.id },
+			include: {
+				CreditCard: {
+					select: {
+						creditNumber: true
+					}
+				}
+			}
+		})
+
+		if (!availableUSer) throw new NotFoundException("User not found")
+
+		// check availabel creditcard
+		const listCreditCard = availableUSer.CreditCard
+
+		if(!dto.numberCreditCard) {
+			dto.numberCreditCard = listCreditCard.map(card => card.creditNumber)
+		}
+
+		// register seller 
+		const sellerRoleId = 'de96ebde-3cd4-4c70-b628-98e5166d4155'
+		const newSeller = await this.prismaService.userRole.create({
+			data: {
+				userId: availableUSer.id,
+				roleId: sellerRoleId,
+				attribute: {
+					numberIdentify: dto.numberIdentify,
+					numberCreditCard: dto.numberCreditCard,
+					taxNumber: dto.taxNumber
+				}
+			}
+		})
+
+		return newSeller
+	}
 
 	//create shop
 	async createShop(req: Request, dto: CreateShopDto) {
