@@ -33,7 +33,7 @@ export class AuthController {
 	@ApiBadRequestResponse({ description: 'Invalid code or request' })
 	@ApiBody({ type: VerifyAccountWithCodeDto })
 	async verifyAccountWithCode(@Body() dto: VerifyAccountWithCodeDto) {
-		return this.authService.verifyAccountWithCode(dto)
+		return this.authService.verifyAccountWithCode(dto)	
 	}
 	@Public()
 	@Post('login')

@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.15.0
- * Query Engine version: 85179d7826409ee107a6ba334b5e305ae3fba9fb
+ * Prisma Client JS version: 6.16.1
+ * Query Engine version: 1c57fdcd7e44b29b9313256c76699e91c3ac3c43
  */
 Prisma.prismaVersion = {
-  client: "6.15.0",
-  engine: "85179d7826409ee107a6ba334b5e305ae3fba9fb"
+  client: "6.16.1",
+  engine: "1c57fdcd7e44b29b9313256c76699e91c3ac3c43"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -294,6 +294,33 @@ exports.Prisma.SpuTagScalarFieldEnum = {
   tagId: 'tagId'
 };
 
+exports.Prisma.RoleScalarFieldEnum = {
+  id: 'id',
+  roleName: 'roleName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PermissionScalarFieldEnum = {
+  id: 'id',
+  permissionName: 'permissionName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RolePermissionScalarFieldEnum = {
+  id: 'id',
+  roleId: 'roleId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserRoleScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  roleId: 'roleId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ShopScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -327,7 +354,6 @@ exports.Prisma.UserScalarFieldEnum = {
   address: 'address',
   city: 'city',
   state: 'state',
-  roles: 'roles',
   flags: 'flags',
   searchCount: 'searchCount',
   createdAt: 'createdAt',
@@ -434,15 +460,6 @@ exports.Status = exports.$Enums.Status = {
   PENDING: 'PENDING'
 };
 
-exports.UserRole = exports.$Enums.UserRole = {
-  ROOT: 'ROOT',
-  ADMINSTRATOR: 'ADMINSTRATOR',
-  SUPPORTER: 'SUPPORTER',
-  COLLABORATOR: 'COLLABORATOR',
-  SELLER: 'SELLER',
-  USER: 'USER'
-};
-
 exports.UserFlag = exports.$Enums.UserFlag = {
   BEST_CUSTOMER: 'BEST_CUSTOMER',
   DIAMOND_CUSTOMER: 'DIAMOND_CUSTOMER',
@@ -474,6 +491,10 @@ exports.Prisma.ModelName = {
   SkuVariationValue: 'SkuVariationValue',
   Tag: 'Tag',
   SpuTag: 'SpuTag',
+  Role: 'Role',
+  Permission: 'Permission',
+  RolePermission: 'RolePermission',
+  UserRole: 'UserRole',
   Shop: 'Shop',
   User: 'User',
   Oauth2User: 'Oauth2User',

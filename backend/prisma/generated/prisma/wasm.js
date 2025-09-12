@@ -5,13 +5,28 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 
 const {
+  PrismaClientKnownRequestError,
+  PrismaClientUnknownRequestError,
+  PrismaClientRustPanicError,
+  PrismaClientInitializationError,
+  PrismaClientValidationError,
+  getPrismaClient,
+  sqltag,
+  empty,
+  join,
+  raw,
+  skip,
   Decimal,
+  Debug,
   objectEnumValues,
   makeStrictEnum,
+  Extensions,
+  warnOnce,
+  defineDmmfProperty,
   Public,
   getRuntime,
-  skip
-} = require('./runtime/index-browser.js')
+  createParam,
+} = require('./runtime/wasm-engine-edge.js')
 
 
 const Prisma = {}
@@ -20,79 +35,35 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.15.0
- * Query Engine version: 85179d7826409ee107a6ba334b5e305ae3fba9fb
+ * Prisma Client JS version: 6.16.1
+ * Query Engine version: 1c57fdcd7e44b29b9313256c76699e91c3ac3c43
  */
 Prisma.prismaVersion = {
-  client: "6.15.0",
-  engine: "85179d7826409ee107a6ba334b5e305ae3fba9fb"
+  client: "6.16.1",
+  engine: "1c57fdcd7e44b29b9313256c76699e91c3ac3c43"
 }
 
-Prisma.PrismaClientKnownRequestError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientKnownRequestError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)};
-Prisma.PrismaClientUnknownRequestError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientUnknownRequestError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.PrismaClientRustPanicError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientRustPanicError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.PrismaClientInitializationError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientInitializationError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.PrismaClientValidationError = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`PrismaClientValidationError is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
+Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
+Prisma.PrismaClientUnknownRequestError = PrismaClientUnknownRequestError
+Prisma.PrismaClientRustPanicError = PrismaClientRustPanicError
+Prisma.PrismaClientInitializationError = PrismaClientInitializationError
+Prisma.PrismaClientValidationError = PrismaClientValidationError
 Prisma.Decimal = Decimal
 
 /**
  * Re-export of sql-template-tag
  */
-Prisma.sql = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`sqltag is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.empty = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`empty is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.join = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`join is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.raw = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`raw is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
+Prisma.sql = sqltag
+Prisma.empty = empty
+Prisma.join = join
+Prisma.raw = raw
 Prisma.validator = Public.validator
 
 /**
 * Extensions
 */
-Prisma.getExtensionContext = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`Extensions.getExtensionContext is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
-Prisma.defineExtension = () => {
-  const runtimeName = getRuntime().prettyName;
-  throw new Error(`Extensions.defineExtension is unable to run in this browser environment, or has been bundled for the browser (running in ${runtimeName}).
-In case this error is unexpected for you, please report it in https://pris.ly/prisma-prisma-bug-report`,
-)}
+Prisma.getExtensionContext = Extensions.getExtensionContext
+Prisma.defineExtension = Extensions.defineExtension
 
 /**
  * Shorthand utilities for JSON filtering
@@ -109,10 +80,11 @@ Prisma.NullTypes = {
 
 
 
+
+
 /**
  * Enums
  */
-
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   ReadUncommitted: 'ReadUncommitted',
   ReadCommitted: 'ReadCommitted',
@@ -294,6 +266,33 @@ exports.Prisma.SpuTagScalarFieldEnum = {
   tagId: 'tagId'
 };
 
+exports.Prisma.RoleScalarFieldEnum = {
+  id: 'id',
+  roleName: 'roleName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PermissionScalarFieldEnum = {
+  id: 'id',
+  permissionName: 'permissionName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RolePermissionScalarFieldEnum = {
+  id: 'id',
+  roleId: 'roleId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserRoleScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  roleId: 'roleId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ShopScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -327,7 +326,6 @@ exports.Prisma.UserScalarFieldEnum = {
   address: 'address',
   city: 'city',
   state: 'state',
-  roles: 'roles',
   flags: 'flags',
   searchCount: 'searchCount',
   createdAt: 'createdAt',
@@ -383,6 +381,16 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.TYPECODE = exports.$Enums.TYPECODE = {
+  EMAIL: 'EMAIL',
+  PHONE: 'PHONE'
+};
+
+exports.AccountType = exports.$Enums.AccountType = {
+  EMAIL: 'EMAIL',
+  OAUTH2: 'OAUTH2'
+};
+
 exports.SpuStatus = exports.$Enums.SpuStatus = {
   DRAFT: 'DRAFT',
   PENDING_REVIEW: 'PENDING_REVIEW',
@@ -417,24 +425,7 @@ exports.ShopStatus = exports.$Enums.ShopStatus = {
   CLOSED: 'CLOSED'
 };
 
-exports.AccountType = exports.$Enums.AccountType = {
-  EMAIL: 'EMAIL',
-  OAUTH2: 'OAUTH2'
-};
-
-exports.UserVisibility = exports.$Enums.UserVisibility = {
-  PUBLIC: 'PUBLIC',
-  PRIVATE: 'PRIVATE',
-  CONTACT_ONLY: 'CONTACT_ONLY'
-};
-
-exports.Status = exports.$Enums.Status = {
-  ACTIVE: 'ACTIVE',
-  SOFTDELETE: 'SOFTDELETE',
-  PENDING: 'PENDING'
-};
-
-exports.UserRole = exports.$Enums.UserRole = {
+exports.UserRoleS = exports.$Enums.UserRoleS = {
   ROOT: 'ROOT',
   ADMINSTRATOR: 'ADMINSTRATOR',
   SUPPORTER: 'SUPPORTER',
@@ -452,9 +443,21 @@ exports.UserFlag = exports.$Enums.UserFlag = {
   CUSTOMER: 'CUSTOMER'
 };
 
+exports.UserVisibility = exports.$Enums.UserVisibility = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE',
+  CONTACT_ONLY: 'CONTACT_ONLY'
+};
+
 exports.Provider = exports.$Enums.Provider = {
   FACEBOOK: 'FACEBOOK',
   GOOGLE: 'GOOGLE'
+};
+
+exports.Status = exports.$Enums.Status = {
+  ACTIVE: 'ACTIVE',
+  SOFTDELETE: 'SOFTDELETE',
+  PENDING: 'PENDING'
 };
 
 exports.Prisma.ModelName = {
@@ -474,39 +477,91 @@ exports.Prisma.ModelName = {
   SkuVariationValue: 'SkuVariationValue',
   Tag: 'Tag',
   SpuTag: 'SpuTag',
+  Role: 'Role',
+  Permission: 'Permission',
+  RolePermission: 'RolePermission',
+  UserRole: 'UserRole',
   Shop: 'Shop',
   User: 'User',
   Oauth2User: 'Oauth2User',
   CreditCard: 'CreditCard'
 };
-
 /**
- * This is a stub Prisma Client that will error at runtime if called.
+ * Create the Client
  */
-class PrismaClient {
-  constructor() {
-    return new Proxy(this, {
-      get(target, prop) {
-        let message
-        const runtime = getRuntime()
-        if (runtime.isEdge) {
-          message = `PrismaClient is not configured to run in ${runtime.prettyName}. In order to run Prisma Client on edge runtime, either:
-- Use Prisma Accelerate: https://pris.ly/d/accelerate
-- Use Driver Adapters: https://pris.ly/d/driver-adapters
-`;
-        } else {
-          message = 'PrismaClient is unable to run in this browser environment, or has been bundled for the browser (running in `' + runtime.prettyName + '`).'
-        }
-
-        message += `
-If this is unexpected, please open an issue: https://pris.ly/prisma-prisma-bug-report`
-
-        throw new Error(message)
+const config = {
+  "generator": {
+    "name": "client",
+    "provider": {
+      "fromEnvVar": null,
+      "value": "prisma-client-js"
+    },
+    "output": {
+      "value": "/home/andev/work_space/e-commerce/backend/prisma/generated/prisma",
+      "fromEnvVar": null
+    },
+    "config": {
+      "engineType": "library"
+    },
+    "binaryTargets": [
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x",
+        "native": true
       }
-    })
+    ],
+    "previewFeatures": [],
+    "sourceFilePath": "/home/andev/work_space/e-commerce/backend/prisma/schema/schema.prisma",
+    "isCustomOutput": true
+  },
+  "relativeEnvPaths": {
+    "rootEnvPath": null,
+    "schemaEnvPath": "../../../.env"
+  },
+  "relativePath": "../../schema",
+  "clientVersion": "6.16.1",
+  "engineVersion": "1c57fdcd7e44b29b9313256c76699e91c3ac3c43",
+  "datasourceNames": [
+    "db"
+  ],
+  "activeProvider": "postgresql",
+  "inlineDatasources": {
+    "db": {
+      "url": {
+        "fromEnvVar": "DATABASE_URL",
+        "value": null
+      }
+    }
+  },
+  "inlineSchema": "model Session {\n  id                  String   @id @default(uuid()) @db.Uuid\n  hashingRefreshToken String?  @map(\"hasing_refreshtoken\") @db.VarChar(255)\n  userAgent           String   @db.VarChar(1000)\n  userIp              String?  @db.VarChar(100)\n  createdAt           DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n  updatedAt           DateTime @updatedAt @map(\"updated_at\")\n\n  loginedAt  DateTime? @map(\"logined_at\") @db.Timestamptz()\n  logoutedAt DateTime? @map(\"logouted_at\") @db.Timestamptz()\n\n  // realtion\n  userId String @db.Uuid\n  user   User   @relation(name: \"sessions\", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n\n  @@map(\"session\")\n}\n\nmodel Code {\n  id        String   @id @default(uuid()) @db.Uuid\n  code      String   @db.VarChar(100)\n  createdAt DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n  expiredAt DateTime @map(\"expired_at\") @db.Timestamptz()\n\n  // relation\n  userId String @unique @db.Uuid\n  user   User   @relation(fields: [userId], references: [id])\n\n  @@index([userId])\n  @@map(\"code\")\n}\n\nenum TYPECODE {\n  EMAIL\n  PHONE\n\n  @@map(\"type_code\")\n}\n\nenum AccountType {\n  EMAIL\n  OAUTH2\n\n  @@map(\"account_type\")\n}\n\n// ============= CATEGORY MODELS =============\nmodel Category {\n  id          String   @id @default(uuid()) @db.Uuid\n  name        String   @db.VarChar(100)\n  slug        String   @unique @db.VarChar(100)\n  description String?  @db.Text\n  imageUrl    String?  @map(\"image_url\") @db.VarChar(500)\n  isActive    Boolean  @default(true) @map(\"is_active\")\n  sortOrder   Int      @default(0) @map(\"sort_order\")\n  createdAt   DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n  updatedAt   DateTime @updatedAt @map(\"updated_at\") @db.Timestamptz()\n\n  // Self-referencing relation for nested categories\n  parentId String?    @map(\"parent_id\") @db.Uuid\n  parent   Category?  @relation(\"CategoryHierarchy\", fields: [parentId], references: [id], onDelete: Cascade)\n  children Category[] @relation(\"CategoryHierarchy\")\n\n  // Relations\n  spus Spu[]\n\n  @@index([parentId])\n  @@index([slug])\n  @@index([isActive])\n  @@map(\"categories\")\n}\n\n// ============= BRAND MODELS =============\nmodel Brand {\n  id          String   @id @default(uuid()) @db.Uuid\n  name        String   @unique @db.VarChar(100)\n  slug        String   @unique @db.VarChar(100)\n  description String?  @db.Text\n  logoUrl     String?  @map(\"logo_url\") @db.VarChar(500)\n  websiteUrl  String?  @map(\"website_url\") @db.VarChar(500)\n  isActive    Boolean  @default(true) @map(\"is_active\")\n  createdAt   DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n  updatedAt   DateTime @updatedAt @map(\"updated_at\") @db.Timestamptz()\n\n  // Relations\n  spus Spu[]\n\n  @@index([slug])\n  @@index([isActive])\n  @@map(\"brands\")\n}\n\n// ============= SHOP MODELS =============\n\n// ============= SPU (Standard Product Unit) MODELS =============\nmodel Spu {\n  id          String    @id @default(uuid()) @db.Uuid\n  name        String    @db.VarChar(200)\n  slug        String    @unique @db.VarChar(200)\n  description String?   @db.Text\n  shortDesc   String?   @map(\"short_desc\") @db.VarChar(500)\n  status      SpuStatus @default(DRAFT)\n  isActive    Boolean   @default(true) @map(\"is_active\")\n  createdAt   DateTime  @default(now()) @map(\"created_at\") @db.Timestamptz()\n  updatedAt   DateTime  @updatedAt @map(\"updated_at\") @db.Timestamptz()\n\n  // Foreign Keys\n  categoryId String @map(\"category_id\") @db.Uuid\n  brandId    String @map(\"brand_id\") @db.Uuid\n  shopId     String @map(\"shop_id\") @db.Uuid\n\n  // Relations\n  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)\n  brand    Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)\n  shop     Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)\n\n  skus          Sku[]\n  spuImages     SpuImage[]\n  spuAttributes SpuAttribute[]\n  spuTags       SpuTag[]\n  spuVariations SpuVariation[]\n\n  @@index([slug])\n  @@index([categoryId])\n  @@index([brandId])\n  @@index([shopId])\n  @@index([status])\n  @@index([isActive])\n  @@map(\"spus\")\n}\n\n// ============= SKU (Stock Keeping Unit) MODELS =============\nmodel Sku {\n  id            String    @id @default(uuid()) @db.Uuid\n  skuCode       String    @unique @map(\"sku_code\") @db.VarChar(50)\n  name          String    @db.VarChar(200)\n  originalPrice Decimal   @map(\"original_price\") @db.Decimal(12, 2)\n  salePrice     Decimal?  @map(\"sale_price\") @db.Decimal(12, 2)\n  stock         Int       @default(0)\n  weight        Decimal?  @db.Decimal(8, 2) // in grams\n  length        Decimal?  @db.Decimal(8, 2) // in cm\n  width         Decimal?  @db.Decimal(8, 2) // in cm\n  height        Decimal?  @db.Decimal(8, 2) // in cm\n  status        SkuStatus @default(ACTIVE)\n  isActive      Boolean   @default(true) @map(\"is_active\")\n  createdAt     DateTime  @default(now()) @map(\"created_at\") @db.Timestamptz()\n  updatedAt     DateTime  @updatedAt @map(\"updated_at\") @db.Timestamptz()\n\n  // Foreign Keys\n  spuId String @map(\"spu_id\") @db.Uuid\n\n  // Relations\n  spu                Spu                 @relation(fields: [spuId], references: [id], onDelete: Cascade)\n  skuImages          SkuImage[]\n  skuAttributes      SkuAttribute[]\n  skuVariationValues SkuVariationValue[]\n\n  @@index([skuCode])\n  @@index([spuId])\n  @@index([status])\n  @@index([isActive])\n  @@map(\"skus\")\n}\n\n// ============= IMAGE MODELS =============\nmodel SpuImage {\n  id        String   @id @default(uuid()) @db.Uuid\n  imageUrl  String   @map(\"image_url\") @db.VarChar(500)\n  altText   String?  @map(\"alt_text\") @db.VarChar(200)\n  sortOrder Int      @default(0) @map(\"sort_order\")\n  isMain    Boolean  @default(false) @map(\"is_main\")\n  createdAt DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n\n  // Foreign Keys\n  spuId String @map(\"spu_id\") @db.Uuid\n\n  // Relations\n  spu Spu @relation(fields: [spuId], references: [id], onDelete: Cascade)\n\n  @@index([spuId])\n  @@index([isMain])\n  @@map(\"spu_images\")\n}\n\nmodel SkuImage {\n  id        String   @id @default(uuid()) @db.Uuid\n  imageUrl  String   @map(\"image_url\") @db.VarChar(500)\n  altText   String?  @map(\"alt_text\") @db.VarChar(200)\n  sortOrder Int      @default(0) @map(\"sort_order\")\n  isMain    Boolean  @default(false) @map(\"is_main\")\n  createdAt DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n\n  // Foreign Keys\n  skuId String @map(\"sku_id\") @db.Uuid\n\n  // Relations\n  sku Sku @relation(fields: [skuId], references: [id], onDelete: Cascade)\n\n  @@index([skuId])\n  @@index([isMain])\n  @@map(\"sku_images\")\n}\n\n// ============= ATTRIBUTE MODELS =============\nmodel Attribute {\n  id          String        @id @default(uuid()) @db.Uuid\n  name        String        @unique @db.VarChar(100)\n  displayName String        @map(\"display_name\") @db.VarChar(100)\n  type        AttributeType @default(TEXT)\n  isRequired  Boolean       @default(false) @map(\"is_required\")\n  isVariation Boolean       @default(false) @map(\"is_variation\") // True if this attribute can be used for product variations\n  sortOrder   Int           @default(0) @map(\"sort_order\")\n  isActive    Boolean       @default(true) @map(\"is_active\")\n  createdAt   DateTime      @default(now()) @map(\"created_at\") @db.Timestamptz()\n  updatedAt   DateTime      @updatedAt @map(\"updated_at\") @db.Timestamptz()\n\n  // Relations\n  spuAttributes   SpuAttribute[]\n  skuAttributes   SkuAttribute[]\n  attributeValues AttributeValue[]\n  spuVariations   SpuVariation[]\n\n  @@index([name])\n  @@index([isVariation])\n  @@index([isActive])\n  @@map(\"attributes\")\n}\n\nmodel AttributeValue {\n  id          String   @id @default(uuid()) @db.Uuid\n  value       String   @db.VarChar(200)\n  displayName String?  @map(\"display_name\") @db.VarChar(200)\n  colorCode   String?  @map(\"color_code\") @db.VarChar(7) // For color attributes (hex code)\n  imageUrl    String?  @map(\"image_url\") @db.VarChar(500) // For image-based attributes\n  sortOrder   Int      @default(0) @map(\"sort_order\")\n  isActive    Boolean  @default(true) @map(\"is_active\")\n  createdAt   DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n  updatedAt   DateTime @updatedAt @map(\"updated_at\") @db.Timestamptz()\n\n  // Foreign Keys\n  attributeId String @map(\"attribute_id\") @db.Uuid\n\n  // Relations\n  attribute          Attribute           @relation(fields: [attributeId], references: [id], onDelete: Cascade)\n  spuAttributes      SpuAttribute[]\n  skuAttributes      SkuAttribute[]\n  skuVariationValues SkuVariationValue[]\n\n  @@unique([attributeId, value])\n  @@index([attributeId])\n  @@index([isActive])\n  @@map(\"attribute_values\")\n}\n\nmodel SpuAttribute {\n  id        String   @id @default(uuid()) @db.Uuid\n  createdAt DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n\n  // Foreign Keys\n  spuId            String @map(\"spu_id\") @db.Uuid\n  attributeId      String @map(\"attribute_id\") @db.Uuid\n  attributeValueId String @map(\"attribute_value_id\") @db.Uuid\n\n  // Relations\n  spu            Spu            @relation(fields: [spuId], references: [id], onDelete: Cascade)\n  attribute      Attribute      @relation(fields: [attributeId], references: [id], onDelete: Cascade)\n  attributeValue AttributeValue @relation(fields: [attributeValueId], references: [id], onDelete: Cascade)\n\n  @@unique([spuId, attributeId])\n  @@index([spuId])\n  @@index([attributeId])\n  @@map(\"spu_attributes\")\n}\n\nmodel SkuAttribute {\n  id        String   @id @default(uuid()) @db.Uuid\n  createdAt DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n\n  // Foreign Keys\n  skuId            String @map(\"sku_id\") @db.Uuid\n  attributeId      String @map(\"attribute_id\") @db.Uuid\n  attributeValueId String @map(\"attribute_value_id\") @db.Uuid\n\n  // Relations\n  sku            Sku            @relation(fields: [skuId], references: [id], onDelete: Cascade)\n  attribute      Attribute      @relation(fields: [attributeId], references: [id], onDelete: Cascade)\n  attributeValue AttributeValue @relation(fields: [attributeValueId], references: [id], onDelete: Cascade)\n\n  @@unique([skuId, attributeId])\n  @@index([skuId])\n  @@index([attributeId])\n  @@map(\"sku_attributes\")\n}\n\n// ============= VARIATION MODELS =============\nmodel SpuVariation {\n  id        String   @id @default(uuid()) @db.Uuid\n  name      String   @db.VarChar(100) // e.g., \"Color\", \"Size\"\n  sortOrder Int      @default(0) @map(\"sort_order\")\n  createdAt DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n\n  // Foreign Keys\n  spuId       String @map(\"spu_id\") @db.Uuid\n  attributeId String @map(\"attribute_id\") @db.Uuid\n\n  // Relations\n  spu                Spu                 @relation(fields: [spuId], references: [id], onDelete: Cascade)\n  attribute          Attribute           @relation(fields: [attributeId], references: [id], onDelete: Cascade)\n  skuVariationValues SkuVariationValue[]\n\n  @@unique([spuId, attributeId])\n  @@index([spuId])\n  @@map(\"spu_variations\")\n}\n\nmodel SkuVariationValue {\n  id        String   @id @default(uuid()) @db.Uuid\n  createdAt DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n\n  // Foreign Keys\n  skuId            String @map(\"sku_id\") @db.Uuid\n  spuVariationId   String @map(\"spu_variation_id\") @db.Uuid\n  attributeValueId String @map(\"attribute_value_id\") @db.Uuid\n\n  // Relations\n  sku            Sku            @relation(fields: [skuId], references: [id], onDelete: Cascade)\n  spuVariation   SpuVariation   @relation(fields: [spuVariationId], references: [id], onDelete: Cascade)\n  attributeValue AttributeValue @relation(fields: [attributeValueId], references: [id], onDelete: Cascade)\n\n  @@unique([skuId, spuVariationId])\n  @@index([skuId])\n  @@index([spuVariationId])\n  @@map(\"sku_variation_values\")\n}\n\n// ============= TAG MODELS =============\nmodel Tag {\n  id        String   @id @default(uuid()) @db.Uuid\n  name      String   @unique @db.VarChar(50)\n  slug      String   @unique @db.VarChar(50)\n  color     String?  @db.VarChar(7) // hex color code\n  isActive  Boolean  @default(true) @map(\"is_active\")\n  createdAt DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n  updatedAt DateTime @updatedAt @map(\"updated_at\") @db.Timestamptz()\n\n  // Relations\n  spuTags SpuTag[]\n\n  @@index([slug])\n  @@index([isActive])\n  @@map(\"tags\")\n}\n\nmodel SpuTag {\n  id        String   @id @default(uuid()) @db.Uuid\n  createdAt DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n\n  // Foreign Keys\n  spuId String @map(\"spu_id\") @db.Uuid\n  tagId String @map(\"tag_id\") @db.Uuid\n\n  // Relations\n  spu Spu @relation(fields: [spuId], references: [id], onDelete: Cascade)\n  tag Tag @relation(fields: [tagId], references: [id], onDelete: Cascade)\n\n  @@unique([spuId, tagId])\n  @@index([spuId])\n  @@index([tagId])\n  @@map(\"spu_tags\")\n}\n\n// ============= ENUMS =============\nenum SpuStatus {\n  DRAFT\n  PENDING_REVIEW\n  APPROVED\n  REJECTED\n  PUBLISHED\n  ARCHIVED\n}\n\nenum SkuStatus {\n  ACTIVE\n  INACTIVE\n  OUT_OF_STOCK\n  DISCONTINUED\n}\n\nenum AttributeType {\n  TEXT\n  NUMBER\n  BOOLEAN\n  COLOR\n  IMAGE\n  SELECT\n  MULTI_SELECT\n}\n\nenum ShopStatus {\n  PENDING\n  APPROVED\n  REJECTED\n  SUSPENDED\n  CLOSED\n}\n\nmodel Role {\n  id        String   @id @default(uuid()) @db.Uuid\n  roleName  String   @unique @map(\"role_name\") @db.VarChar(100)\n  createdAt DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n  updatedAt DateTime @updatedAt @map(\"updated_at\") @db.Timestamptz()\n\n  // Relations\n  rolePermissions RolePermission[]\n  userRoles       UserRole[]\n\n  @@map(\"roles\")\n}\n\nmodel Permission {\n  id             Int      @id @default(autoincrement())\n  permissionName String   @unique @map(\"permission_name\") @db.VarChar(150)\n  createdAt      DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n  updatedAt      DateTime @updatedAt @map(\"updated_at\") @db.Timestamptz()\n\n  // Relations\n  rolePermissions RolePermission[]\n\n  @@map(\"permissions\")\n}\n\n// Junction table between Role and Permission (many-to-many)\nmodel RolePermission {\n  id        String   @id @default(uuid()) @db.Uuid\n  roleId    String   @map(\"role_id\") @db.Uuid\n  createdAt DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n\n  role       Role         @relation(fields: [roleId], references: [id], onDelete: Cascade)\n  permission Permission[]\n\n  @@index([roleId])\n  @@map(\"role_permissions\")\n}\n\n// Junction table between User and Role (many-to-many)\nmodel UserRole {\n  id        String   @id @default(uuid()) @db.Uuid\n  userId    String   @map(\"user_id\") @db.Uuid\n  roleId    String   @map(\"role_id\") @db.Uuid\n  createdAt DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, roleId])\n  @@index([userId])\n  @@index([roleId])\n  @@map(\"user_roles\")\n}\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Shop {\n  id           String     @id @default(uuid()) @db.Uuid\n  name         String     @db.VarChar(200)\n  slug         String     @unique @db.VarChar(200)\n  description  String?    @db.Text\n  logoUrl      String?    @map(\"logo_url\") @db.VarChar(500)\n  bannerUrl    String?    @map(\"banner_url\") @db.VarChar(500)\n  email        String?    @db.VarChar(255)\n  phone        String?    @db.VarChar(20)\n  address      String?    @db.Text\n  website      String?    @db.VarChar(500)\n  status       ShopStatus @default(PENDING)\n  isActive     Boolean    @default(true) @map(\"is_active\")\n  isVerified   Boolean    @default(false) @map(\"is_verified\")\n  rating       Decimal?   @db.Decimal(3, 2) // Average rating 0.00 to 5.00\n  totalReviews Int        @default(0) @map(\"total_reviews\")\n  createdAt    DateTime   @default(now()) @map(\"created_at\") @db.Timestamptz()\n  updatedAt    DateTime   @updatedAt @map(\"updated_at\") @db.Timestamptz()\n\n  // Foreign Keys\n  ownerId String @map(\"owner_id\") @db.Uuid\n\n  // Relations\n  owner User  @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n  spus  Spu[]\n\n  @@index([slug])\n  @@index([ownerId])\n  @@index([status])\n  @@index([isActive])\n  @@index([isVerified])\n  @@map(\"shops\")\n}\n\nmodel User {\n  id              String         @id @default(uuid()) @db.Uuid\n  fullname        String         @db.VarChar(50)\n  username        String         @unique @db.VarChar(50)\n  email           String         @unique @db.VarChar(255)\n  phone           String?        @db.VarChar(20)\n  hashingPassword String?        @map(\"hashing_password\") @db.VarChar(255)\n  accountType     AccountType    @default(EMAIL) @map(\"account_type\")\n  avatarUrl       String?        @map(\"avatar_url\") @db.VarChar(500)\n  address         String?        @db.VarChar(500)\n  city            String?        @db.VarChar(50)\n  state           String?        @db.VarChar(50)\n  roles           UserRole[]\n  flags           UserFlag[]\n  searchCount     Int            @default(0) @map(\"search_times\")\n  createdAt       DateTime       @default(now()) @map(\"created_at\") @db.Timestamptz()\n  updatedAt       DateTime       @updatedAt @map(\"updated_at\") @db.Timestamptz()\n  visible         UserVisibility @default(PUBLIC)\n  status          Status         @default(ACTIVE)\n  isBanned        Boolean        @default(false) @map(\"is_banned\")\n  isLocked        Boolean        @default(false) @map(\"is_locked\")\n  isVerified      Boolean        @default(false) @map(\"is_verified\")\n  lastActived     DateTime?      @map(\"last_actived\") @db.Timestamptz()\n\n  // relation\n  sessions   Session[]    @relation(\"sessions\")\n  codes      Code?\n  Oauth2User Oauth2User[] @relation(\"oauth2\")\n  shops      Shop[]\n  CreditCard CreditCard[] @relation(\"payments\")\n\n  @@index([email])\n  @@index([username])\n}\n\nmodel Oauth2User {\n  id             String   @id @default(uuid()) @db.Uuid\n  provider       Provider\n  providerUserId String   @map(\"provider_user_id\") @db.VarChar(500)\n  email          String   @unique @db.VarChar(255)\n  phone          String?  @db.VarChar(20)\n  firstname      String?  @db.VarChar(50)\n  lastname       String?  @db.VarChar(50)\n  fullname       String?  @db.VarChar(50)\n  avatarUrl      String?  @map(\"avatar_url\") @db.VarChar(500)\n  username       String?  @db.VarChar(50)\n  createdAt      DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n  updatedAt      DateTime @updatedAt @map(\"updated_at\") @db.Timestamptz()\n\n  userId String @map(\"user_id\") @db.Uuid\n  user   User   @relation(name: \"oauth2\", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n\n  @@map(\"oauth2_user\")\n}\n\nmodel CreditCard {\n  id           String   @id @default(uuid()) @db.Uuid\n  creditNumber String   @unique @map(\"credit_number\") @db.VarChar(100)\n  expiredDate  DateTime @map(\"expired_date\") @db.Timestamptz()\n  ccvSecure    String   @map(\"ccv_secure\") @db.VarChar(10)\n  name         String   @map(\"name_on_card\") @db.VarChar(255)\n  address      String   @db.VarChar(500)\n  postalCode   String   @map(\"postal_code\") @db.VarChar(20)\n\n  userId String @map(\"user_id\") @db.Uuid\n  user   User   @relation(\"payments\", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)\n\n  createdAt DateTime @default(now()) @map(\"created_at\") @db.Timestamptz()\n  updatedAt DateTime @updatedAt @map(\"updated_at\") @db.Timestamptz()\n\n  @@index([userId])\n  @@map(\"credit_card\")\n}\n\nenum UserRoleS {\n  ROOT\n  ADMINSTRATOR\n  SUPPORTER\n  COLLABORATOR\n  SELLER\n  USER\n\n  @@map(\"user_role\")\n}\n\nenum UserFlag {\n  BEST_CUSTOMER\n  DIAMOND_CUSTOMER\n  GOLD_CUSTOMER\n  SILVER_CUSTOMER\n  COPPER_CUSTOMER\n  CUSTOMER\n\n  @@map(\"user_flag\")\n}\n\nenum UserVisibility {\n  PUBLIC\n  PRIVATE\n  CONTACT_ONLY\n\n  @@map(\"user_visibility\")\n}\n\nenum Provider {\n  FACEBOOK\n  GOOGLE\n}\n\nenum Status {\n  ACTIVE\n  SOFTDELETE\n  PENDING\n}\n",
+  "inlineSchemaHash": "09adefd0825ba94f8f5854e2b2556d94e2e232bfef30dcf168baa84104663fc3",
+  "copyEngine": true
+}
+config.dirname = '/'
+
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hashingRefreshToken\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"hasing_refreshtoken\"},{\"name\":\"userAgent\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userIp\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"loginedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"logined_at\"},{\"name\":\"logoutedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"logouted_at\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"sessions\"}],\"dbName\":\"session\"},\"Code\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"code\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"expiredAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"expired_at\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"CodeToUser\"}],\"dbName\":\"code\"},\"Category\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"image_url\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_active\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"sort_order\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"parent_id\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryHierarchy\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryHierarchy\"},{\"name\":\"spus\",\"kind\":\"object\",\"type\":\"Spu\",\"relationName\":\"CategoryToSpu\"}],\"dbName\":\"categories\"},\"Brand\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"logoUrl\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"logo_url\"},{\"name\":\"websiteUrl\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"website_url\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_active\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"spus\",\"kind\":\"object\",\"type\":\"Spu\",\"relationName\":\"BrandToSpu\"}],\"dbName\":\"brands\"},\"Spu\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"shortDesc\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"short_desc\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"SpuStatus\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_active\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"categoryId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"category_id\"},{\"name\":\"brandId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"brand_id\"},{\"name\":\"shopId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"shop_id\"},{\"name\":\"category\",\"kind\":\"object\",\"type\":\"Category\",\"relationName\":\"CategoryToSpu\"},{\"name\":\"brand\",\"kind\":\"object\",\"type\":\"Brand\",\"relationName\":\"BrandToSpu\"},{\"name\":\"shop\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"ShopToSpu\"},{\"name\":\"skus\",\"kind\":\"object\",\"type\":\"Sku\",\"relationName\":\"SkuToSpu\"},{\"name\":\"spuImages\",\"kind\":\"object\",\"type\":\"SpuImage\",\"relationName\":\"SpuToSpuImage\"},{\"name\":\"spuAttributes\",\"kind\":\"object\",\"type\":\"SpuAttribute\",\"relationName\":\"SpuToSpuAttribute\"},{\"name\":\"spuTags\",\"kind\":\"object\",\"type\":\"SpuTag\",\"relationName\":\"SpuToSpuTag\"},{\"name\":\"spuVariations\",\"kind\":\"object\",\"type\":\"SpuVariation\",\"relationName\":\"SpuToSpuVariation\"}],\"dbName\":\"spus\"},\"Sku\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"skuCode\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"sku_code\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"originalPrice\",\"kind\":\"scalar\",\"type\":\"Decimal\",\"dbName\":\"original_price\"},{\"name\":\"salePrice\",\"kind\":\"scalar\",\"type\":\"Decimal\",\"dbName\":\"sale_price\"},{\"name\":\"stock\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"weight\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"length\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"width\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"height\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"SkuStatus\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_active\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"spuId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"spu_id\"},{\"name\":\"spu\",\"kind\":\"object\",\"type\":\"Spu\",\"relationName\":\"SkuToSpu\"},{\"name\":\"skuImages\",\"kind\":\"object\",\"type\":\"SkuImage\",\"relationName\":\"SkuToSkuImage\"},{\"name\":\"skuAttributes\",\"kind\":\"object\",\"type\":\"SkuAttribute\",\"relationName\":\"SkuToSkuAttribute\"},{\"name\":\"skuVariationValues\",\"kind\":\"object\",\"type\":\"SkuVariationValue\",\"relationName\":\"SkuToSkuVariationValue\"}],\"dbName\":\"skus\"},\"SpuImage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"image_url\"},{\"name\":\"altText\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"alt_text\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"sort_order\"},{\"name\":\"isMain\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_main\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"spuId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"spu_id\"},{\"name\":\"spu\",\"kind\":\"object\",\"type\":\"Spu\",\"relationName\":\"SpuToSpuImage\"}],\"dbName\":\"spu_images\"},\"SkuImage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"image_url\"},{\"name\":\"altText\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"alt_text\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"sort_order\"},{\"name\":\"isMain\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_main\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"skuId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"sku_id\"},{\"name\":\"sku\",\"kind\":\"object\",\"type\":\"Sku\",\"relationName\":\"SkuToSkuImage\"}],\"dbName\":\"sku_images\"},\"Attribute\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"displayName\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"display_name\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"AttributeType\"},{\"name\":\"isRequired\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_required\"},{\"name\":\"isVariation\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_variation\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"sort_order\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_active\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"spuAttributes\",\"kind\":\"object\",\"type\":\"SpuAttribute\",\"relationName\":\"AttributeToSpuAttribute\"},{\"name\":\"skuAttributes\",\"kind\":\"object\",\"type\":\"SkuAttribute\",\"relationName\":\"AttributeToSkuAttribute\"},{\"name\":\"attributeValues\",\"kind\":\"object\",\"type\":\"AttributeValue\",\"relationName\":\"AttributeToAttributeValue\"},{\"name\":\"spuVariations\",\"kind\":\"object\",\"type\":\"SpuVariation\",\"relationName\":\"AttributeToSpuVariation\"}],\"dbName\":\"attributes\"},\"AttributeValue\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"displayName\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"display_name\"},{\"name\":\"colorCode\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"color_code\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"image_url\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"sort_order\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_active\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"attributeId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"attribute_id\"},{\"name\":\"attribute\",\"kind\":\"object\",\"type\":\"Attribute\",\"relationName\":\"AttributeToAttributeValue\"},{\"name\":\"spuAttributes\",\"kind\":\"object\",\"type\":\"SpuAttribute\",\"relationName\":\"AttributeValueToSpuAttribute\"},{\"name\":\"skuAttributes\",\"kind\":\"object\",\"type\":\"SkuAttribute\",\"relationName\":\"AttributeValueToSkuAttribute\"},{\"name\":\"skuVariationValues\",\"kind\":\"object\",\"type\":\"SkuVariationValue\",\"relationName\":\"AttributeValueToSkuVariationValue\"}],\"dbName\":\"attribute_values\"},\"SpuAttribute\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"spuId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"spu_id\"},{\"name\":\"attributeId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"attribute_id\"},{\"name\":\"attributeValueId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"attribute_value_id\"},{\"name\":\"spu\",\"kind\":\"object\",\"type\":\"Spu\",\"relationName\":\"SpuToSpuAttribute\"},{\"name\":\"attribute\",\"kind\":\"object\",\"type\":\"Attribute\",\"relationName\":\"AttributeToSpuAttribute\"},{\"name\":\"attributeValue\",\"kind\":\"object\",\"type\":\"AttributeValue\",\"relationName\":\"AttributeValueToSpuAttribute\"}],\"dbName\":\"spu_attributes\"},\"SkuAttribute\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"skuId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"sku_id\"},{\"name\":\"attributeId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"attribute_id\"},{\"name\":\"attributeValueId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"attribute_value_id\"},{\"name\":\"sku\",\"kind\":\"object\",\"type\":\"Sku\",\"relationName\":\"SkuToSkuAttribute\"},{\"name\":\"attribute\",\"kind\":\"object\",\"type\":\"Attribute\",\"relationName\":\"AttributeToSkuAttribute\"},{\"name\":\"attributeValue\",\"kind\":\"object\",\"type\":\"AttributeValue\",\"relationName\":\"AttributeValueToSkuAttribute\"}],\"dbName\":\"sku_attributes\"},\"SpuVariation\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"sort_order\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"spuId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"spu_id\"},{\"name\":\"attributeId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"attribute_id\"},{\"name\":\"spu\",\"kind\":\"object\",\"type\":\"Spu\",\"relationName\":\"SpuToSpuVariation\"},{\"name\":\"attribute\",\"kind\":\"object\",\"type\":\"Attribute\",\"relationName\":\"AttributeToSpuVariation\"},{\"name\":\"skuVariationValues\",\"kind\":\"object\",\"type\":\"SkuVariationValue\",\"relationName\":\"SkuVariationValueToSpuVariation\"}],\"dbName\":\"spu_variations\"},\"SkuVariationValue\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"skuId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"sku_id\"},{\"name\":\"spuVariationId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"spu_variation_id\"},{\"name\":\"attributeValueId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"attribute_value_id\"},{\"name\":\"sku\",\"kind\":\"object\",\"type\":\"Sku\",\"relationName\":\"SkuToSkuVariationValue\"},{\"name\":\"spuVariation\",\"kind\":\"object\",\"type\":\"SpuVariation\",\"relationName\":\"SkuVariationValueToSpuVariation\"},{\"name\":\"attributeValue\",\"kind\":\"object\",\"type\":\"AttributeValue\",\"relationName\":\"AttributeValueToSkuVariationValue\"}],\"dbName\":\"sku_variation_values\"},\"Tag\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"color\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_active\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"spuTags\",\"kind\":\"object\",\"type\":\"SpuTag\",\"relationName\":\"SpuTagToTag\"}],\"dbName\":\"tags\"},\"SpuTag\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"spuId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"spu_id\"},{\"name\":\"tagId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"tag_id\"},{\"name\":\"spu\",\"kind\":\"object\",\"type\":\"Spu\",\"relationName\":\"SpuToSpuTag\"},{\"name\":\"tag\",\"kind\":\"object\",\"type\":\"Tag\",\"relationName\":\"SpuTagToTag\"}],\"dbName\":\"spu_tags\"},\"Role\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roleName\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"role_name\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"rolePermissions\",\"kind\":\"object\",\"type\":\"RolePermission\",\"relationName\":\"RoleToRolePermission\"},{\"name\":\"userRoles\",\"kind\":\"object\",\"type\":\"UserRole\",\"relationName\":\"RoleToUserRole\"}],\"dbName\":\"roles\"},\"Permission\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"permissionName\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"permission_name\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"rolePermissions\",\"kind\":\"object\",\"type\":\"RolePermission\",\"relationName\":\"PermissionToRolePermission\"}],\"dbName\":\"permissions\"},\"RolePermission\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roleId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"role_id\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"role\",\"kind\":\"object\",\"type\":\"Role\",\"relationName\":\"RoleToRolePermission\"},{\"name\":\"permission\",\"kind\":\"object\",\"type\":\"Permission\",\"relationName\":\"PermissionToRolePermission\"}],\"dbName\":\"role_permissions\"},\"UserRole\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"user_id\"},{\"name\":\"roleId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"role_id\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"UserToUserRole\"},{\"name\":\"role\",\"kind\":\"object\",\"type\":\"Role\",\"relationName\":\"RoleToUserRole\"}],\"dbName\":\"user_roles\"},\"Shop\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"slug\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"logoUrl\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"logo_url\"},{\"name\":\"bannerUrl\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"banner_url\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"website\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"ShopStatus\"},{\"name\":\"isActive\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_active\"},{\"name\":\"isVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_verified\"},{\"name\":\"rating\",\"kind\":\"scalar\",\"type\":\"Decimal\"},{\"name\":\"totalReviews\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"total_reviews\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"owner_id\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ShopToUser\"},{\"name\":\"spus\",\"kind\":\"object\",\"type\":\"Spu\",\"relationName\":\"ShopToSpu\"}],\"dbName\":\"shops\"},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullname\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hashingPassword\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"hashing_password\"},{\"name\":\"accountType\",\"kind\":\"enum\",\"type\":\"AccountType\",\"dbName\":\"account_type\"},{\"name\":\"avatarUrl\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"avatar_url\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"city\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"state\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"roles\",\"kind\":\"object\",\"type\":\"UserRole\",\"relationName\":\"UserToUserRole\"},{\"name\":\"flags\",\"kind\":\"enum\",\"type\":\"UserFlag\"},{\"name\":\"searchCount\",\"kind\":\"scalar\",\"type\":\"Int\",\"dbName\":\"search_times\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"visible\",\"kind\":\"enum\",\"type\":\"UserVisibility\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"Status\"},{\"name\":\"isBanned\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_banned\"},{\"name\":\"isLocked\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_locked\"},{\"name\":\"isVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_verified\"},{\"name\":\"lastActived\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"last_actived\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"sessions\"},{\"name\":\"codes\",\"kind\":\"object\",\"type\":\"Code\",\"relationName\":\"CodeToUser\"},{\"name\":\"Oauth2User\",\"kind\":\"object\",\"type\":\"Oauth2User\",\"relationName\":\"oauth2\"},{\"name\":\"shops\",\"kind\":\"object\",\"type\":\"Shop\",\"relationName\":\"ShopToUser\"},{\"name\":\"CreditCard\",\"kind\":\"object\",\"type\":\"CreditCard\",\"relationName\":\"payments\"}],\"dbName\":null},\"Oauth2User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"provider\",\"kind\":\"enum\",\"type\":\"Provider\"},{\"name\":\"providerUserId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"provider_user_id\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"firstname\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastname\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fullname\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"avatarUrl\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"avatar_url\"},{\"name\":\"username\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"user_id\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"oauth2\"}],\"dbName\":\"oauth2_user\"},\"CreditCard\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"creditNumber\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"credit_number\"},{\"name\":\"expiredDate\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"expired_date\"},{\"name\":\"ccvSecure\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"ccv_secure\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"name_on_card\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"postalCode\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"postal_code\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"user_id\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"payments\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"}],\"dbName\":\"credit_card\"}},\"enums\":{},\"types\":{}}")
+defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
+config.engineWasm = {
+  getRuntime: async () => require('./query_engine_bg.js'),
+  getQueryEngineWasmModule: async () => {
+    const loader = (await import('#wasm-engine-loader')).default
+    const engine = (await loader).default
+    return engine
   }
 }
+config.compilerWasm = undefined
 
+config.injectableEdgeEnv = () => ({
+  parsed: {
+    DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.DATABASE_URL || undefined
+  }
+})
+
+if (typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined) {
+  Debug.enable(typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined)
+}
+
+const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
-
 Object.assign(exports, Prisma)
+
