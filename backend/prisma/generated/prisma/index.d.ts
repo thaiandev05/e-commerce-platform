@@ -25345,6 +25345,7 @@ export namespace Prisma {
     userId: number
     roleId: number
     createdAt: number
+    attribute: number
     _all: number
   }
 
@@ -25368,6 +25369,7 @@ export namespace Prisma {
     userId?: true
     roleId?: true
     createdAt?: true
+    attribute?: true
     _all?: true
   }
 
@@ -25448,6 +25450,7 @@ export namespace Prisma {
     userId: string
     roleId: string
     createdAt: Date
+    attribute: JsonValue | null
     _count: UserRoleCountAggregateOutputType | null
     _min: UserRoleMinAggregateOutputType | null
     _max: UserRoleMaxAggregateOutputType | null
@@ -25472,6 +25475,7 @@ export namespace Prisma {
     userId?: boolean
     roleId?: boolean
     createdAt?: boolean
+    attribute?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userRole"]>
@@ -25481,6 +25485,7 @@ export namespace Prisma {
     userId?: boolean
     roleId?: boolean
     createdAt?: boolean
+    attribute?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userRole"]>
@@ -25490,6 +25495,7 @@ export namespace Prisma {
     userId?: boolean
     roleId?: boolean
     createdAt?: boolean
+    attribute?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userRole"]>
@@ -25499,9 +25505,10 @@ export namespace Prisma {
     userId?: boolean
     roleId?: boolean
     createdAt?: boolean
+    attribute?: boolean
   }
 
-  export type UserRoleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "roleId" | "createdAt", ExtArgs["result"]["userRole"]>
+  export type UserRoleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "roleId" | "createdAt" | "attribute", ExtArgs["result"]["userRole"]>
   export type UserRoleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
@@ -25526,6 +25533,7 @@ export namespace Prisma {
       userId: string
       roleId: string
       createdAt: Date
+      attribute: Prisma.JsonValue | null
     }, ExtArgs["result"]["userRole"]>
     composites: {}
   }
@@ -25955,6 +25963,7 @@ export namespace Prisma {
     readonly userId: FieldRef<"UserRole", 'String'>
     readonly roleId: FieldRef<"UserRole", 'String'>
     readonly createdAt: FieldRef<"UserRole", 'DateTime'>
+    readonly attribute: FieldRef<"UserRole", 'Json'>
   }
     
 
@@ -27701,6 +27710,7 @@ export namespace Prisma {
     updatedAt: Date | null
     visible: $Enums.UserVisibility | null
     status: $Enums.Status | null
+    numberIdentify: string | null
     isBanned: boolean | null
     isLocked: boolean | null
     isVerified: boolean | null
@@ -27724,6 +27734,7 @@ export namespace Prisma {
     updatedAt: Date | null
     visible: $Enums.UserVisibility | null
     status: $Enums.Status | null
+    numberIdentify: string | null
     isBanned: boolean | null
     isLocked: boolean | null
     isVerified: boolean | null
@@ -27742,16 +27753,17 @@ export namespace Prisma {
     address: number
     city: number
     state: number
-    flags: number
     searchCount: number
     createdAt: number
     updatedAt: number
     visible: number
     status: number
+    numberIdentify: number
     isBanned: number
     isLocked: number
     isVerified: number
     lastActived: number
+    flags: number
     _all: number
   }
 
@@ -27781,6 +27793,7 @@ export namespace Prisma {
     updatedAt?: true
     visible?: true
     status?: true
+    numberIdentify?: true
     isBanned?: true
     isLocked?: true
     isVerified?: true
@@ -27804,6 +27817,7 @@ export namespace Prisma {
     updatedAt?: true
     visible?: true
     status?: true
+    numberIdentify?: true
     isBanned?: true
     isLocked?: true
     isVerified?: true
@@ -27822,16 +27836,17 @@ export namespace Prisma {
     address?: true
     city?: true
     state?: true
-    flags?: true
     searchCount?: true
     createdAt?: true
     updatedAt?: true
     visible?: true
     status?: true
+    numberIdentify?: true
     isBanned?: true
     isLocked?: true
     isVerified?: true
     lastActived?: true
+    flags?: true
     _all?: true
   }
 
@@ -27933,16 +27948,17 @@ export namespace Prisma {
     address: string | null
     city: string | null
     state: string | null
-    flags: $Enums.UserFlag[]
     searchCount: number
     createdAt: Date
     updatedAt: Date
     visible: $Enums.UserVisibility
     status: $Enums.Status
+    numberIdentify: string | null
     isBanned: boolean
     isLocked: boolean
     isVerified: boolean
     lastActived: Date | null
+    flags: $Enums.UserFlag[]
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -27976,16 +27992,17 @@ export namespace Prisma {
     address?: boolean
     city?: boolean
     state?: boolean
-    flags?: boolean
     searchCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     visible?: boolean
     status?: boolean
+    numberIdentify?: boolean
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: boolean
+    flags?: boolean
     roles?: boolean | User$rolesArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     codes?: boolean | User$codesArgs<ExtArgs>
@@ -28007,16 +28024,17 @@ export namespace Prisma {
     address?: boolean
     city?: boolean
     state?: boolean
-    flags?: boolean
     searchCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     visible?: boolean
     status?: boolean
+    numberIdentify?: boolean
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: boolean
+    flags?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -28031,16 +28049,17 @@ export namespace Prisma {
     address?: boolean
     city?: boolean
     state?: boolean
-    flags?: boolean
     searchCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     visible?: boolean
     status?: boolean
+    numberIdentify?: boolean
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: boolean
+    flags?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -28055,19 +28074,20 @@ export namespace Prisma {
     address?: boolean
     city?: boolean
     state?: boolean
-    flags?: boolean
     searchCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     visible?: boolean
     status?: boolean
+    numberIdentify?: boolean
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: boolean
+    flags?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullname" | "username" | "email" | "phone" | "hashingPassword" | "accountType" | "avatarUrl" | "address" | "city" | "state" | "flags" | "searchCount" | "createdAt" | "updatedAt" | "visible" | "status" | "isBanned" | "isLocked" | "isVerified" | "lastActived", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullname" | "username" | "email" | "phone" | "hashingPassword" | "accountType" | "avatarUrl" | "address" | "city" | "state" | "searchCount" | "createdAt" | "updatedAt" | "visible" | "status" | "numberIdentify" | "isBanned" | "isLocked" | "isVerified" | "lastActived" | "flags", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     roles?: boolean | User$rolesArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -28102,16 +28122,17 @@ export namespace Prisma {
       address: string | null
       city: string | null
       state: string | null
-      flags: $Enums.UserFlag[]
       searchCount: number
       createdAt: Date
       updatedAt: Date
       visible: $Enums.UserVisibility
       status: $Enums.Status
+      numberIdentify: string | null
       isBanned: boolean
       isLocked: boolean
       isVerified: boolean
       lastActived: Date | null
+      flags: $Enums.UserFlag[]
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -28552,16 +28573,17 @@ export namespace Prisma {
     readonly address: FieldRef<"User", 'String'>
     readonly city: FieldRef<"User", 'String'>
     readonly state: FieldRef<"User", 'String'>
-    readonly flags: FieldRef<"User", 'UserFlag[]'>
     readonly searchCount: FieldRef<"User", 'Int'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly visible: FieldRef<"User", 'UserVisibility'>
     readonly status: FieldRef<"User", 'Status'>
+    readonly numberIdentify: FieldRef<"User", 'String'>
     readonly isBanned: FieldRef<"User", 'Boolean'>
     readonly isLocked: FieldRef<"User", 'Boolean'>
     readonly isVerified: FieldRef<"User", 'Boolean'>
     readonly lastActived: FieldRef<"User", 'DateTime'>
+    readonly flags: FieldRef<"User", 'UserFlag[]'>
   }
     
 
@@ -31661,7 +31683,8 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     roleId: 'roleId',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    attribute: 'attribute'
   };
 
   export type UserRoleScalarFieldEnum = (typeof UserRoleScalarFieldEnum)[keyof typeof UserRoleScalarFieldEnum]
@@ -31703,16 +31726,17 @@ export namespace Prisma {
     address: 'address',
     city: 'city',
     state: 'state',
-    flags: 'flags',
     searchCount: 'searchCount',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     visible: 'visible',
     status: 'status',
+    numberIdentify: 'numberIdentify',
     isBanned: 'isBanned',
     isLocked: 'isLocked',
     isVerified: 'isVerified',
-    lastActived: 'lastActived'
+    lastActived: 'lastActived',
+    flags: 'flags'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -31761,6 +31785,14 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -31775,6 +31807,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -31888,6 +31929,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
    * Reference to a field of type 'ShopStatus'
    */
   export type EnumShopStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShopStatus'>
@@ -31916,20 +31971,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'UserFlag[]'
-   */
-  export type ListEnumUserFlagFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserFlag[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'UserFlag'
-   */
-  export type EnumUserFlagFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserFlag'>
-    
-
-
-  /**
    * Reference to a field of type 'UserVisibility'
    */
   export type EnumUserVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserVisibility'>
@@ -31954,6 +31995,20 @@ export namespace Prisma {
    * Reference to a field of type 'Status[]'
    */
   export type ListEnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'UserFlag[]'
+   */
+  export type ListEnumUserFlagFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserFlag[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'UserFlag'
+   */
+  export type EnumUserFlagFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserFlag'>
     
 
 
@@ -33360,6 +33415,7 @@ export namespace Prisma {
     userId?: UuidFilter<"UserRole"> | string
     roleId?: UuidFilter<"UserRole"> | string
     createdAt?: DateTimeFilter<"UserRole"> | Date | string
+    attribute?: JsonNullableFilter<"UserRole">
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
   }
@@ -33369,6 +33425,7 @@ export namespace Prisma {
     userId?: SortOrder
     roleId?: SortOrder
     createdAt?: SortOrder
+    attribute?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     role?: RoleOrderByWithRelationInput
   }
@@ -33382,6 +33439,7 @@ export namespace Prisma {
     userId?: UuidFilter<"UserRole"> | string
     roleId?: UuidFilter<"UserRole"> | string
     createdAt?: DateTimeFilter<"UserRole"> | Date | string
+    attribute?: JsonNullableFilter<"UserRole">
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
   }, "id" | "userId_roleId">
@@ -33391,6 +33449,7 @@ export namespace Prisma {
     userId?: SortOrder
     roleId?: SortOrder
     createdAt?: SortOrder
+    attribute?: SortOrderInput | SortOrder
     _count?: UserRoleCountOrderByAggregateInput
     _max?: UserRoleMaxOrderByAggregateInput
     _min?: UserRoleMinOrderByAggregateInput
@@ -33404,6 +33463,7 @@ export namespace Prisma {
     userId?: UuidWithAggregatesFilter<"UserRole"> | string
     roleId?: UuidWithAggregatesFilter<"UserRole"> | string
     createdAt?: DateTimeWithAggregatesFilter<"UserRole"> | Date | string
+    attribute?: JsonNullableWithAggregatesFilter<"UserRole">
   }
 
   export type ShopWhereInput = {
@@ -33546,16 +33606,17 @@ export namespace Prisma {
     address?: StringNullableFilter<"User"> | string | null
     city?: StringNullableFilter<"User"> | string | null
     state?: StringNullableFilter<"User"> | string | null
-    flags?: EnumUserFlagNullableListFilter<"User">
     searchCount?: IntFilter<"User"> | number
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     visible?: EnumUserVisibilityFilter<"User"> | $Enums.UserVisibility
     status?: EnumStatusFilter<"User"> | $Enums.Status
+    numberIdentify?: StringNullableFilter<"User"> | string | null
     isBanned?: BoolFilter<"User"> | boolean
     isLocked?: BoolFilter<"User"> | boolean
     isVerified?: BoolFilter<"User"> | boolean
     lastActived?: DateTimeNullableFilter<"User"> | Date | string | null
+    flags?: EnumUserFlagNullableListFilter<"User">
     roles?: UserRoleListRelationFilter
     sessions?: SessionListRelationFilter
     codes?: XOR<CodeNullableScalarRelationFilter, CodeWhereInput> | null
@@ -33576,16 +33637,17 @@ export namespace Prisma {
     address?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
     state?: SortOrderInput | SortOrder
-    flags?: SortOrder
     searchCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     visible?: SortOrder
     status?: SortOrder
+    numberIdentify?: SortOrderInput | SortOrder
     isBanned?: SortOrder
     isLocked?: SortOrder
     isVerified?: SortOrder
     lastActived?: SortOrderInput | SortOrder
+    flags?: SortOrder
     roles?: UserRoleOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     codes?: CodeOrderByWithRelationInput
@@ -33609,16 +33671,17 @@ export namespace Prisma {
     address?: StringNullableFilter<"User"> | string | null
     city?: StringNullableFilter<"User"> | string | null
     state?: StringNullableFilter<"User"> | string | null
-    flags?: EnumUserFlagNullableListFilter<"User">
     searchCount?: IntFilter<"User"> | number
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     visible?: EnumUserVisibilityFilter<"User"> | $Enums.UserVisibility
     status?: EnumStatusFilter<"User"> | $Enums.Status
+    numberIdentify?: StringNullableFilter<"User"> | string | null
     isBanned?: BoolFilter<"User"> | boolean
     isLocked?: BoolFilter<"User"> | boolean
     isVerified?: BoolFilter<"User"> | boolean
     lastActived?: DateTimeNullableFilter<"User"> | Date | string | null
+    flags?: EnumUserFlagNullableListFilter<"User">
     roles?: UserRoleListRelationFilter
     sessions?: SessionListRelationFilter
     codes?: XOR<CodeNullableScalarRelationFilter, CodeWhereInput> | null
@@ -33639,16 +33702,17 @@ export namespace Prisma {
     address?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
     state?: SortOrderInput | SortOrder
-    flags?: SortOrder
     searchCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     visible?: SortOrder
     status?: SortOrder
+    numberIdentify?: SortOrderInput | SortOrder
     isBanned?: SortOrder
     isLocked?: SortOrder
     isVerified?: SortOrder
     lastActived?: SortOrderInput | SortOrder
+    flags?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -33671,16 +33735,17 @@ export namespace Prisma {
     address?: StringNullableWithAggregatesFilter<"User"> | string | null
     city?: StringNullableWithAggregatesFilter<"User"> | string | null
     state?: StringNullableWithAggregatesFilter<"User"> | string | null
-    flags?: EnumUserFlagNullableListFilter<"User">
     searchCount?: IntWithAggregatesFilter<"User"> | number
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     visible?: EnumUserVisibilityWithAggregatesFilter<"User"> | $Enums.UserVisibility
     status?: EnumStatusWithAggregatesFilter<"User"> | $Enums.Status
+    numberIdentify?: StringNullableWithAggregatesFilter<"User"> | string | null
     isBanned?: BoolWithAggregatesFilter<"User"> | boolean
     isLocked?: BoolWithAggregatesFilter<"User"> | boolean
     isVerified?: BoolWithAggregatesFilter<"User"> | boolean
     lastActived?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    flags?: EnumUserFlagNullableListFilter<"User">
   }
 
   export type Oauth2UserWhereInput = {
@@ -35288,6 +35353,7 @@ export namespace Prisma {
   export type UserRoleCreateInput = {
     id?: string
     createdAt?: Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
     user: UserCreateNestedOneWithoutRolesInput
     role: RoleCreateNestedOneWithoutUserRolesInput
   }
@@ -35297,11 +35363,13 @@ export namespace Prisma {
     userId: string
     roleId: string
     createdAt?: Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserRoleUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
     user?: UserUpdateOneRequiredWithoutRolesNestedInput
     role?: RoleUpdateOneRequiredWithoutUserRolesNestedInput
   }
@@ -35311,6 +35379,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     roleId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserRoleCreateManyInput = {
@@ -35318,11 +35387,13 @@ export namespace Prisma {
     userId: string
     roleId: string
     createdAt?: Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserRoleUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserRoleUncheckedUpdateManyInput = {
@@ -35330,6 +35401,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     roleId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ShopCreateInput = {
@@ -35494,16 +35566,17 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     state?: string | null
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
     status?: $Enums.Status
+    numberIdentify?: string | null
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     codes?: CodeCreateNestedOneWithoutUserInput
@@ -35524,16 +35597,17 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     state?: string | null
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
     status?: $Enums.Status
+    numberIdentify?: string | null
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     codes?: CodeUncheckedCreateNestedOneWithoutUserInput
@@ -35554,16 +35628,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     codes?: CodeUpdateOneWithoutUserNestedInput
@@ -35584,16 +35659,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     codes?: CodeUncheckedUpdateOneWithoutUserNestedInput
@@ -35614,16 +35690,17 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     state?: string | null
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
     status?: $Enums.Status
+    numberIdentify?: string | null
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
   }
 
   export type UserUpdateManyMutationInput = {
@@ -35638,16 +35715,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -35662,16 +35740,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
   }
 
   export type Oauth2UserCreateInput = {
@@ -37082,6 +37161,29 @@ export namespace Prisma {
     roleId?: SortOrder
     createdAt?: SortOrder
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type UserRoleUserIdRoleIdCompoundUniqueInput = {
     userId: string
@@ -37093,6 +37195,7 @@ export namespace Prisma {
     userId?: SortOrder
     roleId?: SortOrder
     createdAt?: SortOrder
+    attribute?: SortOrder
   }
 
   export type UserRoleMaxOrderByAggregateInput = {
@@ -37107,6 +37210,32 @@ export namespace Prisma {
     userId?: SortOrder
     roleId?: SortOrder
     createdAt?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type EnumShopStatusFilter<$PrismaModel = never> = {
@@ -37206,14 +37335,6 @@ export namespace Prisma {
     not?: NestedEnumAccountTypeFilter<$PrismaModel> | $Enums.AccountType
   }
 
-  export type EnumUserFlagNullableListFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserFlag[] | ListEnumUserFlagFieldRefInput<$PrismaModel> | null
-    has?: $Enums.UserFlag | EnumUserFlagFieldRefInput<$PrismaModel> | null
-    hasEvery?: $Enums.UserFlag[] | ListEnumUserFlagFieldRefInput<$PrismaModel>
-    hasSome?: $Enums.UserFlag[] | ListEnumUserFlagFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
-  }
-
   export type EnumUserVisibilityFilter<$PrismaModel = never> = {
     equals?: $Enums.UserVisibility | EnumUserVisibilityFieldRefInput<$PrismaModel>
     in?: $Enums.UserVisibility[] | ListEnumUserVisibilityFieldRefInput<$PrismaModel>
@@ -37226,6 +37347,14 @@ export namespace Prisma {
     in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
+  }
+
+  export type EnumUserFlagNullableListFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserFlag[] | ListEnumUserFlagFieldRefInput<$PrismaModel> | null
+    has?: $Enums.UserFlag | EnumUserFlagFieldRefInput<$PrismaModel> | null
+    hasEvery?: $Enums.UserFlag[] | ListEnumUserFlagFieldRefInput<$PrismaModel>
+    hasSome?: $Enums.UserFlag[] | ListEnumUserFlagFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
   }
 
   export type SessionListRelationFilter = {
@@ -37285,16 +37414,17 @@ export namespace Prisma {
     address?: SortOrder
     city?: SortOrder
     state?: SortOrder
-    flags?: SortOrder
     searchCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     visible?: SortOrder
     status?: SortOrder
+    numberIdentify?: SortOrder
     isBanned?: SortOrder
     isLocked?: SortOrder
     isVerified?: SortOrder
     lastActived?: SortOrder
+    flags?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -37318,6 +37448,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     visible?: SortOrder
     status?: SortOrder
+    numberIdentify?: SortOrder
     isBanned?: SortOrder
     isLocked?: SortOrder
     isVerified?: SortOrder
@@ -37341,6 +37472,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     visible?: SortOrder
     status?: SortOrder
+    numberIdentify?: SortOrder
     isBanned?: SortOrder
     isLocked?: SortOrder
     isVerified?: SortOrder
@@ -39057,17 +39189,17 @@ export namespace Prisma {
     set?: $Enums.AccountType
   }
 
-  export type UserUpdateflagsInput = {
-    set?: $Enums.UserFlag[]
-    push?: $Enums.UserFlag | $Enums.UserFlag[]
-  }
-
   export type EnumUserVisibilityFieldUpdateOperationsInput = {
     set?: $Enums.UserVisibility
   }
 
   export type EnumStatusFieldUpdateOperationsInput = {
     set?: $Enums.Status
+  }
+
+  export type UserUpdateflagsInput = {
+    set?: $Enums.UserFlag[]
+    push?: $Enums.UserFlag | $Enums.UserFlag[]
   }
 
   export type UserRoleUpdateManyWithoutUserNestedInput = {
@@ -39590,6 +39722,29 @@ export namespace Prisma {
     _min?: NestedEnumAttributeTypeFilter<$PrismaModel>
     _max?: NestedEnumAttributeTypeFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedEnumShopStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.ShopStatus | EnumShopStatusFieldRefInput<$PrismaModel>
@@ -39688,16 +39843,17 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     state?: string | null
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
     status?: $Enums.Status
+    numberIdentify?: string | null
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleCreateNestedManyWithoutUserInput
     codes?: CodeCreateNestedOneWithoutUserInput
     Oauth2User?: Oauth2UserCreateNestedManyWithoutUserInput
@@ -39717,16 +39873,17 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     state?: string | null
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
     status?: $Enums.Status
+    numberIdentify?: string | null
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
     codes?: CodeUncheckedCreateNestedOneWithoutUserInput
     Oauth2User?: Oauth2UserUncheckedCreateNestedManyWithoutUserInput
@@ -39762,16 +39919,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUpdateManyWithoutUserNestedInput
     codes?: CodeUpdateOneWithoutUserNestedInput
     Oauth2User?: Oauth2UserUpdateManyWithoutUserNestedInput
@@ -39791,16 +39949,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
     codes?: CodeUncheckedUpdateOneWithoutUserNestedInput
     Oauth2User?: Oauth2UserUncheckedUpdateManyWithoutUserNestedInput
@@ -39820,16 +39979,17 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     state?: string | null
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
     status?: $Enums.Status
+    numberIdentify?: string | null
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     Oauth2User?: Oauth2UserCreateNestedManyWithoutUserInput
@@ -39849,16 +40009,17 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     state?: string | null
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
     status?: $Enums.Status
+    numberIdentify?: string | null
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     Oauth2User?: Oauth2UserUncheckedCreateNestedManyWithoutUserInput
@@ -39894,16 +40055,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     Oauth2User?: Oauth2UserUpdateManyWithoutUserNestedInput
@@ -39923,16 +40085,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     Oauth2User?: Oauth2UserUncheckedUpdateManyWithoutUserNestedInput
@@ -42745,6 +42908,7 @@ export namespace Prisma {
   export type UserRoleCreateWithoutRoleInput = {
     id?: string
     createdAt?: Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
     user: UserCreateNestedOneWithoutRolesInput
   }
 
@@ -42752,6 +42916,7 @@ export namespace Prisma {
     id?: string
     userId: string
     createdAt?: Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserRoleCreateOrConnectWithoutRoleInput = {
@@ -42813,6 +42978,7 @@ export namespace Prisma {
     userId?: UuidFilter<"UserRole"> | string
     roleId?: UuidFilter<"UserRole"> | string
     createdAt?: DateTimeFilter<"UserRole"> | Date | string
+    attribute?: JsonNullableFilter<"UserRole">
   }
 
   export type RolePermissionCreateWithoutPermissionInput = {
@@ -42952,16 +43118,17 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     state?: string | null
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
     status?: $Enums.Status
+    numberIdentify?: string | null
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     sessions?: SessionCreateNestedManyWithoutUserInput
     codes?: CodeCreateNestedOneWithoutUserInput
     Oauth2User?: Oauth2UserCreateNestedManyWithoutUserInput
@@ -42981,16 +43148,17 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     state?: string | null
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
     status?: $Enums.Status
+    numberIdentify?: string | null
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     codes?: CodeUncheckedCreateNestedOneWithoutUserInput
     Oauth2User?: Oauth2UserUncheckedCreateNestedManyWithoutUserInput
@@ -43047,16 +43215,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     sessions?: SessionUpdateManyWithoutUserNestedInput
     codes?: CodeUpdateOneWithoutUserNestedInput
     Oauth2User?: Oauth2UserUpdateManyWithoutUserNestedInput
@@ -43076,16 +43245,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     codes?: CodeUncheckedUpdateOneWithoutUserNestedInput
     Oauth2User?: Oauth2UserUncheckedUpdateManyWithoutUserNestedInput
@@ -43132,16 +43302,17 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     state?: string | null
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
     status?: $Enums.Status
+    numberIdentify?: string | null
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     codes?: CodeCreateNestedOneWithoutUserInput
@@ -43161,16 +43332,17 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     state?: string | null
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
     status?: $Enums.Status
+    numberIdentify?: string | null
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     codes?: CodeUncheckedCreateNestedOneWithoutUserInput
@@ -43254,16 +43426,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     codes?: CodeUpdateOneWithoutUserNestedInput
@@ -43283,16 +43456,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     codes?: CodeUncheckedUpdateOneWithoutUserNestedInput
@@ -43319,6 +43493,7 @@ export namespace Prisma {
   export type UserRoleCreateWithoutUserInput = {
     id?: string
     createdAt?: Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
     role: RoleCreateNestedOneWithoutUserRolesInput
   }
 
@@ -43326,6 +43501,7 @@ export namespace Prisma {
     id?: string
     roleId: string
     createdAt?: Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserRoleCreateOrConnectWithoutUserInput = {
@@ -43706,16 +43882,17 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     state?: string | null
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
     status?: $Enums.Status
+    numberIdentify?: string | null
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     codes?: CodeCreateNestedOneWithoutUserInput
@@ -43735,16 +43912,17 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     state?: string | null
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
     status?: $Enums.Status
+    numberIdentify?: string | null
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     codes?: CodeUncheckedCreateNestedOneWithoutUserInput
@@ -43780,16 +43958,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     codes?: CodeUpdateOneWithoutUserNestedInput
@@ -43809,16 +43988,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     codes?: CodeUncheckedUpdateOneWithoutUserNestedInput
@@ -43838,16 +44018,17 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     state?: string | null
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
     status?: $Enums.Status
+    numberIdentify?: string | null
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     codes?: CodeCreateNestedOneWithoutUserInput
@@ -43867,16 +44048,17 @@ export namespace Prisma {
     address?: string | null
     city?: string | null
     state?: string | null
-    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     searchCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     visible?: $Enums.UserVisibility
     status?: $Enums.Status
+    numberIdentify?: string | null
     isBanned?: boolean
     isLocked?: boolean
     isVerified?: boolean
     lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     codes?: CodeUncheckedCreateNestedOneWithoutUserInput
@@ -43912,16 +44094,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     codes?: CodeUpdateOneWithoutUserNestedInput
@@ -43941,16 +44124,17 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
-    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     searchCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
     status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
     isBanned?: BoolFieldUpdateOperationsInput | boolean
     isLocked?: BoolFieldUpdateOperationsInput | boolean
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
     roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     codes?: CodeUncheckedUpdateOneWithoutUserNestedInput
@@ -44719,6 +44903,7 @@ export namespace Prisma {
     id?: string
     userId: string
     createdAt?: Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type RolePermissionUpdateWithoutRoleInput = {
@@ -44741,6 +44926,7 @@ export namespace Prisma {
   export type UserRoleUpdateWithoutRoleInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
     user?: UserUpdateOneRequiredWithoutRolesNestedInput
   }
 
@@ -44748,12 +44934,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserRoleUncheckedUpdateManyWithoutRoleInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type RolePermissionUpdateWithoutPermissionInput = {
@@ -44864,6 +45052,7 @@ export namespace Prisma {
     id?: string
     roleId: string
     createdAt?: Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type SessionCreateManyUserInput = {
@@ -44927,6 +45116,7 @@ export namespace Prisma {
   export type UserRoleUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
     role?: RoleUpdateOneRequiredWithoutUserRolesNestedInput
   }
 
@@ -44934,12 +45124,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     roleId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type UserRoleUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     roleId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attribute?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type SessionUpdateWithoutUserInput = {

@@ -8,6 +8,7 @@ import { UpdateShopDto } from './dto/update-shop.dto';
 import { GetShopDetailWithSpusDto } from './dto/get-shop-detail-with-spus.dto';
 import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FindShopByNameDto } from './dto/find-shop.dto';
+import { RegisterSellerDto } from './dto/register-seller.dto';
 
 @ApiTags('Shop')
 @Controller('shop')
@@ -86,6 +87,11 @@ export class ShopController {
 			throw new BadRequestException('shopName is required');
 		}
 		return this.shopService.findShopHaveNameLike(shopName, dto)
+	}
+
+	@Post('register-seller')
+	async registerSeller(@Req() req: express.Request, @Body() dto: RegisterSellerDto) {
+		return this.shopService.registerSellerRole(req, dto)
 	}
 
 }

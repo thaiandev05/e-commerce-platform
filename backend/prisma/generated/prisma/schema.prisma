@@ -449,6 +449,8 @@ model UserRole {
   roleId    String   @map("role_id") @db.Uuid
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
 
+  attribute Json?
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
@@ -514,19 +516,20 @@ model User {
   address         String?        @db.VarChar(500)
   city            String?        @db.VarChar(50)
   state           String?        @db.VarChar(50)
-  roles           UserRole[]
-  flags           UserFlag[]
   searchCount     Int            @default(0) @map("search_times")
   createdAt       DateTime       @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt       DateTime       @updatedAt @map("updated_at") @db.Timestamptz()
   visible         UserVisibility @default(PUBLIC)
   status          Status         @default(ACTIVE)
+  numberIdentify  String?
   isBanned        Boolean        @default(false) @map("is_banned")
   isLocked        Boolean        @default(false) @map("is_locked")
   isVerified      Boolean        @default(false) @map("is_verified")
   lastActived     DateTime?      @map("last_actived") @db.Timestamptz()
 
   // relation
+  roles      UserRole[]
+  flags      UserFlag[]
   sessions   Session[]    @relation("sessions")
   codes      Code?
   Oauth2User Oauth2User[] @relation("oauth2")

@@ -1,6 +1,6 @@
 model Role {
-    id       String   @id @default(uuid()) @db.Uuid
-    roleName String   @unique @map("role_name") @db.VarChar(100)
+    id        String   @id @default(uuid()) @db.Uuid
+    roleName  String   @unique @map("role_name") @db.VarChar(100)
     createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
 
@@ -12,8 +12,8 @@ model Role {
 }
 
 model Permission {
-    id             Int     @id @default(autoincrement())
-    permissionName String  @unique @map("permission_name") @db.VarChar(150)
+    id             Int      @id @default(autoincrement())
+    permissionName String   @unique @map("permission_name") @db.VarChar(150)
     createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz()
 
@@ -25,12 +25,12 @@ model Permission {
 
 // Junction table between Role and Permission (many-to-many)
 model RolePermission {
-    id           String   @id @default(uuid()) @db.Uuid
-    roleId       String   @map("role_id") @db.Uuid
-    createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz()
+    id        String   @id @default(uuid()) @db.Uuid
+    roleId    String   @map("role_id") @db.Uuid
+    createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
 
-    role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
-    permission Permission[] 
+    role       Role         @relation(fields: [roleId], references: [id], onDelete: Cascade)
+    permission Permission[]
 
     @@index([roleId])
     @@map("role_permissions")
@@ -42,6 +42,8 @@ model UserRole {
     userId    String   @map("user_id") @db.Uuid
     roleId    String   @map("role_id") @db.Uuid
     createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+    attribute Json?
 
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)

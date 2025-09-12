@@ -15,14 +15,15 @@ model User {
     updatedAt       DateTime       @updatedAt @map("updated_at") @db.Timestamptz()
     visible         UserVisibility @default(PUBLIC)
     status          Status         @default(ACTIVE)
+    numberIdentify  String?
     isBanned        Boolean        @default(false) @map("is_banned")
     isLocked        Boolean        @default(false) @map("is_locked")
     isVerified      Boolean        @default(false) @map("is_verified")
     lastActived     DateTime?      @map("last_actived") @db.Timestamptz()
 
     // relation
-    roles           UserRole[]
-    flags           UserFlag[]
+    roles      UserRole[]
+    flags      UserFlag[]
     sessions   Session[]    @relation("sessions")
     codes      Code?
     Oauth2User Oauth2User[] @relation("oauth2")
