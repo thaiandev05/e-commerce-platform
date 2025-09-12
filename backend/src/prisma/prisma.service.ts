@@ -12,6 +12,7 @@ import {
 	SpuStatus,
 	SkuStatus,
 	AttributeType,
+	UserRoleS,
 } from '../../prisma/generated/prisma';
 import { faker } from '@faker-js/faker';
 
@@ -61,7 +62,7 @@ const users: Prisma.UserCreateManyInput[] = userIds.map((id, i) => ({
 	address: faker.location.streetAddress().slice(0, 500),
 	city: faker.location.city().slice(0, 50),
 	state: faker.location.state().slice(0, 50),
-	roles: [faker.helpers.arrayElement(Object.values(UserRole))],
+	roles: [faker.helpers.arrayElement(Object.values(UserRoleS))],
 	flags: [faker.helpers.arrayElement(Object.values(UserFlag))],
 	searchCount: faker.number.int({ min: 0, max: 100 }),
 	visible: faker.helpers.arrayElement(Object.values(UserVisibility)),

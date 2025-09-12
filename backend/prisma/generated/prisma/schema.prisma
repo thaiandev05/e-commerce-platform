@@ -404,6 +404,60 @@ enum ShopStatus {
   CLOSED
 }
 
+model Role {
+  id        String   @id @default(uuid()) @db.Uuid
+  roleName  String   @unique @map("role_name") @db.VarChar(100)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // Relations
+  rolePermissions RolePermission[]
+  userRoles       UserRole[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id             Int      @id @default(autoincrement())
+  permissionName String   @unique @map("permission_name") @db.VarChar(150)
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // Relations
+  rolePermissions RolePermission[]
+
+  @@map("permissions")
+}
+
+// Junction table between Role and Permission (many-to-many)
+model RolePermission {
+  id        String   @id @default(uuid()) @db.Uuid
+  roleId    String   @map("role_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  role       Role         @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission[]
+
+  @@index([roleId])
+  @@map("role_permissions")
+}
+
+// Junction table between User and Role (many-to-many)
+model UserRole {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  roleId    String   @map("role_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId])
+  @@index([userId])
+  @@index([roleId])
+  @@map("user_roles")
+}
+
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -522,7 +576,7 @@ model CreditCard {
   @@map("credit_card")
 }
 
-enum UserRole {
+enum UserRoleS {
   ROOT
   ADMINSTRATOR
   SUPPORTER

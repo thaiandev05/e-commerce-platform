@@ -10,8 +10,6 @@ model User {
     address         String?        @db.VarChar(500)
     city            String?        @db.VarChar(50)
     state           String?        @db.VarChar(50)
-    roles           UserRole[]
-    flags           UserFlag[]
     searchCount     Int            @default(0) @map("search_times")
     createdAt       DateTime       @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt       DateTime       @updatedAt @map("updated_at") @db.Timestamptz()
@@ -23,6 +21,8 @@ model User {
     lastActived     DateTime?      @map("last_actived") @db.Timestamptz()
 
     // relation
+    roles           UserRole[]
+    flags           UserFlag[]
     sessions   Session[]    @relation("sessions")
     codes      Code?
     Oauth2User Oauth2User[] @relation("oauth2")
@@ -72,7 +72,7 @@ model CreditCard {
     @@map("credit_card")
 }
 
-enum UserRole {
+enum UserRoleS {
     ROOT
     ADMINSTRATOR
     SUPPORTER

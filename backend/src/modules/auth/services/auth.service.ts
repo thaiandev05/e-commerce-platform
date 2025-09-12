@@ -112,6 +112,7 @@ export class AuthService extends OtherService {
 		if (!existingCode || !existingCode.expiredAt) throw new BadRequestException("Code expired")
 
 		// update new account status
+		const userRoleId = 'e502bade-155e-4baa-8837-d2be14a97d03'
 		await this.prismaService.$transaction([
 			this.prismaService.user.update({
 				where: { id: existingAccount.id },
@@ -119,6 +120,12 @@ export class AuthService extends OtherService {
 			}),
 			this.prismaService.code.delete({
 				where: { userId: existingAccount.id }
+			}),
+			this.prismaService.userRole.create({
+				data: {
+					userId: existingAccount.id,
+					roleId: userRoleId
+				}
 			})
 		])
 

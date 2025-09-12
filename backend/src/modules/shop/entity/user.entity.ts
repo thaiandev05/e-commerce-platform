@@ -1,12 +1,12 @@
 import { ShopQl } from "@/modules/shop/entity/shop.entity";
 import { Field, ObjectType, registerEnumType } from "@nestjs/graphql";
-import { User, AccountType, UserRole, UserFlag, UserVisibility } from "@prisma/generated/prisma";
+import { User, AccountType, UserRole, UserFlag, UserVisibility, UserRoleS } from "@prisma/generated/prisma";
 
 registerEnumType(AccountType, {
 	name: 'AccountType'
 })
 
-registerEnumType(UserRole, {
+registerEnumType(UserRoleS, {
 	name: 'UserRole'
 })
 
@@ -67,7 +67,7 @@ export class UserQl implements Partial<User> {
 	})
 	state: string
 
-	@Field(type => [UserRole])
+	@Field(type => [UserRoleS])
 	roles: UserRole[]
 
 	@Field(type => [UserFlag])
