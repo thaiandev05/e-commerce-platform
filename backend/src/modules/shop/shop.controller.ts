@@ -9,6 +9,8 @@ import { GetShopDetailWithSpusDto } from './dto/get-shop-detail-with-spus.dto';
 import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FindShopByNameDto } from './dto/find-shop.dto';
 import { RegisterSellerDto } from './dto/register-seller.dto';
+import { Roles } from '@/common/decorator/role.decorator';
+import { RoleId } from '@/common/enum/role.enum';
 
 @ApiTags('Shop')
 @Controller('shop')
@@ -19,6 +21,7 @@ export class ShopController {
 
 	// create shop
 	@Post('create-shop')
+	@Roles(RoleId.ADMIN.toString(), RoleId.SELLER.toString())
 	@ApiOperation({ summary: 'Create a new shop' })
 	@ApiCreatedResponse({ description: 'Shop successfully created' })
 	@ApiBadRequestResponse({ description: 'Invalid input / validation error' })
@@ -29,6 +32,7 @@ export class ShopController {
 
 	// verify shop
 	@Public()
+	@Roles(RoleId.ADMIN.toString(), RoleId.SELLER.toString())
 	@Get('verify-shop-link')
 	@ApiOperation({ summary: 'Verify shop using link sent to email' })
 	@ApiResponse({ status: 302, description: 'Redirect or link processed' })
@@ -38,6 +42,7 @@ export class ShopController {
 	}
 
 	@Patch('verify-shop')
+	@Roles(RoleId.ADMIN.toString(), RoleId.SELLER.toString())
 	@UseGuards(IsAuthorShopGuard)
 	@ApiOperation({ summary: 'Verify shop (authenticated author)' })
 	@ApiResponse({ status: 200, description: 'Shop verified' })
@@ -47,6 +52,7 @@ export class ShopController {
 	}
 
 	@Put('update-detail-shop')
+	@Roles(RoleId.ADMIN.toString(), RoleId.SELLER.toString())
 	@UseGuards(IsAuthorShopGuard)
 	@ApiOperation({ summary: 'Update shop details' })
 	@ApiResponse({ status: 200, description: 'Shop updated successfully' })
@@ -57,6 +63,7 @@ export class ShopController {
 	}
 
 	@Delete('delete-shop')
+	@Roles(RoleId.ADMIN.toString(), RoleId.SELLER.toString())
 	@UseGuards(IsAuthorShopGuard)
 	@ApiOperation({ summary: 'Delete a shop' })
 	@ApiResponse({ status: 200, description: 'Shop deleted successfully' })
