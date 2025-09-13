@@ -18,8 +18,6 @@ export class RolesGuard implements CanActivate {
 			[context.getHandler(), context.getClass()]
 		)
 
-		console.log(requiredRoles)
-
 		// controller not required reole
 		if (!requiredRoles) return true
 		const request = context.switchToHttp().getRequest()
@@ -34,7 +32,6 @@ export class RolesGuard implements CanActivate {
 				roles: true
 			}
 		})
-		console.log(availableUser)
 
 		const userRoleIds = availableUser?.roles.map(role => role.roleId) ?? [];
 		const hasRole = requiredRoles.some(role => userRoleIds.includes(role));
@@ -44,6 +41,7 @@ export class RolesGuard implements CanActivate {
 				`You do not have permission. Required: ${requiredRoles.join(', ')}`
 			)
 		}
-		return true;
+		
+		return hasRole;
 	}
 }

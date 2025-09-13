@@ -17,6 +17,8 @@ import { ShopModule } from './modules/shop/shop.module';
 import { UserModule } from './modules/user/user.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { TaskModule } from './task/task.module';
+import { ProductModule } from './modules/product/product.module';
+import { EventbusModule } from './modules/eventbus/eventbus.module';
 @Module({
   imports: [
     PrismaModule,
@@ -40,7 +42,7 @@ import { TaskModule } from './task/task.module';
       context: ({ req }) => ({ req })
     }),
     ScheduleModule.forRoot(),
-    EmailModule, AuthModule, ShopModule, UserModule, FileModule, TaskModule, RedisModule
+    EmailModule, AuthModule, ShopModule, UserModule, FileModule, TaskModule, RedisModule, ProductModule, EventbusModule
   ],
   controllers: [AppController],
   providers: [
