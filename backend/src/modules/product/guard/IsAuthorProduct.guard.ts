@@ -1,6 +1,7 @@
 import { PrismaService } from "@/prisma/prisma.service";
 import { BadGatewayException, CanActivate, ExecutionContext, Injectable, NotFoundException } from "@nestjs/common";
 import { User } from "@prisma/generated/prisma";
+import { userInfo } from "os";
 
 @Injectable()
 export class IsAuthorProductGuard implements CanActivate {
@@ -14,32 +15,39 @@ export class IsAuthorProductGuard implements CanActivate {
 		const productId: string = request.query?.productId || request.params?.productId
 
 		// validate data
-		if (!user || !productId) throw new BadGatewayException('Information not enough')
+		if (!user || !productId) {
+			console.log('Guard validation failed:', { hasUser: !!user, hasProductId: !!productId })
+			throw new BadGatewayException('Information not enough')
+		}
 
-		// find available product
-		const avaialbleProduct = await this.prismaService.spu.findUnique({
-			where: { id: productId }
-		})
-
-		if (!avaialbleProduct) throw new NotFoundException('Product not found')
-
-		// find available user
-		const availableUseruser = await this.prismaService.user.findUnique({
-			where: { id: user.id },
+		// find available product with shop info
+		const availableProduct = await this.prismaService.spu.findUnique({
+			where: { id: productId },
 			include: {
-				shops: {
+				shop: {
 					select: {
-						id: true
+						id: true,
+						ownerId: true
 					}
 				}
 			}
 		})
 
-		if (!availableUseruser) throw new NotFoundException("user not found")
+		if (!availableProduct) {
+			console.log('Product not found:', productId)
+			throw new NotFoundException('Product not found')
+		}
 
-		const listShopId = availableUseruser.shops
-		const isAuthorShop = listShopId.some(shop => shop.id === avaialbleProduct.shopId)
+		// Check if user is the owner of the shop that owns this product
+		const isOwner = availableProduct.shop.ownerId === user.id
 
-		return isAuthorShop
+		console.log('Authorization check:', {
+			userId: user.id,
+			productId,
+			shopOwnerId: availableProduct.shop.ownerId,
+			isOwner
+		})
+
+		return isOwner
 	}
 }

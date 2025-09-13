@@ -4,6 +4,7 @@ import { CreateSpuDto } from './dto/create-spu.dto';
 import { Request } from 'express';
 import { EventBustService } from '../eventbus/evenbus.service';
 import { UpdateSpuDto } from './dto/update-spu.dto';
+import { SpuStatus } from '@prisma/generated/prisma';
 @Injectable()
 export class ProductService {
 
@@ -29,30 +30,44 @@ export class ProductService {
 	}
 
 	async createSpu(req: Request, dto: CreateSpuDto) {
-		try {
-			// check available user
-			const availableUser = await this.prismaService.user.findUnique({
-				where: { id: req.user?.id }
-			})
+		// check available user
+		const availableUser = await this.prismaService.user.findUnique({
+			where: { id: req.user?.id }
+		})
+		if (!availableUser) throw new NotFoundException('User not found')
 
-			if (!availableUser) throw new NotFoundException('User not found')
+		// create new product 
+		const createSpuData = {
+			...dto,
+			status: dto.status ? SpuStatus[dto.status as keyof typeof SpuStatus] : undefined
+		};
+		const newSpu = await this.prismaService.spu.create({
+			data: createSpuData
+		})
 
-			// create new product 
-			const newSpu = await this.prismaService.spu.create({
-				data: dto
+		// emit event
+		this.eventBus.emit('product.created', newSpu)
+
+		return newSpu
+	}
+
+	async updateSpu(req: Request, productId: string, dto: UpdateSpuDto) {
+			const newSpu = await this.prismaService.spu.update({
+				where: { id: productId },
+				data: {
+					...(dto.name && { name: dto.name }),
+					...(dto.description && { description: dto.description }),
+					...(dto.shortDesc && { shortDesc: dto.shortDesc }),
+					...(dto.slug && { slug: dto.slug }),
+					...(dto.status && { status: dto.status })
+				}
 			})
 
 			// emit event
-			this.eventBus.emit('product.created', newSpu)
-
+			this.eventBus.emit('product.updated', newSpu)
 			return newSpu
-		} catch (error) {
-			throw new Error(error.message)
-		}
 	}
 
-	async updateSpu(req: Request, dto: UpdateSpuDto) {
-		
-	}
+
 
 }

@@ -25,8 +25,7 @@ export class CreateSpuDto {
 	shortDesc?: string
 
 	@IsOptional()
-	@IsEnum(SpuStatus)
-	status: SpuStatus = SpuStatus.DRAFT
+	status: string
 
 	@IsOptional()
 	@IsBoolean()
