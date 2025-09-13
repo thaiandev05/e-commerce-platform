@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
 import express from 'express'
 import { ApiTags, ApiOperation, ApiCreatedResponse, ApiResponse, ApiBadRequestResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { CreateSpuDto } from "./dto/create-spu.dto";
@@ -35,6 +35,16 @@ export class ProductController {
 	@ApiBody({ type: UpdateSpuDto })
 	async updateSpu(@Req() req: express.Request, @Query('productId') productId: string, @Body() dto: UpdateSpuDto) {
 		return this.productService.updateSpu(req, productId, dto)
+	}
+
+	@Delete('delete-spu')
+	@UseGuards(IsAuthorProductGuard)
+	@ApiOperation({ summary: 'Delete an existing SPU (product)' })
+	@ApiResponse({ status: 200, description: 'SPU deleted successfully' })
+	@ApiBadRequestResponse({ description: 'Invalid input / validation error' })
+	@ApiResponse({ status: 403, description: 'Forbidden resource' })
+	async deleteSpu(@Req() req: express.Request, @Query('productId') productId: string) {
+		return this.productService.deleteSpu(req, productId)
 	}
 
 }
