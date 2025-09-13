@@ -52,22 +52,26 @@ export class ProductService {
 	}
 
 	async updateSpu(req: Request, productId: string, dto: UpdateSpuDto) {
-			const newSpu = await this.prismaService.spu.update({
-				where: { id: productId },
-				data: {
-					...(dto.name && { name: dto.name }),
-					...(dto.description && { description: dto.description }),
-					...(dto.shortDesc && { shortDesc: dto.shortDesc }),
-					...(dto.slug && { slug: dto.slug }),
-					...(dto.status && { status: dto.status })
-				}
-			})
+		const newSpu = await this.prismaService.spu.update({
+			where: { id: productId },
+			data: {
+				...(dto.name && { name: dto.name }),
+				...(dto.description && { description: dto.description }),
+				...(dto.shortDesc && { shortDesc: dto.shortDesc }),
+				...(dto.slug && { slug: dto.slug }),
+				...(dto.status && { status: dto.status })
+			}
+		})
 
-			// emit event
-			this.eventBus.emit('product.updated', newSpu)
-			return newSpu
+		// emit event
+		this.eventBus.emit('product.updated', newSpu)
+		return newSpu
 	}
 
-
+	async deleteSpu(req: Request, productId: string) {
+		return await this.prismaService.spu.delete({
+			where: { id: productId }
+		})
+	}
 
 }
