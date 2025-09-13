@@ -41,4 +41,9 @@ export class CreateSpuDto {
 	@IsString()
 	@IsUUID()
 	brandId: string
+
+	@IsNotEmpty({ message: 'Shop ID is required.' })
+	@IsString()
+	@IsUUID()
+	shopId: string
 }
