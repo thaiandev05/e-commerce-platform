@@ -1,8 +1,8 @@
 import { PrismaService } from "@/prisma/prisma.service";
-import { Injectable, Logger } from "@nestjs/common";
-import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { OnEvent } from "@nestjs/event-emitter";
 import type { Spu } from "@prisma/generated/prisma";
+import { ElasticsearchService } from "@nestjs/elasticsearch";
+import { Injectable, Logger } from "@nestjs/common";
 
 @Injectable()
 export class ElasticsearchServiceCustom {
@@ -12,6 +12,94 @@ export class ElasticsearchServiceCustom {
 		private readonly es: ElasticsearchService,
 		private readonly prismaService: PrismaService
 	) { }
+
+	async indexCategory(category: any): Promise<void> {
+		await this.es.index({
+			index: 'categories',
+			id: category.id,
+			document: {
+				id: category.id,
+				name: category.name,
+				slug: category.slug,
+				description: category.description,
+				imageUrl: category.imageUrl,
+				isActive: category.isActive,
+				sortOrder: category.sortOrder,
+				createdAt: category.createdAt,
+				updatedAt: category.updatedAt
+			}
+		});
+
+		this.logger.log(`Successfully indexed category: ${category.id}`);
+	}
+
+	async indexBrand(brand: any): Promise<void> {
+		await this.es.index({
+			index: 'brands',
+			id: brand.id,
+			document: {
+				id: brand.id,
+				name: brand.name,
+				slug: brand.slug,
+				description: brand.description,
+				logoUrl: brand.logoUrl,
+				websiteUrl: brand.websiteUrl,
+				isActive: brand.isActive,
+				createdAt: brand.createdAt,
+				updatedAt: brand.updatedAt
+			}
+		});
+
+		this.logger.log(`Successfully indexed brand: ${brand.id}`);
+	}
+
+	async indexShop(shop: any): Promise<void> {
+		await this.es.index({
+			index: 'shops',
+			id: shop.id,
+			document: {
+				id: shop.id,
+				name: shop.name,
+				slug: shop.slug,
+				description: shop.description,
+				logoUrl: shop.logoUrl,
+				bannerUrl: shop.bannerUrl,
+				email: shop.email,
+				phone: shop.phone,
+				address: shop.address,
+				website: shop.website,
+				status: shop.status,
+				isActive: shop.isActive,
+				isVerified: shop.isVerified,
+				rating: shop.rating,
+				totalReviews: shop.totalReviews,
+				ownerId: shop.ownerId,
+				createdAt: shop.createdAt,
+				updatedAt: shop.updatedAt
+			}
+		});
+
+		this.logger.log(`Successfully indexed shop: ${shop.id}`);
+	}
+
+	// Batch operations
+	async batchSyncProducts(): Promise<void> {
+		this.logger.log('Starting batch sync of all products...');
+
+		const spus = await this.prismaService.spu.findMany({
+			select: { id: true }
+		});
+
+		for (const spu of spus) {
+			try {
+				await this.indexSpu(spu.id);
+			} catch (error) {
+				this.logger.error(`Failed to index product ${spu.id}`, error);
+			}
+		}
+
+		this.logger.log('Batch sync completed.');
+	}
 
 	// Event handlers for product synchronization
 	@OnEvent('product.created')
@@ -41,6 +129,37 @@ export class ElasticsearchServiceCustom {
 			await this.deleteSpu(payload.productId);
 		} catch (error) {
 			this.logger.error(`Failed to delete product ${payload.productId}`, error);
+		}
+	}
+
+	// Event handlers for other entities
+	@OnEvent('category.created')
+	async handleCategoryCreated(category: any) {
+		try {
+			this.logger.log(`Indexing new category: ${category.id}`);
+			await this.indexCategory(category);
+		} catch (error) {
+			this.logger.error(`Failed to index category ${category.id}`, error);
+		}
+	}
+
+	@OnEvent('brand.created')
+	async handleBrandCreated(brand: any) {
+		try {
+			this.logger.log(`Indexing new brand: ${brand.id}`);
+			await this.indexBrand(brand);
+		} catch (error) {
+			this.logger.error(`Failed to index brand ${brand.id}`, error);
+		}
+	}
+
+	@OnEvent('shop.created')
+	async handleShopCreated(shop: any) {
+		try {
+			this.logger.log(`Indexing new shop: ${shop.id}`);
+			await this.indexShop(shop);
+		} catch (error) {
+			this.logger.error(`Failed to index shop ${shop.id}`, error);
 		}
 	}
 
@@ -370,25 +489,6 @@ export class ElasticsearchServiceCustom {
 		}
 
 		return path.join(' > ');
-	}
-
-	// Batch operations
-	async batchSyncProducts(): Promise<void> {
-		this.logger.log('Starting batch sync of all products...');
-
-		const spus = await this.prismaService.spu.findMany({
-			select: { id: true }
-		});
-
-		for (const spu of spus) {
-			try {
-				await this.indexSpu(spu.id);
-			} catch (error) {
-				this.logger.error(`Failed to index product ${spu.id}`, error);
-			}
-		}
-
-		this.logger.log('Batch sync completed.');
 	}
 
 	// Search methods

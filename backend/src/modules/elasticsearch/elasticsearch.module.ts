@@ -1,13 +1,11 @@
-import { Module, OnModuleInit, Logger } from '@nestjs/common';
+import { Logger, Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ElasticsearchService, ElasticsearchModule as NestElasticsearchModule } from '@nestjs/elasticsearch';
 import { ElasticsearchServiceCustom } from './elasticsearch.service';
-import { PrismaModule } from '@/prisma/prisma.module';
 
 @Module({
   imports: [
     ConfigModule,
-    PrismaModule,
     NestElasticsearchModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

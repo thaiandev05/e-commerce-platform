@@ -1,6 +1,7 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { ROLES_KEY } from "../decorator/role.decorator";
+import { IS_PUBLIC_KEY } from "../decorator/public.decorator";
 import { User } from "@prisma/generated/prisma";
 import { ForbiddenError } from "@nestjs/apollo";
 import { PrismaService } from "@/prisma/prisma.service";
@@ -13,6 +14,13 @@ export class RolesGuard implements CanActivate {
 	) { }
 
 	async canActivate(context: ExecutionContext) {
+		// Check if endpoint is public
+		const isPublic = this.reflector.getAllAndOverride<boolean>(
+			IS_PUBLIC_KEY,
+			[context.getHandler(), context.getClass()]
+		);
+		if (isPublic) return true;
+
 		const requiredRoles = this.reflector.getAllAndOverride<string[]>(
 			ROLES_KEY,
 			[context.getHandler(), context.getClass()]
@@ -41,7 +49,7 @@ export class RolesGuard implements CanActivate {
 				`You do not have permission. Required: ${requiredRoles.join(', ')}`
 			)
 		}
-		
+
 		return hasRole;
 	}
 }

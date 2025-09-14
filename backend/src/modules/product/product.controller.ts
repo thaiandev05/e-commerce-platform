@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
 import express from 'express'
 import { ApiTags, ApiOperation, ApiCreatedResponse, ApiResponse, ApiBadRequestResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { CreateSpuDto } from "./dto/create-spu.dto";
@@ -7,6 +7,7 @@ import { Roles } from "@/common/decorator/role.decorator";
 import { RoleId } from "@/common/enum/role.enum";
 import { UpdateSpuDto } from "./dto/update-spu.dto";
 import { IsAuthorProductGuard } from "./guard/IsAuthorProduct.guard";
+import { Public } from "@/common/decorator/public.decorator";
 
 @Roles(RoleId.ADMIN.toString(), RoleId.SELLER.toString())
 @ApiTags('Product')
@@ -45,6 +46,44 @@ export class ProductController {
 	@ApiResponse({ status: 403, description: 'Forbidden resource' })
 	async deleteSpu(@Query('productId') productId: string) {
 		return this.productService.deleteSpu(productId)
+	}
+
+	@Get('search')
+	@Public()
+	@ApiOperation({ summary: 'Search products using Elasticsearch' })
+	@ApiResponse({ status: 200, description: 'Search results returned successfully' })
+	async searchProducts(
+		@Query('q') query?: string,
+		@Query('categoryId') categoryId?: string,
+		@Query('brandId') brandId?: string,
+		@Query('hasStock') hasStock?: boolean,
+		@Query('minPrice') minPrice?: number,
+		@Query('maxPrice') maxPrice?: number,
+		@Query('page') page: number = 1,
+		@Query('limit') limit: number = 20
+	) {
+		return this.productService.searchProducts(query, {
+			categoryId,
+			brandId,
+			hasStock,
+			priceRange: (minPrice !== undefined && maxPrice !== undefined) ? { min: minPrice, max: maxPrice } : undefined,
+			page,
+			limit
+		})
+	}
+
+	@Get('categories')
+	@Public()
+	@ApiOperation({ summary: 'Get all product categories' })
+	async getCategories() {
+		return this.productService.getCategories()
+	}
+
+	@Get('brands')
+	@Public()
+	@ApiOperation({ summary: 'Get all product brands' })
+	async getBrands() {
+		return this.productService.getBrands()
 	}
 
 }

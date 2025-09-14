@@ -1,3 +1,3 @@
-import { User } from "prisma/generated/prisma";
+import { User } from "../../prisma/generated/prisma";
 
-export interface UserWithoutPassword extends Omit<User, "hasingPassword"> {}
+export interface UserWithoutPassword extends Omit<User, "hashingPassword"> { }
