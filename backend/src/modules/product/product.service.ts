@@ -1,16 +1,17 @@
 import { PrismaService } from '@/prisma/prisma.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateSpuDto } from './dto/create-spu.dto';
+import { SpuStatus } from '@prisma/generated/prisma';
 import { Request } from 'express';
 import { EventBustService } from '../eventbus/evenbus.service';
+import { CreateSpuDto } from './dto/create-spu.dto';
 import { UpdateSpuDto } from './dto/update-spu.dto';
-import { SpuStatus } from '@prisma/generated/prisma';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 @Injectable()
 export class ProductService {
 
 	constructor(
 		private readonly prismaService: PrismaService,
-		private readonly eventBus: EventBustService
+		private readonly eventEmitter: EventEmitter2
 	) { }
 
 
@@ -46,12 +47,12 @@ export class ProductService {
 		})
 
 		// emit event
-		this.eventBus.emit('product.created', newSpu)
+		this.eventEmitter.emit('product.created', { req, newSpu })
 
 		return newSpu
 	}
 
-	async updateSpu(req: Request, productId: string, dto: UpdateSpuDto) {
+	async updateSpu(productId: string, dto: UpdateSpuDto) {
 		const newSpu = await this.prismaService.spu.update({
 			where: { id: productId },
 			data: {
@@ -64,14 +65,17 @@ export class ProductService {
 		})
 
 		// emit event
-		this.eventBus.emit('product.updated', newSpu)
+		this.eventEmitter.emit('product.updated', newSpu)
 		return newSpu
 	}
 
-	async deleteSpu(req: Request, productId: string) {
-		return await this.prismaService.spu.delete({
+	async deleteSpu(productId: string) {
+		await this.prismaService.spu.delete({
 			where: { id: productId }
 		})
+
+		this.eventEmitter.emit('product.deleted', { productId })
+		return true
 	}
 
 }

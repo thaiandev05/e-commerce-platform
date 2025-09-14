@@ -1,3 +1,4 @@
+import { ElasticsearchServiceCustom } from '@/modules/elasticsearch/elasticsearch.service';
 import { PrismaService } from '@/prisma/prisma.service';
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
@@ -7,7 +8,8 @@ export class TaskService {
 	private readonly logger = new Logger(TaskService.name)
 
 	constructor(
-		private readonly prismaService: PrismaService
+		private readonly prismaService: PrismaService,
+		private readonly elasticSearchCustomService: ElasticsearchServiceCustom
 	) { }
 
 	@Cron('0 0 0 * * *')

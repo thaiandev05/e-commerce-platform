@@ -33,8 +33,8 @@ export class ProductController {
 	@ApiResponse({ status: 200, description: 'SPU updated successfully' })
 	@ApiBadRequestResponse({ description: 'Invalid input / validation error' })
 	@ApiBody({ type: UpdateSpuDto })
-	async updateSpu(@Req() req: express.Request, @Query('productId') productId: string, @Body() dto: UpdateSpuDto) {
-		return this.productService.updateSpu(req, productId, dto)
+	async updateSpu(@Query('productId') productId: string, @Body() dto: UpdateSpuDto) {
+		return this.productService.updateSpu(productId, dto)
 	}
 
 	@Delete('delete-spu')
@@ -43,8 +43,8 @@ export class ProductController {
 	@ApiResponse({ status: 200, description: 'SPU deleted successfully' })
 	@ApiBadRequestResponse({ description: 'Invalid input / validation error' })
 	@ApiResponse({ status: 403, description: 'Forbidden resource' })
-	async deleteSpu(@Req() req: express.Request, @Query('productId') productId: string) {
-		return this.productService.deleteSpu(req, productId)
+	async deleteSpu(@Query('productId') productId: string) {
+		return this.productService.deleteSpu(productId)
 	}
 
 }
