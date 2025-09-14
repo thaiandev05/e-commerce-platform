@@ -6,6 +6,7 @@ import { PrismaService } from '@/prisma/prisma.service';
 import { RolesGuard } from '@/common/guard/role.guard';
 
 @Module({
+  imports: [],
   providers: [ProductService,
     {
       provide: APP_GUARD,
@@ -13,6 +14,7 @@ import { RolesGuard } from '@/common/guard/role.guard';
       useFactory: (reflector: Reflector, prismaService: PrismaService) => new RolesGuard(reflector, prismaService)
     }
   ],
-  controllers: [ProductController]
+  controllers: [ProductController],
+  exports: [ProductService]
 })
 export class ProductModule { }

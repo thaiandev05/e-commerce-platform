@@ -19,6 +19,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { TaskModule } from './task/task.module';
 import { ProductModule } from './modules/product/product.module';
 import { EventbusModule } from './modules/eventbus/eventbus.module';
+import { ElasticsearchModule } from './modules/elasticsearch/elasticsearch.module';
 @Module({
   imports: [
     PrismaModule,
@@ -42,7 +43,7 @@ import { EventbusModule } from './modules/eventbus/eventbus.module';
       context: ({ req }) => ({ req })
     }),
     ScheduleModule.forRoot(),
-    EmailModule, AuthModule, ShopModule, UserModule, FileModule, TaskModule, RedisModule, ProductModule, EventbusModule
+    EmailModule, AuthModule, ShopModule, UserModule, FileModule, TaskModule, RedisModule, ProductModule, EventbusModule, ElasticsearchModule
   ],
   controllers: [AppController],
   providers: [
