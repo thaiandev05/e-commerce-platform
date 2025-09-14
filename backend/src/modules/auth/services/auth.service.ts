@@ -1,5 +1,5 @@
-import { EmailProducer } from '@/email/email.producer';
-import { PrismaService } from '@/prisma/prisma.service';
+import { EmailProducer } from '../../../email/email.producer';
+import { PrismaService } from '../../../prisma/prisma.service';
 import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { Provider } from '@prisma/generated/prisma';
 import { hash, verify } from 'argon2';
@@ -365,7 +365,7 @@ export class AuthService extends OtherService {
 	// changepassword
 	public async changePassword(req: Request, dto: ChangePasswordDto) {
 		// validate accesstoken
-		const userId = req.user?.id
+		const userId = (req.user as any)?.id
 		if (!userId) throw new BadRequestException("Accesstoken not found")
 
 		// find available account
@@ -412,7 +412,7 @@ export class AuthService extends OtherService {
 	async softDeleteAccount(req: Request, dto: softDeleteAccountDto) {
 		// check available account
 		const exitsingAccount = await this.prismaService.user.findUnique({
-			where: { id: req.user?.id },
+			where: { id: (req.user as any)?.id },
 			omit: { hashingPassword: false }
 		})
 
