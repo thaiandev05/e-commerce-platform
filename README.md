@@ -430,9 +430,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Email**: support@ecommerce-platform.com
+- **Email**: thaianthedev@gmail.com
 - **Documentation**: [Full API Docs](http://localhost:4000/docs)
-- **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
+- **Issues**: [GitHub Issues](https://github.com/thaiandev05/e-commerce-platform/issues)
 
 ## 🔄 Changelog
 
@@ -447,7 +447,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Made with ❤️ by [Your Team Name]
+Made with ❤️ by [ThaiAnDev]
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
