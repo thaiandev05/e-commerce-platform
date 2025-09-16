@@ -29,6 +29,7 @@ model User {
     Oauth2User Oauth2User[] @relation("oauth2")
     shops      Shop[]
     CreditCard CreditCard[] @relation("payments")
+    cart       Cart?        @relation("ownCart")
 
     @@index([email])
     @@index([username])

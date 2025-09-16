@@ -119,6 +119,7 @@ model Spu {
   spuAttributes SpuAttribute[]
   spuTags       SpuTag[]
   spuVariations SpuVariation[]
+  stores        StoreProduct[] @relation("skuStores")
 
   @@index([slug])
   @@index([categoryId])
@@ -504,6 +505,39 @@ model Shop {
   @@map("shops")
 }
 
+model Cart {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // Foreign Keys
+  ownId String @unique @map("owner_id") @db.Uuid
+
+  // Relations
+  own           User           @relation(name: "ownCart", fields: [ownId], references: [id], onDelete: Cascade)
+  storeProducts StoreProduct[]
+
+  @@unique([ownId, id])
+  @@index([ownId])
+  @@map("carts")
+}
+
+model StoreProduct {
+  id String @id @default(uuid()) @db.Uuid
+
+  // Foreign Keys
+  cartId    String @map("cart_id") @db.Uuid
+  productId String @map("product_id") @db.Uuid
+
+  // Relations
+  cart Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  spu  Spu  @relation(name: "skuStores", fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([cartId])
+  @@index([productId])
+  @@map("store_products")
+}
+
 model User {
   id              String         @id @default(uuid()) @db.Uuid
   fullname        String         @db.VarChar(50)
@@ -535,6 +569,7 @@ model User {
   Oauth2User Oauth2User[] @relation("oauth2")
   shops      Shop[]
   CreditCard CreditCard[] @relation("payments")
+  cart       Cart?        @relation("ownCart")
 
   @@index([email])
   @@index([username])

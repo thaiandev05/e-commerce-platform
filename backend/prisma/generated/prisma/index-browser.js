@@ -343,6 +343,19 @@ exports.Prisma.ShopScalarFieldEnum = {
   ownerId: 'ownerId'
 };
 
+exports.Prisma.CartScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  ownId: 'ownId'
+};
+
+exports.Prisma.StoreProductScalarFieldEnum = {
+  id: 'id',
+  cartId: 'cartId',
+  productId: 'productId'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   fullname: 'fullname',
@@ -509,6 +522,8 @@ exports.Prisma.ModelName = {
   RolePermission: 'RolePermission',
   UserRole: 'UserRole',
   Shop: 'Shop',
+  Cart: 'Cart',
+  StoreProduct: 'StoreProduct',
   User: 'User',
   Oauth2User: 'Oauth2User',
   CreditCard: 'CreditCard'

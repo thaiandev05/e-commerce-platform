@@ -20,6 +20,7 @@ import { TaskModule } from './task/task.module';
 import { ProductModule } from './modules/product/product.module';
 import { EventbusModule } from './modules/eventbus/eventbus.module';
 import { ElasticsearchModule } from './modules/elasticsearch/elasticsearch.module';
+import { CartModule } from './modules/cart/cart.module';
 @Module({
   imports: [
     PrismaModule,
@@ -43,7 +44,7 @@ import { ElasticsearchModule } from './modules/elasticsearch/elasticsearch.modul
       context: ({ req }) => ({ req })
     }),
     ScheduleModule.forRoot(),
-    EmailModule, AuthModule, ShopModule, UserModule, FileModule, TaskModule, RedisModule, ProductModule, EventbusModule, ElasticsearchModule
+    EmailModule, AuthModule, ShopModule, UserModule, FileModule, TaskModule, RedisModule, ProductModule, EventbusModule, ElasticsearchModule, CartModule
   ],
   controllers: [AppController],
   providers: [
