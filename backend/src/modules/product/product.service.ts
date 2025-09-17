@@ -133,7 +133,7 @@ export class ProductService {
 				},
 				skip: ((filters?.page || 1) - 1) * (filters?.limit || 20),
 				take: filters?.limit || 20,
-				orderBy: { createdAt: 'desc' }
+				orderBy: { timeAccess: 'desc' }
 			}),
 			this.prismaService.spu.count({ where })
 		]);

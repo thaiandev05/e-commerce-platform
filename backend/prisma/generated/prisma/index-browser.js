@@ -175,6 +175,7 @@ exports.Prisma.SpuScalarFieldEnum = {
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  timeAccess: 'timeAccess',
   categoryId: 'categoryId',
   brandId: 'brandId',
   shopId: 'shopId'
@@ -191,6 +192,7 @@ exports.Prisma.SkuScalarFieldEnum = {
   length: 'length',
   width: 'width',
   height: 'height',
+  timeAccess: 'timeAccess',
   status: 'status',
   isActive: 'isActive',
   createdAt: 'createdAt',
@@ -338,6 +340,7 @@ exports.Prisma.ShopScalarFieldEnum = {
   isVerified: 'isVerified',
   rating: 'rating',
   totalReviews: 'totalReviews',
+  timeAccess: 'timeAccess',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   ownerId: 'ownerId'

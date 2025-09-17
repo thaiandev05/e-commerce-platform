@@ -8521,8 +8521,18 @@ export namespace Prisma {
 
   export type AggregateSpu = {
     _count: SpuCountAggregateOutputType | null
+    _avg: SpuAvgAggregateOutputType | null
+    _sum: SpuSumAggregateOutputType | null
     _min: SpuMinAggregateOutputType | null
     _max: SpuMaxAggregateOutputType | null
+  }
+
+  export type SpuAvgAggregateOutputType = {
+    timeAccess: number | null
+  }
+
+  export type SpuSumAggregateOutputType = {
+    timeAccess: bigint | null
   }
 
   export type SpuMinAggregateOutputType = {
@@ -8535,6 +8545,7 @@ export namespace Prisma {
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    timeAccess: bigint | null
     categoryId: string | null
     brandId: string | null
     shopId: string | null
@@ -8550,6 +8561,7 @@ export namespace Prisma {
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    timeAccess: bigint | null
     categoryId: string | null
     brandId: string | null
     shopId: string | null
@@ -8565,12 +8577,21 @@ export namespace Prisma {
     isActive: number
     createdAt: number
     updatedAt: number
+    timeAccess: number
     categoryId: number
     brandId: number
     shopId: number
     _all: number
   }
 
+
+  export type SpuAvgAggregateInputType = {
+    timeAccess?: true
+  }
+
+  export type SpuSumAggregateInputType = {
+    timeAccess?: true
+  }
 
   export type SpuMinAggregateInputType = {
     id?: true
@@ -8582,6 +8603,7 @@ export namespace Prisma {
     isActive?: true
     createdAt?: true
     updatedAt?: true
+    timeAccess?: true
     categoryId?: true
     brandId?: true
     shopId?: true
@@ -8597,6 +8619,7 @@ export namespace Prisma {
     isActive?: true
     createdAt?: true
     updatedAt?: true
+    timeAccess?: true
     categoryId?: true
     brandId?: true
     shopId?: true
@@ -8612,6 +8635,7 @@ export namespace Prisma {
     isActive?: true
     createdAt?: true
     updatedAt?: true
+    timeAccess?: true
     categoryId?: true
     brandId?: true
     shopId?: true
@@ -8656,6 +8680,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: SpuAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SpuSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: SpuMinAggregateInputType
@@ -8686,6 +8722,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: SpuCountAggregateInputType | true
+    _avg?: SpuAvgAggregateInputType
+    _sum?: SpuSumAggregateInputType
     _min?: SpuMinAggregateInputType
     _max?: SpuMaxAggregateInputType
   }
@@ -8700,10 +8738,13 @@ export namespace Prisma {
     isActive: boolean
     createdAt: Date
     updatedAt: Date
+    timeAccess: bigint
     categoryId: string
     brandId: string
     shopId: string
     _count: SpuCountAggregateOutputType | null
+    _avg: SpuAvgAggregateOutputType | null
+    _sum: SpuSumAggregateOutputType | null
     _min: SpuMinAggregateOutputType | null
     _max: SpuMaxAggregateOutputType | null
   }
@@ -8732,6 +8773,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    timeAccess?: boolean
     categoryId?: boolean
     brandId?: boolean
     shopId?: boolean
@@ -8757,6 +8799,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    timeAccess?: boolean
     categoryId?: boolean
     brandId?: boolean
     shopId?: boolean
@@ -8775,6 +8818,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    timeAccess?: boolean
     categoryId?: boolean
     brandId?: boolean
     shopId?: boolean
@@ -8793,12 +8837,13 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    timeAccess?: boolean
     categoryId?: boolean
     brandId?: boolean
     shopId?: boolean
   }
 
-  export type SpuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "shortDesc" | "status" | "isActive" | "createdAt" | "updatedAt" | "categoryId" | "brandId" | "shopId", ExtArgs["result"]["spu"]>
+  export type SpuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "shortDesc" | "status" | "isActive" | "createdAt" | "updatedAt" | "timeAccess" | "categoryId" | "brandId" | "shopId", ExtArgs["result"]["spu"]>
   export type SpuInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     brand?: boolean | BrandDefaultArgs<ExtArgs>
@@ -8845,6 +8890,7 @@ export namespace Prisma {
       isActive: boolean
       createdAt: Date
       updatedAt: Date
+      timeAccess: bigint
       categoryId: string
       brandId: string
       shopId: string
@@ -9289,6 +9335,7 @@ export namespace Prisma {
     readonly isActive: FieldRef<"Spu", 'Boolean'>
     readonly createdAt: FieldRef<"Spu", 'DateTime'>
     readonly updatedAt: FieldRef<"Spu", 'DateTime'>
+    readonly timeAccess: FieldRef<"Spu", 'BigInt'>
     readonly categoryId: FieldRef<"Spu", 'String'>
     readonly brandId: FieldRef<"Spu", 'String'>
     readonly shopId: FieldRef<"Spu", 'String'>
@@ -9870,6 +9917,7 @@ export namespace Prisma {
     length: Decimal | null
     width: Decimal | null
     height: Decimal | null
+    timeAccess: number | null
   }
 
   export type SkuSumAggregateOutputType = {
@@ -9880,6 +9928,7 @@ export namespace Prisma {
     length: Decimal | null
     width: Decimal | null
     height: Decimal | null
+    timeAccess: bigint | null
   }
 
   export type SkuMinAggregateOutputType = {
@@ -9893,6 +9942,7 @@ export namespace Prisma {
     length: Decimal | null
     width: Decimal | null
     height: Decimal | null
+    timeAccess: bigint | null
     status: $Enums.SkuStatus | null
     isActive: boolean | null
     createdAt: Date | null
@@ -9911,6 +9961,7 @@ export namespace Prisma {
     length: Decimal | null
     width: Decimal | null
     height: Decimal | null
+    timeAccess: bigint | null
     status: $Enums.SkuStatus | null
     isActive: boolean | null
     createdAt: Date | null
@@ -9929,6 +9980,7 @@ export namespace Prisma {
     length: number
     width: number
     height: number
+    timeAccess: number
     status: number
     isActive: number
     createdAt: number
@@ -9946,6 +9998,7 @@ export namespace Prisma {
     length?: true
     width?: true
     height?: true
+    timeAccess?: true
   }
 
   export type SkuSumAggregateInputType = {
@@ -9956,6 +10009,7 @@ export namespace Prisma {
     length?: true
     width?: true
     height?: true
+    timeAccess?: true
   }
 
   export type SkuMinAggregateInputType = {
@@ -9969,6 +10023,7 @@ export namespace Prisma {
     length?: true
     width?: true
     height?: true
+    timeAccess?: true
     status?: true
     isActive?: true
     createdAt?: true
@@ -9987,6 +10042,7 @@ export namespace Prisma {
     length?: true
     width?: true
     height?: true
+    timeAccess?: true
     status?: true
     isActive?: true
     createdAt?: true
@@ -10005,6 +10061,7 @@ export namespace Prisma {
     length?: true
     width?: true
     height?: true
+    timeAccess?: true
     status?: true
     isActive?: true
     createdAt?: true
@@ -10110,6 +10167,7 @@ export namespace Prisma {
     length: Decimal | null
     width: Decimal | null
     height: Decimal | null
+    timeAccess: bigint
     status: $Enums.SkuStatus
     isActive: boolean
     createdAt: Date
@@ -10147,6 +10205,7 @@ export namespace Prisma {
     length?: boolean
     width?: boolean
     height?: boolean
+    timeAccess?: boolean
     status?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -10170,6 +10229,7 @@ export namespace Prisma {
     length?: boolean
     width?: boolean
     height?: boolean
+    timeAccess?: boolean
     status?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -10189,6 +10249,7 @@ export namespace Prisma {
     length?: boolean
     width?: boolean
     height?: boolean
+    timeAccess?: boolean
     status?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -10208,6 +10269,7 @@ export namespace Prisma {
     length?: boolean
     width?: boolean
     height?: boolean
+    timeAccess?: boolean
     status?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -10215,7 +10277,7 @@ export namespace Prisma {
     spuId?: boolean
   }
 
-  export type SkuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "skuCode" | "name" | "originalPrice" | "salePrice" | "stock" | "weight" | "length" | "width" | "height" | "status" | "isActive" | "createdAt" | "updatedAt" | "spuId", ExtArgs["result"]["sku"]>
+  export type SkuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "skuCode" | "name" | "originalPrice" | "salePrice" | "stock" | "weight" | "length" | "width" | "height" | "timeAccess" | "status" | "isActive" | "createdAt" | "updatedAt" | "spuId", ExtArgs["result"]["sku"]>
   export type SkuInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     spu?: boolean | SpuDefaultArgs<ExtArgs>
     skuImages?: boolean | Sku$skuImagesArgs<ExtArgs>
@@ -10249,6 +10311,7 @@ export namespace Prisma {
       length: Prisma.Decimal | null
       width: Prisma.Decimal | null
       height: Prisma.Decimal | null
+      timeAccess: bigint
       status: $Enums.SkuStatus
       isActive: boolean
       createdAt: Date
@@ -10691,6 +10754,7 @@ export namespace Prisma {
     readonly length: FieldRef<"Sku", 'Decimal'>
     readonly width: FieldRef<"Sku", 'Decimal'>
     readonly height: FieldRef<"Sku", 'Decimal'>
+    readonly timeAccess: FieldRef<"Sku", 'BigInt'>
     readonly status: FieldRef<"Sku", 'SkuStatus'>
     readonly isActive: FieldRef<"Sku", 'Boolean'>
     readonly createdAt: FieldRef<"Sku", 'DateTime'>
@@ -26743,11 +26807,13 @@ export namespace Prisma {
   export type ShopAvgAggregateOutputType = {
     rating: Decimal | null
     totalReviews: number | null
+    timeAccess: number | null
   }
 
   export type ShopSumAggregateOutputType = {
     rating: Decimal | null
     totalReviews: number | null
+    timeAccess: bigint | null
   }
 
   export type ShopMinAggregateOutputType = {
@@ -26766,6 +26832,7 @@ export namespace Prisma {
     isVerified: boolean | null
     rating: Decimal | null
     totalReviews: number | null
+    timeAccess: bigint | null
     createdAt: Date | null
     updatedAt: Date | null
     ownerId: string | null
@@ -26787,6 +26854,7 @@ export namespace Prisma {
     isVerified: boolean | null
     rating: Decimal | null
     totalReviews: number | null
+    timeAccess: bigint | null
     createdAt: Date | null
     updatedAt: Date | null
     ownerId: string | null
@@ -26808,6 +26876,7 @@ export namespace Prisma {
     isVerified: number
     rating: number
     totalReviews: number
+    timeAccess: number
     createdAt: number
     updatedAt: number
     ownerId: number
@@ -26818,11 +26887,13 @@ export namespace Prisma {
   export type ShopAvgAggregateInputType = {
     rating?: true
     totalReviews?: true
+    timeAccess?: true
   }
 
   export type ShopSumAggregateInputType = {
     rating?: true
     totalReviews?: true
+    timeAccess?: true
   }
 
   export type ShopMinAggregateInputType = {
@@ -26841,6 +26912,7 @@ export namespace Prisma {
     isVerified?: true
     rating?: true
     totalReviews?: true
+    timeAccess?: true
     createdAt?: true
     updatedAt?: true
     ownerId?: true
@@ -26862,6 +26934,7 @@ export namespace Prisma {
     isVerified?: true
     rating?: true
     totalReviews?: true
+    timeAccess?: true
     createdAt?: true
     updatedAt?: true
     ownerId?: true
@@ -26883,6 +26956,7 @@ export namespace Prisma {
     isVerified?: true
     rating?: true
     totalReviews?: true
+    timeAccess?: true
     createdAt?: true
     updatedAt?: true
     ownerId?: true
@@ -26991,6 +27065,7 @@ export namespace Prisma {
     isVerified: boolean
     rating: Decimal | null
     totalReviews: number
+    timeAccess: bigint
     createdAt: Date
     updatedAt: Date
     ownerId: string
@@ -27031,6 +27106,7 @@ export namespace Prisma {
     isVerified?: boolean
     rating?: boolean
     totalReviews?: boolean
+    timeAccess?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     ownerId?: boolean
@@ -27055,6 +27131,7 @@ export namespace Prisma {
     isVerified?: boolean
     rating?: boolean
     totalReviews?: boolean
+    timeAccess?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     ownerId?: boolean
@@ -27077,6 +27154,7 @@ export namespace Prisma {
     isVerified?: boolean
     rating?: boolean
     totalReviews?: boolean
+    timeAccess?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     ownerId?: boolean
@@ -27099,12 +27177,13 @@ export namespace Prisma {
     isVerified?: boolean
     rating?: boolean
     totalReviews?: boolean
+    timeAccess?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     ownerId?: boolean
   }
 
-  export type ShopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "logoUrl" | "bannerUrl" | "email" | "phone" | "address" | "website" | "status" | "isActive" | "isVerified" | "rating" | "totalReviews" | "createdAt" | "updatedAt" | "ownerId", ExtArgs["result"]["shop"]>
+  export type ShopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "logoUrl" | "bannerUrl" | "email" | "phone" | "address" | "website" | "status" | "isActive" | "isVerified" | "rating" | "totalReviews" | "timeAccess" | "createdAt" | "updatedAt" | "ownerId", ExtArgs["result"]["shop"]>
   export type ShopInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     spus?: boolean | Shop$spusArgs<ExtArgs>
@@ -27139,6 +27218,7 @@ export namespace Prisma {
       isVerified: boolean
       rating: Prisma.Decimal | null
       totalReviews: number
+      timeAccess: bigint
       createdAt: Date
       updatedAt: Date
       ownerId: string
@@ -27582,6 +27662,7 @@ export namespace Prisma {
     readonly isVerified: FieldRef<"Shop", 'Boolean'>
     readonly rating: FieldRef<"Shop", 'Decimal'>
     readonly totalReviews: FieldRef<"Shop", 'Int'>
+    readonly timeAccess: FieldRef<"Shop", 'BigInt'>
     readonly createdAt: FieldRef<"Shop", 'DateTime'>
     readonly updatedAt: FieldRef<"Shop", 'DateTime'>
     readonly ownerId: FieldRef<"Shop", 'String'>
@@ -35116,6 +35197,7 @@ export namespace Prisma {
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    timeAccess: 'timeAccess',
     categoryId: 'categoryId',
     brandId: 'brandId',
     shopId: 'shopId'
@@ -35135,6 +35217,7 @@ export namespace Prisma {
     length: 'length',
     width: 'width',
     height: 'height',
+    timeAccess: 'timeAccess',
     status: 'status',
     isActive: 'isActive',
     createdAt: 'createdAt',
@@ -35327,6 +35410,7 @@ export namespace Prisma {
     isVerified: 'isVerified',
     rating: 'rating',
     totalReviews: 'totalReviews',
+    timeAccess: 'timeAccess',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     ownerId: 'ownerId'
@@ -35535,6 +35619,20 @@ export namespace Prisma {
    * Reference to a field of type 'SpuStatus[]'
    */
   export type ListEnumSpuStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SpuStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BigInt'
+   */
+  export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+    
+
+
+  /**
+   * Reference to a field of type 'BigInt[]'
+   */
+  export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
 
 
@@ -36001,6 +36099,7 @@ export namespace Prisma {
     isActive?: BoolFilter<"Spu"> | boolean
     createdAt?: DateTimeFilter<"Spu"> | Date | string
     updatedAt?: DateTimeFilter<"Spu"> | Date | string
+    timeAccess?: BigIntFilter<"Spu"> | bigint | number
     categoryId?: UuidFilter<"Spu"> | string
     brandId?: UuidFilter<"Spu"> | string
     shopId?: UuidFilter<"Spu"> | string
@@ -36025,6 +36124,7 @@ export namespace Prisma {
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    timeAccess?: SortOrder
     categoryId?: SortOrder
     brandId?: SortOrder
     shopId?: SortOrder
@@ -36052,6 +36152,7 @@ export namespace Prisma {
     isActive?: BoolFilter<"Spu"> | boolean
     createdAt?: DateTimeFilter<"Spu"> | Date | string
     updatedAt?: DateTimeFilter<"Spu"> | Date | string
+    timeAccess?: BigIntFilter<"Spu"> | bigint | number
     categoryId?: UuidFilter<"Spu"> | string
     brandId?: UuidFilter<"Spu"> | string
     shopId?: UuidFilter<"Spu"> | string
@@ -36076,12 +36177,15 @@ export namespace Prisma {
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    timeAccess?: SortOrder
     categoryId?: SortOrder
     brandId?: SortOrder
     shopId?: SortOrder
     _count?: SpuCountOrderByAggregateInput
+    _avg?: SpuAvgOrderByAggregateInput
     _max?: SpuMaxOrderByAggregateInput
     _min?: SpuMinOrderByAggregateInput
+    _sum?: SpuSumOrderByAggregateInput
   }
 
   export type SpuScalarWhereWithAggregatesInput = {
@@ -36097,6 +36201,7 @@ export namespace Prisma {
     isActive?: BoolWithAggregatesFilter<"Spu"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Spu"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Spu"> | Date | string
+    timeAccess?: BigIntWithAggregatesFilter<"Spu"> | bigint | number
     categoryId?: UuidWithAggregatesFilter<"Spu"> | string
     brandId?: UuidWithAggregatesFilter<"Spu"> | string
     shopId?: UuidWithAggregatesFilter<"Spu"> | string
@@ -36116,6 +36221,7 @@ export namespace Prisma {
     length?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     width?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     height?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFilter<"Sku"> | bigint | number
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     isActive?: BoolFilter<"Sku"> | boolean
     createdAt?: DateTimeFilter<"Sku"> | Date | string
@@ -36138,6 +36244,7 @@ export namespace Prisma {
     length?: SortOrderInput | SortOrder
     width?: SortOrderInput | SortOrder
     height?: SortOrderInput | SortOrder
+    timeAccess?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -36163,6 +36270,7 @@ export namespace Prisma {
     length?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     width?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     height?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFilter<"Sku"> | bigint | number
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     isActive?: BoolFilter<"Sku"> | boolean
     createdAt?: DateTimeFilter<"Sku"> | Date | string
@@ -36185,6 +36293,7 @@ export namespace Prisma {
     length?: SortOrderInput | SortOrder
     width?: SortOrderInput | SortOrder
     height?: SortOrderInput | SortOrder
+    timeAccess?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -36211,6 +36320,7 @@ export namespace Prisma {
     length?: DecimalNullableWithAggregatesFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     width?: DecimalNullableWithAggregatesFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     height?: DecimalNullableWithAggregatesFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntWithAggregatesFilter<"Sku"> | bigint | number
     status?: EnumSkuStatusWithAggregatesFilter<"Sku"> | $Enums.SkuStatus
     isActive?: BoolWithAggregatesFilter<"Sku"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Sku"> | Date | string
@@ -37140,6 +37250,7 @@ export namespace Prisma {
     isVerified?: BoolFilter<"Shop"> | boolean
     rating?: DecimalNullableFilter<"Shop"> | Decimal | DecimalJsLike | number | string | null
     totalReviews?: IntFilter<"Shop"> | number
+    timeAccess?: BigIntFilter<"Shop"> | bigint | number
     createdAt?: DateTimeFilter<"Shop"> | Date | string
     updatedAt?: DateTimeFilter<"Shop"> | Date | string
     ownerId?: UuidFilter<"Shop"> | string
@@ -37163,6 +37274,7 @@ export namespace Prisma {
     isVerified?: SortOrder
     rating?: SortOrderInput | SortOrder
     totalReviews?: SortOrder
+    timeAccess?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ownerId?: SortOrder
@@ -37189,6 +37301,7 @@ export namespace Prisma {
     isVerified?: BoolFilter<"Shop"> | boolean
     rating?: DecimalNullableFilter<"Shop"> | Decimal | DecimalJsLike | number | string | null
     totalReviews?: IntFilter<"Shop"> | number
+    timeAccess?: BigIntFilter<"Shop"> | bigint | number
     createdAt?: DateTimeFilter<"Shop"> | Date | string
     updatedAt?: DateTimeFilter<"Shop"> | Date | string
     ownerId?: UuidFilter<"Shop"> | string
@@ -37212,6 +37325,7 @@ export namespace Prisma {
     isVerified?: SortOrder
     rating?: SortOrderInput | SortOrder
     totalReviews?: SortOrder
+    timeAccess?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ownerId?: SortOrder
@@ -37241,6 +37355,7 @@ export namespace Prisma {
     isVerified?: BoolWithAggregatesFilter<"Shop"> | boolean
     rating?: DecimalNullableWithAggregatesFilter<"Shop"> | Decimal | DecimalJsLike | number | string | null
     totalReviews?: IntWithAggregatesFilter<"Shop"> | number
+    timeAccess?: BigIntWithAggregatesFilter<"Shop"> | bigint | number
     createdAt?: DateTimeWithAggregatesFilter<"Shop"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Shop"> | Date | string
     ownerId?: UuidWithAggregatesFilter<"Shop"> | string
@@ -38082,6 +38197,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     category: CategoryCreateNestedOneWithoutSpusInput
     brand: BrandCreateNestedOneWithoutSpusInput
     shop: ShopCreateNestedOneWithoutSpusInput
@@ -38103,6 +38219,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     categoryId: string
     brandId: string
     shopId: string
@@ -38124,6 +38241,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     category?: CategoryUpdateOneRequiredWithoutSpusNestedInput
     brand?: BrandUpdateOneRequiredWithoutSpusNestedInput
     shop?: ShopUpdateOneRequiredWithoutSpusNestedInput
@@ -38145,6 +38263,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     categoryId?: StringFieldUpdateOperationsInput | string
     brandId?: StringFieldUpdateOperationsInput | string
     shopId?: StringFieldUpdateOperationsInput | string
@@ -38166,6 +38285,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     categoryId: string
     brandId: string
     shopId: string
@@ -38181,6 +38301,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type SpuUncheckedUpdateManyInput = {
@@ -38193,6 +38314,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     categoryId?: StringFieldUpdateOperationsInput | string
     brandId?: StringFieldUpdateOperationsInput | string
     shopId?: StringFieldUpdateOperationsInput | string
@@ -38209,6 +38331,7 @@ export namespace Prisma {
     length?: Decimal | DecimalJsLike | number | string | null
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -38230,6 +38353,7 @@ export namespace Prisma {
     length?: Decimal | DecimalJsLike | number | string | null
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -38251,6 +38375,7 @@ export namespace Prisma {
     length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38272,6 +38397,7 @@ export namespace Prisma {
     length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38293,6 +38419,7 @@ export namespace Prisma {
     length?: Decimal | DecimalJsLike | number | string | null
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -38311,6 +38438,7 @@ export namespace Prisma {
     length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38328,6 +38456,7 @@ export namespace Prisma {
     length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39249,6 +39378,7 @@ export namespace Prisma {
     isVerified?: boolean
     rating?: Decimal | DecimalJsLike | number | string | null
     totalReviews?: number
+    timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutShopsInput
@@ -39271,6 +39401,7 @@ export namespace Prisma {
     isVerified?: boolean
     rating?: Decimal | DecimalJsLike | number | string | null
     totalReviews?: number
+    timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
     ownerId: string
@@ -39293,6 +39424,7 @@ export namespace Prisma {
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     totalReviews?: IntFieldUpdateOperationsInput | number
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutShopsNestedInput
@@ -39315,6 +39447,7 @@ export namespace Prisma {
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     totalReviews?: IntFieldUpdateOperationsInput | number
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ownerId?: StringFieldUpdateOperationsInput | string
@@ -39337,6 +39470,7 @@ export namespace Prisma {
     isVerified?: boolean
     rating?: Decimal | DecimalJsLike | number | string | null
     totalReviews?: number
+    timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
     ownerId: string
@@ -39358,6 +39492,7 @@ export namespace Prisma {
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     totalReviews?: IntFieldUpdateOperationsInput | number
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -39378,6 +39513,7 @@ export namespace Prisma {
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     totalReviews?: IntFieldUpdateOperationsInput | number
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ownerId?: StringFieldUpdateOperationsInput | string
@@ -40340,6 +40476,17 @@ export namespace Prisma {
     not?: NestedEnumSpuStatusFilter<$PrismaModel> | $Enums.SpuStatus
   }
 
+  export type BigIntFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  }
+
   export type CategoryScalarRelationFilter = {
     is?: CategoryWhereInput
     isNot?: CategoryWhereInput
@@ -40425,9 +40572,14 @@ export namespace Prisma {
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    timeAccess?: SortOrder
     categoryId?: SortOrder
     brandId?: SortOrder
     shopId?: SortOrder
+  }
+
+  export type SpuAvgOrderByAggregateInput = {
+    timeAccess?: SortOrder
   }
 
   export type SpuMaxOrderByAggregateInput = {
@@ -40440,6 +40592,7 @@ export namespace Prisma {
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    timeAccess?: SortOrder
     categoryId?: SortOrder
     brandId?: SortOrder
     shopId?: SortOrder
@@ -40455,9 +40608,14 @@ export namespace Prisma {
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    timeAccess?: SortOrder
     categoryId?: SortOrder
     brandId?: SortOrder
     shopId?: SortOrder
+  }
+
+  export type SpuSumOrderByAggregateInput = {
+    timeAccess?: SortOrder
   }
 
   export type EnumSpuStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -40468,6 +40626,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumSpuStatusFilter<$PrismaModel>
     _max?: NestedEnumSpuStatusFilter<$PrismaModel>
+  }
+
+  export type BigIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedBigIntFilter<$PrismaModel>
+    _min?: NestedBigIntFilter<$PrismaModel>
+    _max?: NestedBigIntFilter<$PrismaModel>
   }
 
   export type DecimalFilter<$PrismaModel = never> = {
@@ -40545,6 +40719,7 @@ export namespace Prisma {
     length?: SortOrder
     width?: SortOrder
     height?: SortOrder
+    timeAccess?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -40560,6 +40735,7 @@ export namespace Prisma {
     length?: SortOrder
     width?: SortOrder
     height?: SortOrder
+    timeAccess?: SortOrder
   }
 
   export type SkuMaxOrderByAggregateInput = {
@@ -40573,6 +40749,7 @@ export namespace Prisma {
     length?: SortOrder
     width?: SortOrder
     height?: SortOrder
+    timeAccess?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -40591,6 +40768,7 @@ export namespace Prisma {
     length?: SortOrder
     width?: SortOrder
     height?: SortOrder
+    timeAccess?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -40606,6 +40784,7 @@ export namespace Prisma {
     length?: SortOrder
     width?: SortOrder
     height?: SortOrder
+    timeAccess?: SortOrder
   }
 
   export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
@@ -41262,6 +41441,7 @@ export namespace Prisma {
     isVerified?: SortOrder
     rating?: SortOrder
     totalReviews?: SortOrder
+    timeAccess?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ownerId?: SortOrder
@@ -41270,6 +41450,7 @@ export namespace Prisma {
   export type ShopAvgOrderByAggregateInput = {
     rating?: SortOrder
     totalReviews?: SortOrder
+    timeAccess?: SortOrder
   }
 
   export type ShopMaxOrderByAggregateInput = {
@@ -41288,6 +41469,7 @@ export namespace Prisma {
     isVerified?: SortOrder
     rating?: SortOrder
     totalReviews?: SortOrder
+    timeAccess?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ownerId?: SortOrder
@@ -41309,6 +41491,7 @@ export namespace Prisma {
     isVerified?: SortOrder
     rating?: SortOrder
     totalReviews?: SortOrder
+    timeAccess?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ownerId?: SortOrder
@@ -41317,6 +41500,7 @@ export namespace Prisma {
   export type ShopSumOrderByAggregateInput = {
     rating?: SortOrder
     totalReviews?: SortOrder
+    timeAccess?: SortOrder
   }
 
   export type EnumShopStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -42046,6 +42230,14 @@ export namespace Prisma {
 
   export type EnumSpuStatusFieldUpdateOperationsInput = {
     set?: $Enums.SpuStatus
+  }
+
+  export type BigIntFieldUpdateOperationsInput = {
+    set?: bigint | number
+    increment?: bigint | number
+    decrement?: bigint | number
+    multiply?: bigint | number
+    divide?: bigint | number
   }
 
   export type CategoryUpdateOneRequiredWithoutSpusNestedInput = {
@@ -43974,6 +44166,17 @@ export namespace Prisma {
     not?: NestedEnumSpuStatusFilter<$PrismaModel> | $Enums.SpuStatus
   }
 
+  export type NestedBigIntFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  }
+
   export type NestedEnumSpuStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.SpuStatus | EnumSpuStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SpuStatus[] | ListEnumSpuStatusFieldRefInput<$PrismaModel>
@@ -43982,6 +44185,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumSpuStatusFilter<$PrismaModel>
     _max?: NestedEnumSpuStatusFilter<$PrismaModel>
+  }
+
+  export type NestedBigIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedBigIntFilter<$PrismaModel>
+    _min?: NestedBigIntFilter<$PrismaModel>
+    _max?: NestedBigIntFilter<$PrismaModel>
   }
 
   export type NestedDecimalFilter<$PrismaModel = never> = {
@@ -44565,6 +44784,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     brand: BrandCreateNestedOneWithoutSpusInput
     shop: ShopCreateNestedOneWithoutSpusInput
     skus?: SkuCreateNestedManyWithoutSpuInput
@@ -44585,6 +44805,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     brandId: string
     shopId: string
     skus?: SkuUncheckedCreateNestedManyWithoutSpuInput
@@ -44705,6 +44926,7 @@ export namespace Prisma {
     isActive?: BoolFilter<"Spu"> | boolean
     createdAt?: DateTimeFilter<"Spu"> | Date | string
     updatedAt?: DateTimeFilter<"Spu"> | Date | string
+    timeAccess?: BigIntFilter<"Spu"> | bigint | number
     categoryId?: UuidFilter<"Spu"> | string
     brandId?: UuidFilter<"Spu"> | string
     shopId?: UuidFilter<"Spu"> | string
@@ -44720,6 +44942,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     category: CategoryCreateNestedOneWithoutSpusInput
     shop: ShopCreateNestedOneWithoutSpusInput
     skus?: SkuCreateNestedManyWithoutSpuInput
@@ -44740,6 +44963,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     categoryId: string
     shopId: string
     skus?: SkuUncheckedCreateNestedManyWithoutSpuInput
@@ -44854,6 +45078,7 @@ export namespace Prisma {
     isVerified?: boolean
     rating?: Decimal | DecimalJsLike | number | string | null
     totalReviews?: number
+    timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutShopsInput
@@ -44875,6 +45100,7 @@ export namespace Prisma {
     isVerified?: boolean
     rating?: Decimal | DecimalJsLike | number | string | null
     totalReviews?: number
+    timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
     ownerId: string
@@ -44896,6 +45122,7 @@ export namespace Prisma {
     length?: Decimal | DecimalJsLike | number | string | null
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -44916,6 +45143,7 @@ export namespace Prisma {
     length?: Decimal | DecimalJsLike | number | string | null
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -45158,6 +45386,7 @@ export namespace Prisma {
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     totalReviews?: IntFieldUpdateOperationsInput | number
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutShopsNestedInput
@@ -45179,6 +45408,7 @@ export namespace Prisma {
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     totalReviews?: IntFieldUpdateOperationsInput | number
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ownerId?: StringFieldUpdateOperationsInput | string
@@ -45214,6 +45444,7 @@ export namespace Prisma {
     length?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     width?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     height?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFilter<"Sku"> | bigint | number
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     isActive?: BoolFilter<"Sku"> | boolean
     createdAt?: DateTimeFilter<"Sku"> | Date | string
@@ -45366,6 +45597,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     category: CategoryCreateNestedOneWithoutSpusInput
     brand: BrandCreateNestedOneWithoutSpusInput
     shop: ShopCreateNestedOneWithoutSpusInput
@@ -45386,6 +45618,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     categoryId: string
     brandId: string
     shopId: string
@@ -45498,6 +45731,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     category?: CategoryUpdateOneRequiredWithoutSpusNestedInput
     brand?: BrandUpdateOneRequiredWithoutSpusNestedInput
     shop?: ShopUpdateOneRequiredWithoutSpusNestedInput
@@ -45518,6 +45752,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     categoryId?: StringFieldUpdateOperationsInput | string
     brandId?: StringFieldUpdateOperationsInput | string
     shopId?: StringFieldUpdateOperationsInput | string
@@ -45621,6 +45856,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     category: CategoryCreateNestedOneWithoutSpusInput
     brand: BrandCreateNestedOneWithoutSpusInput
     shop: ShopCreateNestedOneWithoutSpusInput
@@ -45641,6 +45877,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     categoryId: string
     brandId: string
     shopId: string
@@ -45677,6 +45914,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     category?: CategoryUpdateOneRequiredWithoutSpusNestedInput
     brand?: BrandUpdateOneRequiredWithoutSpusNestedInput
     shop?: ShopUpdateOneRequiredWithoutSpusNestedInput
@@ -45697,6 +45935,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     categoryId?: StringFieldUpdateOperationsInput | string
     brandId?: StringFieldUpdateOperationsInput | string
     shopId?: StringFieldUpdateOperationsInput | string
@@ -45718,6 +45957,7 @@ export namespace Prisma {
     length?: Decimal | DecimalJsLike | number | string | null
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -45738,6 +45978,7 @@ export namespace Prisma {
     length?: Decimal | DecimalJsLike | number | string | null
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -45774,6 +46015,7 @@ export namespace Prisma {
     length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -45794,6 +46036,7 @@ export namespace Prisma {
     length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46209,6 +46452,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     category: CategoryCreateNestedOneWithoutSpusInput
     brand: BrandCreateNestedOneWithoutSpusInput
     shop: ShopCreateNestedOneWithoutSpusInput
@@ -46229,6 +46473,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     categoryId: string
     brandId: string
     shopId: string
@@ -46337,6 +46582,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     category?: CategoryUpdateOneRequiredWithoutSpusNestedInput
     brand?: BrandUpdateOneRequiredWithoutSpusNestedInput
     shop?: ShopUpdateOneRequiredWithoutSpusNestedInput
@@ -46357,6 +46603,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     categoryId?: StringFieldUpdateOperationsInput | string
     brandId?: StringFieldUpdateOperationsInput | string
     shopId?: StringFieldUpdateOperationsInput | string
@@ -46462,6 +46709,7 @@ export namespace Prisma {
     length?: Decimal | DecimalJsLike | number | string | null
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -46482,6 +46730,7 @@ export namespace Prisma {
     length?: Decimal | DecimalJsLike | number | string | null
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -46590,6 +46839,7 @@ export namespace Prisma {
     length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46610,6 +46860,7 @@ export namespace Prisma {
     length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46713,6 +46964,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     category: CategoryCreateNestedOneWithoutSpusInput
     brand: BrandCreateNestedOneWithoutSpusInput
     shop: ShopCreateNestedOneWithoutSpusInput
@@ -46733,6 +46985,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     categoryId: string
     brandId: string
     shopId: string
@@ -46830,6 +47083,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     category?: CategoryUpdateOneRequiredWithoutSpusNestedInput
     brand?: BrandUpdateOneRequiredWithoutSpusNestedInput
     shop?: ShopUpdateOneRequiredWithoutSpusNestedInput
@@ -46850,6 +47104,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     categoryId?: StringFieldUpdateOperationsInput | string
     brandId?: StringFieldUpdateOperationsInput | string
     shopId?: StringFieldUpdateOperationsInput | string
@@ -46930,6 +47185,7 @@ export namespace Prisma {
     length?: Decimal | DecimalJsLike | number | string | null
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -46950,6 +47206,7 @@ export namespace Prisma {
     length?: Decimal | DecimalJsLike | number | string | null
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -47044,6 +47301,7 @@ export namespace Prisma {
     length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47064,6 +47322,7 @@ export namespace Prisma {
     length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47191,6 +47450,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     category: CategoryCreateNestedOneWithoutSpusInput
     brand: BrandCreateNestedOneWithoutSpusInput
     shop: ShopCreateNestedOneWithoutSpusInput
@@ -47211,6 +47471,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     categoryId: string
     brandId: string
     shopId: string
@@ -47272,6 +47533,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     category?: CategoryUpdateOneRequiredWithoutSpusNestedInput
     brand?: BrandUpdateOneRequiredWithoutSpusNestedInput
     shop?: ShopUpdateOneRequiredWithoutSpusNestedInput
@@ -47292,6 +47554,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     categoryId?: StringFieldUpdateOperationsInput | string
     brandId?: StringFieldUpdateOperationsInput | string
     shopId?: StringFieldUpdateOperationsInput | string
@@ -47827,6 +48090,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     category: CategoryCreateNestedOneWithoutSpusInput
     brand: BrandCreateNestedOneWithoutSpusInput
     skus?: SkuCreateNestedManyWithoutSpuInput
@@ -47847,6 +48111,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     categoryId: string
     brandId: string
     skus?: SkuUncheckedCreateNestedManyWithoutSpuInput
@@ -48167,6 +48432,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     category: CategoryCreateNestedOneWithoutSpusInput
     brand: BrandCreateNestedOneWithoutSpusInput
     shop: ShopCreateNestedOneWithoutSpusInput
@@ -48187,6 +48453,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     categoryId: string
     brandId: string
     shopId: string
@@ -48248,6 +48515,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     category?: CategoryUpdateOneRequiredWithoutSpusNestedInput
     brand?: BrandUpdateOneRequiredWithoutSpusNestedInput
     shop?: ShopUpdateOneRequiredWithoutSpusNestedInput
@@ -48268,6 +48536,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     categoryId?: StringFieldUpdateOperationsInput | string
     brandId?: StringFieldUpdateOperationsInput | string
     shopId?: StringFieldUpdateOperationsInput | string
@@ -48409,6 +48678,7 @@ export namespace Prisma {
     isVerified?: boolean
     rating?: Decimal | DecimalJsLike | number | string | null
     totalReviews?: number
+    timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
     spus?: SpuCreateNestedManyWithoutShopInput
@@ -48430,6 +48700,7 @@ export namespace Prisma {
     isVerified?: boolean
     rating?: Decimal | DecimalJsLike | number | string | null
     totalReviews?: number
+    timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
     spus?: SpuUncheckedCreateNestedManyWithoutShopInput
@@ -48666,6 +48937,7 @@ export namespace Prisma {
     isVerified?: BoolFilter<"Shop"> | boolean
     rating?: DecimalNullableFilter<"Shop"> | Decimal | DecimalJsLike | number | string | null
     totalReviews?: IntFilter<"Shop"> | number
+    timeAccess?: BigIntFilter<"Shop"> | bigint | number
     createdAt?: DateTimeFilter<"Shop"> | Date | string
     updatedAt?: DateTimeFilter<"Shop"> | Date | string
     ownerId?: UuidFilter<"Shop"> | string
@@ -49210,6 +49482,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     brandId: string
     shopId: string
   }
@@ -49264,6 +49537,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     brand?: BrandUpdateOneRequiredWithoutSpusNestedInput
     shop?: ShopUpdateOneRequiredWithoutSpusNestedInput
     skus?: SkuUpdateManyWithoutSpuNestedInput
@@ -49284,6 +49558,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     brandId?: StringFieldUpdateOperationsInput | string
     shopId?: StringFieldUpdateOperationsInput | string
     skus?: SkuUncheckedUpdateManyWithoutSpuNestedInput
@@ -49304,6 +49579,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     brandId?: StringFieldUpdateOperationsInput | string
     shopId?: StringFieldUpdateOperationsInput | string
   }
@@ -49318,6 +49594,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     categoryId: string
     shopId: string
   }
@@ -49332,6 +49609,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     category?: CategoryUpdateOneRequiredWithoutSpusNestedInput
     shop?: ShopUpdateOneRequiredWithoutSpusNestedInput
     skus?: SkuUpdateManyWithoutSpuNestedInput
@@ -49352,6 +49630,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     categoryId?: StringFieldUpdateOperationsInput | string
     shopId?: StringFieldUpdateOperationsInput | string
     skus?: SkuUncheckedUpdateManyWithoutSpuNestedInput
@@ -49372,6 +49651,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     categoryId?: StringFieldUpdateOperationsInput | string
     shopId?: StringFieldUpdateOperationsInput | string
   }
@@ -49387,6 +49667,7 @@ export namespace Prisma {
     length?: Decimal | DecimalJsLike | number | string | null
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -49439,6 +49720,7 @@ export namespace Prisma {
     length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -49459,6 +49741,7 @@ export namespace Prisma {
     length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -49479,6 +49762,7 @@ export namespace Prisma {
     length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50062,6 +50346,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    timeAccess?: bigint | number
     categoryId: string
     brandId: string
   }
@@ -50076,6 +50361,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     category?: CategoryUpdateOneRequiredWithoutSpusNestedInput
     brand?: BrandUpdateOneRequiredWithoutSpusNestedInput
     skus?: SkuUpdateManyWithoutSpuNestedInput
@@ -50096,6 +50382,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     categoryId?: StringFieldUpdateOperationsInput | string
     brandId?: StringFieldUpdateOperationsInput | string
     skus?: SkuUncheckedUpdateManyWithoutSpuNestedInput
@@ -50116,6 +50403,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     categoryId?: StringFieldUpdateOperationsInput | string
     brandId?: StringFieldUpdateOperationsInput | string
   }
@@ -50189,6 +50477,7 @@ export namespace Prisma {
     isVerified?: boolean
     rating?: Decimal | DecimalJsLike | number | string | null
     totalReviews?: number
+    timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -50328,6 +50617,7 @@ export namespace Prisma {
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     totalReviews?: IntFieldUpdateOperationsInput | number
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     spus?: SpuUpdateManyWithoutShopNestedInput
@@ -50349,6 +50639,7 @@ export namespace Prisma {
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     totalReviews?: IntFieldUpdateOperationsInput | number
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     spus?: SpuUncheckedUpdateManyWithoutShopNestedInput
@@ -50370,6 +50661,7 @@ export namespace Prisma {
     isVerified?: BoolFieldUpdateOperationsInput | boolean
     rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     totalReviews?: IntFieldUpdateOperationsInput | number
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

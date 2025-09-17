@@ -11,12 +11,14 @@ import { FindShopByNameDto } from './dto/find-shop.dto';
 import { RegisterSellerDto } from './dto/register-seller.dto';
 import { Roles } from '@/common/decorator/role.decorator';
 import { RoleId } from '@/common/enum/role.enum';
+import { RedisService } from '../redis/redis.service';
 
 @ApiTags('Shop')
 @Controller('shop')
 export class ShopController {
 	constructor(
-		private readonly shopService: ShopService
+		private readonly shopService: ShopService,
+		private readonly redisService: RedisService
 	) { }
 
 	// create shop
@@ -101,4 +103,8 @@ export class ShopController {
 		return this.shopService.registerSellerRole(req, dto)
 	}
 
+	@Post('increment-accessTime')
+	async incementAccessTime(key: string) {
+		return await this.redisService.incr(key)
+	}
 }

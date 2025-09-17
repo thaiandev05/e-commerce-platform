@@ -9,6 +9,7 @@ import { SHOP_CONSTANT } from '../shop.constant';
 import { SearchServiceShop } from './shop.search.service';
 import { FindShopByNameDto } from '../dto/find-shop.dto';
 import { RegisterSellerDto } from '../dto/register-seller.dto';
+import { RedisService } from '@/modules/redis/redis.service';
 
 @Injectable()
 export class ShopService {
@@ -16,7 +17,8 @@ export class ShopService {
 	constructor(
 		private readonly prismaService: PrismaService,
 		private readonly emailProducer: EmailProducer,
-		private readonly shopSearchService: SearchServiceShop
+		private readonly shopSearchService: SearchServiceShop,
+		private readonly redisService: RedisService
 	) { }
 
 	// register seller 
@@ -38,7 +40,7 @@ export class ShopService {
 		// check availabel creditcard
 		const listCreditCard = availableUSer.CreditCard
 
-		if(!dto.numberCreditCard) {
+		if (!dto.numberCreditCard) {
 			dto.numberCreditCard = listCreditCard.map(card => card.creditNumber)
 		}
 
@@ -210,7 +212,32 @@ export class ShopService {
 	}
 
 	async getDetailerShop(shopId: string, dto: GetShopDetailWithSpusDto) {
+		// Increment shop access count (fire and forget - don't wait for it)
+		this.incrementShopAccessCount(shopId).catch(error => {
+			console.error('Failed to increment shop access count:', error);
+		});
+
 		return this.shopSearchService.getDetailerShop(shopId, dto)
+	}
+
+	/**
+	 * Increment access count for a shop
+	 * This is called whenever someone views shop details
+	 */
+	private async incrementShopAccessCount(shopId: string): Promise<void> {
+		try {
+			await this.prismaService.shop.update({
+				where: { id: shopId },
+				data: {
+					timeAccess: {
+						increment: 1
+					}
+				}
+			});
+		} catch (error) {
+			// Log error but don't throw - access counting shouldn't break the main flow
+			console.error('Failed to increment shop access count:', error);
+		}
 	}
 
 	async findShopHaveNameLike(shopName: string, dto: FindShopByNameDto) {

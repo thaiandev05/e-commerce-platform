@@ -47,7 +47,7 @@ export class GetShopDetailWithSpusDto {
 
 	// SPU Sorting
 	@IsOptional()
-	@IsEnum(['name', 'createdAt', 'updatedAt', 'status'])
+	@IsEnum(['name', 'createdAt', 'updatedAt', 'status', 'timeAccess'])
 	sortBy?: string = 'createdAt';
 
 	@IsOptional()

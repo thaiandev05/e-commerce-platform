@@ -104,6 +104,8 @@ model Spu {
   createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
 
+  timeAccess BigInt @default(0) @map("time_access")
+
   // Foreign Keys
   categoryId String @map("category_id") @db.Uuid
   brandId    String @map("brand_id") @db.Uuid
@@ -142,6 +144,7 @@ model Sku {
   length        Decimal?  @db.Decimal(8, 2) // in cm
   width         Decimal?  @db.Decimal(8, 2) // in cm
   height        Decimal?  @db.Decimal(8, 2) // in cm
+  timeAccess    BigInt    @default(0) @map("time_access")
   status        SkuStatus @default(ACTIVE)
   isActive      Boolean   @default(true) @map("is_active")
   createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz()
@@ -487,6 +490,7 @@ model Shop {
   isVerified   Boolean    @default(false) @map("is_verified")
   rating       Decimal?   @db.Decimal(3, 2) // Average rating 0.00 to 5.00
   totalReviews Int        @default(0) @map("total_reviews")
+  timeAccess   BigInt     @default(0) @map("time_access") // Track shop view count
   createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt    DateTime   @updatedAt @map("updated_at") @db.Timestamptz()
 

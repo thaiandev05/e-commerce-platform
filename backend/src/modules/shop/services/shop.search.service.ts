@@ -163,12 +163,24 @@ export class SearchServiceShop {
 			};
 		}
 
-		// Prepare query options
+		// Prepare query options with special handling for timeAccess sorting
+		let orderBy: any;
+		const sortBy = dto.sortBy || 'createdAt';
+		const sortOrder = dto.sortOrder || 'desc';
+
+		if (sortBy === 'timeAccess') {
+			// For timeAccess, we usually want to show most accessed items first (desc by default)
+			// But respect user's sortOrder preference
+			orderBy = { timeAccess: sortOrder };
+		} else {
+			orderBy = { [sortBy]: sortOrder };
+		}
+
 		const queryOptions: any = {
 			where: spuWhere,
 			include: spuInclude,
 			take: takeValue + 1, // Take one extra to check if there's a next page
-			orderBy: { [dto.sortBy || 'createdAt']: dto.sortOrder || 'desc' }
+			orderBy,
 		};
 
 		// Use cursor-based pagination if cursor is provided
@@ -339,5 +351,52 @@ export class SearchServiceShop {
 					}
 			}
 		};
+	}
+
+	/**
+	 * Get most popular SPUs in a shop based on access count
+	 */
+	async getPopularSpusInShop(shopId: string, limit: number = 10) {
+		return await this.prismaService.spu.findMany({
+			where: {
+				shopId,
+				isActive: true,
+				status: 'PUBLISHED'
+			},
+			orderBy: {
+				timeAccess: 'desc'
+			},
+			take: limit,
+			include: {
+				spuImages: {
+					take: 1,
+					where: { isMain: true },
+					select: {
+						id: true,
+						imageUrl: true,
+						altText: true
+					}
+				},
+				category: {
+					select: {
+						id: true,
+						name: true,
+						slug: true
+					}
+				},
+				brand: {
+					select: {
+						id: true,
+						name: true,
+						slug: true
+					}
+				},
+				_count: {
+					select: {
+						skus: true
+					}
+				}
+			}
+		});
 	}
 }
