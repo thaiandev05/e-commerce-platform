@@ -410,6 +410,15 @@ exports.Prisma.CreditCardScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.VoucherScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  percentDisCount: 'percentDisCount',
+  createdAt: 'createdAt',
+  expiredAt: 'expiredAt',
+  ownId: 'ownId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -526,7 +535,8 @@ exports.Prisma.ModelName = {
   StoreProduct: 'StoreProduct',
   User: 'User',
   Oauth2User: 'Oauth2User',
-  CreditCard: 'CreditCard'
+  CreditCard: 'CreditCard',
+  Voucher: 'Voucher'
 };
 
 /**

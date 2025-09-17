@@ -21,6 +21,7 @@ import { ProductModule } from './modules/product/product.module';
 import { EventbusModule } from './modules/eventbus/eventbus.module';
 import { ElasticsearchModule } from './modules/elasticsearch/elasticsearch.module';
 import { CartModule } from './modules/cart/cart.module';
+import { StripeModule } from './modules/stripe/stripe.module';
 @Module({
   imports: [
     PrismaModule,
@@ -44,7 +45,8 @@ import { CartModule } from './modules/cart/cart.module';
       context: ({ req }) => ({ req })
     }),
     ScheduleModule.forRoot(),
-    EmailModule, AuthModule, ShopModule, UserModule, FileModule, TaskModule, RedisModule, ProductModule, EventbusModule, ElasticsearchModule, CartModule
+    EmailModule, AuthModule, ShopModule, UserModule, FileModule, TaskModule, RedisModule, ProductModule, EventbusModule, ElasticsearchModule, CartModule,
+    StripeModule
   ],
   controllers: [AppController],
   providers: [

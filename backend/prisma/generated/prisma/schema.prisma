@@ -570,6 +570,7 @@ model User {
   shops      Shop[]
   CreditCard CreditCard[] @relation("payments")
   cart       Cart?        @relation("ownCart")
+  Vouchers   Voucher[]
 
   @@index([email])
   @@index([username])
@@ -612,6 +613,18 @@ model CreditCard {
 
   @@index([userId])
   @@map("credit_card")
+}
+
+model Voucher {
+  id              String   @id @default(uuid()) @db.Uuid
+  categoryId      String   @db.Uuid
+  percentDisCount Float
+  createdAt       DateTime @default(now())
+  expiredAt       DateTime
+
+  // relation
+  ownId String @db.Uuid
+  own   User   @relation(fields: [ownId], references: [id], onDelete: Cascade)
 }
 
 enum UserRoleS {
