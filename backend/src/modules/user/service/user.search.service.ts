@@ -43,7 +43,7 @@ export class UserSearchService {
 		}
 
 		// checking available in cache
-		const cached = await this.redisService.getManyAccountLike(name)
+		const cached = await this.redisService.get(name)
 		if (cached) return cached
 
 		// build shop inlcude options 	
@@ -127,7 +127,7 @@ export class UserSearchService {
 
 		// save data in cache
 		const key = REDIS_CONSTANTS.ACCOUNTS_LIKE_NAME_KEY(name)
-		await this.redisService.saveUserData(key, accountLikeName)
+		await this.redisService.set(key, accountLikeName)
 
 		return {
 			success: true,

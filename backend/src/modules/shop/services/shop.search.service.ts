@@ -4,9 +4,10 @@ import { GetShopDetailWithSpusDto } from "../dto/get-shop-detail-with-spus.dto";
 import { FindShopByNameDto } from "../dto/find-shop.dto";
 import { RedisService } from "@/modules/redis/redis.service";
 import { REDIS_CONSTANTS } from "@/modules/redis/redis.constants";
+import { SHOP_CONSTANT } from "../shop.constant";
 
 @Injectable()
-export class SearchServiceShop  {
+export class SearchServiceShop {
 	constructor(
 		private readonly prismaService: PrismaService,
 		private readonly redisService: RedisService
@@ -231,7 +232,7 @@ export class SearchServiceShop  {
 
 	async findShopHaveNameLike(shopName: string, dto: FindShopByNameDto) {
 		//check available in cache
-		const cached = await this.redisService.getManyShopLikeName(shopName)
+		const cached = await this.redisService.get(shopName)
 		if (cached) return cached
 
 		// Ensure take value is properly calculated
@@ -281,7 +282,7 @@ export class SearchServiceShop  {
 		// checking fallback if shops not found
 		const key = REDIS_CONSTANTS.SHOPS_LIKE_NAME_LEY(shopName)
 		if (!shops) {
-			await this.redisService.saveUserData(key, null)
+			await this.redisService.set(key, null)
 			throw new NotFoundException("Shops not found")
 		}
 
@@ -313,7 +314,7 @@ export class SearchServiceShop  {
 		}
 
 		// save cache
-		await this.redisService.saveUserData(key, shops)
+		await this.redisService.set(key, shops)
 
 		return {
 			success: true,
