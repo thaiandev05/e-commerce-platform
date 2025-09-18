@@ -10,7 +10,7 @@ import { IsAuthorProductGuard } from "./guard/IsAuthorProduct.guard";
 import { Public } from "@/common/decorator/public.decorator";
 import { OrderProductDto } from "./dto/order-product.dto";
 
-@Roles(RoleId.ADMIN.toString(), RoleId.SELLER.toString())
+
 @ApiTags('Product')
 @ApiBearerAuth()
 @Controller('product')
@@ -19,7 +19,7 @@ export class ProductController {
 	constructor(
 		private readonly productService: ProductService
 	) { }
-
+	@Roles(RoleId.ADMIN.toString(), RoleId.SELLER.toString())
 	@Post('add-spu')
 	@ApiOperation({ summary: 'Create a new SPU (product)' })
 	@ApiCreatedResponse({ description: 'SPU successfully created' })
@@ -28,7 +28,7 @@ export class ProductController {
 	async addSpu(@Req() req: express.Request, @Body() dto: CreateSpuDto) {
 		return this.productService.createSpu(req, dto)
 	}
-
+	@Roles(RoleId.ADMIN.toString(), RoleId.SELLER.toString())
 	@Put('update-spu')
 	@UseGuards(IsAuthorProductGuard)
 	@ApiOperation({ summary: 'Update an existing SPU (product)' })
@@ -38,7 +38,7 @@ export class ProductController {
 	async updateSpu(@Query('productId') productId: string, @Body() dto: UpdateSpuDto) {
 		return this.productService.updateSpu(productId, dto)
 	}
-
+	@Roles(RoleId.ADMIN.toString(), RoleId.SELLER.toString())
 	@Delete('delete-spu')
 	@UseGuards(IsAuthorProductGuard)
 	@ApiOperation({ summary: 'Delete an existing SPU (product)' })

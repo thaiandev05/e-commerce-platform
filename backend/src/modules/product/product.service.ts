@@ -236,7 +236,7 @@ export class ProductService {
 			}),
 			this.prismaService.shop.update({
 				where: { id: dto.shopId },
-				data: { quantityProduct: Number(availableShop?.quantityProduct) - dto.quantityProduct }
+				data: { quantityProduct: BigInt(Number(availableShop?.quantityProduct) - dto.quantityProduct) }
 			})
 		])
 

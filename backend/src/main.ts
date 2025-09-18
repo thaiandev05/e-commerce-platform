@@ -7,6 +7,12 @@ import { AppModule } from './app.module';
 import express from 'express'
 import { join } from 'path';
 import * as bodyParser from 'body-parser';
+
+// Global BigInt serializer to handle BigInt values in JSON responses
+(BigInt.prototype as any).toJSON = function () {
+  return this.toString();
+};
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
