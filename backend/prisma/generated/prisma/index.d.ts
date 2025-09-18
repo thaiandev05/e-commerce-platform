@@ -3762,8 +3762,6 @@ export namespace Prisma {
     spuAttributes: number
     spuTags: number
     spuVariations: number
-    stores: number
-    productOrder: number
   }
 
   export type SpuCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3772,8 +3770,6 @@ export namespace Prisma {
     spuAttributes?: boolean | SpuCountOutputTypeCountSpuAttributesArgs
     spuTags?: boolean | SpuCountOutputTypeCountSpuTagsArgs
     spuVariations?: boolean | SpuCountOutputTypeCountSpuVariationsArgs
-    stores?: boolean | SpuCountOutputTypeCountStoresArgs
-    productOrder?: boolean | SpuCountOutputTypeCountProductOrderArgs
   }
 
   // Custom InputTypes
@@ -3822,20 +3818,6 @@ export namespace Prisma {
     where?: SpuVariationWhereInput
   }
 
-  /**
-   * SpuCountOutputType without action
-   */
-  export type SpuCountOutputTypeCountStoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: StoreProductWhereInput
-  }
-
-  /**
-   * SpuCountOutputType without action
-   */
-  export type SpuCountOutputTypeCountProductOrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: OrderProductWhereInput
-  }
-
 
   /**
    * Count Type SkuCountOutputType
@@ -3845,12 +3827,16 @@ export namespace Prisma {
     skuImages: number
     skuAttributes: number
     skuVariationValues: number
+    productOrder: number
+    stores: number
   }
 
   export type SkuCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     skuImages?: boolean | SkuCountOutputTypeCountSkuImagesArgs
     skuAttributes?: boolean | SkuCountOutputTypeCountSkuAttributesArgs
     skuVariationValues?: boolean | SkuCountOutputTypeCountSkuVariationValuesArgs
+    productOrder?: boolean | SkuCountOutputTypeCountProductOrderArgs
+    stores?: boolean | SkuCountOutputTypeCountStoresArgs
   }
 
   // Custom InputTypes
@@ -3883,6 +3869,20 @@ export namespace Prisma {
    */
   export type SkuCountOutputTypeCountSkuVariationValuesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SkuVariationValueWhereInput
+  }
+
+  /**
+   * SkuCountOutputType without action
+   */
+  export type SkuCountOutputTypeCountProductOrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderProductWhereInput
+  }
+
+  /**
+   * SkuCountOutputType without action
+   */
+  export type SkuCountOutputTypeCountStoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StoreProductWhereInput
   }
 
 
@@ -4127,46 +4127,17 @@ export namespace Prisma {
 
 
   /**
-   * Count Type RolePermissionCountOutputType
-   */
-
-  export type RolePermissionCountOutputType = {
-    permission: number
-  }
-
-  export type RolePermissionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    permission?: boolean | RolePermissionCountOutputTypeCountPermissionArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * RolePermissionCountOutputType without action
-   */
-  export type RolePermissionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RolePermissionCountOutputType
-     */
-    select?: RolePermissionCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * RolePermissionCountOutputType without action
-   */
-  export type RolePermissionCountOutputTypeCountPermissionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PermissionWhereInput
-  }
-
-
-  /**
    * Count Type ShopCountOutputType
    */
 
   export type ShopCountOutputType = {
     spus: number
+    orderProducts: number
   }
 
   export type ShopCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     spus?: boolean | ShopCountOutputTypeCountSpusArgs
+    orderProducts?: boolean | ShopCountOutputTypeCountOrderProductsArgs
   }
 
   // Custom InputTypes
@@ -4185,6 +4156,13 @@ export namespace Prisma {
    */
   export type ShopCountOutputTypeCountSpusArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SpuWhereInput
+  }
+
+  /**
+   * ShopCountOutputType without action
+   */
+  export type ShopCountOutputTypeCountOrderProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderProductWhereInput
   }
 
 
@@ -9164,8 +9142,6 @@ export namespace Prisma {
     spuAttributes?: boolean | Spu$spuAttributesArgs<ExtArgs>
     spuTags?: boolean | Spu$spuTagsArgs<ExtArgs>
     spuVariations?: boolean | Spu$spuVariationsArgs<ExtArgs>
-    stores?: boolean | Spu$storesArgs<ExtArgs>
-    productOrder?: boolean | Spu$productOrderArgs<ExtArgs>
     _count?: boolean | SpuCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["spu"]>
 
@@ -9233,8 +9209,6 @@ export namespace Prisma {
     spuAttributes?: boolean | Spu$spuAttributesArgs<ExtArgs>
     spuTags?: boolean | Spu$spuTagsArgs<ExtArgs>
     spuVariations?: boolean | Spu$spuVariationsArgs<ExtArgs>
-    stores?: boolean | Spu$storesArgs<ExtArgs>
-    productOrder?: boolean | Spu$productOrderArgs<ExtArgs>
     _count?: boolean | SpuCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SpuIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9259,8 +9233,6 @@ export namespace Prisma {
       spuAttributes: Prisma.$SpuAttributePayload<ExtArgs>[]
       spuTags: Prisma.$SpuTagPayload<ExtArgs>[]
       spuVariations: Prisma.$SpuVariationPayload<ExtArgs>[]
-      stores: Prisma.$StoreProductPayload<ExtArgs>[]
-      productOrder: Prisma.$OrderProductPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9678,8 +9650,6 @@ export namespace Prisma {
     spuAttributes<T extends Spu$spuAttributesArgs<ExtArgs> = {}>(args?: Subset<T, Spu$spuAttributesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpuAttributePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     spuTags<T extends Spu$spuTagsArgs<ExtArgs> = {}>(args?: Subset<T, Spu$spuTagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpuTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     spuVariations<T extends Spu$spuVariationsArgs<ExtArgs> = {}>(args?: Subset<T, Spu$spuVariationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpuVariationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    stores<T extends Spu$storesArgs<ExtArgs> = {}>(args?: Subset<T, Spu$storesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoreProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    productOrder<T extends Spu$productOrderArgs<ExtArgs> = {}>(args?: Subset<T, Spu$productOrderArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10238,54 +10208,6 @@ export namespace Prisma {
   }
 
   /**
-   * Spu.stores
-   */
-  export type Spu$storesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the StoreProduct
-     */
-    select?: StoreProductSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the StoreProduct
-     */
-    omit?: StoreProductOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: StoreProductInclude<ExtArgs> | null
-    where?: StoreProductWhereInput
-    orderBy?: StoreProductOrderByWithRelationInput | StoreProductOrderByWithRelationInput[]
-    cursor?: StoreProductWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: StoreProductScalarFieldEnum | StoreProductScalarFieldEnum[]
-  }
-
-  /**
-   * Spu.productOrder
-   */
-  export type Spu$productOrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the OrderProduct
-     */
-    select?: OrderProductSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the OrderProduct
-     */
-    omit?: OrderProductOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: OrderProductInclude<ExtArgs> | null
-    where?: OrderProductWhereInput
-    orderBy?: OrderProductOrderByWithRelationInput | OrderProductOrderByWithRelationInput[]
-    cursor?: OrderProductWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: OrderProductScalarFieldEnum | OrderProductScalarFieldEnum[]
-  }
-
-  /**
    * Spu without action
    */
   export type SpuDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10325,6 +10247,7 @@ export namespace Prisma {
     width: Decimal | null
     height: Decimal | null
     timeAccess: number | null
+    quantity: number | null
   }
 
   export type SkuSumAggregateOutputType = {
@@ -10336,6 +10259,7 @@ export namespace Prisma {
     width: Decimal | null
     height: Decimal | null
     timeAccess: bigint | null
+    quantity: bigint | null
   }
 
   export type SkuMinAggregateOutputType = {
@@ -10350,6 +10274,7 @@ export namespace Prisma {
     width: Decimal | null
     height: Decimal | null
     timeAccess: bigint | null
+    quantity: bigint | null
     status: $Enums.SkuStatus | null
     isActive: boolean | null
     createdAt: Date | null
@@ -10369,6 +10294,7 @@ export namespace Prisma {
     width: Decimal | null
     height: Decimal | null
     timeAccess: bigint | null
+    quantity: bigint | null
     status: $Enums.SkuStatus | null
     isActive: boolean | null
     createdAt: Date | null
@@ -10388,6 +10314,7 @@ export namespace Prisma {
     width: number
     height: number
     timeAccess: number
+    quantity: number
     status: number
     isActive: number
     createdAt: number
@@ -10406,6 +10333,7 @@ export namespace Prisma {
     width?: true
     height?: true
     timeAccess?: true
+    quantity?: true
   }
 
   export type SkuSumAggregateInputType = {
@@ -10417,6 +10345,7 @@ export namespace Prisma {
     width?: true
     height?: true
     timeAccess?: true
+    quantity?: true
   }
 
   export type SkuMinAggregateInputType = {
@@ -10431,6 +10360,7 @@ export namespace Prisma {
     width?: true
     height?: true
     timeAccess?: true
+    quantity?: true
     status?: true
     isActive?: true
     createdAt?: true
@@ -10450,6 +10380,7 @@ export namespace Prisma {
     width?: true
     height?: true
     timeAccess?: true
+    quantity?: true
     status?: true
     isActive?: true
     createdAt?: true
@@ -10469,6 +10400,7 @@ export namespace Prisma {
     width?: true
     height?: true
     timeAccess?: true
+    quantity?: true
     status?: true
     isActive?: true
     createdAt?: true
@@ -10575,6 +10507,7 @@ export namespace Prisma {
     width: Decimal | null
     height: Decimal | null
     timeAccess: bigint
+    quantity: bigint
     status: $Enums.SkuStatus
     isActive: boolean
     createdAt: Date
@@ -10613,6 +10546,7 @@ export namespace Prisma {
     width?: boolean
     height?: boolean
     timeAccess?: boolean
+    quantity?: boolean
     status?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -10622,6 +10556,8 @@ export namespace Prisma {
     skuImages?: boolean | Sku$skuImagesArgs<ExtArgs>
     skuAttributes?: boolean | Sku$skuAttributesArgs<ExtArgs>
     skuVariationValues?: boolean | Sku$skuVariationValuesArgs<ExtArgs>
+    productOrder?: boolean | Sku$productOrderArgs<ExtArgs>
+    stores?: boolean | Sku$storesArgs<ExtArgs>
     _count?: boolean | SkuCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sku"]>
 
@@ -10637,6 +10573,7 @@ export namespace Prisma {
     width?: boolean
     height?: boolean
     timeAccess?: boolean
+    quantity?: boolean
     status?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -10657,6 +10594,7 @@ export namespace Prisma {
     width?: boolean
     height?: boolean
     timeAccess?: boolean
+    quantity?: boolean
     status?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -10677,6 +10615,7 @@ export namespace Prisma {
     width?: boolean
     height?: boolean
     timeAccess?: boolean
+    quantity?: boolean
     status?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -10684,12 +10623,14 @@ export namespace Prisma {
     spuId?: boolean
   }
 
-  export type SkuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "skuCode" | "name" | "originalPrice" | "salePrice" | "stock" | "weight" | "length" | "width" | "height" | "timeAccess" | "status" | "isActive" | "createdAt" | "updatedAt" | "spuId", ExtArgs["result"]["sku"]>
+  export type SkuOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "skuCode" | "name" | "originalPrice" | "salePrice" | "stock" | "weight" | "length" | "width" | "height" | "timeAccess" | "quantity" | "status" | "isActive" | "createdAt" | "updatedAt" | "spuId", ExtArgs["result"]["sku"]>
   export type SkuInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     spu?: boolean | SpuDefaultArgs<ExtArgs>
     skuImages?: boolean | Sku$skuImagesArgs<ExtArgs>
     skuAttributes?: boolean | Sku$skuAttributesArgs<ExtArgs>
     skuVariationValues?: boolean | Sku$skuVariationValuesArgs<ExtArgs>
+    productOrder?: boolean | Sku$productOrderArgs<ExtArgs>
+    stores?: boolean | Sku$storesArgs<ExtArgs>
     _count?: boolean | SkuCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SkuIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10706,6 +10647,8 @@ export namespace Prisma {
       skuImages: Prisma.$SkuImagePayload<ExtArgs>[]
       skuAttributes: Prisma.$SkuAttributePayload<ExtArgs>[]
       skuVariationValues: Prisma.$SkuVariationValuePayload<ExtArgs>[]
+      productOrder: Prisma.$OrderProductPayload<ExtArgs>[]
+      stores: Prisma.$StoreProductPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10719,6 +10662,7 @@ export namespace Prisma {
       width: Prisma.Decimal | null
       height: Prisma.Decimal | null
       timeAccess: bigint
+      quantity: bigint
       status: $Enums.SkuStatus
       isActive: boolean
       createdAt: Date
@@ -11122,6 +11066,8 @@ export namespace Prisma {
     skuImages<T extends Sku$skuImagesArgs<ExtArgs> = {}>(args?: Subset<T, Sku$skuImagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     skuAttributes<T extends Sku$skuAttributesArgs<ExtArgs> = {}>(args?: Subset<T, Sku$skuAttributesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuAttributePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     skuVariationValues<T extends Sku$skuVariationValuesArgs<ExtArgs> = {}>(args?: Subset<T, Sku$skuVariationValuesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkuVariationValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    productOrder<T extends Sku$productOrderArgs<ExtArgs> = {}>(args?: Subset<T, Sku$productOrderArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    stores<T extends Sku$storesArgs<ExtArgs> = {}>(args?: Subset<T, Sku$storesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoreProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11162,6 +11108,7 @@ export namespace Prisma {
     readonly width: FieldRef<"Sku", 'Decimal'>
     readonly height: FieldRef<"Sku", 'Decimal'>
     readonly timeAccess: FieldRef<"Sku", 'BigInt'>
+    readonly quantity: FieldRef<"Sku", 'BigInt'>
     readonly status: FieldRef<"Sku", 'SkuStatus'>
     readonly isActive: FieldRef<"Sku", 'Boolean'>
     readonly createdAt: FieldRef<"Sku", 'DateTime'>
@@ -11632,6 +11579,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SkuVariationValueScalarFieldEnum | SkuVariationValueScalarFieldEnum[]
+  }
+
+  /**
+   * Sku.productOrder
+   */
+  export type Sku$productOrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderProduct
+     */
+    select?: OrderProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderProduct
+     */
+    omit?: OrderProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderProductInclude<ExtArgs> | null
+    where?: OrderProductWhereInput
+    orderBy?: OrderProductOrderByWithRelationInput | OrderProductOrderByWithRelationInput[]
+    cursor?: OrderProductWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderProductScalarFieldEnum | OrderProductScalarFieldEnum[]
+  }
+
+  /**
+   * Sku.stores
+   */
+  export type Sku$storesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoreProduct
+     */
+    select?: StoreProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoreProduct
+     */
+    omit?: StoreProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoreProductInclude<ExtArgs> | null
+    where?: StoreProductWhereInput
+    orderBy?: StoreProductOrderByWithRelationInput | StoreProductOrderByWithRelationInput[]
+    cursor?: StoreProductWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StoreProductScalarFieldEnum | StoreProductScalarFieldEnum[]
   }
 
   /**
@@ -25081,45 +25076,69 @@ export namespace Prisma {
 
   export type AggregateRolePermission = {
     _count: RolePermissionCountAggregateOutputType | null
+    _avg: RolePermissionAvgAggregateOutputType | null
+    _sum: RolePermissionSumAggregateOutputType | null
     _min: RolePermissionMinAggregateOutputType | null
     _max: RolePermissionMaxAggregateOutputType | null
+  }
+
+  export type RolePermissionAvgAggregateOutputType = {
+    permissionId: number | null
+  }
+
+  export type RolePermissionSumAggregateOutputType = {
+    permissionId: number | null
   }
 
   export type RolePermissionMinAggregateOutputType = {
     id: string | null
     roleId: string | null
+    permissionId: number | null
     createdAt: Date | null
   }
 
   export type RolePermissionMaxAggregateOutputType = {
     id: string | null
     roleId: string | null
+    permissionId: number | null
     createdAt: Date | null
   }
 
   export type RolePermissionCountAggregateOutputType = {
     id: number
     roleId: number
+    permissionId: number
     createdAt: number
     _all: number
   }
 
 
+  export type RolePermissionAvgAggregateInputType = {
+    permissionId?: true
+  }
+
+  export type RolePermissionSumAggregateInputType = {
+    permissionId?: true
+  }
+
   export type RolePermissionMinAggregateInputType = {
     id?: true
     roleId?: true
+    permissionId?: true
     createdAt?: true
   }
 
   export type RolePermissionMaxAggregateInputType = {
     id?: true
     roleId?: true
+    permissionId?: true
     createdAt?: true
   }
 
   export type RolePermissionCountAggregateInputType = {
     id?: true
     roleId?: true
+    permissionId?: true
     createdAt?: true
     _all?: true
   }
@@ -25162,6 +25181,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: RolePermissionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RolePermissionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: RolePermissionMinAggregateInputType
@@ -25192,6 +25223,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: RolePermissionCountAggregateInputType | true
+    _avg?: RolePermissionAvgAggregateInputType
+    _sum?: RolePermissionSumAggregateInputType
     _min?: RolePermissionMinAggregateInputType
     _max?: RolePermissionMaxAggregateInputType
   }
@@ -25199,8 +25232,11 @@ export namespace Prisma {
   export type RolePermissionGroupByOutputType = {
     id: string
     roleId: string
+    permissionId: number
     createdAt: Date
     _count: RolePermissionCountAggregateOutputType | null
+    _avg: RolePermissionAvgAggregateOutputType | null
+    _sum: RolePermissionSumAggregateOutputType | null
     _min: RolePermissionMinAggregateOutputType | null
     _max: RolePermissionMaxAggregateOutputType | null
   }
@@ -25222,54 +25258,61 @@ export namespace Prisma {
   export type RolePermissionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     roleId?: boolean
+    permissionId?: boolean
     createdAt?: boolean
     role?: boolean | RoleDefaultArgs<ExtArgs>
-    permission?: boolean | RolePermission$permissionArgs<ExtArgs>
-    _count?: boolean | RolePermissionCountOutputTypeDefaultArgs<ExtArgs>
+    permission?: boolean | PermissionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["rolePermission"]>
 
   export type RolePermissionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     roleId?: boolean
+    permissionId?: boolean
     createdAt?: boolean
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    permission?: boolean | PermissionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["rolePermission"]>
 
   export type RolePermissionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     roleId?: boolean
+    permissionId?: boolean
     createdAt?: boolean
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    permission?: boolean | PermissionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["rolePermission"]>
 
   export type RolePermissionSelectScalar = {
     id?: boolean
     roleId?: boolean
+    permissionId?: boolean
     createdAt?: boolean
   }
 
-  export type RolePermissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roleId" | "createdAt", ExtArgs["result"]["rolePermission"]>
+  export type RolePermissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roleId" | "permissionId" | "createdAt", ExtArgs["result"]["rolePermission"]>
   export type RolePermissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     role?: boolean | RoleDefaultArgs<ExtArgs>
-    permission?: boolean | RolePermission$permissionArgs<ExtArgs>
-    _count?: boolean | RolePermissionCountOutputTypeDefaultArgs<ExtArgs>
+    permission?: boolean | PermissionDefaultArgs<ExtArgs>
   }
   export type RolePermissionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    permission?: boolean | PermissionDefaultArgs<ExtArgs>
   }
   export type RolePermissionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    permission?: boolean | PermissionDefaultArgs<ExtArgs>
   }
 
   export type $RolePermissionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "RolePermission"
     objects: {
       role: Prisma.$RolePayload<ExtArgs>
-      permission: Prisma.$PermissionPayload<ExtArgs>[]
+      permission: Prisma.$PermissionPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       roleId: string
+      permissionId: number
       createdAt: Date
     }, ExtArgs["result"]["rolePermission"]>
     composites: {}
@@ -25666,7 +25709,7 @@ export namespace Prisma {
   export interface Prisma__RolePermissionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     role<T extends RoleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoleDefaultArgs<ExtArgs>>): Prisma__RoleClient<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    permission<T extends RolePermission$permissionArgs<ExtArgs> = {}>(args?: Subset<T, RolePermission$permissionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    permission<T extends PermissionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PermissionDefaultArgs<ExtArgs>>): Prisma__PermissionClient<$Result.GetResult<Prisma.$PermissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -25698,6 +25741,7 @@ export namespace Prisma {
   interface RolePermissionFieldRefs {
     readonly id: FieldRef<"RolePermission", 'String'>
     readonly roleId: FieldRef<"RolePermission", 'String'>
+    readonly permissionId: FieldRef<"RolePermission", 'Int'>
     readonly createdAt: FieldRef<"RolePermission", 'DateTime'>
   }
     
@@ -26092,30 +26136,6 @@ export namespace Prisma {
      * Limit how many RolePermissions to delete.
      */
     limit?: number
-  }
-
-  /**
-   * RolePermission.permission
-   */
-  export type RolePermission$permissionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Permission
-     */
-    select?: PermissionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Permission
-     */
-    omit?: PermissionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PermissionInclude<ExtArgs> | null
-    where?: PermissionWhereInput
-    orderBy?: PermissionOrderByWithRelationInput | PermissionOrderByWithRelationInput[]
-    cursor?: PermissionWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PermissionScalarFieldEnum | PermissionScalarFieldEnum[]
   }
 
   /**
@@ -27215,12 +27235,14 @@ export namespace Prisma {
     rating: Decimal | null
     totalReviews: number | null
     timeAccess: number | null
+    quantityProduct: number | null
   }
 
   export type ShopSumAggregateOutputType = {
     rating: Decimal | null
     totalReviews: number | null
     timeAccess: bigint | null
+    quantityProduct: bigint | null
   }
 
   export type ShopMinAggregateOutputType = {
@@ -27242,6 +27264,7 @@ export namespace Prisma {
     timeAccess: bigint | null
     createdAt: Date | null
     updatedAt: Date | null
+    quantityProduct: bigint | null
     ownerId: string | null
   }
 
@@ -27264,6 +27287,7 @@ export namespace Prisma {
     timeAccess: bigint | null
     createdAt: Date | null
     updatedAt: Date | null
+    quantityProduct: bigint | null
     ownerId: string | null
   }
 
@@ -27286,6 +27310,7 @@ export namespace Prisma {
     timeAccess: number
     createdAt: number
     updatedAt: number
+    quantityProduct: number
     ownerId: number
     _all: number
   }
@@ -27295,12 +27320,14 @@ export namespace Prisma {
     rating?: true
     totalReviews?: true
     timeAccess?: true
+    quantityProduct?: true
   }
 
   export type ShopSumAggregateInputType = {
     rating?: true
     totalReviews?: true
     timeAccess?: true
+    quantityProduct?: true
   }
 
   export type ShopMinAggregateInputType = {
@@ -27322,6 +27349,7 @@ export namespace Prisma {
     timeAccess?: true
     createdAt?: true
     updatedAt?: true
+    quantityProduct?: true
     ownerId?: true
   }
 
@@ -27344,6 +27372,7 @@ export namespace Prisma {
     timeAccess?: true
     createdAt?: true
     updatedAt?: true
+    quantityProduct?: true
     ownerId?: true
   }
 
@@ -27366,6 +27395,7 @@ export namespace Prisma {
     timeAccess?: true
     createdAt?: true
     updatedAt?: true
+    quantityProduct?: true
     ownerId?: true
     _all?: true
   }
@@ -27475,6 +27505,7 @@ export namespace Prisma {
     timeAccess: bigint
     createdAt: Date
     updatedAt: Date
+    quantityProduct: bigint
     ownerId: string
     _count: ShopCountAggregateOutputType | null
     _avg: ShopAvgAggregateOutputType | null
@@ -27516,9 +27547,11 @@ export namespace Prisma {
     timeAccess?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    quantityProduct?: boolean
     ownerId?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
     spus?: boolean | Shop$spusArgs<ExtArgs>
+    orderProducts?: boolean | Shop$orderProductsArgs<ExtArgs>
     _count?: boolean | ShopCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["shop"]>
 
@@ -27541,6 +27574,7 @@ export namespace Prisma {
     timeAccess?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    quantityProduct?: boolean
     ownerId?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["shop"]>
@@ -27564,6 +27598,7 @@ export namespace Prisma {
     timeAccess?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    quantityProduct?: boolean
     ownerId?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["shop"]>
@@ -27587,13 +27622,15 @@ export namespace Prisma {
     timeAccess?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    quantityProduct?: boolean
     ownerId?: boolean
   }
 
-  export type ShopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "logoUrl" | "bannerUrl" | "email" | "phone" | "address" | "website" | "status" | "isActive" | "isVerified" | "rating" | "totalReviews" | "timeAccess" | "createdAt" | "updatedAt" | "ownerId", ExtArgs["result"]["shop"]>
+  export type ShopOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "logoUrl" | "bannerUrl" | "email" | "phone" | "address" | "website" | "status" | "isActive" | "isVerified" | "rating" | "totalReviews" | "timeAccess" | "createdAt" | "updatedAt" | "quantityProduct" | "ownerId", ExtArgs["result"]["shop"]>
   export type ShopInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
     spus?: boolean | Shop$spusArgs<ExtArgs>
+    orderProducts?: boolean | Shop$orderProductsArgs<ExtArgs>
     _count?: boolean | ShopCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ShopIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -27608,6 +27645,7 @@ export namespace Prisma {
     objects: {
       owner: Prisma.$UserPayload<ExtArgs>
       spus: Prisma.$SpuPayload<ExtArgs>[]
+      orderProducts: Prisma.$OrderProductPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -27628,6 +27666,7 @@ export namespace Prisma {
       timeAccess: bigint
       createdAt: Date
       updatedAt: Date
+      quantityProduct: bigint
       ownerId: string
     }, ExtArgs["result"]["shop"]>
     composites: {}
@@ -28025,6 +28064,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     spus<T extends Shop$spusArgs<ExtArgs> = {}>(args?: Subset<T, Shop$spusArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpuPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    orderProducts<T extends Shop$orderProductsArgs<ExtArgs> = {}>(args?: Subset<T, Shop$orderProductsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -28072,6 +28112,7 @@ export namespace Prisma {
     readonly timeAccess: FieldRef<"Shop", 'BigInt'>
     readonly createdAt: FieldRef<"Shop", 'DateTime'>
     readonly updatedAt: FieldRef<"Shop", 'DateTime'>
+    readonly quantityProduct: FieldRef<"Shop", 'BigInt'>
     readonly ownerId: FieldRef<"Shop", 'String'>
   }
     
@@ -28490,6 +28531,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SpuScalarFieldEnum | SpuScalarFieldEnum[]
+  }
+
+  /**
+   * Shop.orderProducts
+   */
+  export type Shop$orderProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderProduct
+     */
+    select?: OrderProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderProduct
+     */
+    omit?: OrderProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderProductInclude<ExtArgs> | null
+    where?: OrderProductWhereInput
+    orderBy?: OrderProductOrderByWithRelationInput | OrderProductOrderByWithRelationInput[]
+    cursor?: OrderProductWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderProductScalarFieldEnum | OrderProductScalarFieldEnum[]
   }
 
   /**
@@ -29735,7 +29800,7 @@ export namespace Prisma {
     cartId?: boolean
     productId?: boolean
     cart?: boolean | CartDefaultArgs<ExtArgs>
-    spu?: boolean | SpuDefaultArgs<ExtArgs>
+    skus?: boolean | SkuDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["storeProduct"]>
 
   export type StoreProductSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -29743,7 +29808,7 @@ export namespace Prisma {
     cartId?: boolean
     productId?: boolean
     cart?: boolean | CartDefaultArgs<ExtArgs>
-    spu?: boolean | SpuDefaultArgs<ExtArgs>
+    skus?: boolean | SkuDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["storeProduct"]>
 
   export type StoreProductSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -29751,7 +29816,7 @@ export namespace Prisma {
     cartId?: boolean
     productId?: boolean
     cart?: boolean | CartDefaultArgs<ExtArgs>
-    spu?: boolean | SpuDefaultArgs<ExtArgs>
+    skus?: boolean | SkuDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["storeProduct"]>
 
   export type StoreProductSelectScalar = {
@@ -29763,22 +29828,22 @@ export namespace Prisma {
   export type StoreProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "cartId" | "productId", ExtArgs["result"]["storeProduct"]>
   export type StoreProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cart?: boolean | CartDefaultArgs<ExtArgs>
-    spu?: boolean | SpuDefaultArgs<ExtArgs>
+    skus?: boolean | SkuDefaultArgs<ExtArgs>
   }
   export type StoreProductIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cart?: boolean | CartDefaultArgs<ExtArgs>
-    spu?: boolean | SpuDefaultArgs<ExtArgs>
+    skus?: boolean | SkuDefaultArgs<ExtArgs>
   }
   export type StoreProductIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cart?: boolean | CartDefaultArgs<ExtArgs>
-    spu?: boolean | SpuDefaultArgs<ExtArgs>
+    skus?: boolean | SkuDefaultArgs<ExtArgs>
   }
 
   export type $StoreProductPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "StoreProduct"
     objects: {
       cart: Prisma.$CartPayload<ExtArgs>
-      spu: Prisma.$SpuPayload<ExtArgs>
+      skus: Prisma.$SkuPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -30179,7 +30244,7 @@ export namespace Prisma {
   export interface Prisma__StoreProductClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     cart<T extends CartDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CartDefaultArgs<ExtArgs>>): Prisma__CartClient<$Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    spu<T extends SpuDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SpuDefaultArgs<ExtArgs>>): Prisma__SpuClient<$Result.GetResult<Prisma.$SpuPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    skus<T extends SkuDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SkuDefaultArgs<ExtArgs>>): Prisma__SkuClient<$Result.GetResult<Prisma.$SkuPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -35559,8 +35624,18 @@ export namespace Prisma {
 
   export type AggregateOrder = {
     _count: OrderCountAggregateOutputType | null
+    _avg: OrderAvgAggregateOutputType | null
+    _sum: OrderSumAggregateOutputType | null
     _min: OrderMinAggregateOutputType | null
     _max: OrderMaxAggregateOutputType | null
+  }
+
+  export type OrderAvgAggregateOutputType = {
+    price: Decimal | null
+  }
+
+  export type OrderSumAggregateOutputType = {
+    price: Decimal | null
   }
 
   export type OrderMinAggregateOutputType = {
@@ -35569,6 +35644,7 @@ export namespace Prisma {
     statusOrder: $Enums.StatusOrder | null
     createdAt: Date | null
     updatedAt: Date | null
+    price: Decimal | null
   }
 
   export type OrderMaxAggregateOutputType = {
@@ -35577,6 +35653,7 @@ export namespace Prisma {
     statusOrder: $Enums.StatusOrder | null
     createdAt: Date | null
     updatedAt: Date | null
+    price: Decimal | null
   }
 
   export type OrderCountAggregateOutputType = {
@@ -35585,9 +35662,18 @@ export namespace Prisma {
     statusOrder: number
     createdAt: number
     updatedAt: number
+    price: number
     _all: number
   }
 
+
+  export type OrderAvgAggregateInputType = {
+    price?: true
+  }
+
+  export type OrderSumAggregateInputType = {
+    price?: true
+  }
 
   export type OrderMinAggregateInputType = {
     id?: true
@@ -35595,6 +35681,7 @@ export namespace Prisma {
     statusOrder?: true
     createdAt?: true
     updatedAt?: true
+    price?: true
   }
 
   export type OrderMaxAggregateInputType = {
@@ -35603,6 +35690,7 @@ export namespace Prisma {
     statusOrder?: true
     createdAt?: true
     updatedAt?: true
+    price?: true
   }
 
   export type OrderCountAggregateInputType = {
@@ -35611,6 +35699,7 @@ export namespace Prisma {
     statusOrder?: true
     createdAt?: true
     updatedAt?: true
+    price?: true
     _all?: true
   }
 
@@ -35652,6 +35741,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: OrderAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: OrderSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: OrderMinAggregateInputType
@@ -35682,6 +35783,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: OrderCountAggregateInputType | true
+    _avg?: OrderAvgAggregateInputType
+    _sum?: OrderSumAggregateInputType
     _min?: OrderMinAggregateInputType
     _max?: OrderMaxAggregateInputType
   }
@@ -35692,7 +35795,10 @@ export namespace Prisma {
     statusOrder: $Enums.StatusOrder
     createdAt: Date
     updatedAt: Date
+    price: Decimal | null
     _count: OrderCountAggregateOutputType | null
+    _avg: OrderAvgAggregateOutputType | null
+    _sum: OrderSumAggregateOutputType | null
     _min: OrderMinAggregateOutputType | null
     _max: OrderMaxAggregateOutputType | null
   }
@@ -35717,6 +35823,7 @@ export namespace Prisma {
     statusOrder?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    price?: boolean
     VoucherUsed?: boolean | Order$VoucherUsedArgs<ExtArgs>
     OrderProduct?: boolean | Order$OrderProductArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
@@ -35728,6 +35835,7 @@ export namespace Prisma {
     statusOrder?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    price?: boolean
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -35736,6 +35844,7 @@ export namespace Prisma {
     statusOrder?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    price?: boolean
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectScalar = {
@@ -35744,9 +35853,10 @@ export namespace Prisma {
     statusOrder?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    price?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "typeOfPayment" | "statusOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "typeOfPayment" | "statusOrder" | "createdAt" | "updatedAt" | "price", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     VoucherUsed?: boolean | Order$VoucherUsedArgs<ExtArgs>
     OrderProduct?: boolean | Order$OrderProductArgs<ExtArgs>
@@ -35767,6 +35877,7 @@ export namespace Prisma {
       statusOrder: $Enums.StatusOrder
       createdAt: Date
       updatedAt: Date
+      price: Prisma.Decimal | null
     }, ExtArgs["result"]["order"]>
     composites: {}
   }
@@ -36197,6 +36308,7 @@ export namespace Prisma {
     readonly statusOrder: FieldRef<"Order", 'StatusOrder'>
     readonly createdAt: FieldRef<"Order", 'DateTime'>
     readonly updatedAt: FieldRef<"Order", 'DateTime'>
+    readonly price: FieldRef<"Order", 'Decimal'>
   }
     
 
@@ -36666,6 +36778,7 @@ export namespace Prisma {
     createdAt: Date | null
     productId: string | null
     orderId: string | null
+    shopId: string | null
   }
 
   export type OrderProductMaxAggregateOutputType = {
@@ -36673,6 +36786,7 @@ export namespace Prisma {
     createdAt: Date | null
     productId: string | null
     orderId: string | null
+    shopId: string | null
   }
 
   export type OrderProductCountAggregateOutputType = {
@@ -36680,6 +36794,7 @@ export namespace Prisma {
     createdAt: number
     productId: number
     orderId: number
+    shopId: number
     _all: number
   }
 
@@ -36689,6 +36804,7 @@ export namespace Prisma {
     createdAt?: true
     productId?: true
     orderId?: true
+    shopId?: true
   }
 
   export type OrderProductMaxAggregateInputType = {
@@ -36696,6 +36812,7 @@ export namespace Prisma {
     createdAt?: true
     productId?: true
     orderId?: true
+    shopId?: true
   }
 
   export type OrderProductCountAggregateInputType = {
@@ -36703,6 +36820,7 @@ export namespace Prisma {
     createdAt?: true
     productId?: true
     orderId?: true
+    shopId?: true
     _all?: true
   }
 
@@ -36783,6 +36901,7 @@ export namespace Prisma {
     createdAt: Date
     productId: string
     orderId: string
+    shopId: string
     _count: OrderProductCountAggregateOutputType | null
     _min: OrderProductMinAggregateOutputType | null
     _max: OrderProductMaxAggregateOutputType | null
@@ -36807,8 +36926,10 @@ export namespace Prisma {
     createdAt?: boolean
     productId?: boolean
     orderId?: boolean
-    spu?: boolean | SpuDefaultArgs<ExtArgs>
+    shopId?: boolean
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orderProduct"]>
 
   export type OrderProductSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -36816,8 +36937,10 @@ export namespace Prisma {
     createdAt?: boolean
     productId?: boolean
     orderId?: boolean
-    spu?: boolean | SpuDefaultArgs<ExtArgs>
+    shopId?: boolean
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orderProduct"]>
 
   export type OrderProductSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -36825,8 +36948,10 @@ export namespace Prisma {
     createdAt?: boolean
     productId?: boolean
     orderId?: boolean
-    spu?: boolean | SpuDefaultArgs<ExtArgs>
+    shopId?: boolean
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["orderProduct"]>
 
   export type OrderProductSelectScalar = {
@@ -36834,33 +36959,39 @@ export namespace Prisma {
     createdAt?: boolean
     productId?: boolean
     orderId?: boolean
+    shopId?: boolean
   }
 
-  export type OrderProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "productId" | "orderId", ExtArgs["result"]["orderProduct"]>
+  export type OrderProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "productId" | "orderId" | "shopId", ExtArgs["result"]["orderProduct"]>
   export type OrderProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    spu?: boolean | SpuDefaultArgs<ExtArgs>
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }
   export type OrderProductIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    spu?: boolean | SpuDefaultArgs<ExtArgs>
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }
   export type OrderProductIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    spu?: boolean | SpuDefaultArgs<ExtArgs>
+    sku?: boolean | SkuDefaultArgs<ExtArgs>
     order?: boolean | OrderDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
   }
 
   export type $OrderProductPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "OrderProduct"
     objects: {
-      spu: Prisma.$SpuPayload<ExtArgs>
+      sku: Prisma.$SkuPayload<ExtArgs>
       order: Prisma.$OrderPayload<ExtArgs>
+      shop: Prisma.$ShopPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       createdAt: Date
       productId: string
       orderId: string
+      shopId: string
     }, ExtArgs["result"]["orderProduct"]>
     composites: {}
   }
@@ -37255,8 +37386,9 @@ export namespace Prisma {
    */
   export interface Prisma__OrderProductClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    spu<T extends SpuDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SpuDefaultArgs<ExtArgs>>): Prisma__SpuClient<$Result.GetResult<Prisma.$SpuPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    sku<T extends SkuDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SkuDefaultArgs<ExtArgs>>): Prisma__SkuClient<$Result.GetResult<Prisma.$SkuPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     order<T extends OrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrderDefaultArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    shop<T extends ShopDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopDefaultArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -37290,6 +37422,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"OrderProduct", 'DateTime'>
     readonly productId: FieldRef<"OrderProduct", 'String'>
     readonly orderId: FieldRef<"OrderProduct", 'String'>
+    readonly shopId: FieldRef<"OrderProduct", 'String'>
   }
     
 
@@ -38859,6 +38992,7 @@ export namespace Prisma {
     width: 'width',
     height: 'height',
     timeAccess: 'timeAccess',
+    quantity: 'quantity',
     status: 'status',
     isActive: 'isActive',
     createdAt: 'createdAt',
@@ -39018,6 +39152,7 @@ export namespace Prisma {
   export const RolePermissionScalarFieldEnum: {
     id: 'id',
     roleId: 'roleId',
+    permissionId: 'permissionId',
     createdAt: 'createdAt'
   };
 
@@ -39054,6 +39189,7 @@ export namespace Prisma {
     timeAccess: 'timeAccess',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    quantityProduct: 'quantityProduct',
     ownerId: 'ownerId'
   };
 
@@ -39159,7 +39295,8 @@ export namespace Prisma {
     typeOfPayment: 'typeOfPayment',
     statusOrder: 'statusOrder',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    price: 'price'
   };
 
   export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -39169,7 +39306,8 @@ export namespace Prisma {
     id: 'id',
     createdAt: 'createdAt',
     productId: 'productId',
-    orderId: 'orderId'
+    orderId: 'orderId',
+    shopId: 'shopId'
   };
 
   export type OrderProductScalarFieldEnum = (typeof OrderProductScalarFieldEnum)[keyof typeof OrderProductScalarFieldEnum]
@@ -39811,8 +39949,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeListRelationFilter
     spuTags?: SpuTagListRelationFilter
     spuVariations?: SpuVariationListRelationFilter
-    stores?: StoreProductListRelationFilter
-    productOrder?: OrderProductListRelationFilter
   }
 
   export type SpuOrderByWithRelationInput = {
@@ -39837,8 +39973,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeOrderByRelationAggregateInput
     spuTags?: SpuTagOrderByRelationAggregateInput
     spuVariations?: SpuVariationOrderByRelationAggregateInput
-    stores?: StoreProductOrderByRelationAggregateInput
-    productOrder?: OrderProductOrderByRelationAggregateInput
   }
 
   export type SpuWhereUniqueInput = Prisma.AtLeast<{
@@ -39866,8 +40000,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeListRelationFilter
     spuTags?: SpuTagListRelationFilter
     spuVariations?: SpuVariationListRelationFilter
-    stores?: StoreProductListRelationFilter
-    productOrder?: OrderProductListRelationFilter
   }, "id" | "slug">
 
   export type SpuOrderByWithAggregationInput = {
@@ -39925,6 +40057,7 @@ export namespace Prisma {
     width?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     height?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFilter<"Sku"> | bigint | number
+    quantity?: BigIntFilter<"Sku"> | bigint | number
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     isActive?: BoolFilter<"Sku"> | boolean
     createdAt?: DateTimeFilter<"Sku"> | Date | string
@@ -39934,6 +40067,8 @@ export namespace Prisma {
     skuImages?: SkuImageListRelationFilter
     skuAttributes?: SkuAttributeListRelationFilter
     skuVariationValues?: SkuVariationValueListRelationFilter
+    productOrder?: OrderProductListRelationFilter
+    stores?: StoreProductListRelationFilter
   }
 
   export type SkuOrderByWithRelationInput = {
@@ -39948,6 +40083,7 @@ export namespace Prisma {
     width?: SortOrderInput | SortOrder
     height?: SortOrderInput | SortOrder
     timeAccess?: SortOrder
+    quantity?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -39957,6 +40093,8 @@ export namespace Prisma {
     skuImages?: SkuImageOrderByRelationAggregateInput
     skuAttributes?: SkuAttributeOrderByRelationAggregateInput
     skuVariationValues?: SkuVariationValueOrderByRelationAggregateInput
+    productOrder?: OrderProductOrderByRelationAggregateInput
+    stores?: StoreProductOrderByRelationAggregateInput
   }
 
   export type SkuWhereUniqueInput = Prisma.AtLeast<{
@@ -39974,6 +40112,7 @@ export namespace Prisma {
     width?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     height?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFilter<"Sku"> | bigint | number
+    quantity?: BigIntFilter<"Sku"> | bigint | number
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     isActive?: BoolFilter<"Sku"> | boolean
     createdAt?: DateTimeFilter<"Sku"> | Date | string
@@ -39983,6 +40122,8 @@ export namespace Prisma {
     skuImages?: SkuImageListRelationFilter
     skuAttributes?: SkuAttributeListRelationFilter
     skuVariationValues?: SkuVariationValueListRelationFilter
+    productOrder?: OrderProductListRelationFilter
+    stores?: StoreProductListRelationFilter
   }, "id" | "skuCode">
 
   export type SkuOrderByWithAggregationInput = {
@@ -39997,6 +40138,7 @@ export namespace Prisma {
     width?: SortOrderInput | SortOrder
     height?: SortOrderInput | SortOrder
     timeAccess?: SortOrder
+    quantity?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -40024,6 +40166,7 @@ export namespace Prisma {
     width?: DecimalNullableWithAggregatesFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     height?: DecimalNullableWithAggregatesFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntWithAggregatesFilter<"Sku"> | bigint | number
+    quantity?: BigIntWithAggregatesFilter<"Sku"> | bigint | number
     status?: EnumSkuStatusWithAggregatesFilter<"Sku"> | $Enums.SkuStatus
     isActive?: BoolWithAggregatesFilter<"Sku"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Sku"> | Date | string
@@ -40833,37 +40976,44 @@ export namespace Prisma {
     NOT?: RolePermissionWhereInput | RolePermissionWhereInput[]
     id?: UuidFilter<"RolePermission"> | string
     roleId?: UuidFilter<"RolePermission"> | string
+    permissionId?: IntFilter<"RolePermission"> | number
     createdAt?: DateTimeFilter<"RolePermission"> | Date | string
     role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
-    permission?: PermissionListRelationFilter
+    permission?: XOR<PermissionScalarRelationFilter, PermissionWhereInput>
   }
 
   export type RolePermissionOrderByWithRelationInput = {
     id?: SortOrder
     roleId?: SortOrder
+    permissionId?: SortOrder
     createdAt?: SortOrder
     role?: RoleOrderByWithRelationInput
-    permission?: PermissionOrderByRelationAggregateInput
+    permission?: PermissionOrderByWithRelationInput
   }
 
   export type RolePermissionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    roleId_permissionId?: RolePermissionRoleIdPermissionIdCompoundUniqueInput
     AND?: RolePermissionWhereInput | RolePermissionWhereInput[]
     OR?: RolePermissionWhereInput[]
     NOT?: RolePermissionWhereInput | RolePermissionWhereInput[]
     roleId?: UuidFilter<"RolePermission"> | string
+    permissionId?: IntFilter<"RolePermission"> | number
     createdAt?: DateTimeFilter<"RolePermission"> | Date | string
     role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
-    permission?: PermissionListRelationFilter
-  }, "id">
+    permission?: XOR<PermissionScalarRelationFilter, PermissionWhereInput>
+  }, "id" | "roleId_permissionId">
 
   export type RolePermissionOrderByWithAggregationInput = {
     id?: SortOrder
     roleId?: SortOrder
+    permissionId?: SortOrder
     createdAt?: SortOrder
     _count?: RolePermissionCountOrderByAggregateInput
+    _avg?: RolePermissionAvgOrderByAggregateInput
     _max?: RolePermissionMaxOrderByAggregateInput
     _min?: RolePermissionMinOrderByAggregateInput
+    _sum?: RolePermissionSumOrderByAggregateInput
   }
 
   export type RolePermissionScalarWhereWithAggregatesInput = {
@@ -40872,6 +41022,7 @@ export namespace Prisma {
     NOT?: RolePermissionScalarWhereWithAggregatesInput | RolePermissionScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"RolePermission"> | string
     roleId?: UuidWithAggregatesFilter<"RolePermission"> | string
+    permissionId?: IntWithAggregatesFilter<"RolePermission"> | number
     createdAt?: DateTimeWithAggregatesFilter<"RolePermission"> | Date | string
   }
 
@@ -40956,9 +41107,11 @@ export namespace Prisma {
     timeAccess?: BigIntFilter<"Shop"> | bigint | number
     createdAt?: DateTimeFilter<"Shop"> | Date | string
     updatedAt?: DateTimeFilter<"Shop"> | Date | string
+    quantityProduct?: BigIntFilter<"Shop"> | bigint | number
     ownerId?: UuidFilter<"Shop"> | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     spus?: SpuListRelationFilter
+    orderProducts?: OrderProductListRelationFilter
   }
 
   export type ShopOrderByWithRelationInput = {
@@ -40980,9 +41133,11 @@ export namespace Prisma {
     timeAccess?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    quantityProduct?: SortOrder
     ownerId?: SortOrder
     owner?: UserOrderByWithRelationInput
     spus?: SpuOrderByRelationAggregateInput
+    orderProducts?: OrderProductOrderByRelationAggregateInput
   }
 
   export type ShopWhereUniqueInput = Prisma.AtLeast<{
@@ -41007,9 +41162,11 @@ export namespace Prisma {
     timeAccess?: BigIntFilter<"Shop"> | bigint | number
     createdAt?: DateTimeFilter<"Shop"> | Date | string
     updatedAt?: DateTimeFilter<"Shop"> | Date | string
+    quantityProduct?: BigIntFilter<"Shop"> | bigint | number
     ownerId?: UuidFilter<"Shop"> | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
     spus?: SpuListRelationFilter
+    orderProducts?: OrderProductListRelationFilter
   }, "id" | "slug">
 
   export type ShopOrderByWithAggregationInput = {
@@ -41031,6 +41188,7 @@ export namespace Prisma {
     timeAccess?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    quantityProduct?: SortOrder
     ownerId?: SortOrder
     _count?: ShopCountOrderByAggregateInput
     _avg?: ShopAvgOrderByAggregateInput
@@ -41061,6 +41219,7 @@ export namespace Prisma {
     timeAccess?: BigIntWithAggregatesFilter<"Shop"> | bigint | number
     createdAt?: DateTimeWithAggregatesFilter<"Shop"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Shop"> | Date | string
+    quantityProduct?: BigIntWithAggregatesFilter<"Shop"> | bigint | number
     ownerId?: UuidWithAggregatesFilter<"Shop"> | string
   }
 
@@ -41126,7 +41285,7 @@ export namespace Prisma {
     cartId?: UuidFilter<"StoreProduct"> | string
     productId?: UuidFilter<"StoreProduct"> | string
     cart?: XOR<CartScalarRelationFilter, CartWhereInput>
-    spu?: XOR<SpuScalarRelationFilter, SpuWhereInput>
+    skus?: XOR<SkuScalarRelationFilter, SkuWhereInput>
   }
 
   export type StoreProductOrderByWithRelationInput = {
@@ -41134,7 +41293,7 @@ export namespace Prisma {
     cartId?: SortOrder
     productId?: SortOrder
     cart?: CartOrderByWithRelationInput
-    spu?: SpuOrderByWithRelationInput
+    skus?: SkuOrderByWithRelationInput
   }
 
   export type StoreProductWhereUniqueInput = Prisma.AtLeast<{
@@ -41145,7 +41304,7 @@ export namespace Prisma {
     cartId?: UuidFilter<"StoreProduct"> | string
     productId?: UuidFilter<"StoreProduct"> | string
     cart?: XOR<CartScalarRelationFilter, CartWhereInput>
-    spu?: XOR<SpuScalarRelationFilter, SpuWhereInput>
+    skus?: XOR<SkuScalarRelationFilter, SkuWhereInput>
   }, "id">
 
   export type StoreProductOrderByWithAggregationInput = {
@@ -41578,6 +41737,7 @@ export namespace Prisma {
     statusOrder?: EnumStatusOrderFilter<"Order"> | $Enums.StatusOrder
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
+    price?: DecimalNullableFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
     VoucherUsed?: VoucherUsedListRelationFilter
     OrderProduct?: OrderProductListRelationFilter
   }
@@ -41588,6 +41748,7 @@ export namespace Prisma {
     statusOrder?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    price?: SortOrderInput | SortOrder
     VoucherUsed?: VoucherUsedOrderByRelationAggregateInput
     OrderProduct?: OrderProductOrderByRelationAggregateInput
   }
@@ -41601,6 +41762,7 @@ export namespace Prisma {
     statusOrder?: EnumStatusOrderFilter<"Order"> | $Enums.StatusOrder
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
+    price?: DecimalNullableFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
     VoucherUsed?: VoucherUsedListRelationFilter
     OrderProduct?: OrderProductListRelationFilter
   }, "id">
@@ -41611,9 +41773,12 @@ export namespace Prisma {
     statusOrder?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    price?: SortOrderInput | SortOrder
     _count?: OrderCountOrderByAggregateInput
+    _avg?: OrderAvgOrderByAggregateInput
     _max?: OrderMaxOrderByAggregateInput
     _min?: OrderMinOrderByAggregateInput
+    _sum?: OrderSumOrderByAggregateInput
   }
 
   export type OrderScalarWhereWithAggregatesInput = {
@@ -41625,6 +41790,7 @@ export namespace Prisma {
     statusOrder?: EnumStatusOrderWithAggregatesFilter<"Order"> | $Enums.StatusOrder
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
+    price?: DecimalNullableWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
   }
 
   export type OrderProductWhereInput = {
@@ -41635,8 +41801,10 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"OrderProduct"> | Date | string
     productId?: UuidFilter<"OrderProduct"> | string
     orderId?: UuidFilter<"OrderProduct"> | string
-    spu?: XOR<SpuScalarRelationFilter, SpuWhereInput>
+    shopId?: UuidFilter<"OrderProduct"> | string
+    sku?: XOR<SkuScalarRelationFilter, SkuWhereInput>
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
   }
 
   export type OrderProductOrderByWithRelationInput = {
@@ -41644,8 +41812,10 @@ export namespace Prisma {
     createdAt?: SortOrder
     productId?: SortOrder
     orderId?: SortOrder
-    spu?: SpuOrderByWithRelationInput
+    shopId?: SortOrder
+    sku?: SkuOrderByWithRelationInput
     order?: OrderOrderByWithRelationInput
+    shop?: ShopOrderByWithRelationInput
   }
 
   export type OrderProductWhereUniqueInput = Prisma.AtLeast<{
@@ -41656,8 +41826,10 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"OrderProduct"> | Date | string
     productId?: UuidFilter<"OrderProduct"> | string
     orderId?: UuidFilter<"OrderProduct"> | string
-    spu?: XOR<SpuScalarRelationFilter, SpuWhereInput>
+    shopId?: UuidFilter<"OrderProduct"> | string
+    sku?: XOR<SkuScalarRelationFilter, SkuWhereInput>
     order?: XOR<OrderScalarRelationFilter, OrderWhereInput>
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
   }, "id">
 
   export type OrderProductOrderByWithAggregationInput = {
@@ -41665,6 +41837,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     productId?: SortOrder
     orderId?: SortOrder
+    shopId?: SortOrder
     _count?: OrderProductCountOrderByAggregateInput
     _max?: OrderProductMaxOrderByAggregateInput
     _min?: OrderProductMinOrderByAggregateInput
@@ -41678,6 +41851,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"OrderProduct"> | Date | string
     productId?: UuidWithAggregatesFilter<"OrderProduct"> | string
     orderId?: UuidWithAggregatesFilter<"OrderProduct"> | string
+    shopId?: UuidWithAggregatesFilter<"OrderProduct"> | string
   }
 
   export type VoucherUsedWhereInput = {
@@ -42076,8 +42250,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationCreateNestedManyWithoutSpuInput
-    stores?: StoreProductCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductCreateNestedManyWithoutSpuInput
   }
 
   export type SpuUncheckedCreateInput = {
@@ -42099,8 +42271,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUncheckedCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagUncheckedCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationUncheckedCreateNestedManyWithoutSpuInput
-    stores?: StoreProductUncheckedCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSpuInput
   }
 
   export type SpuUpdateInput = {
@@ -42122,8 +42292,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUpdateManyWithoutSpuNestedInput
   }
 
   export type SpuUncheckedUpdateInput = {
@@ -42145,8 +42313,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUncheckedUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUncheckedUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUncheckedUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUncheckedUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUncheckedUpdateManyWithoutSpuNestedInput
   }
 
   export type SpuCreateManyInput = {
@@ -42206,6 +42372,7 @@ export namespace Prisma {
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
     timeAccess?: bigint | number
+    quantity?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -42214,6 +42381,8 @@ export namespace Prisma {
     skuImages?: SkuImageCreateNestedManyWithoutSkuInput
     skuAttributes?: SkuAttributeCreateNestedManyWithoutSkuInput
     skuVariationValues?: SkuVariationValueCreateNestedManyWithoutSkuInput
+    productOrder?: OrderProductCreateNestedManyWithoutSkuInput
+    stores?: StoreProductCreateNestedManyWithoutSkusInput
   }
 
   export type SkuUncheckedCreateInput = {
@@ -42228,6 +42397,7 @@ export namespace Prisma {
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
     timeAccess?: bigint | number
+    quantity?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -42236,6 +42406,8 @@ export namespace Prisma {
     skuImages?: SkuImageUncheckedCreateNestedManyWithoutSkuInput
     skuAttributes?: SkuAttributeUncheckedCreateNestedManyWithoutSkuInput
     skuVariationValues?: SkuVariationValueUncheckedCreateNestedManyWithoutSkuInput
+    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSkuInput
+    stores?: StoreProductUncheckedCreateNestedManyWithoutSkusInput
   }
 
   export type SkuUpdateInput = {
@@ -42250,6 +42422,7 @@ export namespace Prisma {
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42258,6 +42431,8 @@ export namespace Prisma {
     skuImages?: SkuImageUpdateManyWithoutSkuNestedInput
     skuAttributes?: SkuAttributeUpdateManyWithoutSkuNestedInput
     skuVariationValues?: SkuVariationValueUpdateManyWithoutSkuNestedInput
+    productOrder?: OrderProductUpdateManyWithoutSkuNestedInput
+    stores?: StoreProductUpdateManyWithoutSkusNestedInput
   }
 
   export type SkuUncheckedUpdateInput = {
@@ -42272,6 +42447,7 @@ export namespace Prisma {
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42280,6 +42456,8 @@ export namespace Prisma {
     skuImages?: SkuImageUncheckedUpdateManyWithoutSkuNestedInput
     skuAttributes?: SkuAttributeUncheckedUpdateManyWithoutSkuNestedInput
     skuVariationValues?: SkuVariationValueUncheckedUpdateManyWithoutSkuNestedInput
+    productOrder?: OrderProductUncheckedUpdateManyWithoutSkuNestedInput
+    stores?: StoreProductUncheckedUpdateManyWithoutSkusNestedInput
   }
 
   export type SkuCreateManyInput = {
@@ -42294,6 +42472,7 @@ export namespace Prisma {
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
     timeAccess?: bigint | number
+    quantity?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -42313,6 +42492,7 @@ export namespace Prisma {
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42331,6 +42511,7 @@ export namespace Prisma {
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -43141,33 +43322,34 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     role: RoleCreateNestedOneWithoutRolePermissionsInput
-    permission?: PermissionCreateNestedManyWithoutRolePermissionsInput
+    permission: PermissionCreateNestedOneWithoutRolePermissionsInput
   }
 
   export type RolePermissionUncheckedCreateInput = {
     id?: string
     roleId: string
+    permissionId: number
     createdAt?: Date | string
-    permission?: PermissionUncheckedCreateNestedManyWithoutRolePermissionsInput
   }
 
   export type RolePermissionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: RoleUpdateOneRequiredWithoutRolePermissionsNestedInput
-    permission?: PermissionUpdateManyWithoutRolePermissionsNestedInput
+    permission?: PermissionUpdateOneRequiredWithoutRolePermissionsNestedInput
   }
 
   export type RolePermissionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     roleId?: StringFieldUpdateOperationsInput | string
+    permissionId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    permission?: PermissionUncheckedUpdateManyWithoutRolePermissionsNestedInput
   }
 
   export type RolePermissionCreateManyInput = {
     id?: string
     roleId: string
+    permissionId: number
     createdAt?: Date | string
   }
 
@@ -43179,6 +43361,7 @@ export namespace Prisma {
   export type RolePermissionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     roleId?: StringFieldUpdateOperationsInput | string
+    permissionId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -43255,8 +43438,10 @@ export namespace Prisma {
     timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
+    quantityProduct?: bigint | number
     owner: UserCreateNestedOneWithoutShopsInput
     spus?: SpuCreateNestedManyWithoutShopInput
+    orderProducts?: OrderProductCreateNestedManyWithoutShopInput
   }
 
   export type ShopUncheckedCreateInput = {
@@ -43278,8 +43463,10 @@ export namespace Prisma {
     timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
+    quantityProduct?: bigint | number
     ownerId: string
     spus?: SpuUncheckedCreateNestedManyWithoutShopInput
+    orderProducts?: OrderProductUncheckedCreateNestedManyWithoutShopInput
   }
 
   export type ShopUpdateInput = {
@@ -43301,8 +43488,10 @@ export namespace Prisma {
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quantityProduct?: BigIntFieldUpdateOperationsInput | bigint | number
     owner?: UserUpdateOneRequiredWithoutShopsNestedInput
     spus?: SpuUpdateManyWithoutShopNestedInput
+    orderProducts?: OrderProductUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateInput = {
@@ -43324,8 +43513,10 @@ export namespace Prisma {
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quantityProduct?: BigIntFieldUpdateOperationsInput | bigint | number
     ownerId?: StringFieldUpdateOperationsInput | string
     spus?: SpuUncheckedUpdateManyWithoutShopNestedInput
+    orderProducts?: OrderProductUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type ShopCreateManyInput = {
@@ -43347,6 +43538,7 @@ export namespace Prisma {
     timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
+    quantityProduct?: bigint | number
     ownerId: string
   }
 
@@ -43369,6 +43561,7 @@ export namespace Prisma {
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quantityProduct?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type ShopUncheckedUpdateManyInput = {
@@ -43390,6 +43583,7 @@ export namespace Prisma {
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quantityProduct?: BigIntFieldUpdateOperationsInput | bigint | number
     ownerId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -43448,7 +43642,7 @@ export namespace Prisma {
   export type StoreProductCreateInput = {
     id?: string
     cart: CartCreateNestedOneWithoutStoreProductsInput
-    spu: SpuCreateNestedOneWithoutStoresInput
+    skus: SkuCreateNestedOneWithoutStoresInput
   }
 
   export type StoreProductUncheckedCreateInput = {
@@ -43460,7 +43654,7 @@ export namespace Prisma {
   export type StoreProductUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     cart?: CartUpdateOneRequiredWithoutStoreProductsNestedInput
-    spu?: SpuUpdateOneRequiredWithoutStoresNestedInput
+    skus?: SkuUpdateOneRequiredWithoutStoresNestedInput
   }
 
   export type StoreProductUncheckedUpdateInput = {
@@ -43965,6 +44159,7 @@ export namespace Prisma {
     statusOrder?: $Enums.StatusOrder
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: Decimal | DecimalJsLike | number | string | null
     VoucherUsed?: VoucherUsedCreateNestedManyWithoutOrderInput
     OrderProduct?: OrderProductCreateNestedManyWithoutOrderInput
   }
@@ -43975,6 +44170,7 @@ export namespace Prisma {
     statusOrder?: $Enums.StatusOrder
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: Decimal | DecimalJsLike | number | string | null
     VoucherUsed?: VoucherUsedUncheckedCreateNestedManyWithoutOrderInput
     OrderProduct?: OrderProductUncheckedCreateNestedManyWithoutOrderInput
   }
@@ -43985,6 +44181,7 @@ export namespace Prisma {
     statusOrder?: EnumStatusOrderFieldUpdateOperationsInput | $Enums.StatusOrder
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     VoucherUsed?: VoucherUsedUpdateManyWithoutOrderNestedInput
     OrderProduct?: OrderProductUpdateManyWithoutOrderNestedInput
   }
@@ -43995,6 +44192,7 @@ export namespace Prisma {
     statusOrder?: EnumStatusOrderFieldUpdateOperationsInput | $Enums.StatusOrder
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     VoucherUsed?: VoucherUsedUncheckedUpdateManyWithoutOrderNestedInput
     OrderProduct?: OrderProductUncheckedUpdateManyWithoutOrderNestedInput
   }
@@ -44005,6 +44203,7 @@ export namespace Prisma {
     statusOrder?: $Enums.StatusOrder
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: Decimal | DecimalJsLike | number | string | null
   }
 
   export type OrderUpdateManyMutationInput = {
@@ -44013,6 +44212,7 @@ export namespace Prisma {
     statusOrder?: EnumStatusOrderFieldUpdateOperationsInput | $Enums.StatusOrder
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
   export type OrderUncheckedUpdateManyInput = {
@@ -44021,13 +44221,15 @@ export namespace Prisma {
     statusOrder?: EnumStatusOrderFieldUpdateOperationsInput | $Enums.StatusOrder
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
   }
 
   export type OrderProductCreateInput = {
     id?: string
     createdAt?: Date | string
-    spu: SpuCreateNestedOneWithoutProductOrderInput
+    sku: SkuCreateNestedOneWithoutProductOrderInput
     order: OrderCreateNestedOneWithoutOrderProductInput
+    shop: ShopCreateNestedOneWithoutOrderProductsInput
   }
 
   export type OrderProductUncheckedCreateInput = {
@@ -44035,13 +44237,15 @@ export namespace Prisma {
     createdAt?: Date | string
     productId: string
     orderId: string
+    shopId: string
   }
 
   export type OrderProductUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    spu?: SpuUpdateOneRequiredWithoutProductOrderNestedInput
+    sku?: SkuUpdateOneRequiredWithoutProductOrderNestedInput
     order?: OrderUpdateOneRequiredWithoutOrderProductNestedInput
+    shop?: ShopUpdateOneRequiredWithoutOrderProductsNestedInput
   }
 
   export type OrderProductUncheckedUpdateInput = {
@@ -44049,6 +44253,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     productId?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
+    shopId?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrderProductCreateManyInput = {
@@ -44056,6 +44261,7 @@ export namespace Prisma {
     createdAt?: Date | string
     productId: string
     orderId: string
+    shopId: string
   }
 
   export type OrderProductUpdateManyMutationInput = {
@@ -44068,6 +44274,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     productId?: StringFieldUpdateOperationsInput | string
     orderId?: StringFieldUpdateOperationsInput | string
+    shopId?: StringFieldUpdateOperationsInput | string
   }
 
   export type VoucherUsedCreateInput = {
@@ -44568,18 +44775,6 @@ export namespace Prisma {
     none?: SpuVariationWhereInput
   }
 
-  export type StoreProductListRelationFilter = {
-    every?: StoreProductWhereInput
-    some?: StoreProductWhereInput
-    none?: StoreProductWhereInput
-  }
-
-  export type OrderProductListRelationFilter = {
-    every?: OrderProductWhereInput
-    some?: OrderProductWhereInput
-    none?: OrderProductWhereInput
-  }
-
   export type SkuOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -44597,14 +44792,6 @@ export namespace Prisma {
   }
 
   export type SpuVariationOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type StoreProductOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type OrderProductOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -44742,6 +44929,18 @@ export namespace Prisma {
     none?: SkuVariationValueWhereInput
   }
 
+  export type OrderProductListRelationFilter = {
+    every?: OrderProductWhereInput
+    some?: OrderProductWhereInput
+    none?: OrderProductWhereInput
+  }
+
+  export type StoreProductListRelationFilter = {
+    every?: StoreProductWhereInput
+    some?: StoreProductWhereInput
+    none?: StoreProductWhereInput
+  }
+
   export type SkuImageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -44751,6 +44950,14 @@ export namespace Prisma {
   }
 
   export type SkuVariationValueOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OrderProductOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StoreProductOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -44766,6 +44973,7 @@ export namespace Prisma {
     width?: SortOrder
     height?: SortOrder
     timeAccess?: SortOrder
+    quantity?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -44782,6 +44990,7 @@ export namespace Prisma {
     width?: SortOrder
     height?: SortOrder
     timeAccess?: SortOrder
+    quantity?: SortOrder
   }
 
   export type SkuMaxOrderByAggregateInput = {
@@ -44796,6 +45005,7 @@ export namespace Prisma {
     width?: SortOrder
     height?: SortOrder
     timeAccess?: SortOrder
+    quantity?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -44815,6 +45025,7 @@ export namespace Prisma {
     width?: SortOrder
     height?: SortOrder
     timeAccess?: SortOrder
+    quantity?: SortOrder
     status?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -44831,6 +45042,7 @@ export namespace Prisma {
     width?: SortOrder
     height?: SortOrder
     timeAccess?: SortOrder
+    quantity?: SortOrder
   }
 
   export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
@@ -45360,32 +45572,43 @@ export namespace Prisma {
     isNot?: RoleWhereInput
   }
 
-  export type PermissionListRelationFilter = {
-    every?: PermissionWhereInput
-    some?: PermissionWhereInput
-    none?: PermissionWhereInput
+  export type PermissionScalarRelationFilter = {
+    is?: PermissionWhereInput
+    isNot?: PermissionWhereInput
   }
 
-  export type PermissionOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type RolePermissionRoleIdPermissionIdCompoundUniqueInput = {
+    roleId: string
+    permissionId: number
   }
 
   export type RolePermissionCountOrderByAggregateInput = {
     id?: SortOrder
     roleId?: SortOrder
+    permissionId?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type RolePermissionAvgOrderByAggregateInput = {
+    permissionId?: SortOrder
   }
 
   export type RolePermissionMaxOrderByAggregateInput = {
     id?: SortOrder
     roleId?: SortOrder
+    permissionId?: SortOrder
     createdAt?: SortOrder
   }
 
   export type RolePermissionMinOrderByAggregateInput = {
     id?: SortOrder
     roleId?: SortOrder
+    permissionId?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type RolePermissionSumOrderByAggregateInput = {
+    permissionId?: SortOrder
   }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -45490,6 +45713,7 @@ export namespace Prisma {
     timeAccess?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    quantityProduct?: SortOrder
     ownerId?: SortOrder
   }
 
@@ -45497,6 +45721,7 @@ export namespace Prisma {
     rating?: SortOrder
     totalReviews?: SortOrder
     timeAccess?: SortOrder
+    quantityProduct?: SortOrder
   }
 
   export type ShopMaxOrderByAggregateInput = {
@@ -45518,6 +45743,7 @@ export namespace Prisma {
     timeAccess?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    quantityProduct?: SortOrder
     ownerId?: SortOrder
   }
 
@@ -45540,6 +45766,7 @@ export namespace Prisma {
     timeAccess?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    quantityProduct?: SortOrder
     ownerId?: SortOrder
   }
 
@@ -45547,6 +45774,7 @@ export namespace Prisma {
     rating?: SortOrder
     totalReviews?: SortOrder
     timeAccess?: SortOrder
+    quantityProduct?: SortOrder
   }
 
   export type EnumShopStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -46004,6 +46232,11 @@ export namespace Prisma {
     statusOrder?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    price?: SortOrder
+  }
+
+  export type OrderAvgOrderByAggregateInput = {
+    price?: SortOrder
   }
 
   export type OrderMaxOrderByAggregateInput = {
@@ -46012,6 +46245,7 @@ export namespace Prisma {
     statusOrder?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    price?: SortOrder
   }
 
   export type OrderMinOrderByAggregateInput = {
@@ -46020,6 +46254,11 @@ export namespace Prisma {
     statusOrder?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    price?: SortOrder
+  }
+
+  export type OrderSumOrderByAggregateInput = {
+    price?: SortOrder
   }
 
   export type EnumTypeOfPaymentWithAggregatesFilter<$PrismaModel = never> = {
@@ -46052,6 +46291,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     productId?: SortOrder
     orderId?: SortOrder
+    shopId?: SortOrder
   }
 
   export type OrderProductMaxOrderByAggregateInput = {
@@ -46059,6 +46299,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     productId?: SortOrder
     orderId?: SortOrder
+    shopId?: SortOrder
   }
 
   export type OrderProductMinOrderByAggregateInput = {
@@ -46066,6 +46307,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     productId?: SortOrder
     orderId?: SortOrder
+    shopId?: SortOrder
   }
 
   export type VoucherScalarRelationFilter = {
@@ -46345,20 +46587,6 @@ export namespace Prisma {
     connect?: SpuVariationWhereUniqueInput | SpuVariationWhereUniqueInput[]
   }
 
-  export type StoreProductCreateNestedManyWithoutSpuInput = {
-    create?: XOR<StoreProductCreateWithoutSpuInput, StoreProductUncheckedCreateWithoutSpuInput> | StoreProductCreateWithoutSpuInput[] | StoreProductUncheckedCreateWithoutSpuInput[]
-    connectOrCreate?: StoreProductCreateOrConnectWithoutSpuInput | StoreProductCreateOrConnectWithoutSpuInput[]
-    createMany?: StoreProductCreateManySpuInputEnvelope
-    connect?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
-  }
-
-  export type OrderProductCreateNestedManyWithoutSpuInput = {
-    create?: XOR<OrderProductCreateWithoutSpuInput, OrderProductUncheckedCreateWithoutSpuInput> | OrderProductCreateWithoutSpuInput[] | OrderProductUncheckedCreateWithoutSpuInput[]
-    connectOrCreate?: OrderProductCreateOrConnectWithoutSpuInput | OrderProductCreateOrConnectWithoutSpuInput[]
-    createMany?: OrderProductCreateManySpuInputEnvelope
-    connect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
-  }
-
   export type SkuUncheckedCreateNestedManyWithoutSpuInput = {
     create?: XOR<SkuCreateWithoutSpuInput, SkuUncheckedCreateWithoutSpuInput> | SkuCreateWithoutSpuInput[] | SkuUncheckedCreateWithoutSpuInput[]
     connectOrCreate?: SkuCreateOrConnectWithoutSpuInput | SkuCreateOrConnectWithoutSpuInput[]
@@ -46392,20 +46620,6 @@ export namespace Prisma {
     connectOrCreate?: SpuVariationCreateOrConnectWithoutSpuInput | SpuVariationCreateOrConnectWithoutSpuInput[]
     createMany?: SpuVariationCreateManySpuInputEnvelope
     connect?: SpuVariationWhereUniqueInput | SpuVariationWhereUniqueInput[]
-  }
-
-  export type StoreProductUncheckedCreateNestedManyWithoutSpuInput = {
-    create?: XOR<StoreProductCreateWithoutSpuInput, StoreProductUncheckedCreateWithoutSpuInput> | StoreProductCreateWithoutSpuInput[] | StoreProductUncheckedCreateWithoutSpuInput[]
-    connectOrCreate?: StoreProductCreateOrConnectWithoutSpuInput | StoreProductCreateOrConnectWithoutSpuInput[]
-    createMany?: StoreProductCreateManySpuInputEnvelope
-    connect?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
-  }
-
-  export type OrderProductUncheckedCreateNestedManyWithoutSpuInput = {
-    create?: XOR<OrderProductCreateWithoutSpuInput, OrderProductUncheckedCreateWithoutSpuInput> | OrderProductCreateWithoutSpuInput[] | OrderProductUncheckedCreateWithoutSpuInput[]
-    connectOrCreate?: OrderProductCreateOrConnectWithoutSpuInput | OrderProductCreateOrConnectWithoutSpuInput[]
-    createMany?: OrderProductCreateManySpuInputEnvelope
-    connect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
   }
 
   export type EnumSpuStatusFieldUpdateOperationsInput = {
@@ -46514,34 +46728,6 @@ export namespace Prisma {
     deleteMany?: SpuVariationScalarWhereInput | SpuVariationScalarWhereInput[]
   }
 
-  export type StoreProductUpdateManyWithoutSpuNestedInput = {
-    create?: XOR<StoreProductCreateWithoutSpuInput, StoreProductUncheckedCreateWithoutSpuInput> | StoreProductCreateWithoutSpuInput[] | StoreProductUncheckedCreateWithoutSpuInput[]
-    connectOrCreate?: StoreProductCreateOrConnectWithoutSpuInput | StoreProductCreateOrConnectWithoutSpuInput[]
-    upsert?: StoreProductUpsertWithWhereUniqueWithoutSpuInput | StoreProductUpsertWithWhereUniqueWithoutSpuInput[]
-    createMany?: StoreProductCreateManySpuInputEnvelope
-    set?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
-    disconnect?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
-    delete?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
-    connect?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
-    update?: StoreProductUpdateWithWhereUniqueWithoutSpuInput | StoreProductUpdateWithWhereUniqueWithoutSpuInput[]
-    updateMany?: StoreProductUpdateManyWithWhereWithoutSpuInput | StoreProductUpdateManyWithWhereWithoutSpuInput[]
-    deleteMany?: StoreProductScalarWhereInput | StoreProductScalarWhereInput[]
-  }
-
-  export type OrderProductUpdateManyWithoutSpuNestedInput = {
-    create?: XOR<OrderProductCreateWithoutSpuInput, OrderProductUncheckedCreateWithoutSpuInput> | OrderProductCreateWithoutSpuInput[] | OrderProductUncheckedCreateWithoutSpuInput[]
-    connectOrCreate?: OrderProductCreateOrConnectWithoutSpuInput | OrderProductCreateOrConnectWithoutSpuInput[]
-    upsert?: OrderProductUpsertWithWhereUniqueWithoutSpuInput | OrderProductUpsertWithWhereUniqueWithoutSpuInput[]
-    createMany?: OrderProductCreateManySpuInputEnvelope
-    set?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
-    disconnect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
-    delete?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
-    connect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
-    update?: OrderProductUpdateWithWhereUniqueWithoutSpuInput | OrderProductUpdateWithWhereUniqueWithoutSpuInput[]
-    updateMany?: OrderProductUpdateManyWithWhereWithoutSpuInput | OrderProductUpdateManyWithWhereWithoutSpuInput[]
-    deleteMany?: OrderProductScalarWhereInput | OrderProductScalarWhereInput[]
-  }
-
   export type SkuUncheckedUpdateManyWithoutSpuNestedInput = {
     create?: XOR<SkuCreateWithoutSpuInput, SkuUncheckedCreateWithoutSpuInput> | SkuCreateWithoutSpuInput[] | SkuUncheckedCreateWithoutSpuInput[]
     connectOrCreate?: SkuCreateOrConnectWithoutSpuInput | SkuCreateOrConnectWithoutSpuInput[]
@@ -46612,34 +46798,6 @@ export namespace Prisma {
     deleteMany?: SpuVariationScalarWhereInput | SpuVariationScalarWhereInput[]
   }
 
-  export type StoreProductUncheckedUpdateManyWithoutSpuNestedInput = {
-    create?: XOR<StoreProductCreateWithoutSpuInput, StoreProductUncheckedCreateWithoutSpuInput> | StoreProductCreateWithoutSpuInput[] | StoreProductUncheckedCreateWithoutSpuInput[]
-    connectOrCreate?: StoreProductCreateOrConnectWithoutSpuInput | StoreProductCreateOrConnectWithoutSpuInput[]
-    upsert?: StoreProductUpsertWithWhereUniqueWithoutSpuInput | StoreProductUpsertWithWhereUniqueWithoutSpuInput[]
-    createMany?: StoreProductCreateManySpuInputEnvelope
-    set?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
-    disconnect?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
-    delete?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
-    connect?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
-    update?: StoreProductUpdateWithWhereUniqueWithoutSpuInput | StoreProductUpdateWithWhereUniqueWithoutSpuInput[]
-    updateMany?: StoreProductUpdateManyWithWhereWithoutSpuInput | StoreProductUpdateManyWithWhereWithoutSpuInput[]
-    deleteMany?: StoreProductScalarWhereInput | StoreProductScalarWhereInput[]
-  }
-
-  export type OrderProductUncheckedUpdateManyWithoutSpuNestedInput = {
-    create?: XOR<OrderProductCreateWithoutSpuInput, OrderProductUncheckedCreateWithoutSpuInput> | OrderProductCreateWithoutSpuInput[] | OrderProductUncheckedCreateWithoutSpuInput[]
-    connectOrCreate?: OrderProductCreateOrConnectWithoutSpuInput | OrderProductCreateOrConnectWithoutSpuInput[]
-    upsert?: OrderProductUpsertWithWhereUniqueWithoutSpuInput | OrderProductUpsertWithWhereUniqueWithoutSpuInput[]
-    createMany?: OrderProductCreateManySpuInputEnvelope
-    set?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
-    disconnect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
-    delete?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
-    connect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
-    update?: OrderProductUpdateWithWhereUniqueWithoutSpuInput | OrderProductUpdateWithWhereUniqueWithoutSpuInput[]
-    updateMany?: OrderProductUpdateManyWithWhereWithoutSpuInput | OrderProductUpdateManyWithWhereWithoutSpuInput[]
-    deleteMany?: OrderProductScalarWhereInput | OrderProductScalarWhereInput[]
-  }
-
   export type SpuCreateNestedOneWithoutSkusInput = {
     create?: XOR<SpuCreateWithoutSkusInput, SpuUncheckedCreateWithoutSkusInput>
     connectOrCreate?: SpuCreateOrConnectWithoutSkusInput
@@ -46667,6 +46825,20 @@ export namespace Prisma {
     connect?: SkuVariationValueWhereUniqueInput | SkuVariationValueWhereUniqueInput[]
   }
 
+  export type OrderProductCreateNestedManyWithoutSkuInput = {
+    create?: XOR<OrderProductCreateWithoutSkuInput, OrderProductUncheckedCreateWithoutSkuInput> | OrderProductCreateWithoutSkuInput[] | OrderProductUncheckedCreateWithoutSkuInput[]
+    connectOrCreate?: OrderProductCreateOrConnectWithoutSkuInput | OrderProductCreateOrConnectWithoutSkuInput[]
+    createMany?: OrderProductCreateManySkuInputEnvelope
+    connect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+  }
+
+  export type StoreProductCreateNestedManyWithoutSkusInput = {
+    create?: XOR<StoreProductCreateWithoutSkusInput, StoreProductUncheckedCreateWithoutSkusInput> | StoreProductCreateWithoutSkusInput[] | StoreProductUncheckedCreateWithoutSkusInput[]
+    connectOrCreate?: StoreProductCreateOrConnectWithoutSkusInput | StoreProductCreateOrConnectWithoutSkusInput[]
+    createMany?: StoreProductCreateManySkusInputEnvelope
+    connect?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
+  }
+
   export type SkuImageUncheckedCreateNestedManyWithoutSkuInput = {
     create?: XOR<SkuImageCreateWithoutSkuInput, SkuImageUncheckedCreateWithoutSkuInput> | SkuImageCreateWithoutSkuInput[] | SkuImageUncheckedCreateWithoutSkuInput[]
     connectOrCreate?: SkuImageCreateOrConnectWithoutSkuInput | SkuImageCreateOrConnectWithoutSkuInput[]
@@ -46686,6 +46858,20 @@ export namespace Prisma {
     connectOrCreate?: SkuVariationValueCreateOrConnectWithoutSkuInput | SkuVariationValueCreateOrConnectWithoutSkuInput[]
     createMany?: SkuVariationValueCreateManySkuInputEnvelope
     connect?: SkuVariationValueWhereUniqueInput | SkuVariationValueWhereUniqueInput[]
+  }
+
+  export type OrderProductUncheckedCreateNestedManyWithoutSkuInput = {
+    create?: XOR<OrderProductCreateWithoutSkuInput, OrderProductUncheckedCreateWithoutSkuInput> | OrderProductCreateWithoutSkuInput[] | OrderProductUncheckedCreateWithoutSkuInput[]
+    connectOrCreate?: OrderProductCreateOrConnectWithoutSkuInput | OrderProductCreateOrConnectWithoutSkuInput[]
+    createMany?: OrderProductCreateManySkuInputEnvelope
+    connect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+  }
+
+  export type StoreProductUncheckedCreateNestedManyWithoutSkusInput = {
+    create?: XOR<StoreProductCreateWithoutSkusInput, StoreProductUncheckedCreateWithoutSkusInput> | StoreProductCreateWithoutSkusInput[] | StoreProductUncheckedCreateWithoutSkusInput[]
+    connectOrCreate?: StoreProductCreateOrConnectWithoutSkusInput | StoreProductCreateOrConnectWithoutSkusInput[]
+    createMany?: StoreProductCreateManySkusInputEnvelope
+    connect?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
   }
 
   export type DecimalFieldUpdateOperationsInput = {
@@ -46758,6 +46944,34 @@ export namespace Prisma {
     deleteMany?: SkuVariationValueScalarWhereInput | SkuVariationValueScalarWhereInput[]
   }
 
+  export type OrderProductUpdateManyWithoutSkuNestedInput = {
+    create?: XOR<OrderProductCreateWithoutSkuInput, OrderProductUncheckedCreateWithoutSkuInput> | OrderProductCreateWithoutSkuInput[] | OrderProductUncheckedCreateWithoutSkuInput[]
+    connectOrCreate?: OrderProductCreateOrConnectWithoutSkuInput | OrderProductCreateOrConnectWithoutSkuInput[]
+    upsert?: OrderProductUpsertWithWhereUniqueWithoutSkuInput | OrderProductUpsertWithWhereUniqueWithoutSkuInput[]
+    createMany?: OrderProductCreateManySkuInputEnvelope
+    set?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    disconnect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    delete?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    connect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    update?: OrderProductUpdateWithWhereUniqueWithoutSkuInput | OrderProductUpdateWithWhereUniqueWithoutSkuInput[]
+    updateMany?: OrderProductUpdateManyWithWhereWithoutSkuInput | OrderProductUpdateManyWithWhereWithoutSkuInput[]
+    deleteMany?: OrderProductScalarWhereInput | OrderProductScalarWhereInput[]
+  }
+
+  export type StoreProductUpdateManyWithoutSkusNestedInput = {
+    create?: XOR<StoreProductCreateWithoutSkusInput, StoreProductUncheckedCreateWithoutSkusInput> | StoreProductCreateWithoutSkusInput[] | StoreProductUncheckedCreateWithoutSkusInput[]
+    connectOrCreate?: StoreProductCreateOrConnectWithoutSkusInput | StoreProductCreateOrConnectWithoutSkusInput[]
+    upsert?: StoreProductUpsertWithWhereUniqueWithoutSkusInput | StoreProductUpsertWithWhereUniqueWithoutSkusInput[]
+    createMany?: StoreProductCreateManySkusInputEnvelope
+    set?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
+    disconnect?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
+    delete?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
+    connect?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
+    update?: StoreProductUpdateWithWhereUniqueWithoutSkusInput | StoreProductUpdateWithWhereUniqueWithoutSkusInput[]
+    updateMany?: StoreProductUpdateManyWithWhereWithoutSkusInput | StoreProductUpdateManyWithWhereWithoutSkusInput[]
+    deleteMany?: StoreProductScalarWhereInput | StoreProductScalarWhereInput[]
+  }
+
   export type SkuImageUncheckedUpdateManyWithoutSkuNestedInput = {
     create?: XOR<SkuImageCreateWithoutSkuInput, SkuImageUncheckedCreateWithoutSkuInput> | SkuImageCreateWithoutSkuInput[] | SkuImageUncheckedCreateWithoutSkuInput[]
     connectOrCreate?: SkuImageCreateOrConnectWithoutSkuInput | SkuImageCreateOrConnectWithoutSkuInput[]
@@ -46798,6 +47012,34 @@ export namespace Prisma {
     update?: SkuVariationValueUpdateWithWhereUniqueWithoutSkuInput | SkuVariationValueUpdateWithWhereUniqueWithoutSkuInput[]
     updateMany?: SkuVariationValueUpdateManyWithWhereWithoutSkuInput | SkuVariationValueUpdateManyWithWhereWithoutSkuInput[]
     deleteMany?: SkuVariationValueScalarWhereInput | SkuVariationValueScalarWhereInput[]
+  }
+
+  export type OrderProductUncheckedUpdateManyWithoutSkuNestedInput = {
+    create?: XOR<OrderProductCreateWithoutSkuInput, OrderProductUncheckedCreateWithoutSkuInput> | OrderProductCreateWithoutSkuInput[] | OrderProductUncheckedCreateWithoutSkuInput[]
+    connectOrCreate?: OrderProductCreateOrConnectWithoutSkuInput | OrderProductCreateOrConnectWithoutSkuInput[]
+    upsert?: OrderProductUpsertWithWhereUniqueWithoutSkuInput | OrderProductUpsertWithWhereUniqueWithoutSkuInput[]
+    createMany?: OrderProductCreateManySkuInputEnvelope
+    set?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    disconnect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    delete?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    connect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    update?: OrderProductUpdateWithWhereUniqueWithoutSkuInput | OrderProductUpdateWithWhereUniqueWithoutSkuInput[]
+    updateMany?: OrderProductUpdateManyWithWhereWithoutSkuInput | OrderProductUpdateManyWithWhereWithoutSkuInput[]
+    deleteMany?: OrderProductScalarWhereInput | OrderProductScalarWhereInput[]
+  }
+
+  export type StoreProductUncheckedUpdateManyWithoutSkusNestedInput = {
+    create?: XOR<StoreProductCreateWithoutSkusInput, StoreProductUncheckedCreateWithoutSkusInput> | StoreProductCreateWithoutSkusInput[] | StoreProductUncheckedCreateWithoutSkusInput[]
+    connectOrCreate?: StoreProductCreateOrConnectWithoutSkusInput | StoreProductCreateOrConnectWithoutSkusInput[]
+    upsert?: StoreProductUpsertWithWhereUniqueWithoutSkusInput | StoreProductUpsertWithWhereUniqueWithoutSkusInput[]
+    createMany?: StoreProductCreateManySkusInputEnvelope
+    set?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
+    disconnect?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
+    delete?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
+    connect?: StoreProductWhereUniqueInput | StoreProductWhereUniqueInput[]
+    update?: StoreProductUpdateWithWhereUniqueWithoutSkusInput | StoreProductUpdateWithWhereUniqueWithoutSkusInput[]
+    updateMany?: StoreProductUpdateManyWithWhereWithoutSkusInput | StoreProductUpdateManyWithWhereWithoutSkusInput[]
+    deleteMany?: StoreProductScalarWhereInput | StoreProductScalarWhereInput[]
   }
 
   export type SpuCreateNestedOneWithoutSpuImagesInput = {
@@ -47493,12 +47735,14 @@ export namespace Prisma {
   export type RolePermissionCreateNestedManyWithoutPermissionInput = {
     create?: XOR<RolePermissionCreateWithoutPermissionInput, RolePermissionUncheckedCreateWithoutPermissionInput> | RolePermissionCreateWithoutPermissionInput[] | RolePermissionUncheckedCreateWithoutPermissionInput[]
     connectOrCreate?: RolePermissionCreateOrConnectWithoutPermissionInput | RolePermissionCreateOrConnectWithoutPermissionInput[]
+    createMany?: RolePermissionCreateManyPermissionInputEnvelope
     connect?: RolePermissionWhereUniqueInput | RolePermissionWhereUniqueInput[]
   }
 
   export type RolePermissionUncheckedCreateNestedManyWithoutPermissionInput = {
     create?: XOR<RolePermissionCreateWithoutPermissionInput, RolePermissionUncheckedCreateWithoutPermissionInput> | RolePermissionCreateWithoutPermissionInput[] | RolePermissionUncheckedCreateWithoutPermissionInput[]
     connectOrCreate?: RolePermissionCreateOrConnectWithoutPermissionInput | RolePermissionCreateOrConnectWithoutPermissionInput[]
+    createMany?: RolePermissionCreateManyPermissionInputEnvelope
     connect?: RolePermissionWhereUniqueInput | RolePermissionWhereUniqueInput[]
   }
 
@@ -47506,6 +47750,7 @@ export namespace Prisma {
     create?: XOR<RolePermissionCreateWithoutPermissionInput, RolePermissionUncheckedCreateWithoutPermissionInput> | RolePermissionCreateWithoutPermissionInput[] | RolePermissionUncheckedCreateWithoutPermissionInput[]
     connectOrCreate?: RolePermissionCreateOrConnectWithoutPermissionInput | RolePermissionCreateOrConnectWithoutPermissionInput[]
     upsert?: RolePermissionUpsertWithWhereUniqueWithoutPermissionInput | RolePermissionUpsertWithWhereUniqueWithoutPermissionInput[]
+    createMany?: RolePermissionCreateManyPermissionInputEnvelope
     set?: RolePermissionWhereUniqueInput | RolePermissionWhereUniqueInput[]
     disconnect?: RolePermissionWhereUniqueInput | RolePermissionWhereUniqueInput[]
     delete?: RolePermissionWhereUniqueInput | RolePermissionWhereUniqueInput[]
@@ -47519,6 +47764,7 @@ export namespace Prisma {
     create?: XOR<RolePermissionCreateWithoutPermissionInput, RolePermissionUncheckedCreateWithoutPermissionInput> | RolePermissionCreateWithoutPermissionInput[] | RolePermissionUncheckedCreateWithoutPermissionInput[]
     connectOrCreate?: RolePermissionCreateOrConnectWithoutPermissionInput | RolePermissionCreateOrConnectWithoutPermissionInput[]
     upsert?: RolePermissionUpsertWithWhereUniqueWithoutPermissionInput | RolePermissionUpsertWithWhereUniqueWithoutPermissionInput[]
+    createMany?: RolePermissionCreateManyPermissionInputEnvelope
     set?: RolePermissionWhereUniqueInput | RolePermissionWhereUniqueInput[]
     disconnect?: RolePermissionWhereUniqueInput | RolePermissionWhereUniqueInput[]
     delete?: RolePermissionWhereUniqueInput | RolePermissionWhereUniqueInput[]
@@ -47534,16 +47780,10 @@ export namespace Prisma {
     connect?: RoleWhereUniqueInput
   }
 
-  export type PermissionCreateNestedManyWithoutRolePermissionsInput = {
-    create?: XOR<PermissionCreateWithoutRolePermissionsInput, PermissionUncheckedCreateWithoutRolePermissionsInput> | PermissionCreateWithoutRolePermissionsInput[] | PermissionUncheckedCreateWithoutRolePermissionsInput[]
-    connectOrCreate?: PermissionCreateOrConnectWithoutRolePermissionsInput | PermissionCreateOrConnectWithoutRolePermissionsInput[]
-    connect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
-  }
-
-  export type PermissionUncheckedCreateNestedManyWithoutRolePermissionsInput = {
-    create?: XOR<PermissionCreateWithoutRolePermissionsInput, PermissionUncheckedCreateWithoutRolePermissionsInput> | PermissionCreateWithoutRolePermissionsInput[] | PermissionUncheckedCreateWithoutRolePermissionsInput[]
-    connectOrCreate?: PermissionCreateOrConnectWithoutRolePermissionsInput | PermissionCreateOrConnectWithoutRolePermissionsInput[]
-    connect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
+  export type PermissionCreateNestedOneWithoutRolePermissionsInput = {
+    create?: XOR<PermissionCreateWithoutRolePermissionsInput, PermissionUncheckedCreateWithoutRolePermissionsInput>
+    connectOrCreate?: PermissionCreateOrConnectWithoutRolePermissionsInput
+    connect?: PermissionWhereUniqueInput
   }
 
   export type RoleUpdateOneRequiredWithoutRolePermissionsNestedInput = {
@@ -47554,30 +47794,12 @@ export namespace Prisma {
     update?: XOR<XOR<RoleUpdateToOneWithWhereWithoutRolePermissionsInput, RoleUpdateWithoutRolePermissionsInput>, RoleUncheckedUpdateWithoutRolePermissionsInput>
   }
 
-  export type PermissionUpdateManyWithoutRolePermissionsNestedInput = {
-    create?: XOR<PermissionCreateWithoutRolePermissionsInput, PermissionUncheckedCreateWithoutRolePermissionsInput> | PermissionCreateWithoutRolePermissionsInput[] | PermissionUncheckedCreateWithoutRolePermissionsInput[]
-    connectOrCreate?: PermissionCreateOrConnectWithoutRolePermissionsInput | PermissionCreateOrConnectWithoutRolePermissionsInput[]
-    upsert?: PermissionUpsertWithWhereUniqueWithoutRolePermissionsInput | PermissionUpsertWithWhereUniqueWithoutRolePermissionsInput[]
-    set?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
-    disconnect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
-    delete?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
-    connect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
-    update?: PermissionUpdateWithWhereUniqueWithoutRolePermissionsInput | PermissionUpdateWithWhereUniqueWithoutRolePermissionsInput[]
-    updateMany?: PermissionUpdateManyWithWhereWithoutRolePermissionsInput | PermissionUpdateManyWithWhereWithoutRolePermissionsInput[]
-    deleteMany?: PermissionScalarWhereInput | PermissionScalarWhereInput[]
-  }
-
-  export type PermissionUncheckedUpdateManyWithoutRolePermissionsNestedInput = {
-    create?: XOR<PermissionCreateWithoutRolePermissionsInput, PermissionUncheckedCreateWithoutRolePermissionsInput> | PermissionCreateWithoutRolePermissionsInput[] | PermissionUncheckedCreateWithoutRolePermissionsInput[]
-    connectOrCreate?: PermissionCreateOrConnectWithoutRolePermissionsInput | PermissionCreateOrConnectWithoutRolePermissionsInput[]
-    upsert?: PermissionUpsertWithWhereUniqueWithoutRolePermissionsInput | PermissionUpsertWithWhereUniqueWithoutRolePermissionsInput[]
-    set?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
-    disconnect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
-    delete?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
-    connect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
-    update?: PermissionUpdateWithWhereUniqueWithoutRolePermissionsInput | PermissionUpdateWithWhereUniqueWithoutRolePermissionsInput[]
-    updateMany?: PermissionUpdateManyWithWhereWithoutRolePermissionsInput | PermissionUpdateManyWithWhereWithoutRolePermissionsInput[]
-    deleteMany?: PermissionScalarWhereInput | PermissionScalarWhereInput[]
+  export type PermissionUpdateOneRequiredWithoutRolePermissionsNestedInput = {
+    create?: XOR<PermissionCreateWithoutRolePermissionsInput, PermissionUncheckedCreateWithoutRolePermissionsInput>
+    connectOrCreate?: PermissionCreateOrConnectWithoutRolePermissionsInput
+    upsert?: PermissionUpsertWithoutRolePermissionsInput
+    connect?: PermissionWhereUniqueInput
+    update?: XOR<XOR<PermissionUpdateToOneWithWhereWithoutRolePermissionsInput, PermissionUpdateWithoutRolePermissionsInput>, PermissionUncheckedUpdateWithoutRolePermissionsInput>
   }
 
   export type UserCreateNestedOneWithoutRolesInput = {
@@ -47621,11 +47843,25 @@ export namespace Prisma {
     connect?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
   }
 
+  export type OrderProductCreateNestedManyWithoutShopInput = {
+    create?: XOR<OrderProductCreateWithoutShopInput, OrderProductUncheckedCreateWithoutShopInput> | OrderProductCreateWithoutShopInput[] | OrderProductUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: OrderProductCreateOrConnectWithoutShopInput | OrderProductCreateOrConnectWithoutShopInput[]
+    createMany?: OrderProductCreateManyShopInputEnvelope
+    connect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+  }
+
   export type SpuUncheckedCreateNestedManyWithoutShopInput = {
     create?: XOR<SpuCreateWithoutShopInput, SpuUncheckedCreateWithoutShopInput> | SpuCreateWithoutShopInput[] | SpuUncheckedCreateWithoutShopInput[]
     connectOrCreate?: SpuCreateOrConnectWithoutShopInput | SpuCreateOrConnectWithoutShopInput[]
     createMany?: SpuCreateManyShopInputEnvelope
     connect?: SpuWhereUniqueInput | SpuWhereUniqueInput[]
+  }
+
+  export type OrderProductUncheckedCreateNestedManyWithoutShopInput = {
+    create?: XOR<OrderProductCreateWithoutShopInput, OrderProductUncheckedCreateWithoutShopInput> | OrderProductCreateWithoutShopInput[] | OrderProductUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: OrderProductCreateOrConnectWithoutShopInput | OrderProductCreateOrConnectWithoutShopInput[]
+    createMany?: OrderProductCreateManyShopInputEnvelope
+    connect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
   }
 
   export type EnumShopStatusFieldUpdateOperationsInput = {
@@ -47654,6 +47890,20 @@ export namespace Prisma {
     deleteMany?: SpuScalarWhereInput | SpuScalarWhereInput[]
   }
 
+  export type OrderProductUpdateManyWithoutShopNestedInput = {
+    create?: XOR<OrderProductCreateWithoutShopInput, OrderProductUncheckedCreateWithoutShopInput> | OrderProductCreateWithoutShopInput[] | OrderProductUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: OrderProductCreateOrConnectWithoutShopInput | OrderProductCreateOrConnectWithoutShopInput[]
+    upsert?: OrderProductUpsertWithWhereUniqueWithoutShopInput | OrderProductUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: OrderProductCreateManyShopInputEnvelope
+    set?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    disconnect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    delete?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    connect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    update?: OrderProductUpdateWithWhereUniqueWithoutShopInput | OrderProductUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: OrderProductUpdateManyWithWhereWithoutShopInput | OrderProductUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: OrderProductScalarWhereInput | OrderProductScalarWhereInput[]
+  }
+
   export type SpuUncheckedUpdateManyWithoutShopNestedInput = {
     create?: XOR<SpuCreateWithoutShopInput, SpuUncheckedCreateWithoutShopInput> | SpuCreateWithoutShopInput[] | SpuUncheckedCreateWithoutShopInput[]
     connectOrCreate?: SpuCreateOrConnectWithoutShopInput | SpuCreateOrConnectWithoutShopInput[]
@@ -47666,6 +47916,20 @@ export namespace Prisma {
     update?: SpuUpdateWithWhereUniqueWithoutShopInput | SpuUpdateWithWhereUniqueWithoutShopInput[]
     updateMany?: SpuUpdateManyWithWhereWithoutShopInput | SpuUpdateManyWithWhereWithoutShopInput[]
     deleteMany?: SpuScalarWhereInput | SpuScalarWhereInput[]
+  }
+
+  export type OrderProductUncheckedUpdateManyWithoutShopNestedInput = {
+    create?: XOR<OrderProductCreateWithoutShopInput, OrderProductUncheckedCreateWithoutShopInput> | OrderProductCreateWithoutShopInput[] | OrderProductUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: OrderProductCreateOrConnectWithoutShopInput | OrderProductCreateOrConnectWithoutShopInput[]
+    upsert?: OrderProductUpsertWithWhereUniqueWithoutShopInput | OrderProductUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: OrderProductCreateManyShopInputEnvelope
+    set?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    disconnect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    delete?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    connect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
+    update?: OrderProductUpdateWithWhereUniqueWithoutShopInput | OrderProductUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: OrderProductUpdateManyWithWhereWithoutShopInput | OrderProductUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: OrderProductScalarWhereInput | OrderProductScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutCartInput = {
@@ -47730,10 +47994,10 @@ export namespace Prisma {
     connect?: CartWhereUniqueInput
   }
 
-  export type SpuCreateNestedOneWithoutStoresInput = {
-    create?: XOR<SpuCreateWithoutStoresInput, SpuUncheckedCreateWithoutStoresInput>
-    connectOrCreate?: SpuCreateOrConnectWithoutStoresInput
-    connect?: SpuWhereUniqueInput
+  export type SkuCreateNestedOneWithoutStoresInput = {
+    create?: XOR<SkuCreateWithoutStoresInput, SkuUncheckedCreateWithoutStoresInput>
+    connectOrCreate?: SkuCreateOrConnectWithoutStoresInput
+    connect?: SkuWhereUniqueInput
   }
 
   export type CartUpdateOneRequiredWithoutStoreProductsNestedInput = {
@@ -47744,12 +48008,12 @@ export namespace Prisma {
     update?: XOR<XOR<CartUpdateToOneWithWhereWithoutStoreProductsInput, CartUpdateWithoutStoreProductsInput>, CartUncheckedUpdateWithoutStoreProductsInput>
   }
 
-  export type SpuUpdateOneRequiredWithoutStoresNestedInput = {
-    create?: XOR<SpuCreateWithoutStoresInput, SpuUncheckedCreateWithoutStoresInput>
-    connectOrCreate?: SpuCreateOrConnectWithoutStoresInput
-    upsert?: SpuUpsertWithoutStoresInput
-    connect?: SpuWhereUniqueInput
-    update?: XOR<XOR<SpuUpdateToOneWithWhereWithoutStoresInput, SpuUpdateWithoutStoresInput>, SpuUncheckedUpdateWithoutStoresInput>
+  export type SkuUpdateOneRequiredWithoutStoresNestedInput = {
+    create?: XOR<SkuCreateWithoutStoresInput, SkuUncheckedCreateWithoutStoresInput>
+    connectOrCreate?: SkuCreateOrConnectWithoutStoresInput
+    upsert?: SkuUpsertWithoutStoresInput
+    connect?: SkuWhereUniqueInput
+    update?: XOR<XOR<SkuUpdateToOneWithWhereWithoutStoresInput, SkuUpdateWithoutStoresInput>, SkuUncheckedUpdateWithoutStoresInput>
   }
 
   export type UserCreateflagsInput = {
@@ -48277,10 +48541,10 @@ export namespace Prisma {
     deleteMany?: OrderProductScalarWhereInput | OrderProductScalarWhereInput[]
   }
 
-  export type SpuCreateNestedOneWithoutProductOrderInput = {
-    create?: XOR<SpuCreateWithoutProductOrderInput, SpuUncheckedCreateWithoutProductOrderInput>
-    connectOrCreate?: SpuCreateOrConnectWithoutProductOrderInput
-    connect?: SpuWhereUniqueInput
+  export type SkuCreateNestedOneWithoutProductOrderInput = {
+    create?: XOR<SkuCreateWithoutProductOrderInput, SkuUncheckedCreateWithoutProductOrderInput>
+    connectOrCreate?: SkuCreateOrConnectWithoutProductOrderInput
+    connect?: SkuWhereUniqueInput
   }
 
   export type OrderCreateNestedOneWithoutOrderProductInput = {
@@ -48289,12 +48553,18 @@ export namespace Prisma {
     connect?: OrderWhereUniqueInput
   }
 
-  export type SpuUpdateOneRequiredWithoutProductOrderNestedInput = {
-    create?: XOR<SpuCreateWithoutProductOrderInput, SpuUncheckedCreateWithoutProductOrderInput>
-    connectOrCreate?: SpuCreateOrConnectWithoutProductOrderInput
-    upsert?: SpuUpsertWithoutProductOrderInput
-    connect?: SpuWhereUniqueInput
-    update?: XOR<XOR<SpuUpdateToOneWithWhereWithoutProductOrderInput, SpuUpdateWithoutProductOrderInput>, SpuUncheckedUpdateWithoutProductOrderInput>
+  export type ShopCreateNestedOneWithoutOrderProductsInput = {
+    create?: XOR<ShopCreateWithoutOrderProductsInput, ShopUncheckedCreateWithoutOrderProductsInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutOrderProductsInput
+    connect?: ShopWhereUniqueInput
+  }
+
+  export type SkuUpdateOneRequiredWithoutProductOrderNestedInput = {
+    create?: XOR<SkuCreateWithoutProductOrderInput, SkuUncheckedCreateWithoutProductOrderInput>
+    connectOrCreate?: SkuCreateOrConnectWithoutProductOrderInput
+    upsert?: SkuUpsertWithoutProductOrderInput
+    connect?: SkuWhereUniqueInput
+    update?: XOR<XOR<SkuUpdateToOneWithWhereWithoutProductOrderInput, SkuUpdateWithoutProductOrderInput>, SkuUncheckedUpdateWithoutProductOrderInput>
   }
 
   export type OrderUpdateOneRequiredWithoutOrderProductNestedInput = {
@@ -48303,6 +48573,14 @@ export namespace Prisma {
     upsert?: OrderUpsertWithoutOrderProductInput
     connect?: OrderWhereUniqueInput
     update?: XOR<XOR<OrderUpdateToOneWithWhereWithoutOrderProductInput, OrderUpdateWithoutOrderProductInput>, OrderUncheckedUpdateWithoutOrderProductInput>
+  }
+
+  export type ShopUpdateOneRequiredWithoutOrderProductsNestedInput = {
+    create?: XOR<ShopCreateWithoutOrderProductsInput, ShopUncheckedCreateWithoutOrderProductsInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutOrderProductsInput
+    upsert?: ShopUpsertWithoutOrderProductsInput
+    connect?: ShopWhereUniqueInput
+    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutOrderProductsInput, ShopUpdateWithoutOrderProductsInput>, ShopUncheckedUpdateWithoutOrderProductsInput>
   }
 
   export type VoucherCreateNestedOneWithoutVoucherUsedInput = {
@@ -49224,8 +49502,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationCreateNestedManyWithoutSpuInput
-    stores?: StoreProductCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductCreateNestedManyWithoutSpuInput
   }
 
   export type SpuUncheckedCreateWithoutCategoryInput = {
@@ -49246,8 +49522,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUncheckedCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagUncheckedCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationUncheckedCreateNestedManyWithoutSpuInput
-    stores?: StoreProductUncheckedCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSpuInput
   }
 
   export type SpuCreateOrConnectWithoutCategoryInput = {
@@ -49384,8 +49658,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationCreateNestedManyWithoutSpuInput
-    stores?: StoreProductCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductCreateNestedManyWithoutSpuInput
   }
 
   export type SpuUncheckedCreateWithoutBrandInput = {
@@ -49406,8 +49678,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUncheckedCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagUncheckedCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationUncheckedCreateNestedManyWithoutSpuInput
-    stores?: StoreProductUncheckedCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSpuInput
   }
 
   export type SpuCreateOrConnectWithoutBrandInput = {
@@ -49517,7 +49787,9 @@ export namespace Prisma {
     timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
+    quantityProduct?: bigint | number
     owner: UserCreateNestedOneWithoutShopsInput
+    orderProducts?: OrderProductCreateNestedManyWithoutShopInput
   }
 
   export type ShopUncheckedCreateWithoutSpusInput = {
@@ -49539,7 +49811,9 @@ export namespace Prisma {
     timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
+    quantityProduct?: bigint | number
     ownerId: string
+    orderProducts?: OrderProductUncheckedCreateNestedManyWithoutShopInput
   }
 
   export type ShopCreateOrConnectWithoutSpusInput = {
@@ -49559,6 +49833,7 @@ export namespace Prisma {
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
     timeAccess?: bigint | number
+    quantity?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -49566,6 +49841,8 @@ export namespace Prisma {
     skuImages?: SkuImageCreateNestedManyWithoutSkuInput
     skuAttributes?: SkuAttributeCreateNestedManyWithoutSkuInput
     skuVariationValues?: SkuVariationValueCreateNestedManyWithoutSkuInput
+    productOrder?: OrderProductCreateNestedManyWithoutSkuInput
+    stores?: StoreProductCreateNestedManyWithoutSkusInput
   }
 
   export type SkuUncheckedCreateWithoutSpuInput = {
@@ -49580,6 +49857,7 @@ export namespace Prisma {
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
     timeAccess?: bigint | number
+    quantity?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -49587,6 +49865,8 @@ export namespace Prisma {
     skuImages?: SkuImageUncheckedCreateNestedManyWithoutSkuInput
     skuAttributes?: SkuAttributeUncheckedCreateNestedManyWithoutSkuInput
     skuVariationValues?: SkuVariationValueUncheckedCreateNestedManyWithoutSkuInput
+    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSkuInput
+    stores?: StoreProductUncheckedCreateNestedManyWithoutSkusInput
   }
 
   export type SkuCreateOrConnectWithoutSpuInput = {
@@ -49701,48 +49981,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type StoreProductCreateWithoutSpuInput = {
-    id?: string
-    cart: CartCreateNestedOneWithoutStoreProductsInput
-  }
-
-  export type StoreProductUncheckedCreateWithoutSpuInput = {
-    id?: string
-    cartId: string
-  }
-
-  export type StoreProductCreateOrConnectWithoutSpuInput = {
-    where: StoreProductWhereUniqueInput
-    create: XOR<StoreProductCreateWithoutSpuInput, StoreProductUncheckedCreateWithoutSpuInput>
-  }
-
-  export type StoreProductCreateManySpuInputEnvelope = {
-    data: StoreProductCreateManySpuInput | StoreProductCreateManySpuInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type OrderProductCreateWithoutSpuInput = {
-    id?: string
-    createdAt?: Date | string
-    order: OrderCreateNestedOneWithoutOrderProductInput
-  }
-
-  export type OrderProductUncheckedCreateWithoutSpuInput = {
-    id?: string
-    createdAt?: Date | string
-    orderId: string
-  }
-
-  export type OrderProductCreateOrConnectWithoutSpuInput = {
-    where: OrderProductWhereUniqueInput
-    create: XOR<OrderProductCreateWithoutSpuInput, OrderProductUncheckedCreateWithoutSpuInput>
-  }
-
-  export type OrderProductCreateManySpuInputEnvelope = {
-    data: OrderProductCreateManySpuInput | OrderProductCreateManySpuInput[]
-    skipDuplicates?: boolean
-  }
-
   export type CategoryUpsertWithoutSpusInput = {
     update: XOR<CategoryUpdateWithoutSpusInput, CategoryUncheckedUpdateWithoutSpusInput>
     create: XOR<CategoryCreateWithoutSpusInput, CategoryUncheckedCreateWithoutSpusInput>
@@ -49847,7 +50085,9 @@ export namespace Prisma {
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quantityProduct?: BigIntFieldUpdateOperationsInput | bigint | number
     owner?: UserUpdateOneRequiredWithoutShopsNestedInput
+    orderProducts?: OrderProductUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateWithoutSpusInput = {
@@ -49869,7 +50109,9 @@ export namespace Prisma {
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quantityProduct?: BigIntFieldUpdateOperationsInput | bigint | number
     ownerId?: StringFieldUpdateOperationsInput | string
+    orderProducts?: OrderProductUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type SkuUpsertWithWhereUniqueWithoutSpuInput = {
@@ -49903,6 +50145,7 @@ export namespace Prisma {
     width?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     height?: DecimalNullableFilter<"Sku"> | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFilter<"Sku"> | bigint | number
+    quantity?: BigIntFilter<"Sku"> | bigint | number
     status?: EnumSkuStatusFilter<"Sku"> | $Enums.SkuStatus
     isActive?: BoolFilter<"Sku"> | boolean
     createdAt?: DateTimeFilter<"Sku"> | Date | string
@@ -50020,57 +50263,6 @@ export namespace Prisma {
     attributeId?: UuidFilter<"SpuVariation"> | string
   }
 
-  export type StoreProductUpsertWithWhereUniqueWithoutSpuInput = {
-    where: StoreProductWhereUniqueInput
-    update: XOR<StoreProductUpdateWithoutSpuInput, StoreProductUncheckedUpdateWithoutSpuInput>
-    create: XOR<StoreProductCreateWithoutSpuInput, StoreProductUncheckedCreateWithoutSpuInput>
-  }
-
-  export type StoreProductUpdateWithWhereUniqueWithoutSpuInput = {
-    where: StoreProductWhereUniqueInput
-    data: XOR<StoreProductUpdateWithoutSpuInput, StoreProductUncheckedUpdateWithoutSpuInput>
-  }
-
-  export type StoreProductUpdateManyWithWhereWithoutSpuInput = {
-    where: StoreProductScalarWhereInput
-    data: XOR<StoreProductUpdateManyMutationInput, StoreProductUncheckedUpdateManyWithoutSpuInput>
-  }
-
-  export type StoreProductScalarWhereInput = {
-    AND?: StoreProductScalarWhereInput | StoreProductScalarWhereInput[]
-    OR?: StoreProductScalarWhereInput[]
-    NOT?: StoreProductScalarWhereInput | StoreProductScalarWhereInput[]
-    id?: UuidFilter<"StoreProduct"> | string
-    cartId?: UuidFilter<"StoreProduct"> | string
-    productId?: UuidFilter<"StoreProduct"> | string
-  }
-
-  export type OrderProductUpsertWithWhereUniqueWithoutSpuInput = {
-    where: OrderProductWhereUniqueInput
-    update: XOR<OrderProductUpdateWithoutSpuInput, OrderProductUncheckedUpdateWithoutSpuInput>
-    create: XOR<OrderProductCreateWithoutSpuInput, OrderProductUncheckedCreateWithoutSpuInput>
-  }
-
-  export type OrderProductUpdateWithWhereUniqueWithoutSpuInput = {
-    where: OrderProductWhereUniqueInput
-    data: XOR<OrderProductUpdateWithoutSpuInput, OrderProductUncheckedUpdateWithoutSpuInput>
-  }
-
-  export type OrderProductUpdateManyWithWhereWithoutSpuInput = {
-    where: OrderProductScalarWhereInput
-    data: XOR<OrderProductUpdateManyMutationInput, OrderProductUncheckedUpdateManyWithoutSpuInput>
-  }
-
-  export type OrderProductScalarWhereInput = {
-    AND?: OrderProductScalarWhereInput | OrderProductScalarWhereInput[]
-    OR?: OrderProductScalarWhereInput[]
-    NOT?: OrderProductScalarWhereInput | OrderProductScalarWhereInput[]
-    id?: UuidFilter<"OrderProduct"> | string
-    createdAt?: DateTimeFilter<"OrderProduct"> | Date | string
-    productId?: UuidFilter<"OrderProduct"> | string
-    orderId?: UuidFilter<"OrderProduct"> | string
-  }
-
   export type SpuCreateWithoutSkusInput = {
     id?: string
     name: string
@@ -50089,8 +50281,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationCreateNestedManyWithoutSpuInput
-    stores?: StoreProductCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductCreateNestedManyWithoutSpuInput
   }
 
   export type SpuUncheckedCreateWithoutSkusInput = {
@@ -50111,8 +50301,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUncheckedCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagUncheckedCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationUncheckedCreateNestedManyWithoutSpuInput
-    stores?: StoreProductUncheckedCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSpuInput
   }
 
   export type SpuCreateOrConnectWithoutSkusInput = {
@@ -50196,6 +50384,50 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type OrderProductCreateWithoutSkuInput = {
+    id?: string
+    createdAt?: Date | string
+    order: OrderCreateNestedOneWithoutOrderProductInput
+    shop: ShopCreateNestedOneWithoutOrderProductsInput
+  }
+
+  export type OrderProductUncheckedCreateWithoutSkuInput = {
+    id?: string
+    createdAt?: Date | string
+    orderId: string
+    shopId: string
+  }
+
+  export type OrderProductCreateOrConnectWithoutSkuInput = {
+    where: OrderProductWhereUniqueInput
+    create: XOR<OrderProductCreateWithoutSkuInput, OrderProductUncheckedCreateWithoutSkuInput>
+  }
+
+  export type OrderProductCreateManySkuInputEnvelope = {
+    data: OrderProductCreateManySkuInput | OrderProductCreateManySkuInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StoreProductCreateWithoutSkusInput = {
+    id?: string
+    cart: CartCreateNestedOneWithoutStoreProductsInput
+  }
+
+  export type StoreProductUncheckedCreateWithoutSkusInput = {
+    id?: string
+    cartId: string
+  }
+
+  export type StoreProductCreateOrConnectWithoutSkusInput = {
+    where: StoreProductWhereUniqueInput
+    create: XOR<StoreProductCreateWithoutSkusInput, StoreProductUncheckedCreateWithoutSkusInput>
+  }
+
+  export type StoreProductCreateManySkusInputEnvelope = {
+    data: StoreProductCreateManySkusInput | StoreProductCreateManySkusInput[]
+    skipDuplicates?: boolean
+  }
+
   export type SpuUpsertWithoutSkusInput = {
     update: XOR<SpuUpdateWithoutSkusInput, SpuUncheckedUpdateWithoutSkusInput>
     create: XOR<SpuCreateWithoutSkusInput, SpuUncheckedCreateWithoutSkusInput>
@@ -50225,8 +50457,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUpdateManyWithoutSpuNestedInput
   }
 
   export type SpuUncheckedUpdateWithoutSkusInput = {
@@ -50247,8 +50477,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUncheckedUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUncheckedUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUncheckedUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUncheckedUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUncheckedUpdateManyWithoutSpuNestedInput
   }
 
   export type SkuImageUpsertWithWhereUniqueWithoutSkuInput = {
@@ -50334,6 +50562,58 @@ export namespace Prisma {
     attributeValueId?: UuidFilter<"SkuVariationValue"> | string
   }
 
+  export type OrderProductUpsertWithWhereUniqueWithoutSkuInput = {
+    where: OrderProductWhereUniqueInput
+    update: XOR<OrderProductUpdateWithoutSkuInput, OrderProductUncheckedUpdateWithoutSkuInput>
+    create: XOR<OrderProductCreateWithoutSkuInput, OrderProductUncheckedCreateWithoutSkuInput>
+  }
+
+  export type OrderProductUpdateWithWhereUniqueWithoutSkuInput = {
+    where: OrderProductWhereUniqueInput
+    data: XOR<OrderProductUpdateWithoutSkuInput, OrderProductUncheckedUpdateWithoutSkuInput>
+  }
+
+  export type OrderProductUpdateManyWithWhereWithoutSkuInput = {
+    where: OrderProductScalarWhereInput
+    data: XOR<OrderProductUpdateManyMutationInput, OrderProductUncheckedUpdateManyWithoutSkuInput>
+  }
+
+  export type OrderProductScalarWhereInput = {
+    AND?: OrderProductScalarWhereInput | OrderProductScalarWhereInput[]
+    OR?: OrderProductScalarWhereInput[]
+    NOT?: OrderProductScalarWhereInput | OrderProductScalarWhereInput[]
+    id?: UuidFilter<"OrderProduct"> | string
+    createdAt?: DateTimeFilter<"OrderProduct"> | Date | string
+    productId?: UuidFilter<"OrderProduct"> | string
+    orderId?: UuidFilter<"OrderProduct"> | string
+    shopId?: UuidFilter<"OrderProduct"> | string
+  }
+
+  export type StoreProductUpsertWithWhereUniqueWithoutSkusInput = {
+    where: StoreProductWhereUniqueInput
+    update: XOR<StoreProductUpdateWithoutSkusInput, StoreProductUncheckedUpdateWithoutSkusInput>
+    create: XOR<StoreProductCreateWithoutSkusInput, StoreProductUncheckedCreateWithoutSkusInput>
+  }
+
+  export type StoreProductUpdateWithWhereUniqueWithoutSkusInput = {
+    where: StoreProductWhereUniqueInput
+    data: XOR<StoreProductUpdateWithoutSkusInput, StoreProductUncheckedUpdateWithoutSkusInput>
+  }
+
+  export type StoreProductUpdateManyWithWhereWithoutSkusInput = {
+    where: StoreProductScalarWhereInput
+    data: XOR<StoreProductUpdateManyMutationInput, StoreProductUncheckedUpdateManyWithoutSkusInput>
+  }
+
+  export type StoreProductScalarWhereInput = {
+    AND?: StoreProductScalarWhereInput | StoreProductScalarWhereInput[]
+    OR?: StoreProductScalarWhereInput[]
+    NOT?: StoreProductScalarWhereInput | StoreProductScalarWhereInput[]
+    id?: UuidFilter<"StoreProduct"> | string
+    cartId?: UuidFilter<"StoreProduct"> | string
+    productId?: UuidFilter<"StoreProduct"> | string
+  }
+
   export type SpuCreateWithoutSpuImagesInput = {
     id?: string
     name: string
@@ -50352,8 +50632,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationCreateNestedManyWithoutSpuInput
-    stores?: StoreProductCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductCreateNestedManyWithoutSpuInput
   }
 
   export type SpuUncheckedCreateWithoutSpuImagesInput = {
@@ -50374,8 +50652,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUncheckedCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagUncheckedCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationUncheckedCreateNestedManyWithoutSpuInput
-    stores?: StoreProductUncheckedCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSpuInput
   }
 
   export type SpuCreateOrConnectWithoutSpuImagesInput = {
@@ -50412,8 +50688,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUpdateManyWithoutSpuNestedInput
   }
 
   export type SpuUncheckedUpdateWithoutSpuImagesInput = {
@@ -50434,8 +50708,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUncheckedUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUncheckedUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUncheckedUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUncheckedUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUncheckedUpdateManyWithoutSpuNestedInput
   }
 
   export type SkuCreateWithoutSkuImagesInput = {
@@ -50450,6 +50722,7 @@ export namespace Prisma {
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
     timeAccess?: bigint | number
+    quantity?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -50457,6 +50730,8 @@ export namespace Prisma {
     spu: SpuCreateNestedOneWithoutSkusInput
     skuAttributes?: SkuAttributeCreateNestedManyWithoutSkuInput
     skuVariationValues?: SkuVariationValueCreateNestedManyWithoutSkuInput
+    productOrder?: OrderProductCreateNestedManyWithoutSkuInput
+    stores?: StoreProductCreateNestedManyWithoutSkusInput
   }
 
   export type SkuUncheckedCreateWithoutSkuImagesInput = {
@@ -50471,6 +50746,7 @@ export namespace Prisma {
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
     timeAccess?: bigint | number
+    quantity?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -50478,6 +50754,8 @@ export namespace Prisma {
     spuId: string
     skuAttributes?: SkuAttributeUncheckedCreateNestedManyWithoutSkuInput
     skuVariationValues?: SkuVariationValueUncheckedCreateNestedManyWithoutSkuInput
+    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSkuInput
+    stores?: StoreProductUncheckedCreateNestedManyWithoutSkusInput
   }
 
   export type SkuCreateOrConnectWithoutSkuImagesInput = {
@@ -50508,6 +50786,7 @@ export namespace Prisma {
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50515,6 +50794,8 @@ export namespace Prisma {
     spu?: SpuUpdateOneRequiredWithoutSkusNestedInput
     skuAttributes?: SkuAttributeUpdateManyWithoutSkuNestedInput
     skuVariationValues?: SkuVariationValueUpdateManyWithoutSkuNestedInput
+    productOrder?: OrderProductUpdateManyWithoutSkuNestedInput
+    stores?: StoreProductUpdateManyWithoutSkusNestedInput
   }
 
   export type SkuUncheckedUpdateWithoutSkuImagesInput = {
@@ -50529,6 +50810,7 @@ export namespace Prisma {
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50536,6 +50818,8 @@ export namespace Prisma {
     spuId?: StringFieldUpdateOperationsInput | string
     skuAttributes?: SkuAttributeUncheckedUpdateManyWithoutSkuNestedInput
     skuVariationValues?: SkuVariationValueUncheckedUpdateManyWithoutSkuNestedInput
+    productOrder?: OrderProductUncheckedUpdateManyWithoutSkuNestedInput
+    stores?: StoreProductUncheckedUpdateManyWithoutSkusNestedInput
   }
 
   export type SpuAttributeCreateWithoutAttributeInput = {
@@ -50952,8 +51236,6 @@ export namespace Prisma {
     spuImages?: SpuImageCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationCreateNestedManyWithoutSpuInput
-    stores?: StoreProductCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductCreateNestedManyWithoutSpuInput
   }
 
   export type SpuUncheckedCreateWithoutSpuAttributesInput = {
@@ -50974,8 +51256,6 @@ export namespace Prisma {
     spuImages?: SpuImageUncheckedCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagUncheckedCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationUncheckedCreateNestedManyWithoutSpuInput
-    stores?: StoreProductUncheckedCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSpuInput
   }
 
   export type SpuCreateOrConnectWithoutSpuAttributesInput = {
@@ -51084,8 +51364,6 @@ export namespace Prisma {
     spuImages?: SpuImageUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUpdateManyWithoutSpuNestedInput
   }
 
   export type SpuUncheckedUpdateWithoutSpuAttributesInput = {
@@ -51106,8 +51384,6 @@ export namespace Prisma {
     spuImages?: SpuImageUncheckedUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUncheckedUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUncheckedUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUncheckedUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUncheckedUpdateManyWithoutSpuNestedInput
   }
 
   export type AttributeUpsertWithoutSpuAttributesInput = {
@@ -51206,6 +51482,7 @@ export namespace Prisma {
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
     timeAccess?: bigint | number
+    quantity?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -51213,6 +51490,8 @@ export namespace Prisma {
     spu: SpuCreateNestedOneWithoutSkusInput
     skuImages?: SkuImageCreateNestedManyWithoutSkuInput
     skuVariationValues?: SkuVariationValueCreateNestedManyWithoutSkuInput
+    productOrder?: OrderProductCreateNestedManyWithoutSkuInput
+    stores?: StoreProductCreateNestedManyWithoutSkusInput
   }
 
   export type SkuUncheckedCreateWithoutSkuAttributesInput = {
@@ -51227,6 +51506,7 @@ export namespace Prisma {
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
     timeAccess?: bigint | number
+    quantity?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -51234,6 +51514,8 @@ export namespace Prisma {
     spuId: string
     skuImages?: SkuImageUncheckedCreateNestedManyWithoutSkuInput
     skuVariationValues?: SkuVariationValueUncheckedCreateNestedManyWithoutSkuInput
+    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSkuInput
+    stores?: StoreProductUncheckedCreateNestedManyWithoutSkusInput
   }
 
   export type SkuCreateOrConnectWithoutSkuAttributesInput = {
@@ -51336,6 +51618,7 @@ export namespace Prisma {
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51343,6 +51626,8 @@ export namespace Prisma {
     spu?: SpuUpdateOneRequiredWithoutSkusNestedInput
     skuImages?: SkuImageUpdateManyWithoutSkuNestedInput
     skuVariationValues?: SkuVariationValueUpdateManyWithoutSkuNestedInput
+    productOrder?: OrderProductUpdateManyWithoutSkuNestedInput
+    stores?: StoreProductUpdateManyWithoutSkusNestedInput
   }
 
   export type SkuUncheckedUpdateWithoutSkuAttributesInput = {
@@ -51357,6 +51642,7 @@ export namespace Prisma {
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51364,6 +51650,8 @@ export namespace Prisma {
     spuId?: StringFieldUpdateOperationsInput | string
     skuImages?: SkuImageUncheckedUpdateManyWithoutSkuNestedInput
     skuVariationValues?: SkuVariationValueUncheckedUpdateManyWithoutSkuNestedInput
+    productOrder?: OrderProductUncheckedUpdateManyWithoutSkuNestedInput
+    stores?: StoreProductUncheckedUpdateManyWithoutSkusNestedInput
   }
 
   export type AttributeUpsertWithoutSkuAttributesInput = {
@@ -51468,8 +51756,6 @@ export namespace Prisma {
     spuImages?: SpuImageCreateNestedManyWithoutSpuInput
     spuAttributes?: SpuAttributeCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagCreateNestedManyWithoutSpuInput
-    stores?: StoreProductCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductCreateNestedManyWithoutSpuInput
   }
 
   export type SpuUncheckedCreateWithoutSpuVariationsInput = {
@@ -51490,8 +51776,6 @@ export namespace Prisma {
     spuImages?: SpuImageUncheckedCreateNestedManyWithoutSpuInput
     spuAttributes?: SpuAttributeUncheckedCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagUncheckedCreateNestedManyWithoutSpuInput
-    stores?: StoreProductUncheckedCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSpuInput
   }
 
   export type SpuCreateOrConnectWithoutSpuVariationsInput = {
@@ -51589,8 +51873,6 @@ export namespace Prisma {
     spuImages?: SpuImageUpdateManyWithoutSpuNestedInput
     spuAttributes?: SpuAttributeUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUpdateManyWithoutSpuNestedInput
   }
 
   export type SpuUncheckedUpdateWithoutSpuVariationsInput = {
@@ -51611,8 +51893,6 @@ export namespace Prisma {
     spuImages?: SpuImageUncheckedUpdateManyWithoutSpuNestedInput
     spuAttributes?: SpuAttributeUncheckedUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUncheckedUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUncheckedUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUncheckedUpdateManyWithoutSpuNestedInput
   }
 
   export type AttributeUpsertWithoutSpuVariationsInput = {
@@ -51686,6 +51966,7 @@ export namespace Prisma {
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
     timeAccess?: bigint | number
+    quantity?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -51693,6 +51974,8 @@ export namespace Prisma {
     spu: SpuCreateNestedOneWithoutSkusInput
     skuImages?: SkuImageCreateNestedManyWithoutSkuInput
     skuAttributes?: SkuAttributeCreateNestedManyWithoutSkuInput
+    productOrder?: OrderProductCreateNestedManyWithoutSkuInput
+    stores?: StoreProductCreateNestedManyWithoutSkusInput
   }
 
   export type SkuUncheckedCreateWithoutSkuVariationValuesInput = {
@@ -51707,6 +51990,7 @@ export namespace Prisma {
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
     timeAccess?: bigint | number
+    quantity?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -51714,6 +51998,8 @@ export namespace Prisma {
     spuId: string
     skuImages?: SkuImageUncheckedCreateNestedManyWithoutSkuInput
     skuAttributes?: SkuAttributeUncheckedCreateNestedManyWithoutSkuInput
+    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSkuInput
+    stores?: StoreProductUncheckedCreateNestedManyWithoutSkusInput
   }
 
   export type SkuCreateOrConnectWithoutSkuVariationValuesInput = {
@@ -51802,6 +52088,7 @@ export namespace Prisma {
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51809,6 +52096,8 @@ export namespace Prisma {
     spu?: SpuUpdateOneRequiredWithoutSkusNestedInput
     skuImages?: SkuImageUpdateManyWithoutSkuNestedInput
     skuAttributes?: SkuAttributeUpdateManyWithoutSkuNestedInput
+    productOrder?: OrderProductUpdateManyWithoutSkuNestedInput
+    stores?: StoreProductUpdateManyWithoutSkusNestedInput
   }
 
   export type SkuUncheckedUpdateWithoutSkuVariationValuesInput = {
@@ -51823,6 +52112,7 @@ export namespace Prisma {
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51830,6 +52120,8 @@ export namespace Prisma {
     spuId?: StringFieldUpdateOperationsInput | string
     skuImages?: SkuImageUncheckedUpdateManyWithoutSkuNestedInput
     skuAttributes?: SkuAttributeUncheckedUpdateManyWithoutSkuNestedInput
+    productOrder?: OrderProductUncheckedUpdateManyWithoutSkuNestedInput
+    stores?: StoreProductUncheckedUpdateManyWithoutSkusNestedInput
   }
 
   export type SpuVariationUpsertWithoutSkuVariationValuesInput = {
@@ -51958,8 +52250,6 @@ export namespace Prisma {
     spuImages?: SpuImageCreateNestedManyWithoutSpuInput
     spuAttributes?: SpuAttributeCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationCreateNestedManyWithoutSpuInput
-    stores?: StoreProductCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductCreateNestedManyWithoutSpuInput
   }
 
   export type SpuUncheckedCreateWithoutSpuTagsInput = {
@@ -51980,8 +52270,6 @@ export namespace Prisma {
     spuImages?: SpuImageUncheckedCreateNestedManyWithoutSpuInput
     spuAttributes?: SpuAttributeUncheckedCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationUncheckedCreateNestedManyWithoutSpuInput
-    stores?: StoreProductUncheckedCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSpuInput
   }
 
   export type SpuCreateOrConnectWithoutSpuTagsInput = {
@@ -52043,8 +52331,6 @@ export namespace Prisma {
     spuImages?: SpuImageUpdateManyWithoutSpuNestedInput
     spuAttributes?: SpuAttributeUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUpdateManyWithoutSpuNestedInput
   }
 
   export type SpuUncheckedUpdateWithoutSpuTagsInput = {
@@ -52065,8 +52351,6 @@ export namespace Prisma {
     spuImages?: SpuImageUncheckedUpdateManyWithoutSpuNestedInput
     spuAttributes?: SpuAttributeUncheckedUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUncheckedUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUncheckedUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUncheckedUpdateManyWithoutSpuNestedInput
   }
 
   export type TagUpsertWithoutSpuTagsInput = {
@@ -52103,13 +52387,13 @@ export namespace Prisma {
   export type RolePermissionCreateWithoutRoleInput = {
     id?: string
     createdAt?: Date | string
-    permission?: PermissionCreateNestedManyWithoutRolePermissionsInput
+    permission: PermissionCreateNestedOneWithoutRolePermissionsInput
   }
 
   export type RolePermissionUncheckedCreateWithoutRoleInput = {
     id?: string
+    permissionId: number
     createdAt?: Date | string
-    permission?: PermissionUncheckedCreateNestedManyWithoutRolePermissionsInput
   }
 
   export type RolePermissionCreateOrConnectWithoutRoleInput = {
@@ -52168,6 +52452,7 @@ export namespace Prisma {
     NOT?: RolePermissionScalarWhereInput | RolePermissionScalarWhereInput[]
     id?: UuidFilter<"RolePermission"> | string
     roleId?: UuidFilter<"RolePermission"> | string
+    permissionId?: IntFilter<"RolePermission"> | number
     createdAt?: DateTimeFilter<"RolePermission"> | Date | string
   }
 
@@ -52213,6 +52498,11 @@ export namespace Prisma {
   export type RolePermissionCreateOrConnectWithoutPermissionInput = {
     where: RolePermissionWhereUniqueInput
     create: XOR<RolePermissionCreateWithoutPermissionInput, RolePermissionUncheckedCreateWithoutPermissionInput>
+  }
+
+  export type RolePermissionCreateManyPermissionInputEnvelope = {
+    data: RolePermissionCreateManyPermissionInput | RolePermissionCreateManyPermissionInput[]
+    skipDuplicates?: boolean
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutPermissionInput = {
@@ -52297,30 +52587,28 @@ export namespace Prisma {
     userRoles?: UserRoleUncheckedUpdateManyWithoutRoleNestedInput
   }
 
-  export type PermissionUpsertWithWhereUniqueWithoutRolePermissionsInput = {
-    where: PermissionWhereUniqueInput
+  export type PermissionUpsertWithoutRolePermissionsInput = {
     update: XOR<PermissionUpdateWithoutRolePermissionsInput, PermissionUncheckedUpdateWithoutRolePermissionsInput>
     create: XOR<PermissionCreateWithoutRolePermissionsInput, PermissionUncheckedCreateWithoutRolePermissionsInput>
+    where?: PermissionWhereInput
   }
 
-  export type PermissionUpdateWithWhereUniqueWithoutRolePermissionsInput = {
-    where: PermissionWhereUniqueInput
+  export type PermissionUpdateToOneWithWhereWithoutRolePermissionsInput = {
+    where?: PermissionWhereInput
     data: XOR<PermissionUpdateWithoutRolePermissionsInput, PermissionUncheckedUpdateWithoutRolePermissionsInput>
   }
 
-  export type PermissionUpdateManyWithWhereWithoutRolePermissionsInput = {
-    where: PermissionScalarWhereInput
-    data: XOR<PermissionUpdateManyMutationInput, PermissionUncheckedUpdateManyWithoutRolePermissionsInput>
+  export type PermissionUpdateWithoutRolePermissionsInput = {
+    permissionName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type PermissionScalarWhereInput = {
-    AND?: PermissionScalarWhereInput | PermissionScalarWhereInput[]
-    OR?: PermissionScalarWhereInput[]
-    NOT?: PermissionScalarWhereInput | PermissionScalarWhereInput[]
-    id?: IntFilter<"Permission"> | number
-    permissionName?: StringFilter<"Permission"> | string
-    createdAt?: DateTimeFilter<"Permission"> | Date | string
-    updatedAt?: DateTimeFilter<"Permission"> | Date | string
+  export type PermissionUncheckedUpdateWithoutRolePermissionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    permissionName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateWithoutRolesInput = {
@@ -52602,8 +52890,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationCreateNestedManyWithoutSpuInput
-    stores?: StoreProductCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductCreateNestedManyWithoutSpuInput
   }
 
   export type SpuUncheckedCreateWithoutShopInput = {
@@ -52624,8 +52910,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUncheckedCreateNestedManyWithoutSpuInput
     spuTags?: SpuTagUncheckedCreateNestedManyWithoutSpuInput
     spuVariations?: SpuVariationUncheckedCreateNestedManyWithoutSpuInput
-    stores?: StoreProductUncheckedCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSpuInput
   }
 
   export type SpuCreateOrConnectWithoutShopInput = {
@@ -52635,6 +52919,30 @@ export namespace Prisma {
 
   export type SpuCreateManyShopInputEnvelope = {
     data: SpuCreateManyShopInput | SpuCreateManyShopInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OrderProductCreateWithoutShopInput = {
+    id?: string
+    createdAt?: Date | string
+    sku: SkuCreateNestedOneWithoutProductOrderInput
+    order: OrderCreateNestedOneWithoutOrderProductInput
+  }
+
+  export type OrderProductUncheckedCreateWithoutShopInput = {
+    id?: string
+    createdAt?: Date | string
+    productId: string
+    orderId: string
+  }
+
+  export type OrderProductCreateOrConnectWithoutShopInput = {
+    where: OrderProductWhereUniqueInput
+    create: XOR<OrderProductCreateWithoutShopInput, OrderProductUncheckedCreateWithoutShopInput>
+  }
+
+  export type OrderProductCreateManyShopInputEnvelope = {
+    data: OrderProductCreateManyShopInput | OrderProductCreateManyShopInput[]
     skipDuplicates?: boolean
   }
 
@@ -52729,6 +53037,22 @@ export namespace Prisma {
     data: XOR<SpuUpdateManyMutationInput, SpuUncheckedUpdateManyWithoutShopInput>
   }
 
+  export type OrderProductUpsertWithWhereUniqueWithoutShopInput = {
+    where: OrderProductWhereUniqueInput
+    update: XOR<OrderProductUpdateWithoutShopInput, OrderProductUncheckedUpdateWithoutShopInput>
+    create: XOR<OrderProductCreateWithoutShopInput, OrderProductUncheckedCreateWithoutShopInput>
+  }
+
+  export type OrderProductUpdateWithWhereUniqueWithoutShopInput = {
+    where: OrderProductWhereUniqueInput
+    data: XOR<OrderProductUpdateWithoutShopInput, OrderProductUncheckedUpdateWithoutShopInput>
+  }
+
+  export type OrderProductUpdateManyWithWhereWithoutShopInput = {
+    where: OrderProductScalarWhereInput
+    data: XOR<OrderProductUpdateManyMutationInput, OrderProductUncheckedUpdateManyWithoutShopInput>
+  }
+
   export type UserCreateWithoutCartInput = {
     id?: string
     fullname: string
@@ -52800,7 +53124,7 @@ export namespace Prisma {
 
   export type StoreProductCreateWithoutCartInput = {
     id?: string
-    spu: SpuCreateNestedOneWithoutStoresInput
+    skus: SkuCreateNestedOneWithoutStoresInput
   }
 
   export type StoreProductUncheckedCreateWithoutCartInput = {
@@ -52928,53 +53252,57 @@ export namespace Prisma {
     create: XOR<CartCreateWithoutStoreProductsInput, CartUncheckedCreateWithoutStoreProductsInput>
   }
 
-  export type SpuCreateWithoutStoresInput = {
+  export type SkuCreateWithoutStoresInput = {
     id?: string
+    skuCode: string
     name: string
-    slug: string
-    description?: string | null
-    shortDesc?: string | null
-    status?: $Enums.SpuStatus
+    originalPrice: Decimal | DecimalJsLike | number | string
+    salePrice?: Decimal | DecimalJsLike | number | string | null
+    stock?: number
+    weight?: Decimal | DecimalJsLike | number | string | null
+    length?: Decimal | DecimalJsLike | number | string | null
+    width?: Decimal | DecimalJsLike | number | string | null
+    height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
+    quantity?: bigint | number
+    status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    timeAccess?: bigint | number
-    category: CategoryCreateNestedOneWithoutSpusInput
-    brand: BrandCreateNestedOneWithoutSpusInput
-    shop: ShopCreateNestedOneWithoutSpusInput
-    skus?: SkuCreateNestedManyWithoutSpuInput
-    spuImages?: SpuImageCreateNestedManyWithoutSpuInput
-    spuAttributes?: SpuAttributeCreateNestedManyWithoutSpuInput
-    spuTags?: SpuTagCreateNestedManyWithoutSpuInput
-    spuVariations?: SpuVariationCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductCreateNestedManyWithoutSpuInput
+    spu: SpuCreateNestedOneWithoutSkusInput
+    skuImages?: SkuImageCreateNestedManyWithoutSkuInput
+    skuAttributes?: SkuAttributeCreateNestedManyWithoutSkuInput
+    skuVariationValues?: SkuVariationValueCreateNestedManyWithoutSkuInput
+    productOrder?: OrderProductCreateNestedManyWithoutSkuInput
   }
 
-  export type SpuUncheckedCreateWithoutStoresInput = {
+  export type SkuUncheckedCreateWithoutStoresInput = {
     id?: string
+    skuCode: string
     name: string
-    slug: string
-    description?: string | null
-    shortDesc?: string | null
-    status?: $Enums.SpuStatus
+    originalPrice: Decimal | DecimalJsLike | number | string
+    salePrice?: Decimal | DecimalJsLike | number | string | null
+    stock?: number
+    weight?: Decimal | DecimalJsLike | number | string | null
+    length?: Decimal | DecimalJsLike | number | string | null
+    width?: Decimal | DecimalJsLike | number | string | null
+    height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
+    quantity?: bigint | number
+    status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    timeAccess?: bigint | number
-    categoryId: string
-    brandId: string
-    shopId: string
-    skus?: SkuUncheckedCreateNestedManyWithoutSpuInput
-    spuImages?: SpuImageUncheckedCreateNestedManyWithoutSpuInput
-    spuAttributes?: SpuAttributeUncheckedCreateNestedManyWithoutSpuInput
-    spuTags?: SpuTagUncheckedCreateNestedManyWithoutSpuInput
-    spuVariations?: SpuVariationUncheckedCreateNestedManyWithoutSpuInput
-    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSpuInput
+    spuId: string
+    skuImages?: SkuImageUncheckedCreateNestedManyWithoutSkuInput
+    skuAttributes?: SkuAttributeUncheckedCreateNestedManyWithoutSkuInput
+    skuVariationValues?: SkuVariationValueUncheckedCreateNestedManyWithoutSkuInput
+    productOrder?: OrderProductUncheckedCreateNestedManyWithoutSkuInput
   }
 
-  export type SpuCreateOrConnectWithoutStoresInput = {
-    where: SpuWhereUniqueInput
-    create: XOR<SpuCreateWithoutStoresInput, SpuUncheckedCreateWithoutStoresInput>
+  export type SkuCreateOrConnectWithoutStoresInput = {
+    where: SkuWhereUniqueInput
+    create: XOR<SkuCreateWithoutStoresInput, SkuUncheckedCreateWithoutStoresInput>
   }
 
   export type CartUpsertWithoutStoreProductsInput = {
@@ -53002,59 +53330,63 @@ export namespace Prisma {
     ownId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type SpuUpsertWithoutStoresInput = {
-    update: XOR<SpuUpdateWithoutStoresInput, SpuUncheckedUpdateWithoutStoresInput>
-    create: XOR<SpuCreateWithoutStoresInput, SpuUncheckedCreateWithoutStoresInput>
-    where?: SpuWhereInput
+  export type SkuUpsertWithoutStoresInput = {
+    update: XOR<SkuUpdateWithoutStoresInput, SkuUncheckedUpdateWithoutStoresInput>
+    create: XOR<SkuCreateWithoutStoresInput, SkuUncheckedCreateWithoutStoresInput>
+    where?: SkuWhereInput
   }
 
-  export type SpuUpdateToOneWithWhereWithoutStoresInput = {
-    where?: SpuWhereInput
-    data: XOR<SpuUpdateWithoutStoresInput, SpuUncheckedUpdateWithoutStoresInput>
+  export type SkuUpdateToOneWithWhereWithoutStoresInput = {
+    where?: SkuWhereInput
+    data: XOR<SkuUpdateWithoutStoresInput, SkuUncheckedUpdateWithoutStoresInput>
   }
 
-  export type SpuUpdateWithoutStoresInput = {
+  export type SkuUpdateWithoutStoresInput = {
     id?: StringFieldUpdateOperationsInput | string
+    skuCode?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSpuStatusFieldUpdateOperationsInput | $Enums.SpuStatus
+    originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    stock?: IntFieldUpdateOperationsInput | number
+    weight?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
-    category?: CategoryUpdateOneRequiredWithoutSpusNestedInput
-    brand?: BrandUpdateOneRequiredWithoutSpusNestedInput
-    shop?: ShopUpdateOneRequiredWithoutSpusNestedInput
-    skus?: SkuUpdateManyWithoutSpuNestedInput
-    spuImages?: SpuImageUpdateManyWithoutSpuNestedInput
-    spuAttributes?: SpuAttributeUpdateManyWithoutSpuNestedInput
-    spuTags?: SpuTagUpdateManyWithoutSpuNestedInput
-    spuVariations?: SpuVariationUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUpdateManyWithoutSpuNestedInput
+    spu?: SpuUpdateOneRequiredWithoutSkusNestedInput
+    skuImages?: SkuImageUpdateManyWithoutSkuNestedInput
+    skuAttributes?: SkuAttributeUpdateManyWithoutSkuNestedInput
+    skuVariationValues?: SkuVariationValueUpdateManyWithoutSkuNestedInput
+    productOrder?: OrderProductUpdateManyWithoutSkuNestedInput
   }
 
-  export type SpuUncheckedUpdateWithoutStoresInput = {
+  export type SkuUncheckedUpdateWithoutStoresInput = {
     id?: StringFieldUpdateOperationsInput | string
+    skuCode?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSpuStatusFieldUpdateOperationsInput | $Enums.SpuStatus
+    originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    stock?: IntFieldUpdateOperationsInput | number
+    weight?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
-    categoryId?: StringFieldUpdateOperationsInput | string
-    brandId?: StringFieldUpdateOperationsInput | string
-    shopId?: StringFieldUpdateOperationsInput | string
-    skus?: SkuUncheckedUpdateManyWithoutSpuNestedInput
-    spuImages?: SpuImageUncheckedUpdateManyWithoutSpuNestedInput
-    spuAttributes?: SpuAttributeUncheckedUpdateManyWithoutSpuNestedInput
-    spuTags?: SpuTagUncheckedUpdateManyWithoutSpuNestedInput
-    spuVariations?: SpuVariationUncheckedUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUncheckedUpdateManyWithoutSpuNestedInput
+    spuId?: StringFieldUpdateOperationsInput | string
+    skuImages?: SkuImageUncheckedUpdateManyWithoutSkuNestedInput
+    skuAttributes?: SkuAttributeUncheckedUpdateManyWithoutSkuNestedInput
+    skuVariationValues?: SkuVariationValueUncheckedUpdateManyWithoutSkuNestedInput
+    productOrder?: OrderProductUncheckedUpdateManyWithoutSkuNestedInput
   }
 
   export type UserRoleCreateWithoutUserInput = {
@@ -53191,7 +53523,9 @@ export namespace Prisma {
     timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
+    quantityProduct?: bigint | number
     spus?: SpuCreateNestedManyWithoutShopInput
+    orderProducts?: OrderProductCreateNestedManyWithoutShopInput
   }
 
   export type ShopUncheckedCreateWithoutOwnerInput = {
@@ -53213,7 +53547,9 @@ export namespace Prisma {
     timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
+    quantityProduct?: bigint | number
     spus?: SpuUncheckedCreateNestedManyWithoutShopInput
+    orderProducts?: OrderProductUncheckedCreateNestedManyWithoutShopInput
   }
 
   export type ShopCreateOrConnectWithoutOwnerInput = {
@@ -53452,6 +53788,7 @@ export namespace Prisma {
     timeAccess?: BigIntFilter<"Shop"> | bigint | number
     createdAt?: DateTimeFilter<"Shop"> | Date | string
     updatedAt?: DateTimeFilter<"Shop"> | Date | string
+    quantityProduct?: BigIntFilter<"Shop"> | bigint | number
     ownerId?: UuidFilter<"Shop"> | string
   }
 
@@ -54045,13 +54382,15 @@ export namespace Prisma {
   export type OrderProductCreateWithoutOrderInput = {
     id?: string
     createdAt?: Date | string
-    spu: SpuCreateNestedOneWithoutProductOrderInput
+    sku: SkuCreateNestedOneWithoutProductOrderInput
+    shop: ShopCreateNestedOneWithoutOrderProductsInput
   }
 
   export type OrderProductUncheckedCreateWithoutOrderInput = {
     id?: string
     createdAt?: Date | string
     productId: string
+    shopId: string
   }
 
   export type OrderProductCreateOrConnectWithoutOrderInput = {
@@ -54096,53 +54435,57 @@ export namespace Prisma {
     data: XOR<OrderProductUpdateManyMutationInput, OrderProductUncheckedUpdateManyWithoutOrderInput>
   }
 
-  export type SpuCreateWithoutProductOrderInput = {
+  export type SkuCreateWithoutProductOrderInput = {
     id?: string
+    skuCode: string
     name: string
-    slug: string
-    description?: string | null
-    shortDesc?: string | null
-    status?: $Enums.SpuStatus
+    originalPrice: Decimal | DecimalJsLike | number | string
+    salePrice?: Decimal | DecimalJsLike | number | string | null
+    stock?: number
+    weight?: Decimal | DecimalJsLike | number | string | null
+    length?: Decimal | DecimalJsLike | number | string | null
+    width?: Decimal | DecimalJsLike | number | string | null
+    height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
+    quantity?: bigint | number
+    status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    timeAccess?: bigint | number
-    category: CategoryCreateNestedOneWithoutSpusInput
-    brand: BrandCreateNestedOneWithoutSpusInput
-    shop: ShopCreateNestedOneWithoutSpusInput
-    skus?: SkuCreateNestedManyWithoutSpuInput
-    spuImages?: SpuImageCreateNestedManyWithoutSpuInput
-    spuAttributes?: SpuAttributeCreateNestedManyWithoutSpuInput
-    spuTags?: SpuTagCreateNestedManyWithoutSpuInput
-    spuVariations?: SpuVariationCreateNestedManyWithoutSpuInput
-    stores?: StoreProductCreateNestedManyWithoutSpuInput
+    spu: SpuCreateNestedOneWithoutSkusInput
+    skuImages?: SkuImageCreateNestedManyWithoutSkuInput
+    skuAttributes?: SkuAttributeCreateNestedManyWithoutSkuInput
+    skuVariationValues?: SkuVariationValueCreateNestedManyWithoutSkuInput
+    stores?: StoreProductCreateNestedManyWithoutSkusInput
   }
 
-  export type SpuUncheckedCreateWithoutProductOrderInput = {
+  export type SkuUncheckedCreateWithoutProductOrderInput = {
     id?: string
+    skuCode: string
     name: string
-    slug: string
-    description?: string | null
-    shortDesc?: string | null
-    status?: $Enums.SpuStatus
+    originalPrice: Decimal | DecimalJsLike | number | string
+    salePrice?: Decimal | DecimalJsLike | number | string | null
+    stock?: number
+    weight?: Decimal | DecimalJsLike | number | string | null
+    length?: Decimal | DecimalJsLike | number | string | null
+    width?: Decimal | DecimalJsLike | number | string | null
+    height?: Decimal | DecimalJsLike | number | string | null
+    timeAccess?: bigint | number
+    quantity?: bigint | number
+    status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    timeAccess?: bigint | number
-    categoryId: string
-    brandId: string
-    shopId: string
-    skus?: SkuUncheckedCreateNestedManyWithoutSpuInput
-    spuImages?: SpuImageUncheckedCreateNestedManyWithoutSpuInput
-    spuAttributes?: SpuAttributeUncheckedCreateNestedManyWithoutSpuInput
-    spuTags?: SpuTagUncheckedCreateNestedManyWithoutSpuInput
-    spuVariations?: SpuVariationUncheckedCreateNestedManyWithoutSpuInput
-    stores?: StoreProductUncheckedCreateNestedManyWithoutSpuInput
+    spuId: string
+    skuImages?: SkuImageUncheckedCreateNestedManyWithoutSkuInput
+    skuAttributes?: SkuAttributeUncheckedCreateNestedManyWithoutSkuInput
+    skuVariationValues?: SkuVariationValueUncheckedCreateNestedManyWithoutSkuInput
+    stores?: StoreProductUncheckedCreateNestedManyWithoutSkusInput
   }
 
-  export type SpuCreateOrConnectWithoutProductOrderInput = {
-    where: SpuWhereUniqueInput
-    create: XOR<SpuCreateWithoutProductOrderInput, SpuUncheckedCreateWithoutProductOrderInput>
+  export type SkuCreateOrConnectWithoutProductOrderInput = {
+    where: SkuWhereUniqueInput
+    create: XOR<SkuCreateWithoutProductOrderInput, SkuUncheckedCreateWithoutProductOrderInput>
   }
 
   export type OrderCreateWithoutOrderProductInput = {
@@ -54151,6 +54494,7 @@ export namespace Prisma {
     statusOrder?: $Enums.StatusOrder
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: Decimal | DecimalJsLike | number | string | null
     VoucherUsed?: VoucherUsedCreateNestedManyWithoutOrderInput
   }
 
@@ -54160,6 +54504,7 @@ export namespace Prisma {
     statusOrder?: $Enums.StatusOrder
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: Decimal | DecimalJsLike | number | string | null
     VoucherUsed?: VoucherUsedUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -54168,59 +54513,116 @@ export namespace Prisma {
     create: XOR<OrderCreateWithoutOrderProductInput, OrderUncheckedCreateWithoutOrderProductInput>
   }
 
-  export type SpuUpsertWithoutProductOrderInput = {
-    update: XOR<SpuUpdateWithoutProductOrderInput, SpuUncheckedUpdateWithoutProductOrderInput>
-    create: XOR<SpuCreateWithoutProductOrderInput, SpuUncheckedCreateWithoutProductOrderInput>
-    where?: SpuWhereInput
+  export type ShopCreateWithoutOrderProductsInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    bannerUrl?: string | null
+    email?: string | null
+    phone?: string | null
+    address?: string | null
+    website?: string | null
+    status?: $Enums.ShopStatus
+    isActive?: boolean
+    isVerified?: boolean
+    rating?: Decimal | DecimalJsLike | number | string | null
+    totalReviews?: number
+    timeAccess?: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quantityProduct?: bigint | number
+    owner: UserCreateNestedOneWithoutShopsInput
+    spus?: SpuCreateNestedManyWithoutShopInput
   }
 
-  export type SpuUpdateToOneWithWhereWithoutProductOrderInput = {
-    where?: SpuWhereInput
-    data: XOR<SpuUpdateWithoutProductOrderInput, SpuUncheckedUpdateWithoutProductOrderInput>
+  export type ShopUncheckedCreateWithoutOrderProductsInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    bannerUrl?: string | null
+    email?: string | null
+    phone?: string | null
+    address?: string | null
+    website?: string | null
+    status?: $Enums.ShopStatus
+    isActive?: boolean
+    isVerified?: boolean
+    rating?: Decimal | DecimalJsLike | number | string | null
+    totalReviews?: number
+    timeAccess?: bigint | number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quantityProduct?: bigint | number
+    ownerId: string
+    spus?: SpuUncheckedCreateNestedManyWithoutShopInput
   }
 
-  export type SpuUpdateWithoutProductOrderInput = {
+  export type ShopCreateOrConnectWithoutOrderProductsInput = {
+    where: ShopWhereUniqueInput
+    create: XOR<ShopCreateWithoutOrderProductsInput, ShopUncheckedCreateWithoutOrderProductsInput>
+  }
+
+  export type SkuUpsertWithoutProductOrderInput = {
+    update: XOR<SkuUpdateWithoutProductOrderInput, SkuUncheckedUpdateWithoutProductOrderInput>
+    create: XOR<SkuCreateWithoutProductOrderInput, SkuUncheckedCreateWithoutProductOrderInput>
+    where?: SkuWhereInput
+  }
+
+  export type SkuUpdateToOneWithWhereWithoutProductOrderInput = {
+    where?: SkuWhereInput
+    data: XOR<SkuUpdateWithoutProductOrderInput, SkuUncheckedUpdateWithoutProductOrderInput>
+  }
+
+  export type SkuUpdateWithoutProductOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
+    skuCode?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSpuStatusFieldUpdateOperationsInput | $Enums.SpuStatus
+    originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    stock?: IntFieldUpdateOperationsInput | number
+    weight?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
-    category?: CategoryUpdateOneRequiredWithoutSpusNestedInput
-    brand?: BrandUpdateOneRequiredWithoutSpusNestedInput
-    shop?: ShopUpdateOneRequiredWithoutSpusNestedInput
-    skus?: SkuUpdateManyWithoutSpuNestedInput
-    spuImages?: SpuImageUpdateManyWithoutSpuNestedInput
-    spuAttributes?: SpuAttributeUpdateManyWithoutSpuNestedInput
-    spuTags?: SpuTagUpdateManyWithoutSpuNestedInput
-    spuVariations?: SpuVariationUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUpdateManyWithoutSpuNestedInput
+    spu?: SpuUpdateOneRequiredWithoutSkusNestedInput
+    skuImages?: SkuImageUpdateManyWithoutSkuNestedInput
+    skuAttributes?: SkuAttributeUpdateManyWithoutSkuNestedInput
+    skuVariationValues?: SkuVariationValueUpdateManyWithoutSkuNestedInput
+    stores?: StoreProductUpdateManyWithoutSkusNestedInput
   }
 
-  export type SpuUncheckedUpdateWithoutProductOrderInput = {
+  export type SkuUncheckedUpdateWithoutProductOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
+    skuCode?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    shortDesc?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSpuStatusFieldUpdateOperationsInput | $Enums.SpuStatus
+    originalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    salePrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    stock?: IntFieldUpdateOperationsInput | number
+    weight?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    length?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
+    status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
-    categoryId?: StringFieldUpdateOperationsInput | string
-    brandId?: StringFieldUpdateOperationsInput | string
-    shopId?: StringFieldUpdateOperationsInput | string
-    skus?: SkuUncheckedUpdateManyWithoutSpuNestedInput
-    spuImages?: SpuImageUncheckedUpdateManyWithoutSpuNestedInput
-    spuAttributes?: SpuAttributeUncheckedUpdateManyWithoutSpuNestedInput
-    spuTags?: SpuTagUncheckedUpdateManyWithoutSpuNestedInput
-    spuVariations?: SpuVariationUncheckedUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUncheckedUpdateManyWithoutSpuNestedInput
+    spuId?: StringFieldUpdateOperationsInput | string
+    skuImages?: SkuImageUncheckedUpdateManyWithoutSkuNestedInput
+    skuAttributes?: SkuAttributeUncheckedUpdateManyWithoutSkuNestedInput
+    skuVariationValues?: SkuVariationValueUncheckedUpdateManyWithoutSkuNestedInput
+    stores?: StoreProductUncheckedUpdateManyWithoutSkusNestedInput
   }
 
   export type OrderUpsertWithoutOrderProductInput = {
@@ -54240,6 +54642,7 @@ export namespace Prisma {
     statusOrder?: EnumStatusOrderFieldUpdateOperationsInput | $Enums.StatusOrder
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     VoucherUsed?: VoucherUsedUpdateManyWithoutOrderNestedInput
   }
 
@@ -54249,7 +54652,67 @@ export namespace Prisma {
     statusOrder?: EnumStatusOrderFieldUpdateOperationsInput | $Enums.StatusOrder
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     VoucherUsed?: VoucherUsedUncheckedUpdateManyWithoutOrderNestedInput
+  }
+
+  export type ShopUpsertWithoutOrderProductsInput = {
+    update: XOR<ShopUpdateWithoutOrderProductsInput, ShopUncheckedUpdateWithoutOrderProductsInput>
+    create: XOR<ShopCreateWithoutOrderProductsInput, ShopUncheckedCreateWithoutOrderProductsInput>
+    where?: ShopWhereInput
+  }
+
+  export type ShopUpdateToOneWithWhereWithoutOrderProductsInput = {
+    where?: ShopWhereInput
+    data: XOR<ShopUpdateWithoutOrderProductsInput, ShopUncheckedUpdateWithoutOrderProductsInput>
+  }
+
+  export type ShopUpdateWithoutOrderProductsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumShopStatusFieldUpdateOperationsInput | $Enums.ShopStatus
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quantityProduct?: BigIntFieldUpdateOperationsInput | bigint | number
+    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
+    spus?: SpuUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateWithoutOrderProductsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumShopStatusFieldUpdateOperationsInput | $Enums.ShopStatus
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    rating?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    totalReviews?: IntFieldUpdateOperationsInput | number
+    timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quantityProduct?: BigIntFieldUpdateOperationsInput | bigint | number
+    ownerId?: StringFieldUpdateOperationsInput | string
+    spus?: SpuUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type VoucherCreateWithoutVoucherUsedInput = {
@@ -54281,6 +54744,7 @@ export namespace Prisma {
     statusOrder?: $Enums.StatusOrder
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: Decimal | DecimalJsLike | number | string | null
     OrderProduct?: OrderProductCreateNestedManyWithoutOrderInput
   }
 
@@ -54290,6 +54754,7 @@ export namespace Prisma {
     statusOrder?: $Enums.StatusOrder
     createdAt?: Date | string
     updatedAt?: Date | string
+    price?: Decimal | DecimalJsLike | number | string | null
     OrderProduct?: OrderProductUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -54344,6 +54809,7 @@ export namespace Prisma {
     statusOrder?: EnumStatusOrderFieldUpdateOperationsInput | $Enums.StatusOrder
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     OrderProduct?: OrderProductUpdateManyWithoutOrderNestedInput
   }
 
@@ -54353,6 +54819,7 @@ export namespace Prisma {
     statusOrder?: EnumStatusOrderFieldUpdateOperationsInput | $Enums.StatusOrder
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     OrderProduct?: OrderProductUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -54441,8 +54908,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUpdateManyWithoutSpuNestedInput
   }
 
   export type SpuUncheckedUpdateWithoutCategoryInput = {
@@ -54463,8 +54928,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUncheckedUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUncheckedUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUncheckedUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUncheckedUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUncheckedUpdateManyWithoutSpuNestedInput
   }
 
   export type SpuUncheckedUpdateManyWithoutCategoryInput = {
@@ -54515,8 +54978,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUpdateManyWithoutSpuNestedInput
   }
 
   export type SpuUncheckedUpdateWithoutBrandInput = {
@@ -54537,8 +54998,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUncheckedUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUncheckedUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUncheckedUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUncheckedUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUncheckedUpdateManyWithoutSpuNestedInput
   }
 
   export type SpuUncheckedUpdateManyWithoutBrandInput = {
@@ -54568,6 +55027,7 @@ export namespace Prisma {
     width?: Decimal | DecimalJsLike | number | string | null
     height?: Decimal | DecimalJsLike | number | string | null
     timeAccess?: bigint | number
+    quantity?: bigint | number
     status?: $Enums.SkuStatus
     isActive?: boolean
     createdAt?: Date | string
@@ -54604,17 +55064,6 @@ export namespace Prisma {
     attributeId: string
   }
 
-  export type StoreProductCreateManySpuInput = {
-    id?: string
-    cartId: string
-  }
-
-  export type OrderProductCreateManySpuInput = {
-    id?: string
-    createdAt?: Date | string
-    orderId: string
-  }
-
   export type SkuUpdateWithoutSpuInput = {
     id?: StringFieldUpdateOperationsInput | string
     skuCode?: StringFieldUpdateOperationsInput | string
@@ -54627,6 +55076,7 @@ export namespace Prisma {
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54634,6 +55084,8 @@ export namespace Prisma {
     skuImages?: SkuImageUpdateManyWithoutSkuNestedInput
     skuAttributes?: SkuAttributeUpdateManyWithoutSkuNestedInput
     skuVariationValues?: SkuVariationValueUpdateManyWithoutSkuNestedInput
+    productOrder?: OrderProductUpdateManyWithoutSkuNestedInput
+    stores?: StoreProductUpdateManyWithoutSkusNestedInput
   }
 
   export type SkuUncheckedUpdateWithoutSpuInput = {
@@ -54648,6 +55100,7 @@ export namespace Prisma {
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54655,6 +55108,8 @@ export namespace Prisma {
     skuImages?: SkuImageUncheckedUpdateManyWithoutSkuNestedInput
     skuAttributes?: SkuAttributeUncheckedUpdateManyWithoutSkuNestedInput
     skuVariationValues?: SkuVariationValueUncheckedUpdateManyWithoutSkuNestedInput
+    productOrder?: OrderProductUncheckedUpdateManyWithoutSkuNestedInput
+    stores?: StoreProductUncheckedUpdateManyWithoutSkusNestedInput
   }
 
   export type SkuUncheckedUpdateManyWithoutSpuInput = {
@@ -54669,6 +55124,7 @@ export namespace Prisma {
     width?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     height?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
+    quantity?: BigIntFieldUpdateOperationsInput | bigint | number
     status?: EnumSkuStatusFieldUpdateOperationsInput | $Enums.SkuStatus
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -54767,39 +55223,6 @@ export namespace Prisma {
     attributeId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type StoreProductUpdateWithoutSpuInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    cart?: CartUpdateOneRequiredWithoutStoreProductsNestedInput
-  }
-
-  export type StoreProductUncheckedUpdateWithoutSpuInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    cartId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type StoreProductUncheckedUpdateManyWithoutSpuInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    cartId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type OrderProductUpdateWithoutSpuInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    order?: OrderUpdateOneRequiredWithoutOrderProductNestedInput
-  }
-
-  export type OrderProductUncheckedUpdateWithoutSpuInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    orderId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type OrderProductUncheckedUpdateManyWithoutSpuInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    orderId?: StringFieldUpdateOperationsInput | string
-  }
-
   export type SkuImageCreateManySkuInput = {
     id?: string
     imageUrl: string
@@ -54821,6 +55244,18 @@ export namespace Prisma {
     createdAt?: Date | string
     spuVariationId: string
     attributeValueId: string
+  }
+
+  export type OrderProductCreateManySkuInput = {
+    id?: string
+    createdAt?: Date | string
+    orderId: string
+    shopId: string
+  }
+
+  export type StoreProductCreateManySkusInput = {
+    id?: string
+    cartId: string
   }
 
   export type SkuImageUpdateWithoutSkuInput = {
@@ -54890,6 +55325,42 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     spuVariationId?: StringFieldUpdateOperationsInput | string
     attributeValueId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type OrderProductUpdateWithoutSkuInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    order?: OrderUpdateOneRequiredWithoutOrderProductNestedInput
+    shop?: ShopUpdateOneRequiredWithoutOrderProductsNestedInput
+  }
+
+  export type OrderProductUncheckedUpdateWithoutSkuInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    shopId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type OrderProductUncheckedUpdateManyWithoutSkuInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    shopId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type StoreProductUpdateWithoutSkusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cart?: CartUpdateOneRequiredWithoutStoreProductsNestedInput
+  }
+
+  export type StoreProductUncheckedUpdateWithoutSkusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cartId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type StoreProductUncheckedUpdateManyWithoutSkusInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cartId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SpuAttributeCreateManyAttributeInput = {
@@ -55174,6 +55645,7 @@ export namespace Prisma {
 
   export type RolePermissionCreateManyRoleInput = {
     id?: string
+    permissionId: number
     createdAt?: Date | string
   }
 
@@ -55187,17 +55659,18 @@ export namespace Prisma {
   export type RolePermissionUpdateWithoutRoleInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    permission?: PermissionUpdateManyWithoutRolePermissionsNestedInput
+    permission?: PermissionUpdateOneRequiredWithoutRolePermissionsNestedInput
   }
 
   export type RolePermissionUncheckedUpdateWithoutRoleInput = {
     id?: StringFieldUpdateOperationsInput | string
+    permissionId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    permission?: PermissionUncheckedUpdateManyWithoutRolePermissionsNestedInput
   }
 
   export type RolePermissionUncheckedUpdateManyWithoutRoleInput = {
     id?: StringFieldUpdateOperationsInput | string
+    permissionId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -55222,6 +55695,12 @@ export namespace Prisma {
     attribute?: NullableJsonNullValueInput | InputJsonValue
   }
 
+  export type RolePermissionCreateManyPermissionInput = {
+    id?: string
+    roleId: string
+    createdAt?: Date | string
+  }
+
   export type RolePermissionUpdateWithoutPermissionInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -55240,26 +55719,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type PermissionUpdateWithoutRolePermissionsInput = {
-    permissionName?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PermissionUncheckedUpdateWithoutRolePermissionsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    permissionName?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PermissionUncheckedUpdateManyWithoutRolePermissionsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    permissionName?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type SpuCreateManyShopInput = {
     id?: string
     name: string
@@ -55273,6 +55732,13 @@ export namespace Prisma {
     timeAccess?: bigint | number
     categoryId: string
     brandId: string
+  }
+
+  export type OrderProductCreateManyShopInput = {
+    id?: string
+    createdAt?: Date | string
+    productId: string
+    orderId: string
   }
 
   export type SpuUpdateWithoutShopInput = {
@@ -55293,8 +55759,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUpdateManyWithoutSpuNestedInput
   }
 
   export type SpuUncheckedUpdateWithoutShopInput = {
@@ -55315,8 +55779,6 @@ export namespace Prisma {
     spuAttributes?: SpuAttributeUncheckedUpdateManyWithoutSpuNestedInput
     spuTags?: SpuTagUncheckedUpdateManyWithoutSpuNestedInput
     spuVariations?: SpuVariationUncheckedUpdateManyWithoutSpuNestedInput
-    stores?: StoreProductUncheckedUpdateManyWithoutSpuNestedInput
-    productOrder?: OrderProductUncheckedUpdateManyWithoutSpuNestedInput
   }
 
   export type SpuUncheckedUpdateManyWithoutShopInput = {
@@ -55334,6 +55796,27 @@ export namespace Prisma {
     brandId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type OrderProductUpdateWithoutShopInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sku?: SkuUpdateOneRequiredWithoutProductOrderNestedInput
+    order?: OrderUpdateOneRequiredWithoutOrderProductNestedInput
+  }
+
+  export type OrderProductUncheckedUpdateWithoutShopInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    productId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type OrderProductUncheckedUpdateManyWithoutShopInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    productId?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type StoreProductCreateManyCartInput = {
     id?: string
     productId: string
@@ -55341,7 +55824,7 @@ export namespace Prisma {
 
   export type StoreProductUpdateWithoutCartInput = {
     id?: StringFieldUpdateOperationsInput | string
-    spu?: SpuUpdateOneRequiredWithoutStoresNestedInput
+    skus?: SkuUpdateOneRequiredWithoutStoresNestedInput
   }
 
   export type StoreProductUncheckedUpdateWithoutCartInput = {
@@ -55406,6 +55889,7 @@ export namespace Prisma {
     timeAccess?: bigint | number
     createdAt?: Date | string
     updatedAt?: Date | string
+    quantityProduct?: bigint | number
   }
 
   export type CreditCardCreateManyUserInput = {
@@ -55546,7 +56030,9 @@ export namespace Prisma {
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quantityProduct?: BigIntFieldUpdateOperationsInput | bigint | number
     spus?: SpuUpdateManyWithoutShopNestedInput
+    orderProducts?: OrderProductUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateWithoutOwnerInput = {
@@ -55568,7 +56054,9 @@ export namespace Prisma {
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quantityProduct?: BigIntFieldUpdateOperationsInput | bigint | number
     spus?: SpuUncheckedUpdateManyWithoutShopNestedInput
+    orderProducts?: OrderProductUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type ShopUncheckedUpdateManyWithoutOwnerInput = {
@@ -55590,6 +56078,7 @@ export namespace Prisma {
     timeAccess?: BigIntFieldUpdateOperationsInput | bigint | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quantityProduct?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type CreditCardUpdateWithoutUserInput = {
@@ -55688,6 +56177,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     productId: string
+    shopId: string
   }
 
   export type VoucherUsedUpdateWithoutOrderInput = {
@@ -55711,19 +56201,22 @@ export namespace Prisma {
   export type OrderProductUpdateWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    spu?: SpuUpdateOneRequiredWithoutProductOrderNestedInput
+    sku?: SkuUpdateOneRequiredWithoutProductOrderNestedInput
+    shop?: ShopUpdateOneRequiredWithoutOrderProductsNestedInput
   }
 
   export type OrderProductUncheckedUpdateWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     productId?: StringFieldUpdateOperationsInput | string
+    shopId?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrderProductUncheckedUpdateManyWithoutOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     productId?: StringFieldUpdateOperationsInput | string
+    shopId?: StringFieldUpdateOperationsInput | string
   }
 
 

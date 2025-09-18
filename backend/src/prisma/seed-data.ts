@@ -9,7 +9,9 @@ import {
 	Status,
 	UserFlag,
 	UserVisibility,
-	Provider
+	Provider,
+	TypeOfPayment,
+	StatusOrder
 } from '../../prisma/generated/prisma';
 
 // --- Helper functions ---
@@ -97,6 +99,11 @@ export const skuIds = unique(Array.from({ length: 300 }, () => faker.string.uuid
 export const tagIds = unique(Array.from({ length: 30 }, () => faker.string.uuid()));
 export const attributeIds = unique(Array.from({ length: 15 }, () => faker.string.uuid()));
 export const attributeValueIds = unique(Array.from({ length: 60 }, () => faker.string.uuid()));
+export const cartIds = unique(Array.from({ length: 30 }, () => faker.string.uuid()));
+export const orderIds = unique(Array.from({ length: 50 }, () => faker.string.uuid()));
+export const voucherIds = unique(Array.from({ length: 20 }, () => faker.string.uuid()));
+export const spuImageIds = unique(Array.from({ length: 200 }, () => faker.string.uuid()));
+export const skuImageIds = unique(Array.from({ length: 400 }, () => faker.string.uuid()));
 
 // --- Generate Roles & Permissions ---
 export const roles: Prisma.RoleCreateManyInput[] = [
@@ -166,7 +173,37 @@ export const permissions: Prisma.PermissionCreateManyInput[] = [
 // }
 
 export const rolePermissions: Prisma.RolePermissionCreateManyInput[] = [
-	// Will implement after schema is fixed
+	// ROOT role - all permissions (1-20)
+	...Array.from({ length: 20 }, (_, i) => ({
+		id: faker.string.uuid(),
+		roleId: roleIds[0], // ROOT
+		permissionId: i + 1
+	})),
+
+	// ADMINISTRATOR role - most permissions (1-15)
+	...Array.from({ length: 15 }, (_, i) => ({
+		id: faker.string.uuid(),
+		roleId: roleIds[1], // ADMINISTRATOR
+		permissionId: i + 1
+	})),
+
+	// SUPPORTER role - support related permissions (8-9)
+	{ id: faker.string.uuid(), roleId: roleIds[2], permissionId: 8 }, // moderate_reviews
+	{ id: faker.string.uuid(), roleId: roleIds[2], permissionId: 9 }, // handle_support
+
+	// SELLER role - shop and product management (10-16)
+	...Array.from({ length: 7 }, (_, i) => ({
+		id: faker.string.uuid(),
+		roleId: roleIds[3], // SELLER
+		permissionId: i + 10 // permissions 10-16
+	})),
+
+	// USER role - basic permissions (17-20)
+	...Array.from({ length: 4 }, (_, i) => ({
+		id: faker.string.uuid(),
+		roleId: roleIds[4], // USER
+		permissionId: i + 17 // permissions 17-20
+	}))
 ];
 
 // --- Generate Users ---
@@ -478,6 +515,7 @@ export const spus: Prisma.SpuCreateManyInput[] = spuIds.map((id, index) => {
 		shortDesc: `${fullName} chất lượng cao, giá cả phù hợp`.slice(0, 500),
 		status: faker.helpers.arrayElement(Object.values(SpuStatus)),
 		isActive: faker.datatype.boolean(0.95),
+		timeAccess: faker.number.bigInt({ min: 0n, max: 1000n }),
 		categoryId: faker.helpers.arrayElement(categoryIds),
 		brandId: faker.helpers.arrayElement(brandIds),
 		shopId: faker.helpers.arrayElement(shopIds),
@@ -501,6 +539,8 @@ export const skus: Prisma.SkuCreateManyInput[] = skuIds.map((id, index) => {
 		length: faker.number.float({ min: 5, max: 50, fractionDigits: 1 }),
 		width: faker.number.float({ min: 5, max: 50, fractionDigits: 1 }),
 		height: faker.number.float({ min: 1, max: 30, fractionDigits: 1 }),
+		timeAccess: faker.number.bigInt({ min: 0n, max: 100n }),
+		quantity: faker.number.bigInt({ min: 1n, max: 1000n }),
 		status: faker.helpers.arrayElement(Object.values(SkuStatus)),
 		isActive: faker.datatype.boolean(0.9),
 		spuId: faker.helpers.arrayElement(spuIds),
@@ -564,11 +604,182 @@ export const codes: Prisma.CodeCreateManyInput[] = userIds
 		userId
 	}));
 
+// Note: UserFlag is not a model but an enum used in User model, so we skip it
+
+// --- Generate Carts ---
+export const carts: Prisma.CartCreateManyInput[] = cartIds.map((id, index) => ({
+	id,
+	ownId: userIds[index % userIds.length], // Each user can have one cart
+}));
+
+// --- Generate Store Products (Cart Items) ---
+export const storeProducts: Prisma.StoreProductCreateManyInput[] = cartIds
+	.map(cartId => {
+		const numItems = faker.number.int({ min: 1, max: 5 });
+		return Array.from({ length: numItems }, () => ({
+			id: faker.string.uuid(),
+			cartId,
+			productId: faker.helpers.arrayElement(skuIds)
+		}));
+	})
+	.flat();
+
+// --- Generate Vouchers ---
+export const vouchers: Prisma.VoucherCreateManyInput[] = voucherIds.map(id => ({
+	id,
+	categoryId: faker.helpers.arrayElement(categoryIds),
+	percentDisCount: faker.number.float({ min: 5, max: 50, fractionDigits: 2 }),
+	expiredAt: faker.date.future({ years: 1 }),
+	ownId: faker.helpers.arrayElement(userIds.slice(5, 15)) // Sellers can create vouchers
+}));
+
+// --- Generate Orders ---
+export const orders: Prisma.OrderCreateManyInput[] = orderIds.map(id => ({
+	id,
+	typeOfPayment: faker.helpers.arrayElement(Object.values(TypeOfPayment)),
+	statusOrder: faker.helpers.arrayElement(Object.values(StatusOrder))
+}));
+
+// --- Generate Order Products ---
+export const orderProducts: Prisma.OrderProductCreateManyInput[] = orderIds
+	.map(orderId => {
+		const numItems = faker.number.int({ min: 1, max: 4 });
+		return Array.from({ length: numItems }, () => ({
+			id: faker.string.uuid(),
+			orderId,
+			productId: faker.helpers.arrayElement(skuIds),
+			shopId: faker.helpers.arrayElement(shopIds)
+		}));
+	})
+	.flat();
+
+// --- Generate Voucher Used ---
+export const voucherUsed: Prisma.VoucherUsedCreateManyInput[] = voucherIds
+	.filter(() => faker.datatype.boolean(0.4)) // 40% of vouchers are used
+	.map(voucherId => ({
+		id: faker.string.uuid(),
+		voucherId,
+		orderId: faker.helpers.arrayElement(orderIds)
+	}));
+
+// --- Generate SPU Images ---
+export const spuImages: Prisma.SpuImageCreateManyInput[] = spuImageIds.map((id, index) => ({
+	id,
+	imageUrl: faker.image.urlPicsumPhotos({ width: 600, height: 600 }).slice(0, 500),
+	altText: `SPU Image ${index + 1}`,
+	sortOrder: index % 5,
+	isMain: index % 5 === 0, // First image is main
+	spuId: faker.helpers.arrayElement(spuIds)
+}));
+
+// --- Generate SKU Images ---
+export const skuImages: Prisma.SkuImageCreateManyInput[] = skuImageIds.map((id, index) => ({
+	id,
+	imageUrl: faker.image.urlPicsumPhotos({ width: 400, height: 400 }).slice(0, 500),
+	altText: `SKU Image ${index + 1}`,
+	sortOrder: index % 3,
+	isMain: index % 3 === 0, // First image is main
+	skuId: faker.helpers.arrayElement(skuIds)
+}));
+
+// --- Generate SPU Attributes ---
+export const spuAttributes: Prisma.SpuAttributeCreateManyInput[] = (() => {
+	const usedPairs = new Set<string>();
+	const relationships: Prisma.SpuAttributeCreateManyInput[] = [];
+
+	spuIds.forEach(spuId => {
+		const numAttrs = Math.min(faker.number.int({ min: 2, max: 4 }), attributeIds.length);
+		const selectedAttributes = faker.helpers.arrayElements(attributeIds, { min: numAttrs, max: numAttrs });
+
+		selectedAttributes.forEach(attributeId => {
+			const pairKey = `${spuId}-${attributeId}`;
+			if (!usedPairs.has(pairKey)) {
+				usedPairs.add(pairKey);
+				relationships.push({
+					id: faker.string.uuid(),
+					spuId,
+					attributeId,
+					attributeValueId: faker.helpers.arrayElement(attributeValueIds)
+				});
+			}
+		});
+	});
+
+	return relationships;
+})();
+
+// --- Generate SKU Attributes ---
+export const skuAttributes: Prisma.SkuAttributeCreateManyInput[] = (() => {
+	const usedPairs = new Set<string>();
+	const relationships: Prisma.SkuAttributeCreateManyInput[] = [];
+
+	skuIds.forEach(skuId => {
+		const numAttrs = Math.min(faker.number.int({ min: 1, max: 2 }), attributeIds.length);
+		const selectedAttributes = faker.helpers.arrayElements(attributeIds, { min: numAttrs, max: numAttrs });
+
+		selectedAttributes.forEach(attributeId => {
+			const pairKey = `${skuId}-${attributeId}`;
+			if (!usedPairs.has(pairKey)) {
+				usedPairs.add(pairKey);
+				relationships.push({
+					id: faker.string.uuid(),
+					skuId,
+					attributeId,
+					attributeValueId: faker.helpers.arrayElement(attributeValueIds)
+				});
+			}
+		});
+	});
+
+	return relationships;
+})();
+
+// --- Generate SPU Tags ---
+export const spuTags: Prisma.SpuTagCreateManyInput[] = (() => {
+	const usedPairs = new Set<string>();
+	const relationships: Prisma.SpuTagCreateManyInput[] = [];
+
+	spuIds.forEach(spuId => {
+		const numTags = faker.number.int({ min: 1, max: 4 });
+		const selectedTags = faker.helpers.arrayElements(tagIds, numTags);
+
+		selectedTags.forEach(tagId => {
+			const pairKey = `${spuId}-${tagId}`;
+			if (!usedPairs.has(pairKey)) {
+				usedPairs.add(pairKey);
+				relationships.push({
+					id: faker.string.uuid(),
+					spuId,
+					tagId
+				});
+			}
+		});
+	});
+
+	return relationships;
+})();
+
+// --- Generate SPU Variations ---
+export const spuVariations: Prisma.SpuVariationCreateManyInput[] = spuIds
+	.filter(() => faker.datatype.boolean(0.7)) // 70% of SPUs have variations
+	.map(spuId => ({
+		id: faker.string.uuid(),
+		name: faker.helpers.arrayElement(['Màu sắc', 'Kích thước', 'Kiểu dáng', 'Chất liệu']),
+		spuId,
+		attributeId: faker.helpers.arrayElement(attributeIds.slice(0, 5)), // Use first 5 attributes for variations
+		sortOrder: faker.number.int({ min: 0, max: 10 })
+	}));
+
+// --- Generate SKU Variation Values ---  
+export const skuVariationValues: Prisma.SkuVariationValueCreateManyInput[] = [];
+// Note: This requires spuVariationIds which are created after SPU variations are seeded
+// Will be generated in the service after spuVariations are created
+
 // Export all collections
 export const seedCollections = {
 	roles,
 	permissions,
-	// rolePermissions, // Skip for now due to schema issue
+	rolePermissions,
 	users,
 	userRoles,
 	categories,
@@ -582,5 +793,18 @@ export const seedCollections = {
 	oauth2Users,
 	creditCards,
 	sessions,
-	codes
+	codes,
+	carts,
+	storeProducts,
+	vouchers,
+	orders,
+	orderProducts,
+	voucherUsed,
+	spuImages,
+	skuImages,
+	spuAttributes,
+	skuAttributes,
+	spuTags,
+	spuVariations
+	// skuVariationValues will be generated dynamically
 };

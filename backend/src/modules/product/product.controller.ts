@@ -8,6 +8,7 @@ import { RoleId } from "@/common/enum/role.enum";
 import { UpdateSpuDto } from "./dto/update-spu.dto";
 import { IsAuthorProductGuard } from "./guard/IsAuthorProduct.guard";
 import { Public } from "@/common/decorator/public.decorator";
+import { OrderProductDto } from "./dto/order-product.dto";
 
 @Roles(RoleId.ADMIN.toString(), RoleId.SELLER.toString())
 @ApiTags('Product')
@@ -86,4 +87,8 @@ export class ProductController {
 		return this.productService.getBrands()
 	}
 
+	@Post('order')
+	async orderProduct(@Req() req: express.Request, @Body() dto: OrderProductDto) {
+		return this.productService.orderProduct(req, dto)
+	}
 }

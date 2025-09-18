@@ -98,7 +98,7 @@ model Order {
     statusOrder   StatusOrder   @default(PENDING) @map("status_order")
     createdAt     DateTime      @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt     DateTime      @updatedAt @map("updated_at") @db.Timestamptz()
-
+    price     Decimal?  @map("sale_price") @db.Decimal(12, 2)
     // relation
     VoucherUsed  VoucherUsed[]
     OrderProduct OrderProduct[]
@@ -113,10 +113,11 @@ model OrderProduct {
     // foreign key
     productId String @map("product_id") @db.Uuid
     orderId   String @map("order_id") @db.Uuid
-
+    shopId    String @map("shop_id") @db.Uuid
     // relation
-    spu   Spu   @relation(fields: [productId], references: [id], onDelete: Cascade)
-    order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    sku       Sku    @relation(fields: [productId], references: [id], onDelete: Cascade)
+    order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+    shop      Shop   @relation(fields: [shopId], references: [id], onDelete: Cascade)
 
     @@map("order_product")
 }

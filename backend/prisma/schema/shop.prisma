@@ -1,29 +1,30 @@
 model Shop {
-    id           String     @id @default(uuid()) @db.Uuid
-    name         String     @db.VarChar(200)
-    slug         String     @unique @db.VarChar(200)
-    description  String?    @db.Text
-    logoUrl      String?    @map("logo_url") @db.VarChar(500)
-    bannerUrl    String?    @map("banner_url") @db.VarChar(500)
-    email        String?    @db.VarChar(255)
-    phone        String?    @db.VarChar(20)
-    address      String?    @db.Text
-    website      String?    @db.VarChar(500)
-    status       ShopStatus @default(PENDING)
-    isActive     Boolean    @default(true) @map("is_active")
-    isVerified   Boolean    @default(false) @map("is_verified")
-    rating       Decimal?   @db.Decimal(3, 2) // Average rating 0.00 to 5.00
-    totalReviews Int        @default(0) @map("total_reviews")
-    timeAccess   BigInt     @default(0) @map("time_access") // Track shop view count
-    createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz()
-    updatedAt    DateTime   @updatedAt @map("updated_at") @db.Timestamptz()
-
+    id              String     @id @default(uuid()) @db.Uuid
+    name            String     @db.VarChar(200)
+    slug            String     @unique @db.VarChar(200)
+    description     String?    @db.Text
+    logoUrl         String?    @map("logo_url") @db.VarChar(500)
+    bannerUrl       String?    @map("banner_url") @db.VarChar(500)
+    email           String?    @db.VarChar(255)
+    phone           String?    @db.VarChar(20)
+    address         String?    @db.Text
+    website         String?    @db.VarChar(500)
+    status          ShopStatus @default(PENDING)
+    isActive        Boolean    @default(true) @map("is_active")
+    isVerified      Boolean    @default(false) @map("is_verified")
+    rating          Decimal?   @db.Decimal(3, 2) // Average rating 0.00 to 5.00
+    totalReviews    Int        @default(0) @map("total_reviews")
+    timeAccess      BigInt     @default(0) @map("time_access") // Track shop view count
+    createdAt       DateTime   @default(now()) @map("created_at") @db.Timestamptz()
+    updatedAt       DateTime   @updatedAt @map("updated_at") @db.Timestamptz()
+    quantityProduct BigInt     @default(0) @map("quantity_product")
     // Foreign Keys
-    ownerId String @map("owner_id") @db.Uuid
+    ownerId         String     @map("owner_id") @db.Uuid
 
     // Relations
-    owner User  @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-    spus  Spu[]
+    owner         User           @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+    spus          Spu[]
+    orderProducts OrderProduct[]
 
     @@index([slug])
     @@index([ownerId])
@@ -59,7 +60,7 @@ model StoreProduct {
 
     // Relations
     cart Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
-    spu  Spu  @relation(name: "skuStores", fields: [productId], references: [id], onDelete: Cascade)
+    skus  Sku  @relation(name: "skuStores", fields: [productId], references: [id], onDelete: Cascade)
 
     @@index([cartId])
     @@index([productId])

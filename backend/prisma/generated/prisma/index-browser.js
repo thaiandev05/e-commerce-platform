@@ -193,6 +193,7 @@ exports.Prisma.SkuScalarFieldEnum = {
   width: 'width',
   height: 'height',
   timeAccess: 'timeAccess',
+  quantity: 'quantity',
   status: 'status',
   isActive: 'isActive',
   createdAt: 'createdAt',
@@ -313,6 +314,7 @@ exports.Prisma.PermissionScalarFieldEnum = {
 exports.Prisma.RolePermissionScalarFieldEnum = {
   id: 'id',
   roleId: 'roleId',
+  permissionId: 'permissionId',
   createdAt: 'createdAt'
 };
 
@@ -343,6 +345,7 @@ exports.Prisma.ShopScalarFieldEnum = {
   timeAccess: 'timeAccess',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  quantityProduct: 'quantityProduct',
   ownerId: 'ownerId'
 };
 
@@ -427,14 +430,16 @@ exports.Prisma.OrderScalarFieldEnum = {
   typeOfPayment: 'typeOfPayment',
   statusOrder: 'statusOrder',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  price: 'price'
 };
 
 exports.Prisma.OrderProductScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
   productId: 'productId',
-  orderId: 'orderId'
+  orderId: 'orderId',
+  shopId: 'shopId'
 };
 
 exports.Prisma.VoucherUsedScalarFieldEnum = {

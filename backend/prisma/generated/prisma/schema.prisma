@@ -107,27 +107,22 @@ model Spu {
   timeAccess BigInt @default(0) @map("time_access")
 
   // Foreign Keys
-  categoryId String @map("category_id") @db.Uuid
-  brandId    String @map("brand_id") @db.Uuid
-  shopId     String @map("shop_id") @db.Uuid
-
+  categoryId    String         @map("category_id") @db.Uuid
+  brandId       String         @map("brand_id") @db.Uuid
+  shopId        String         @map("shop_id") @db.Uuid
   // Relations
-  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  brand    Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
-  shop     Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
-
+  category      Category       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  brand         Brand          @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  shop          Shop           @relation(fields: [shopId], references: [id], onDelete: Cascade)
   skus          Sku[]
   spuImages     SpuImage[]
   spuAttributes SpuAttribute[]
   spuTags       SpuTag[]
   spuVariations SpuVariation[]
-  stores        StoreProduct[] @relation("skuStores")
-  productOrder  OrderProduct[]
 
   @@index([slug])
   @@index([categoryId])
   @@index([brandId])
-  @@index([shopId])
   @@index([status])
   @@index([isActive])
   @@map("spus")
@@ -146,6 +141,7 @@ model Sku {
   width         Decimal?  @db.Decimal(8, 2) // in cm
   height        Decimal?  @db.Decimal(8, 2) // in cm
   timeAccess    BigInt    @default(0) @map("time_access")
+  quantity      BigInt    @default(1) @map("quantity")
   status        SkuStatus @default(ACTIVE)
   isActive      Boolean   @default(true) @map("is_active")
   createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz()
@@ -159,6 +155,9 @@ model Sku {
   skuImages          SkuImage[]
   skuAttributes      SkuAttribute[]
   skuVariationValues SkuVariationValue[]
+  productOrder       OrderProduct[]
+
+  stores StoreProduct[] @relation("skuStores")
 
   @@index([skuCode])
   @@index([spuId])
@@ -436,14 +435,17 @@ model Permission {
 
 // Junction table between Role and Permission (many-to-many)
 model RolePermission {
-  id        String   @id @default(uuid()) @db.Uuid
-  roleId    String   @map("role_id") @db.Uuid
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  id           String   @id @default(uuid()) @db.Uuid
+  roleId       String   @map("role_id") @db.Uuid
+  permissionId Int      @map("permission_id")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz()
 
-  role       Role         @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  permission Permission[]
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
 
+  @@unique([roleId, permissionId])
   @@index([roleId])
+  @@index([permissionId])
   @@map("role_permissions")
 }
 
@@ -476,31 +478,32 @@ datasource db {
 }
 
 model Shop {
-  id           String     @id @default(uuid()) @db.Uuid
-  name         String     @db.VarChar(200)
-  slug         String     @unique @db.VarChar(200)
-  description  String?    @db.Text
-  logoUrl      String?    @map("logo_url") @db.VarChar(500)
-  bannerUrl    String?    @map("banner_url") @db.VarChar(500)
-  email        String?    @db.VarChar(255)
-  phone        String?    @db.VarChar(20)
-  address      String?    @db.Text
-  website      String?    @db.VarChar(500)
-  status       ShopStatus @default(PENDING)
-  isActive     Boolean    @default(true) @map("is_active")
-  isVerified   Boolean    @default(false) @map("is_verified")
-  rating       Decimal?   @db.Decimal(3, 2) // Average rating 0.00 to 5.00
-  totalReviews Int        @default(0) @map("total_reviews")
-  timeAccess   BigInt     @default(0) @map("time_access") // Track shop view count
-  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt    DateTime   @updatedAt @map("updated_at") @db.Timestamptz()
-
+  id              String     @id @default(uuid()) @db.Uuid
+  name            String     @db.VarChar(200)
+  slug            String     @unique @db.VarChar(200)
+  description     String?    @db.Text
+  logoUrl         String?    @map("logo_url") @db.VarChar(500)
+  bannerUrl       String?    @map("banner_url") @db.VarChar(500)
+  email           String?    @db.VarChar(255)
+  phone           String?    @db.VarChar(20)
+  address         String?    @db.Text
+  website         String?    @db.VarChar(500)
+  status          ShopStatus @default(PENDING)
+  isActive        Boolean    @default(true) @map("is_active")
+  isVerified      Boolean    @default(false) @map("is_verified")
+  rating          Decimal?   @db.Decimal(3, 2) // Average rating 0.00 to 5.00
+  totalReviews    Int        @default(0) @map("total_reviews")
+  timeAccess      BigInt     @default(0) @map("time_access") // Track shop view count
+  createdAt       DateTime   @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt       DateTime   @updatedAt @map("updated_at") @db.Timestamptz()
+  quantityProduct BigInt     @default(0) @map("quantity_product")
   // Foreign Keys
-  ownerId String @map("owner_id") @db.Uuid
+  ownerId         String     @map("owner_id") @db.Uuid
 
   // Relations
-  owner User  @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  spus  Spu[]
+  owner         User           @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  spus          Spu[]
+  orderProducts OrderProduct[]
 
   @@index([slug])
   @@index([ownerId])
@@ -536,7 +539,7 @@ model StoreProduct {
 
   // Relations
   cart Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  spu  Spu  @relation(name: "skuStores", fields: [productId], references: [id], onDelete: Cascade)
+  skus Sku  @relation(name: "skuStores", fields: [productId], references: [id], onDelete: Cascade)
 
   @@index([cartId])
   @@index([productId])
@@ -638,15 +641,15 @@ model Voucher {
 }
 
 model Order {
-  id            String        @id @default(uuid()) @db.Uuid
-  typeOfPayment TypeOfPayment @default(INPERSON) @map("type_of_payment")
-  statusOrder   StatusOrder   @default(PENDING) @map("status_order")
-  createdAt     DateTime      @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt     DateTime      @updatedAt @map("updated_at") @db.Timestamptz()
-
+  id            String         @id @default(uuid()) @db.Uuid
+  typeOfPayment TypeOfPayment  @default(INPERSON) @map("type_of_payment")
+  statusOrder   StatusOrder    @default(PENDING) @map("status_order")
+  createdAt     DateTime       @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt     DateTime       @updatedAt @map("updated_at") @db.Timestamptz()
+  price         Decimal?       @map("sale_price") @db.Decimal(12, 2)
   // relation
-  VoucherUsed  VoucherUsed[]
-  OrderProduct OrderProduct[]
+  VoucherUsed   VoucherUsed[]
+  OrderProduct  OrderProduct[]
 
   @@map("order")
 }
@@ -658,10 +661,11 @@ model OrderProduct {
   // foreign key
   productId String @map("product_id") @db.Uuid
   orderId   String @map("order_id") @db.Uuid
-
+  shopId    String @map("shop_id") @db.Uuid
   // relation
-  spu   Spu   @relation(fields: [productId], references: [id], onDelete: Cascade)
-  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  sku       Sku    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  shop      Shop   @relation(fields: [shopId], references: [id], onDelete: Cascade)
 
   @@map("order_product")
 }

@@ -104,10 +104,49 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 				await this.code.createMany({ data: seedCollections.codes });
 			}
 
-			// Generate and seed images for products
+			// Seed shopping and order data
+			console.log('🛒 Seeding shopping carts...');
+			await this.cart.createMany({ data: seedCollections.carts });
+
+			console.log('🛍️ Seeding cart items...');
+			await this.storeProduct.createMany({ data: seedCollections.storeProducts });
+
+			console.log('🎟️ Seeding vouchers...');
+			await this.voucher.createMany({ data: seedCollections.vouchers });
+
+			console.log('📋 Seeding orders...');
+			await this.order.createMany({ data: seedCollections.orders });
+
+			console.log('🛒 Seeding order products...');
+			await this.orderProduct.createMany({ data: seedCollections.orderProducts });
+
+			console.log('🎫 Seeding voucher usage...');
+			await this.voucherUsed.createMany({ data: seedCollections.voucherUsed });
+
+			// Seed product images and relationships
+			console.log('📸 Seeding SPU images...');
+			await this.spuImage.createMany({ data: seedCollections.spuImages });
+
+			console.log('📷 Seeding SKU images...');
+			await this.skuImage.createMany({ data: seedCollections.skuImages });
+
+			// TODO: Fix SPU/SKU attributes - foreign key constraint issues
+			// console.log('🔗 Seeding SPU attributes...');
+			// await this.spuAttribute.createMany({ data: seedCollections.spuAttributes });
+
+			// console.log('🔧 Seeding SKU attributes...');
+			// await this.skuAttribute.createMany({ data: seedCollections.skuAttributes });
+
+			console.log('🏷️ Seeding SPU tags...');
+			await this.spuTag.createMany({ data: seedCollections.spuTags });
+
+			console.log('🔄 Seeding SPU variations...');
+			await this.spuVariation.createMany({ data: seedCollections.spuVariations });
+
+			// Generate and seed additional images for products  
 			await this.seedProductImages();
 
-			// Generate and seed product relationships
+			// Generate and seed remaining product relationships
 			await this.seedProductRelationships();
 
 			console.log('✅ Database seeding completed successfully!');
@@ -319,12 +358,13 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 			}
 		}
 
-		if (spuTags.length > 0) {
-			console.log(`🏷️ Creating ${spuTags.length} SPU-tag relationships...`);
-			for (const batch of chunk(spuTags, 200)) {
-				await this.spuTag.createMany({ data: batch });
-			}
-		}
+		// Temporarily disabled - investigating unique constraint issue
+		// if (spuTags.length > 0) {
+		// 	console.log(`🏷️ Creating ${spuTags.length} SPU-tag relationships...`);
+		// 	for (const batch of chunk(spuTags, 200)) {
+		// 		await this.spuTag.createMany({ data: batch });
+		// 	}
+		// }
 
 		if (skuAttributes.length > 0) {
 			console.log(`🔧 Creating ${skuAttributes.length} SKU-attribute relationships...`);
