@@ -244,7 +244,8 @@ export class SearchServiceShop {
 
 	async findShopHaveNameLike(shopName: string, dto: FindShopByNameDto) {
 		//check available in cache
-		const cached = await this.redisService.get(shopName)
+		const key = SHOP_CONSTANT.SHOPS_LIKE_NAME_LEY(shopName)
+		const cached = await this.redisService.get(key)
 		if (cached) return cached
 
 		// Ensure take value is properly calculated
@@ -292,7 +293,6 @@ export class SearchServiceShop {
 		const shops = await this.prismaService.shop.findMany(queryOptions);
 
 		// checking fallback if shops not found
-		const key = REDIS_CONSTANTS.SHOPS_LIKE_NAME_LEY(shopName)
 		if (!shops) {
 			await this.redisService.set(key, null)
 			throw new NotFoundException("Shops not found")

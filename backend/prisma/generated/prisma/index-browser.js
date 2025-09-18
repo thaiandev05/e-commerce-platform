@@ -422,6 +422,28 @@ exports.Prisma.VoucherScalarFieldEnum = {
   ownId: 'ownId'
 };
 
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  typeOfPayment: 'typeOfPayment',
+  statusOrder: 'statusOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OrderProductScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  productId: 'productId',
+  orderId: 'orderId'
+};
+
+exports.Prisma.VoucherUsedScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  voucherId: 'voucherId',
+  orderId: 'orderId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -512,6 +534,18 @@ exports.Provider = exports.$Enums.Provider = {
   GOOGLE: 'GOOGLE'
 };
 
+exports.TypeOfPayment = exports.$Enums.TypeOfPayment = {
+  ONLINE: 'ONLINE',
+  INPERSON: 'INPERSON'
+};
+
+exports.StatusOrder = exports.$Enums.StatusOrder = {
+  PENDING: 'PENDING',
+  RECEIVED: 'RECEIVED',
+  CANCEL: 'CANCEL',
+  INPROCESS: 'INPROCESS'
+};
+
 exports.Prisma.ModelName = {
   Session: 'Session',
   Code: 'Code',
@@ -539,7 +573,10 @@ exports.Prisma.ModelName = {
   User: 'User',
   Oauth2User: 'Oauth2User',
   CreditCard: 'CreditCard',
-  Voucher: 'Voucher'
+  Voucher: 'Voucher',
+  Order: 'Order',
+  OrderProduct: 'OrderProduct',
+  VoucherUsed: 'VoucherUsed'
 };
 
 /**

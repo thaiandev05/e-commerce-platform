@@ -76,6 +76,7 @@ model Spu {
     spuTags       SpuTag[]
     spuVariations SpuVariation[]
     stores        StoreProduct[] @relation("skuStores")
+    productOrder OrderProduct[]
 
     @@index([slug])
     @@index([categoryId])

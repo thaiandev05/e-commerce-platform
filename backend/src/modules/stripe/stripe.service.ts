@@ -1,9 +1,13 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { PrismaService } from "@/prisma/prisma.service";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import Stripe from "stripe";
 
 @Injectable()
 export class StripeService {
-	constructor(@Inject("STRIPE_CLIENT") private readonly stripe: Stripe) { }
+	constructor(
+		@Inject("STRIPE_CLIENT") private readonly stripe: Stripe,
+		private readonly prismaService: PrismaService
+	) { }
 
 	async createCheckOutSession(
 		orderId: string,
@@ -13,6 +17,12 @@ export class StripeService {
 		if (!createCheckoutSessionDto || !Array.isArray(createCheckoutSessionDto) || createCheckoutSessionDto.length === 0) {
 			throw new Error('Items array is required and must not be empty');
 		}
+
+		// check available available order
+		const availableOrder = await this.prismaService.order.findUnique({
+			where: { id: orderId }
+		})
+		if (!availableOrder) throw new NotFoundException("Order not found")
 
 		return await this.stripe.checkout.sessions.create({
 			mode: 'payment',

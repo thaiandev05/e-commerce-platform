@@ -122,6 +122,7 @@ model Spu {
   spuTags       SpuTag[]
   spuVariations SpuVariation[]
   stores        StoreProduct[] @relation("skuStores")
+  productOrder  OrderProduct[]
 
   @@index([slug])
   @@index([categoryId])
@@ -621,14 +622,77 @@ model CreditCard {
 
 model Voucher {
   id              String   @id @default(uuid()) @db.Uuid
-  categoryId      String   @db.Uuid
-  percentDisCount Float
-  createdAt       DateTime @default(now())
-  expiredAt       DateTime
+  categoryId      String   @map("category_id") @db.Uuid
+  percentDisCount Float    @map("percent_discount")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  expiredAt       DateTime @map("expired_at") @db.Timestamptz()
+
+  // foreign key
+  ownId String @map("own_id") @db.Uuid
 
   // relation
-  ownId String @db.Uuid
-  own   User   @relation(fields: [ownId], references: [id], onDelete: Cascade)
+  own         User          @relation(fields: [ownId], references: [id], onDelete: Cascade)
+  voucherUsed VoucherUsed[]
+
+  @@map("voucher")
+}
+
+model Order {
+  id            String        @id @default(uuid()) @db.Uuid
+  typeOfPayment TypeOfPayment @default(INPERSON) @map("type_of_payment")
+  statusOrder   StatusOrder   @default(PENDING) @map("status_order")
+  createdAt     DateTime      @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt     DateTime      @updatedAt @map("updated_at") @db.Timestamptz()
+
+  // relation
+  VoucherUsed  VoucherUsed[]
+  OrderProduct OrderProduct[]
+
+  @@map("order")
+}
+
+model OrderProduct {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  // foreign key
+  productId String @map("product_id") @db.Uuid
+  orderId   String @map("order_id") @db.Uuid
+
+  // relation
+  spu   Spu   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("order_product")
+}
+
+model VoucherUsed {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  // foreign key
+  voucherId String @map("voucher_id") @db.Uuid
+  orderId   String @map("order_id") @db.Uuid
+
+  // relation
+  voucher Voucher @relation(fields: [voucherId], references: [id], onDelete: Cascade)
+  order   Order   @relation(fields: [orderId], references: [id])
+
+  @@map("voucher_used")
+}
+
+enum TypeOfPayment {
+  ONLINE
+  INPERSON
+
+  @@map("type_payment")
+}
+
+enum StatusOrder {
+  PENDING
+  RECEIVED
+  CANCEL
+  INPROCESS
 }
 
 enum UserRoleS {

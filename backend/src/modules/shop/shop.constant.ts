@@ -3,5 +3,5 @@ export const SHOP_CONSTANT = {
 	TIME_FILE_CACHE: {
 		CACHE_LARGE_DATA: 30
 	},
-	
+	SHOPS_LIKE_NAME_LEY: (mainkey: string) => `shopsLikeName:${mainkey}`,
 } 
