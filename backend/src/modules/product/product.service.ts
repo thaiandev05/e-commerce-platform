@@ -1,5 +1,5 @@
 import { PrismaService } from '@/prisma/prisma.service';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { SpuStatus, Voucher, VoucherUsed } from '@prisma/generated/prisma';
 import { Request } from 'express';
@@ -210,7 +210,9 @@ export class ProductService {
 		const newOrder = await this.prismaService.order.create({
 			data: {
 				typeOfPayment: dto.typeOfPayment,
-				price: priceAfterApplyVouchers
+				price: priceAfterApplyVouchers,
+				ownId: availableUser.id,
+				quantity: dto.quantityProduct
 			}
 		})
 
@@ -242,4 +244,63 @@ export class ProductService {
 
 		return newOrderProduct
 	}
+
+	async cancelOrder(req: Request, orderProductId: string) {
+		//  check availabkle user
+		const availableUser = await this.getUserById(req.user?.id || 'unknow')
+		if (!availableUser) throw new NotFoundException("User not found")
+
+		// check available orderProduct
+		const availableOrderProduct = await this.prismaService.orderProduct.findUnique({
+			where: { id: orderProductId }
+		})
+		if (!availableOrderProduct) throw new NotFoundException("OrderProduct not found")
+
+		// check available order
+		const availableOrder = await this.prismaService.order.findUnique({
+			where: { id: availableOrderProduct.orderId },
+			select: {
+				id: true,
+				ownId: true,
+				quantity: true,
+				VoucherUsed: { select: { id: true } }
+			}
+		})
+		if (!availableOrder) throw new NotFoundException("Order is not avaialble")
+
+		// check available shop
+		const availableShop = await this.prismaService.shop.findUnique({
+			where: { id: availableOrderProduct.shopId }
+		})
+		if (!availableShop) throw new NotFoundException("Shop not found")
+
+		// check permission 
+		if (availableUser.id !== availableOrder.ownId) throw new ForbiddenException("You are not author order")
+
+		// recovery 
+		await this.prismaService.$transaction([
+			this.prismaService.order.update({
+				where: { id: availableOrder.id },
+				data: {
+					statusOrder: 'CANCEL'
+				}
+			}),
+			this.prismaService.shop.update({
+				where: { id: availableShop.id },
+				data: {
+					quantityProduct: Number(availableShop.quantityProduct) + availableOrder.quantity
+				}
+			}),
+			...availableOrder.VoucherUsed.map(voucher =>
+				this.prismaService.voucherUsed.delete({
+					where: { id: voucher.id }
+				})
+			)
+		])
+
+		return {
+			success: true
+		}
+	}
+
 }

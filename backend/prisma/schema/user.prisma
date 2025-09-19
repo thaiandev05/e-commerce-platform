@@ -31,6 +31,7 @@ model User {
     CreditCard CreditCard[] @relation("payments")
     cart       Cart?        @relation("ownCart")
     Vouchers   Voucher[]
+    Order      Order[]
 
     @@index([email])
     @@index([username])
@@ -98,10 +99,15 @@ model Order {
     statusOrder   StatusOrder   @default(PENDING) @map("status_order")
     createdAt     DateTime      @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt     DateTime      @updatedAt @map("updated_at") @db.Timestamptz()
-    price     Decimal?  @map("sale_price") @db.Decimal(12, 2)
+    price         Decimal?      @map("sale_price") @db.Decimal(12, 2)
+    quantity      Int           @map("quantity") @default(1)
+    // foreign key
+    ownId         String        @db.Uuid
+
     // relation
     VoucherUsed  VoucherUsed[]
     OrderProduct OrderProduct[]
+    own          User           @relation(fields: [ownId], references: [id], onDelete: Cascade)
 
     @@map("order")
 }

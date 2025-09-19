@@ -637,7 +637,8 @@ export const vouchers: Prisma.VoucherCreateManyInput[] = voucherIds.map(id => ({
 export const orders: Prisma.OrderCreateManyInput[] = orderIds.map(id => ({
 	id,
 	typeOfPayment: faker.helpers.arrayElement(Object.values(TypeOfPayment)),
-	statusOrder: faker.helpers.arrayElement(Object.values(StatusOrder))
+	statusOrder: faker.helpers.arrayElement(Object.values(StatusOrder)),
+	ownId: faker.helpers.arrayElement(userIds) // Assign a valid user ID
 }));
 
 // --- Generate Order Products ---

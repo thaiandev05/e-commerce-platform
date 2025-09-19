@@ -431,7 +431,9 @@ exports.Prisma.OrderScalarFieldEnum = {
   statusOrder: 'statusOrder',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  price: 'price'
+  price: 'price',
+  quantity: 'quantity',
+  ownId: 'ownId'
 };
 
 exports.Prisma.OrderProductScalarFieldEnum = {

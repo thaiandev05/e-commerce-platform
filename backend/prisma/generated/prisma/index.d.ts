@@ -4208,6 +4208,7 @@ export namespace Prisma {
     shops: number
     CreditCard: number
     Vouchers: number
+    Order: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4217,6 +4218,7 @@ export namespace Prisma {
     shops?: boolean | UserCountOutputTypeCountShopsArgs
     CreditCard?: boolean | UserCountOutputTypeCountCreditCardArgs
     Vouchers?: boolean | UserCountOutputTypeCountVouchersArgs
+    Order?: boolean | UserCountOutputTypeCountOrderArgs
   }
 
   // Custom InputTypes
@@ -4270,6 +4272,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountVouchersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: VoucherWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountOrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderWhereInput
   }
 
 
@@ -31029,6 +31038,7 @@ export namespace Prisma {
     CreditCard?: boolean | User$CreditCardArgs<ExtArgs>
     cart?: boolean | User$cartArgs<ExtArgs>
     Vouchers?: boolean | User$VouchersArgs<ExtArgs>
+    Order?: boolean | User$OrderArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -31117,6 +31127,7 @@ export namespace Prisma {
     CreditCard?: boolean | User$CreditCardArgs<ExtArgs>
     cart?: boolean | User$cartArgs<ExtArgs>
     Vouchers?: boolean | User$VouchersArgs<ExtArgs>
+    Order?: boolean | User$OrderArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -31133,6 +31144,7 @@ export namespace Prisma {
       CreditCard: Prisma.$CreditCardPayload<ExtArgs>[]
       cart: Prisma.$CartPayload<ExtArgs> | null
       Vouchers: Prisma.$VoucherPayload<ExtArgs>[]
+      Order: Prisma.$OrderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -31559,6 +31571,7 @@ export namespace Prisma {
     CreditCard<T extends User$CreditCardArgs<ExtArgs> = {}>(args?: Subset<T, User$CreditCardArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CreditCardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     cart<T extends User$cartArgs<ExtArgs> = {}>(args?: Subset<T, User$cartArgs<ExtArgs>>): Prisma__CartClient<$Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     Vouchers<T extends User$VouchersArgs<ExtArgs> = {}>(args?: Subset<T, User$VouchersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VoucherPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Order<T extends User$OrderArgs<ExtArgs> = {}>(args?: Subset<T, User$OrderArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -32177,6 +32190,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: VoucherScalarFieldEnum | VoucherScalarFieldEnum[]
+  }
+
+  /**
+   * User.Order
+   */
+  export type User$OrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    where?: OrderWhereInput
+    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    cursor?: OrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
   }
 
   /**
@@ -35632,10 +35669,12 @@ export namespace Prisma {
 
   export type OrderAvgAggregateOutputType = {
     price: Decimal | null
+    quantity: number | null
   }
 
   export type OrderSumAggregateOutputType = {
     price: Decimal | null
+    quantity: number | null
   }
 
   export type OrderMinAggregateOutputType = {
@@ -35645,6 +35684,8 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     price: Decimal | null
+    quantity: number | null
+    ownId: string | null
   }
 
   export type OrderMaxAggregateOutputType = {
@@ -35654,6 +35695,8 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     price: Decimal | null
+    quantity: number | null
+    ownId: string | null
   }
 
   export type OrderCountAggregateOutputType = {
@@ -35663,16 +35706,20 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     price: number
+    quantity: number
+    ownId: number
     _all: number
   }
 
 
   export type OrderAvgAggregateInputType = {
     price?: true
+    quantity?: true
   }
 
   export type OrderSumAggregateInputType = {
     price?: true
+    quantity?: true
   }
 
   export type OrderMinAggregateInputType = {
@@ -35682,6 +35729,8 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     price?: true
+    quantity?: true
+    ownId?: true
   }
 
   export type OrderMaxAggregateInputType = {
@@ -35691,6 +35740,8 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     price?: true
+    quantity?: true
+    ownId?: true
   }
 
   export type OrderCountAggregateInputType = {
@@ -35700,6 +35751,8 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     price?: true
+    quantity?: true
+    ownId?: true
     _all?: true
   }
 
@@ -35796,6 +35849,8 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     price: Decimal | null
+    quantity: number
+    ownId: string
     _count: OrderCountAggregateOutputType | null
     _avg: OrderAvgAggregateOutputType | null
     _sum: OrderSumAggregateOutputType | null
@@ -35824,8 +35879,11 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     price?: boolean
+    quantity?: boolean
+    ownId?: boolean
     VoucherUsed?: boolean | Order$VoucherUsedArgs<ExtArgs>
     OrderProduct?: boolean | Order$OrderProductArgs<ExtArgs>
+    own?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
@@ -35836,6 +35894,9 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     price?: boolean
+    quantity?: boolean
+    ownId?: boolean
+    own?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -35845,6 +35906,9 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     price?: boolean
+    quantity?: boolean
+    ownId?: boolean
+    own?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectScalar = {
@@ -35854,22 +35918,30 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     price?: boolean
+    quantity?: boolean
+    ownId?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "typeOfPayment" | "statusOrder" | "createdAt" | "updatedAt" | "price", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "typeOfPayment" | "statusOrder" | "createdAt" | "updatedAt" | "price" | "quantity" | "ownId", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     VoucherUsed?: boolean | Order$VoucherUsedArgs<ExtArgs>
     OrderProduct?: boolean | Order$OrderProductArgs<ExtArgs>
+    own?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type OrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type OrderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type OrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    own?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type OrderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    own?: boolean | UserDefaultArgs<ExtArgs>
+  }
 
   export type $OrderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Order"
     objects: {
       VoucherUsed: Prisma.$VoucherUsedPayload<ExtArgs>[]
       OrderProduct: Prisma.$OrderProductPayload<ExtArgs>[]
+      own: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -35878,6 +35950,8 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       price: Prisma.Decimal | null
+      quantity: number
+      ownId: string
     }, ExtArgs["result"]["order"]>
     composites: {}
   }
@@ -36274,6 +36348,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     VoucherUsed<T extends Order$VoucherUsedArgs<ExtArgs> = {}>(args?: Subset<T, Order$VoucherUsedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VoucherUsedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     OrderProduct<T extends Order$OrderProductArgs<ExtArgs> = {}>(args?: Subset<T, Order$OrderProductArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    own<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -36309,6 +36384,8 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Order", 'DateTime'>
     readonly updatedAt: FieldRef<"Order", 'DateTime'>
     readonly price: FieldRef<"Order", 'Decimal'>
+    readonly quantity: FieldRef<"Order", 'Int'>
+    readonly ownId: FieldRef<"Order", 'String'>
   }
     
 
@@ -36558,6 +36635,10 @@ export namespace Prisma {
      */
     data: OrderCreateManyInput | OrderCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -36628,6 +36709,10 @@ export namespace Prisma {
      * Limit how many Orders to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -39296,7 +39381,9 @@ export namespace Prisma {
     statusOrder: 'statusOrder',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    price: 'price'
+    price: 'price',
+    quantity: 'quantity',
+    ownId: 'ownId'
   };
 
   export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -41359,6 +41446,7 @@ export namespace Prisma {
     CreditCard?: CreditCardListRelationFilter
     cart?: XOR<CartNullableScalarRelationFilter, CartWhereInput> | null
     Vouchers?: VoucherListRelationFilter
+    Order?: OrderListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -41392,6 +41480,7 @@ export namespace Prisma {
     CreditCard?: CreditCardOrderByRelationAggregateInput
     cart?: CartOrderByWithRelationInput
     Vouchers?: VoucherOrderByRelationAggregateInput
+    Order?: OrderOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -41428,6 +41517,7 @@ export namespace Prisma {
     CreditCard?: CreditCardListRelationFilter
     cart?: XOR<CartNullableScalarRelationFilter, CartWhereInput> | null
     Vouchers?: VoucherListRelationFilter
+    Order?: OrderListRelationFilter
   }, "id" | "username" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -41738,8 +41828,11 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     price?: DecimalNullableFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
+    quantity?: IntFilter<"Order"> | number
+    ownId?: UuidFilter<"Order"> | string
     VoucherUsed?: VoucherUsedListRelationFilter
     OrderProduct?: OrderProductListRelationFilter
+    own?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type OrderOrderByWithRelationInput = {
@@ -41749,8 +41842,11 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     price?: SortOrderInput | SortOrder
+    quantity?: SortOrder
+    ownId?: SortOrder
     VoucherUsed?: VoucherUsedOrderByRelationAggregateInput
     OrderProduct?: OrderProductOrderByRelationAggregateInput
+    own?: UserOrderByWithRelationInput
   }
 
   export type OrderWhereUniqueInput = Prisma.AtLeast<{
@@ -41763,8 +41859,11 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     price?: DecimalNullableFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
+    quantity?: IntFilter<"Order"> | number
+    ownId?: UuidFilter<"Order"> | string
     VoucherUsed?: VoucherUsedListRelationFilter
     OrderProduct?: OrderProductListRelationFilter
+    own?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type OrderOrderByWithAggregationInput = {
@@ -41774,6 +41873,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     price?: SortOrderInput | SortOrder
+    quantity?: SortOrder
+    ownId?: SortOrder
     _count?: OrderCountOrderByAggregateInput
     _avg?: OrderAvgOrderByAggregateInput
     _max?: OrderMaxOrderByAggregateInput
@@ -41791,6 +41892,8 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
     price?: DecimalNullableWithAggregatesFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
+    quantity?: IntWithAggregatesFilter<"Order"> | number
+    ownId?: UuidWithAggregatesFilter<"Order"> | string
   }
 
   export type OrderProductWhereInput = {
@@ -43710,6 +43813,7 @@ export namespace Prisma {
     CreditCard?: CreditCardCreateNestedManyWithoutUserInput
     cart?: CartCreateNestedOneWithoutOwnInput
     Vouchers?: VoucherCreateNestedManyWithoutOwnInput
+    Order?: OrderCreateNestedManyWithoutOwnInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -43743,6 +43847,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutUserInput
     cart?: CartUncheckedCreateNestedOneWithoutOwnInput
     Vouchers?: VoucherUncheckedCreateNestedManyWithoutOwnInput
+    Order?: OrderUncheckedCreateNestedManyWithoutOwnInput
   }
 
   export type UserUpdateInput = {
@@ -43776,6 +43881,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUpdateManyWithoutUserNestedInput
     cart?: CartUpdateOneWithoutOwnNestedInput
     Vouchers?: VoucherUpdateManyWithoutOwnNestedInput
+    Order?: OrderUpdateManyWithoutOwnNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -43809,6 +43915,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUncheckedUpdateManyWithoutUserNestedInput
     cart?: CartUncheckedUpdateOneWithoutOwnNestedInput
     Vouchers?: VoucherUncheckedUpdateManyWithoutOwnNestedInput
+    Order?: OrderUncheckedUpdateManyWithoutOwnNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -44160,8 +44267,10 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     price?: Decimal | DecimalJsLike | number | string | null
+    quantity?: number
     VoucherUsed?: VoucherUsedCreateNestedManyWithoutOrderInput
     OrderProduct?: OrderProductCreateNestedManyWithoutOrderInput
+    own: UserCreateNestedOneWithoutOrderInput
   }
 
   export type OrderUncheckedCreateInput = {
@@ -44171,6 +44280,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     price?: Decimal | DecimalJsLike | number | string | null
+    quantity?: number
+    ownId: string
     VoucherUsed?: VoucherUsedUncheckedCreateNestedManyWithoutOrderInput
     OrderProduct?: OrderProductUncheckedCreateNestedManyWithoutOrderInput
   }
@@ -44182,8 +44293,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
     VoucherUsed?: VoucherUsedUpdateManyWithoutOrderNestedInput
     OrderProduct?: OrderProductUpdateManyWithoutOrderNestedInput
+    own?: UserUpdateOneRequiredWithoutOrderNestedInput
   }
 
   export type OrderUncheckedUpdateInput = {
@@ -44193,6 +44306,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    ownId?: StringFieldUpdateOperationsInput | string
     VoucherUsed?: VoucherUsedUncheckedUpdateManyWithoutOrderNestedInput
     OrderProduct?: OrderProductUncheckedUpdateManyWithoutOrderNestedInput
   }
@@ -44204,6 +44319,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     price?: Decimal | DecimalJsLike | number | string | null
+    quantity?: number
+    ownId: string
   }
 
   export type OrderUpdateManyMutationInput = {
@@ -44213,6 +44330,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
   }
 
   export type OrderUncheckedUpdateManyInput = {
@@ -44222,6 +44340,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    ownId?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrderProductCreateInput = {
@@ -45905,6 +46025,12 @@ export namespace Prisma {
     none?: VoucherWhereInput
   }
 
+  export type OrderListRelationFilter = {
+    every?: OrderWhereInput
+    some?: OrderWhereInput
+    none?: OrderWhereInput
+  }
+
   export type SessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -45922,6 +46048,10 @@ export namespace Prisma {
   }
 
   export type VoucherOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type OrderOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -46233,10 +46363,13 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     price?: SortOrder
+    quantity?: SortOrder
+    ownId?: SortOrder
   }
 
   export type OrderAvgOrderByAggregateInput = {
     price?: SortOrder
+    quantity?: SortOrder
   }
 
   export type OrderMaxOrderByAggregateInput = {
@@ -46246,6 +46379,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     price?: SortOrder
+    quantity?: SortOrder
+    ownId?: SortOrder
   }
 
   export type OrderMinOrderByAggregateInput = {
@@ -46255,10 +46390,13 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     price?: SortOrder
+    quantity?: SortOrder
+    ownId?: SortOrder
   }
 
   export type OrderSumOrderByAggregateInput = {
     price?: SortOrder
+    quantity?: SortOrder
   }
 
   export type EnumTypeOfPaymentWithAggregatesFilter<$PrismaModel = never> = {
@@ -48074,6 +48212,13 @@ export namespace Prisma {
     connect?: VoucherWhereUniqueInput | VoucherWhereUniqueInput[]
   }
 
+  export type OrderCreateNestedManyWithoutOwnInput = {
+    create?: XOR<OrderCreateWithoutOwnInput, OrderUncheckedCreateWithoutOwnInput> | OrderCreateWithoutOwnInput[] | OrderUncheckedCreateWithoutOwnInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutOwnInput | OrderCreateOrConnectWithoutOwnInput[]
+    createMany?: OrderCreateManyOwnInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
   export type UserRoleUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<UserRoleCreateWithoutUserInput, UserRoleUncheckedCreateWithoutUserInput> | UserRoleCreateWithoutUserInput[] | UserRoleUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserRoleCreateOrConnectWithoutUserInput | UserRoleCreateOrConnectWithoutUserInput[]
@@ -48126,6 +48271,13 @@ export namespace Prisma {
     connectOrCreate?: VoucherCreateOrConnectWithoutOwnInput | VoucherCreateOrConnectWithoutOwnInput[]
     createMany?: VoucherCreateManyOwnInputEnvelope
     connect?: VoucherWhereUniqueInput | VoucherWhereUniqueInput[]
+  }
+
+  export type OrderUncheckedCreateNestedManyWithoutOwnInput = {
+    create?: XOR<OrderCreateWithoutOwnInput, OrderUncheckedCreateWithoutOwnInput> | OrderCreateWithoutOwnInput[] | OrderUncheckedCreateWithoutOwnInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutOwnInput | OrderCreateOrConnectWithoutOwnInput[]
+    createMany?: OrderCreateManyOwnInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
   export type EnumAccountTypeFieldUpdateOperationsInput = {
@@ -48249,6 +48401,20 @@ export namespace Prisma {
     deleteMany?: VoucherScalarWhereInput | VoucherScalarWhereInput[]
   }
 
+  export type OrderUpdateManyWithoutOwnNestedInput = {
+    create?: XOR<OrderCreateWithoutOwnInput, OrderUncheckedCreateWithoutOwnInput> | OrderCreateWithoutOwnInput[] | OrderUncheckedCreateWithoutOwnInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutOwnInput | OrderCreateOrConnectWithoutOwnInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutOwnInput | OrderUpsertWithWhereUniqueWithoutOwnInput[]
+    createMany?: OrderCreateManyOwnInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutOwnInput | OrderUpdateWithWhereUniqueWithoutOwnInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutOwnInput | OrderUpdateManyWithWhereWithoutOwnInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
   export type UserRoleUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<UserRoleCreateWithoutUserInput, UserRoleUncheckedCreateWithoutUserInput> | UserRoleCreateWithoutUserInput[] | UserRoleUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserRoleCreateOrConnectWithoutUserInput | UserRoleCreateOrConnectWithoutUserInput[]
@@ -48351,6 +48517,20 @@ export namespace Prisma {
     update?: VoucherUpdateWithWhereUniqueWithoutOwnInput | VoucherUpdateWithWhereUniqueWithoutOwnInput[]
     updateMany?: VoucherUpdateManyWithWhereWithoutOwnInput | VoucherUpdateManyWithWhereWithoutOwnInput[]
     deleteMany?: VoucherScalarWhereInput | VoucherScalarWhereInput[]
+  }
+
+  export type OrderUncheckedUpdateManyWithoutOwnNestedInput = {
+    create?: XOR<OrderCreateWithoutOwnInput, OrderUncheckedCreateWithoutOwnInput> | OrderCreateWithoutOwnInput[] | OrderUncheckedCreateWithoutOwnInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutOwnInput | OrderCreateOrConnectWithoutOwnInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutOwnInput | OrderUpsertWithWhereUniqueWithoutOwnInput[]
+    createMany?: OrderCreateManyOwnInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutOwnInput | OrderUpdateWithWhereUniqueWithoutOwnInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutOwnInput | OrderUpdateManyWithWhereWithoutOwnInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutOauth2UserInput = {
@@ -48463,6 +48643,12 @@ export namespace Prisma {
     connect?: OrderProductWhereUniqueInput | OrderProductWhereUniqueInput[]
   }
 
+  export type UserCreateNestedOneWithoutOrderInput = {
+    create?: XOR<UserCreateWithoutOrderInput, UserUncheckedCreateWithoutOrderInput>
+    connectOrCreate?: UserCreateOrConnectWithoutOrderInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type VoucherUsedUncheckedCreateNestedManyWithoutOrderInput = {
     create?: XOR<VoucherUsedCreateWithoutOrderInput, VoucherUsedUncheckedCreateWithoutOrderInput> | VoucherUsedCreateWithoutOrderInput[] | VoucherUsedUncheckedCreateWithoutOrderInput[]
     connectOrCreate?: VoucherUsedCreateOrConnectWithoutOrderInput | VoucherUsedCreateOrConnectWithoutOrderInput[]
@@ -48511,6 +48697,14 @@ export namespace Prisma {
     update?: OrderProductUpdateWithWhereUniqueWithoutOrderInput | OrderProductUpdateWithWhereUniqueWithoutOrderInput[]
     updateMany?: OrderProductUpdateManyWithWhereWithoutOrderInput | OrderProductUpdateManyWithWhereWithoutOrderInput[]
     deleteMany?: OrderProductScalarWhereInput | OrderProductScalarWhereInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutOrderNestedInput = {
+    create?: XOR<UserCreateWithoutOrderInput, UserUncheckedCreateWithoutOrderInput>
+    connectOrCreate?: UserCreateOrConnectWithoutOrderInput
+    upsert?: UserUpsertWithoutOrderInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOrderInput, UserUpdateWithoutOrderInput>, UserUncheckedUpdateWithoutOrderInput>
   }
 
   export type VoucherUsedUncheckedUpdateManyWithoutOrderNestedInput = {
@@ -49155,6 +49349,7 @@ export namespace Prisma {
     CreditCard?: CreditCardCreateNestedManyWithoutUserInput
     cart?: CartCreateNestedOneWithoutOwnInput
     Vouchers?: VoucherCreateNestedManyWithoutOwnInput
+    Order?: OrderCreateNestedManyWithoutOwnInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -49187,6 +49382,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutUserInput
     cart?: CartUncheckedCreateNestedOneWithoutOwnInput
     Vouchers?: VoucherUncheckedCreateNestedManyWithoutOwnInput
+    Order?: OrderUncheckedCreateNestedManyWithoutOwnInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -49235,6 +49431,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUpdateManyWithoutUserNestedInput
     cart?: CartUpdateOneWithoutOwnNestedInput
     Vouchers?: VoucherUpdateManyWithoutOwnNestedInput
+    Order?: OrderUpdateManyWithoutOwnNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -49267,6 +49464,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUncheckedUpdateManyWithoutUserNestedInput
     cart?: CartUncheckedUpdateOneWithoutOwnNestedInput
     Vouchers?: VoucherUncheckedUpdateManyWithoutOwnNestedInput
+    Order?: OrderUncheckedUpdateManyWithoutOwnNestedInput
   }
 
   export type UserCreateWithoutCodesInput = {
@@ -49299,6 +49497,7 @@ export namespace Prisma {
     CreditCard?: CreditCardCreateNestedManyWithoutUserInput
     cart?: CartCreateNestedOneWithoutOwnInput
     Vouchers?: VoucherCreateNestedManyWithoutOwnInput
+    Order?: OrderCreateNestedManyWithoutOwnInput
   }
 
   export type UserUncheckedCreateWithoutCodesInput = {
@@ -49331,6 +49530,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutUserInput
     cart?: CartUncheckedCreateNestedOneWithoutOwnInput
     Vouchers?: VoucherUncheckedCreateNestedManyWithoutOwnInput
+    Order?: OrderUncheckedCreateNestedManyWithoutOwnInput
   }
 
   export type UserCreateOrConnectWithoutCodesInput = {
@@ -49379,6 +49579,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUpdateManyWithoutUserNestedInput
     cart?: CartUpdateOneWithoutOwnNestedInput
     Vouchers?: VoucherUpdateManyWithoutOwnNestedInput
+    Order?: OrderUpdateManyWithoutOwnNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCodesInput = {
@@ -49411,6 +49612,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUncheckedUpdateManyWithoutUserNestedInput
     cart?: CartUncheckedUpdateOneWithoutOwnNestedInput
     Vouchers?: VoucherUncheckedUpdateManyWithoutOwnNestedInput
+    Order?: OrderUncheckedUpdateManyWithoutOwnNestedInput
   }
 
   export type CategoryCreateWithoutChildrenInput = {
@@ -52641,6 +52843,7 @@ export namespace Prisma {
     CreditCard?: CreditCardCreateNestedManyWithoutUserInput
     cart?: CartCreateNestedOneWithoutOwnInput
     Vouchers?: VoucherCreateNestedManyWithoutOwnInput
+    Order?: OrderCreateNestedManyWithoutOwnInput
   }
 
   export type UserUncheckedCreateWithoutRolesInput = {
@@ -52673,6 +52876,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutUserInput
     cart?: CartUncheckedCreateNestedOneWithoutOwnInput
     Vouchers?: VoucherUncheckedCreateNestedManyWithoutOwnInput
+    Order?: OrderUncheckedCreateNestedManyWithoutOwnInput
   }
 
   export type UserCreateOrConnectWithoutRolesInput = {
@@ -52742,6 +52946,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUpdateManyWithoutUserNestedInput
     cart?: CartUpdateOneWithoutOwnNestedInput
     Vouchers?: VoucherUpdateManyWithoutOwnNestedInput
+    Order?: OrderUpdateManyWithoutOwnNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRolesInput = {
@@ -52774,6 +52979,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUncheckedUpdateManyWithoutUserNestedInput
     cart?: CartUncheckedUpdateOneWithoutOwnNestedInput
     Vouchers?: VoucherUncheckedUpdateManyWithoutOwnNestedInput
+    Order?: OrderUncheckedUpdateManyWithoutOwnNestedInput
   }
 
   export type RoleUpsertWithoutUserRolesInput = {
@@ -52833,6 +53039,7 @@ export namespace Prisma {
     CreditCard?: CreditCardCreateNestedManyWithoutUserInput
     cart?: CartCreateNestedOneWithoutOwnInput
     Vouchers?: VoucherCreateNestedManyWithoutOwnInput
+    Order?: OrderCreateNestedManyWithoutOwnInput
   }
 
   export type UserUncheckedCreateWithoutShopsInput = {
@@ -52865,6 +53072,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutUserInput
     cart?: CartUncheckedCreateNestedOneWithoutOwnInput
     Vouchers?: VoucherUncheckedCreateNestedManyWithoutOwnInput
+    Order?: OrderUncheckedCreateNestedManyWithoutOwnInput
   }
 
   export type UserCreateOrConnectWithoutShopsInput = {
@@ -52987,6 +53195,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUpdateManyWithoutUserNestedInput
     cart?: CartUpdateOneWithoutOwnNestedInput
     Vouchers?: VoucherUpdateManyWithoutOwnNestedInput
+    Order?: OrderUpdateManyWithoutOwnNestedInput
   }
 
   export type UserUncheckedUpdateWithoutShopsInput = {
@@ -53019,6 +53228,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUncheckedUpdateManyWithoutUserNestedInput
     cart?: CartUncheckedUpdateOneWithoutOwnNestedInput
     Vouchers?: VoucherUncheckedUpdateManyWithoutOwnNestedInput
+    Order?: OrderUncheckedUpdateManyWithoutOwnNestedInput
   }
 
   export type SpuUpsertWithWhereUniqueWithoutShopInput = {
@@ -53083,6 +53293,7 @@ export namespace Prisma {
     shops?: ShopCreateNestedManyWithoutOwnerInput
     CreditCard?: CreditCardCreateNestedManyWithoutUserInput
     Vouchers?: VoucherCreateNestedManyWithoutOwnInput
+    Order?: OrderCreateNestedManyWithoutOwnInput
   }
 
   export type UserUncheckedCreateWithoutCartInput = {
@@ -53115,6 +53326,7 @@ export namespace Prisma {
     shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutUserInput
     Vouchers?: VoucherUncheckedCreateNestedManyWithoutOwnInput
+    Order?: OrderUncheckedCreateNestedManyWithoutOwnInput
   }
 
   export type UserCreateOrConnectWithoutCartInput = {
@@ -53183,6 +53395,7 @@ export namespace Prisma {
     shops?: ShopUpdateManyWithoutOwnerNestedInput
     CreditCard?: CreditCardUpdateManyWithoutUserNestedInput
     Vouchers?: VoucherUpdateManyWithoutOwnNestedInput
+    Order?: OrderUpdateManyWithoutOwnNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCartInput = {
@@ -53215,6 +53428,7 @@ export namespace Prisma {
     shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutUserNestedInput
     Vouchers?: VoucherUncheckedUpdateManyWithoutOwnNestedInput
+    Order?: OrderUncheckedUpdateManyWithoutOwnNestedInput
   }
 
   export type StoreProductUpsertWithWhereUniqueWithoutCartInput = {
@@ -53643,6 +53857,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type OrderCreateWithoutOwnInput = {
+    id?: string
+    typeOfPayment?: $Enums.TypeOfPayment
+    statusOrder?: $Enums.StatusOrder
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    price?: Decimal | DecimalJsLike | number | string | null
+    quantity?: number
+    VoucherUsed?: VoucherUsedCreateNestedManyWithoutOrderInput
+    OrderProduct?: OrderProductCreateNestedManyWithoutOrderInput
+  }
+
+  export type OrderUncheckedCreateWithoutOwnInput = {
+    id?: string
+    typeOfPayment?: $Enums.TypeOfPayment
+    statusOrder?: $Enums.StatusOrder
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    price?: Decimal | DecimalJsLike | number | string | null
+    quantity?: number
+    VoucherUsed?: VoucherUsedUncheckedCreateNestedManyWithoutOrderInput
+    OrderProduct?: OrderProductUncheckedCreateNestedManyWithoutOrderInput
+  }
+
+  export type OrderCreateOrConnectWithoutOwnInput = {
+    where: OrderWhereUniqueInput
+    create: XOR<OrderCreateWithoutOwnInput, OrderUncheckedCreateWithoutOwnInput>
+  }
+
+  export type OrderCreateManyOwnInputEnvelope = {
+    data: OrderCreateManyOwnInput | OrderCreateManyOwnInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserRoleUpsertWithWhereUniqueWithoutUserInput = {
     where: UserRoleWhereUniqueInput
     update: XOR<UserRoleUpdateWithoutUserInput, UserRoleUncheckedUpdateWithoutUserInput>
@@ -53877,6 +54125,36 @@ export namespace Prisma {
     ownId?: UuidFilter<"Voucher"> | string
   }
 
+  export type OrderUpsertWithWhereUniqueWithoutOwnInput = {
+    where: OrderWhereUniqueInput
+    update: XOR<OrderUpdateWithoutOwnInput, OrderUncheckedUpdateWithoutOwnInput>
+    create: XOR<OrderCreateWithoutOwnInput, OrderUncheckedCreateWithoutOwnInput>
+  }
+
+  export type OrderUpdateWithWhereUniqueWithoutOwnInput = {
+    where: OrderWhereUniqueInput
+    data: XOR<OrderUpdateWithoutOwnInput, OrderUncheckedUpdateWithoutOwnInput>
+  }
+
+  export type OrderUpdateManyWithWhereWithoutOwnInput = {
+    where: OrderScalarWhereInput
+    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyWithoutOwnInput>
+  }
+
+  export type OrderScalarWhereInput = {
+    AND?: OrderScalarWhereInput | OrderScalarWhereInput[]
+    OR?: OrderScalarWhereInput[]
+    NOT?: OrderScalarWhereInput | OrderScalarWhereInput[]
+    id?: UuidFilter<"Order"> | string
+    typeOfPayment?: EnumTypeOfPaymentFilter<"Order"> | $Enums.TypeOfPayment
+    statusOrder?: EnumStatusOrderFilter<"Order"> | $Enums.StatusOrder
+    createdAt?: DateTimeFilter<"Order"> | Date | string
+    updatedAt?: DateTimeFilter<"Order"> | Date | string
+    price?: DecimalNullableFilter<"Order"> | Decimal | DecimalJsLike | number | string | null
+    quantity?: IntFilter<"Order"> | number
+    ownId?: UuidFilter<"Order"> | string
+  }
+
   export type UserCreateWithoutOauth2UserInput = {
     id?: string
     fullname: string
@@ -53907,6 +54185,7 @@ export namespace Prisma {
     CreditCard?: CreditCardCreateNestedManyWithoutUserInput
     cart?: CartCreateNestedOneWithoutOwnInput
     Vouchers?: VoucherCreateNestedManyWithoutOwnInput
+    Order?: OrderCreateNestedManyWithoutOwnInput
   }
 
   export type UserUncheckedCreateWithoutOauth2UserInput = {
@@ -53939,6 +54218,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutUserInput
     cart?: CartUncheckedCreateNestedOneWithoutOwnInput
     Vouchers?: VoucherUncheckedCreateNestedManyWithoutOwnInput
+    Order?: OrderUncheckedCreateNestedManyWithoutOwnInput
   }
 
   export type UserCreateOrConnectWithoutOauth2UserInput = {
@@ -53987,6 +54267,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUpdateManyWithoutUserNestedInput
     cart?: CartUpdateOneWithoutOwnNestedInput
     Vouchers?: VoucherUpdateManyWithoutOwnNestedInput
+    Order?: OrderUpdateManyWithoutOwnNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOauth2UserInput = {
@@ -54019,6 +54300,7 @@ export namespace Prisma {
     CreditCard?: CreditCardUncheckedUpdateManyWithoutUserNestedInput
     cart?: CartUncheckedUpdateOneWithoutOwnNestedInput
     Vouchers?: VoucherUncheckedUpdateManyWithoutOwnNestedInput
+    Order?: OrderUncheckedUpdateManyWithoutOwnNestedInput
   }
 
   export type UserCreateWithoutCreditCardInput = {
@@ -54051,6 +54333,7 @@ export namespace Prisma {
     shops?: ShopCreateNestedManyWithoutOwnerInput
     cart?: CartCreateNestedOneWithoutOwnInput
     Vouchers?: VoucherCreateNestedManyWithoutOwnInput
+    Order?: OrderCreateNestedManyWithoutOwnInput
   }
 
   export type UserUncheckedCreateWithoutCreditCardInput = {
@@ -54083,6 +54366,7 @@ export namespace Prisma {
     shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
     cart?: CartUncheckedCreateNestedOneWithoutOwnInput
     Vouchers?: VoucherUncheckedCreateNestedManyWithoutOwnInput
+    Order?: OrderUncheckedCreateNestedManyWithoutOwnInput
   }
 
   export type UserCreateOrConnectWithoutCreditCardInput = {
@@ -54131,6 +54415,7 @@ export namespace Prisma {
     shops?: ShopUpdateManyWithoutOwnerNestedInput
     cart?: CartUpdateOneWithoutOwnNestedInput
     Vouchers?: VoucherUpdateManyWithoutOwnNestedInput
+    Order?: OrderUpdateManyWithoutOwnNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreditCardInput = {
@@ -54163,6 +54448,7 @@ export namespace Prisma {
     shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
     cart?: CartUncheckedUpdateOneWithoutOwnNestedInput
     Vouchers?: VoucherUncheckedUpdateManyWithoutOwnNestedInput
+    Order?: OrderUncheckedUpdateManyWithoutOwnNestedInput
   }
 
   export type UserCreateWithoutVouchersInput = {
@@ -54195,6 +54481,7 @@ export namespace Prisma {
     shops?: ShopCreateNestedManyWithoutOwnerInput
     CreditCard?: CreditCardCreateNestedManyWithoutUserInput
     cart?: CartCreateNestedOneWithoutOwnInput
+    Order?: OrderCreateNestedManyWithoutOwnInput
   }
 
   export type UserUncheckedCreateWithoutVouchersInput = {
@@ -54227,6 +54514,7 @@ export namespace Prisma {
     shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
     CreditCard?: CreditCardUncheckedCreateNestedManyWithoutUserInput
     cart?: CartUncheckedCreateNestedOneWithoutOwnInput
+    Order?: OrderUncheckedCreateNestedManyWithoutOwnInput
   }
 
   export type UserCreateOrConnectWithoutVouchersInput = {
@@ -54297,6 +54585,7 @@ export namespace Prisma {
     shops?: ShopUpdateManyWithoutOwnerNestedInput
     CreditCard?: CreditCardUpdateManyWithoutUserNestedInput
     cart?: CartUpdateOneWithoutOwnNestedInput
+    Order?: OrderUpdateManyWithoutOwnNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVouchersInput = {
@@ -54329,6 +54618,7 @@ export namespace Prisma {
     shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
     CreditCard?: CreditCardUncheckedUpdateManyWithoutUserNestedInput
     cart?: CartUncheckedUpdateOneWithoutOwnNestedInput
+    Order?: OrderUncheckedUpdateManyWithoutOwnNestedInput
   }
 
   export type VoucherUsedUpsertWithWhereUniqueWithoutVoucherInput = {
@@ -54403,6 +54693,77 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserCreateWithoutOrderInput = {
+    id?: string
+    fullname: string
+    username: string
+    email: string
+    phone?: string | null
+    hashingPassword?: string | null
+    accountType?: $Enums.AccountType
+    avatarUrl?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    searchCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    visible?: $Enums.UserVisibility
+    status?: $Enums.Status
+    numberIdentify?: string | null
+    isBanned?: boolean
+    isLocked?: boolean
+    isVerified?: boolean
+    lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    roles?: UserRoleCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    codes?: CodeCreateNestedOneWithoutUserInput
+    Oauth2User?: Oauth2UserCreateNestedManyWithoutUserInput
+    shops?: ShopCreateNestedManyWithoutOwnerInput
+    CreditCard?: CreditCardCreateNestedManyWithoutUserInput
+    cart?: CartCreateNestedOneWithoutOwnInput
+    Vouchers?: VoucherCreateNestedManyWithoutOwnInput
+  }
+
+  export type UserUncheckedCreateWithoutOrderInput = {
+    id?: string
+    fullname: string
+    username: string
+    email: string
+    phone?: string | null
+    hashingPassword?: string | null
+    accountType?: $Enums.AccountType
+    avatarUrl?: string | null
+    address?: string | null
+    city?: string | null
+    state?: string | null
+    searchCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    visible?: $Enums.UserVisibility
+    status?: $Enums.Status
+    numberIdentify?: string | null
+    isBanned?: boolean
+    isLocked?: boolean
+    isVerified?: boolean
+    lastActived?: Date | string | null
+    flags?: UserCreateflagsInput | $Enums.UserFlag[]
+    roles?: UserRoleUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    codes?: CodeUncheckedCreateNestedOneWithoutUserInput
+    Oauth2User?: Oauth2UserUncheckedCreateNestedManyWithoutUserInput
+    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
+    CreditCard?: CreditCardUncheckedCreateNestedManyWithoutUserInput
+    cart?: CartUncheckedCreateNestedOneWithoutOwnInput
+    Vouchers?: VoucherUncheckedCreateNestedManyWithoutOwnInput
+  }
+
+  export type UserCreateOrConnectWithoutOrderInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutOrderInput, UserUncheckedCreateWithoutOrderInput>
+  }
+
   export type VoucherUsedUpsertWithWhereUniqueWithoutOrderInput = {
     where: VoucherUsedWhereUniqueInput
     update: XOR<VoucherUsedUpdateWithoutOrderInput, VoucherUsedUncheckedUpdateWithoutOrderInput>
@@ -54433,6 +54794,83 @@ export namespace Prisma {
   export type OrderProductUpdateManyWithWhereWithoutOrderInput = {
     where: OrderProductScalarWhereInput
     data: XOR<OrderProductUpdateManyMutationInput, OrderProductUncheckedUpdateManyWithoutOrderInput>
+  }
+
+  export type UserUpsertWithoutOrderInput = {
+    update: XOR<UserUpdateWithoutOrderInput, UserUncheckedUpdateWithoutOrderInput>
+    create: XOR<UserCreateWithoutOrderInput, UserUncheckedCreateWithoutOrderInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutOrderInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutOrderInput, UserUncheckedUpdateWithoutOrderInput>
+  }
+
+  export type UserUpdateWithoutOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullname?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    hashingPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    searchCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    isLocked?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    roles?: UserRoleUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    codes?: CodeUpdateOneWithoutUserNestedInput
+    Oauth2User?: Oauth2UserUpdateManyWithoutUserNestedInput
+    shops?: ShopUpdateManyWithoutOwnerNestedInput
+    CreditCard?: CreditCardUpdateManyWithoutUserNestedInput
+    cart?: CartUpdateOneWithoutOwnNestedInput
+    Vouchers?: VoucherUpdateManyWithoutOwnNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullname?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    hashingPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    accountType?: EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    searchCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visible?: EnumUserVisibilityFieldUpdateOperationsInput | $Enums.UserVisibility
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    numberIdentify?: NullableStringFieldUpdateOperationsInput | string | null
+    isBanned?: BoolFieldUpdateOperationsInput | boolean
+    isLocked?: BoolFieldUpdateOperationsInput | boolean
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    lastActived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    flags?: UserUpdateflagsInput | $Enums.UserFlag[]
+    roles?: UserRoleUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    codes?: CodeUncheckedUpdateOneWithoutUserNestedInput
+    Oauth2User?: Oauth2UserUncheckedUpdateManyWithoutUserNestedInput
+    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
+    CreditCard?: CreditCardUncheckedUpdateManyWithoutUserNestedInput
+    cart?: CartUncheckedUpdateOneWithoutOwnNestedInput
+    Vouchers?: VoucherUncheckedUpdateManyWithoutOwnNestedInput
   }
 
   export type SkuCreateWithoutProductOrderInput = {
@@ -54495,7 +54933,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     price?: Decimal | DecimalJsLike | number | string | null
+    quantity?: number
     VoucherUsed?: VoucherUsedCreateNestedManyWithoutOrderInput
+    own: UserCreateNestedOneWithoutOrderInput
   }
 
   export type OrderUncheckedCreateWithoutOrderProductInput = {
@@ -54505,6 +54945,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     price?: Decimal | DecimalJsLike | number | string | null
+    quantity?: number
+    ownId: string
     VoucherUsed?: VoucherUsedUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -54643,7 +55085,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
     VoucherUsed?: VoucherUsedUpdateManyWithoutOrderNestedInput
+    own?: UserUpdateOneRequiredWithoutOrderNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutOrderProductInput = {
@@ -54653,6 +55097,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    ownId?: StringFieldUpdateOperationsInput | string
     VoucherUsed?: VoucherUsedUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -54745,7 +55191,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     price?: Decimal | DecimalJsLike | number | string | null
+    quantity?: number
     OrderProduct?: OrderProductCreateNestedManyWithoutOrderInput
+    own: UserCreateNestedOneWithoutOrderInput
   }
 
   export type OrderUncheckedCreateWithoutVoucherUsedInput = {
@@ -54755,6 +55203,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     price?: Decimal | DecimalJsLike | number | string | null
+    quantity?: number
+    ownId: string
     OrderProduct?: OrderProductUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -54810,7 +55260,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
     OrderProduct?: OrderProductUpdateManyWithoutOrderNestedInput
+    own?: UserUpdateOneRequiredWithoutOrderNestedInput
   }
 
   export type OrderUncheckedUpdateWithoutVoucherUsedInput = {
@@ -54820,6 +55272,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    ownId?: StringFieldUpdateOperationsInput | string
     OrderProduct?: OrderProductUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -55912,6 +56366,16 @@ export namespace Prisma {
     expiredAt: Date | string
   }
 
+  export type OrderCreateManyOwnInput = {
+    id?: string
+    typeOfPayment?: $Enums.TypeOfPayment
+    statusOrder?: $Enums.StatusOrder
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    price?: Decimal | DecimalJsLike | number | string | null
+    quantity?: number
+  }
+
   export type UserRoleUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -56141,6 +56605,40 @@ export namespace Prisma {
     percentDisCount?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiredAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrderUpdateWithoutOwnInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    typeOfPayment?: EnumTypeOfPaymentFieldUpdateOperationsInput | $Enums.TypeOfPayment
+    statusOrder?: EnumStatusOrderFieldUpdateOperationsInput | $Enums.StatusOrder
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    VoucherUsed?: VoucherUsedUpdateManyWithoutOrderNestedInput
+    OrderProduct?: OrderProductUpdateManyWithoutOrderNestedInput
+  }
+
+  export type OrderUncheckedUpdateWithoutOwnInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    typeOfPayment?: EnumTypeOfPaymentFieldUpdateOperationsInput | $Enums.TypeOfPayment
+    statusOrder?: EnumStatusOrderFieldUpdateOperationsInput | $Enums.StatusOrder
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
+    VoucherUsed?: VoucherUsedUncheckedUpdateManyWithoutOrderNestedInput
+    OrderProduct?: OrderProductUncheckedUpdateManyWithoutOrderNestedInput
+  }
+
+  export type OrderUncheckedUpdateManyWithoutOwnInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    typeOfPayment?: EnumTypeOfPaymentFieldUpdateOperationsInput | $Enums.TypeOfPayment
+    statusOrder?: EnumStatusOrderFieldUpdateOperationsInput | $Enums.StatusOrder
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    quantity?: IntFieldUpdateOperationsInput | number
   }
 
   export type VoucherUsedCreateManyVoucherInput = {
