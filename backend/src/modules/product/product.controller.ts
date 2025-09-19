@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Post, Put, Query, Req, UseGuards } from 
 import express from 'express'
 import { ApiTags, ApiOperation, ApiCreatedResponse, ApiResponse, ApiBadRequestResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { CreateSpuDto } from "./dto/create-spu.dto";
-import { ProductService } from "./product.service";
+import { ProductService } from "./service/product.service";
 import { Roles } from "@/common/decorator/role.decorator";
 import { RoleId } from "@/common/enum/role.enum";
 import { UpdateSpuDto } from "./dto/update-spu.dto";
