@@ -1,13 +1,16 @@
 import { ElasticsearchServiceCustom } from "@/modules/elasticsearch/elasticsearch.service";
 import { PrismaService } from "@/prisma/prisma.service";
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
+import Redis from "ioredis";
+import { PRODUCT_CONSTANTS } from "../product.constants";
 
 @Injectable()
 export class ProductSearchService {
 
 	constructor(
 		private readonly prismaService: PrismaService,
-		private readonly elasticsearchService: ElasticsearchServiceCustom
+		private readonly elasticsearchService: ElasticsearchServiceCustom,
+		@Inject('REDIS_CLIENT') private readonly redis: Redis
 	) { }
 
 	async searchProducts(query?: string, filters?: any) {
@@ -31,6 +34,10 @@ export class ProductSearchService {
 	}
 
 	async fallbackDatabaseSearch(query?: string, filters?: any) {
+		const key = PRODUCT_CONSTANTS.PRODUCTS_KEY(query || '')
+		const cached = await this.redis.get(key)
+		if (cached) return cached
+
 		const where: any = {
 			isActive: true,
 			...(filters?.categoryId && { categoryId: filters.categoryId }),
@@ -69,7 +76,8 @@ export class ProductSearchService {
 			this.prismaService.spu.count({ where })
 		]);
 
-		return {
+		// handle save cacche
+		const object = {
 			total,
 			page: filters?.page || 1,
 			limit: filters?.limit || 20,
@@ -87,6 +95,15 @@ export class ProductSearchService {
 				totalStock: spu.skus.reduce((sum, sku) => sum + sku.stock, 0),
 				hasStock: spu.skus.reduce((sum, sku) => sum + sku.stock, 0) > 0
 			}))
+		}
+		if (!spus) {
+			await this.redis.set(key, '')
+		} else {
+			await this.redis.set(key, JSON.stringify(object))
+		}
+
+		return {
+			object
 		};
 	}
 }
