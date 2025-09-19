@@ -231,5 +231,18 @@ export class ProductService {
 		return this.searchService.fallbackDatabaseSearch(query, filters)
 	}
 
+	async updateReceiveOrder(orderProductId: string) {
+		// check avaialble orderProduct
+		const availableOrderProduct = await this.prismaService.orderProduct.findUnique({
+			where: { id: orderProductId }
+		})
+		if (!availableOrderProduct) throw new NotFoundException("OrderProduct not found")
+
+		return await this.prismaService.order.update({
+			where: { id: availableOrderProduct.orderId },
+			data: { statusOrder: 'RECEIVED' }
+		})
+	}
+
 
 }

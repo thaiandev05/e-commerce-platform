@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Patch, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
 import express from 'express'
 import { ApiTags, ApiOperation, ApiCreatedResponse, ApiResponse, ApiBadRequestResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { CreateSpuDto } from "./dto/create-spu.dto";
@@ -103,5 +103,13 @@ export class ProductController {
 	@ApiResponse({ status: 404, description: 'Order not found' })
 	async cancelOrder(@Req() req: express.Request, @Query('orderProductId') orderProductId: string) {
 		return this.productService.cancelOrder(req, orderProductId);
+	}
+
+	@Patch('update-receive-order')
+	@ApiOperation({ summary: 'Update the receive status of an order' })
+	@ApiResponse({ status: 200, description: 'Order receive status updated successfully' })
+	@ApiBadRequestResponse({ description: 'Invalid input / validation error' })
+	async updateReceiveOrder(@Query('orderProductId') orderProductId: string) {
+		return this.productService.updateReceiveOrder(orderProductId);
 	}
 }
