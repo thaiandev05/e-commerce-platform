@@ -16,10 +16,6 @@ export class IsAuthorCartGuard implements CanActivate {
 		// get element in request
 		const user = request.user
 		const cardId = request.params?.cartId || request.query?.cartId
-
-		
-
-
 		if (!user || !cardId) throw new ForbiddenException("In error in guard author cart")
 
 		// check available user
