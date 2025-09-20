@@ -37,7 +37,7 @@ export class CartService {
 	}
 
 	// store product to cart
-	async storeProductToCart(req: Request, productId: string) {
+	async storeProductToCart(req: Request, productId: string, quantity: number) {
 		const availableUser = await this.getUserById(req.user?.id || 'unknow')
 		if (!availableUser) throw new NotFoundException("User not Found")
 
@@ -50,9 +50,29 @@ export class CartService {
 		return await this.prismaService.storeProduct.create({
 			data: {
 				cartId: availableUser.cart.id,
-				productId: availableProduct.id
+				productId: availableProduct.id,
+				quantity: quantity
 			}
 		})
 	}
-	
+
+	// delete product in cart
+	async deleteProductInCard(req: Request, cartId: string, storeProductId: string) {
+		// check avaialbe cart
+		const availableCart = await this.prismaService.cart.findUnique({
+			where: { id: cartId }
+		})
+		if (!availableCart) throw new NotFoundException("Cart is not found")
+
+		// check available is available store product
+		const availableStoreProduct = await this.prismaService.storeProduct.findUnique({
+			where: { id: storeProductId }
+		})
+		if (!availableStoreProduct) throw new NotFoundException("StoreProduct not found")
+
+		// remove
+		return await this.prismaService.storeProduct.delete({
+			where: { id: storeProductId }
+		})
+	}
 }

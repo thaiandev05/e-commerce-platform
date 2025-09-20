@@ -1,8 +1,11 @@
-import { Controller, Param, Post, Query, Req } from "@nestjs/common";
+import { Body, Controller, Delete, Param, Post, Query, Req, UseGuards } from "@nestjs/common";
 import { CartService } from "./cart.service";
 import { Public } from "@/common/decorator/public.decorator";
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiOperation } from "@nestjs/swagger";
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiOperation, ApiResponse, ApiTags, ApiBody } from "@nestjs/swagger";
 import express from "express";
+import { IsAuthorCartGuard } from "./IsAuthorCart.guard";
+
+@ApiTags('Cart')
 @Controller("cart")
 export class CartController {
 
@@ -20,7 +23,20 @@ export class CartController {
 	}
 
 	@Post('store-product-to-cart')
-	async storeProductToCart(@Req() req: express.Request, @Query('productId') productId: string) {
-		return this.cartService.storeProductToCart(req, productId)
+	@ApiOperation({ summary: 'Store product to cart' })
+	@ApiResponse({ status: 200, description: 'Product stored successfully' })
+	@ApiBadRequestResponse({ description: 'Invalid product or quantity' })
+	@ApiBody({ schema: { properties: { quantity: { type: 'number' } } } })
+	async storeProductToCart(@Req() req: express.Request, @Query('productId') productId: string, @Body('quantity') quantity: number) {
+		return this.cartService.storeProductToCart(req, productId, quantity)
+	}
+
+	@Delete('remove-store-product')
+	@UseGuards(IsAuthorCartGuard)
+	@ApiOperation({ summary: 'Remove product from cart' })
+	@ApiResponse({ status: 200, description: 'Product removed successfully' })
+	@ApiBadRequestResponse({ description: 'Invalid product ID' })
+	async removeStoreProduct(@Req() req: express.Request,@Query('cartId')cartId: string, @Query('storeProductId') storeProductId: string) {
+		return this.cartService.deleteProductInCard(req,cartId,  storeProductId)
 	}
 }

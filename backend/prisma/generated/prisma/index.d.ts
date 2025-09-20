@@ -29666,44 +29666,68 @@ export namespace Prisma {
 
   export type AggregateStoreProduct = {
     _count: StoreProductCountAggregateOutputType | null
+    _avg: StoreProductAvgAggregateOutputType | null
+    _sum: StoreProductSumAggregateOutputType | null
     _min: StoreProductMinAggregateOutputType | null
     _max: StoreProductMaxAggregateOutputType | null
   }
 
+  export type StoreProductAvgAggregateOutputType = {
+    quantity: number | null
+  }
+
+  export type StoreProductSumAggregateOutputType = {
+    quantity: number | null
+  }
+
   export type StoreProductMinAggregateOutputType = {
     id: string | null
+    quantity: number | null
     cartId: string | null
     productId: string | null
   }
 
   export type StoreProductMaxAggregateOutputType = {
     id: string | null
+    quantity: number | null
     cartId: string | null
     productId: string | null
   }
 
   export type StoreProductCountAggregateOutputType = {
     id: number
+    quantity: number
     cartId: number
     productId: number
     _all: number
   }
 
 
+  export type StoreProductAvgAggregateInputType = {
+    quantity?: true
+  }
+
+  export type StoreProductSumAggregateInputType = {
+    quantity?: true
+  }
+
   export type StoreProductMinAggregateInputType = {
     id?: true
+    quantity?: true
     cartId?: true
     productId?: true
   }
 
   export type StoreProductMaxAggregateInputType = {
     id?: true
+    quantity?: true
     cartId?: true
     productId?: true
   }
 
   export type StoreProductCountAggregateInputType = {
     id?: true
+    quantity?: true
     cartId?: true
     productId?: true
     _all?: true
@@ -29747,6 +29771,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: StoreProductAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StoreProductSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: StoreProductMinAggregateInputType
@@ -29777,15 +29813,20 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: StoreProductCountAggregateInputType | true
+    _avg?: StoreProductAvgAggregateInputType
+    _sum?: StoreProductSumAggregateInputType
     _min?: StoreProductMinAggregateInputType
     _max?: StoreProductMaxAggregateInputType
   }
 
   export type StoreProductGroupByOutputType = {
     id: string
+    quantity: number
     cartId: string
     productId: string
     _count: StoreProductCountAggregateOutputType | null
+    _avg: StoreProductAvgAggregateOutputType | null
+    _sum: StoreProductSumAggregateOutputType | null
     _min: StoreProductMinAggregateOutputType | null
     _max: StoreProductMaxAggregateOutputType | null
   }
@@ -29806,6 +29847,7 @@ export namespace Prisma {
 
   export type StoreProductSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    quantity?: boolean
     cartId?: boolean
     productId?: boolean
     cart?: boolean | CartDefaultArgs<ExtArgs>
@@ -29814,6 +29856,7 @@ export namespace Prisma {
 
   export type StoreProductSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    quantity?: boolean
     cartId?: boolean
     productId?: boolean
     cart?: boolean | CartDefaultArgs<ExtArgs>
@@ -29822,6 +29865,7 @@ export namespace Prisma {
 
   export type StoreProductSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    quantity?: boolean
     cartId?: boolean
     productId?: boolean
     cart?: boolean | CartDefaultArgs<ExtArgs>
@@ -29830,11 +29874,12 @@ export namespace Prisma {
 
   export type StoreProductSelectScalar = {
     id?: boolean
+    quantity?: boolean
     cartId?: boolean
     productId?: boolean
   }
 
-  export type StoreProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "cartId" | "productId", ExtArgs["result"]["storeProduct"]>
+  export type StoreProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "quantity" | "cartId" | "productId", ExtArgs["result"]["storeProduct"]>
   export type StoreProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cart?: boolean | CartDefaultArgs<ExtArgs>
     skus?: boolean | SkuDefaultArgs<ExtArgs>
@@ -29856,6 +29901,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      quantity: number
       cartId: string
       productId: string
     }, ExtArgs["result"]["storeProduct"]>
@@ -30284,6 +30330,7 @@ export namespace Prisma {
    */
   interface StoreProductFieldRefs {
     readonly id: FieldRef<"StoreProduct", 'String'>
+    readonly quantity: FieldRef<"StoreProduct", 'Int'>
     readonly cartId: FieldRef<"StoreProduct", 'String'>
     readonly productId: FieldRef<"StoreProduct", 'String'>
   }
@@ -39293,6 +39340,7 @@ export namespace Prisma {
 
   export const StoreProductScalarFieldEnum: {
     id: 'id',
+    quantity: 'quantity',
     cartId: 'cartId',
     productId: 'productId'
   };
@@ -41369,6 +41417,7 @@ export namespace Prisma {
     OR?: StoreProductWhereInput[]
     NOT?: StoreProductWhereInput | StoreProductWhereInput[]
     id?: UuidFilter<"StoreProduct"> | string
+    quantity?: IntFilter<"StoreProduct"> | number
     cartId?: UuidFilter<"StoreProduct"> | string
     productId?: UuidFilter<"StoreProduct"> | string
     cart?: XOR<CartScalarRelationFilter, CartWhereInput>
@@ -41377,6 +41426,7 @@ export namespace Prisma {
 
   export type StoreProductOrderByWithRelationInput = {
     id?: SortOrder
+    quantity?: SortOrder
     cartId?: SortOrder
     productId?: SortOrder
     cart?: CartOrderByWithRelationInput
@@ -41388,6 +41438,7 @@ export namespace Prisma {
     AND?: StoreProductWhereInput | StoreProductWhereInput[]
     OR?: StoreProductWhereInput[]
     NOT?: StoreProductWhereInput | StoreProductWhereInput[]
+    quantity?: IntFilter<"StoreProduct"> | number
     cartId?: UuidFilter<"StoreProduct"> | string
     productId?: UuidFilter<"StoreProduct"> | string
     cart?: XOR<CartScalarRelationFilter, CartWhereInput>
@@ -41396,11 +41447,14 @@ export namespace Prisma {
 
   export type StoreProductOrderByWithAggregationInput = {
     id?: SortOrder
+    quantity?: SortOrder
     cartId?: SortOrder
     productId?: SortOrder
     _count?: StoreProductCountOrderByAggregateInput
+    _avg?: StoreProductAvgOrderByAggregateInput
     _max?: StoreProductMaxOrderByAggregateInput
     _min?: StoreProductMinOrderByAggregateInput
+    _sum?: StoreProductSumOrderByAggregateInput
   }
 
   export type StoreProductScalarWhereWithAggregatesInput = {
@@ -41408,6 +41462,7 @@ export namespace Prisma {
     OR?: StoreProductScalarWhereWithAggregatesInput[]
     NOT?: StoreProductScalarWhereWithAggregatesInput | StoreProductScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"StoreProduct"> | string
+    quantity?: IntWithAggregatesFilter<"StoreProduct"> | number
     cartId?: UuidWithAggregatesFilter<"StoreProduct"> | string
     productId?: UuidWithAggregatesFilter<"StoreProduct"> | string
   }
@@ -43744,40 +43799,47 @@ export namespace Prisma {
 
   export type StoreProductCreateInput = {
     id?: string
+    quantity?: number
     cart: CartCreateNestedOneWithoutStoreProductsInput
     skus: SkuCreateNestedOneWithoutStoresInput
   }
 
   export type StoreProductUncheckedCreateInput = {
     id?: string
+    quantity?: number
     cartId: string
     productId: string
   }
 
   export type StoreProductUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
     cart?: CartUpdateOneRequiredWithoutStoreProductsNestedInput
     skus?: SkuUpdateOneRequiredWithoutStoresNestedInput
   }
 
   export type StoreProductUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
     cartId?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StoreProductCreateManyInput = {
     id?: string
+    quantity?: number
     cartId: string
     productId: string
   }
 
   export type StoreProductUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
   }
 
   export type StoreProductUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
     cartId?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
   }
@@ -45940,20 +46002,31 @@ export namespace Prisma {
 
   export type StoreProductCountOrderByAggregateInput = {
     id?: SortOrder
+    quantity?: SortOrder
     cartId?: SortOrder
     productId?: SortOrder
   }
 
+  export type StoreProductAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
   export type StoreProductMaxOrderByAggregateInput = {
     id?: SortOrder
+    quantity?: SortOrder
     cartId?: SortOrder
     productId?: SortOrder
   }
 
   export type StoreProductMinOrderByAggregateInput = {
     id?: SortOrder
+    quantity?: SortOrder
     cartId?: SortOrder
     productId?: SortOrder
+  }
+
+  export type StoreProductSumOrderByAggregateInput = {
+    quantity?: SortOrder
   }
 
   export type EnumAccountTypeFilter<$PrismaModel = never> = {
@@ -50612,11 +50685,13 @@ export namespace Prisma {
 
   export type StoreProductCreateWithoutSkusInput = {
     id?: string
+    quantity?: number
     cart: CartCreateNestedOneWithoutStoreProductsInput
   }
 
   export type StoreProductUncheckedCreateWithoutSkusInput = {
     id?: string
+    quantity?: number
     cartId: string
   }
 
@@ -50812,6 +50887,7 @@ export namespace Prisma {
     OR?: StoreProductScalarWhereInput[]
     NOT?: StoreProductScalarWhereInput | StoreProductScalarWhereInput[]
     id?: UuidFilter<"StoreProduct"> | string
+    quantity?: IntFilter<"StoreProduct"> | number
     cartId?: UuidFilter<"StoreProduct"> | string
     productId?: UuidFilter<"StoreProduct"> | string
   }
@@ -53336,11 +53412,13 @@ export namespace Prisma {
 
   export type StoreProductCreateWithoutCartInput = {
     id?: string
+    quantity?: number
     skus: SkuCreateNestedOneWithoutStoresInput
   }
 
   export type StoreProductUncheckedCreateWithoutCartInput = {
     id?: string
+    quantity?: number
     productId: string
   }
 
@@ -55709,6 +55787,7 @@ export namespace Prisma {
 
   export type StoreProductCreateManySkusInput = {
     id?: string
+    quantity?: number
     cartId: string
   }
 
@@ -55804,16 +55883,19 @@ export namespace Prisma {
 
   export type StoreProductUpdateWithoutSkusInput = {
     id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
     cart?: CartUpdateOneRequiredWithoutStoreProductsNestedInput
   }
 
   export type StoreProductUncheckedUpdateWithoutSkusInput = {
     id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
     cartId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StoreProductUncheckedUpdateManyWithoutSkusInput = {
     id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
     cartId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -56273,21 +56355,25 @@ export namespace Prisma {
 
   export type StoreProductCreateManyCartInput = {
     id?: string
+    quantity?: number
     productId: string
   }
 
   export type StoreProductUpdateWithoutCartInput = {
     id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
     skus?: SkuUpdateOneRequiredWithoutStoresNestedInput
   }
 
   export type StoreProductUncheckedUpdateWithoutCartInput = {
     id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
     productId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StoreProductUncheckedUpdateManyWithoutCartInput = {
     id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
     productId?: StringFieldUpdateOperationsInput | string
   }
 

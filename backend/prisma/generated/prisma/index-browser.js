@@ -358,6 +358,7 @@ exports.Prisma.CartScalarFieldEnum = {
 
 exports.Prisma.StoreProductScalarFieldEnum = {
   id: 'id',
+  quantity: 'quantity',
   cartId: 'cartId',
   productId: 'productId'
 };

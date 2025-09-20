@@ -52,15 +52,17 @@ model Cart {
 }
 
 model StoreProduct {
-    id String @id @default(uuid()) @db.Uuid
-
+    id        String @id @default(uuid()) @db.Uuid
+    quantity  Int    @map("quantity") @default(1)
     // Foreign Keys
     cartId    String @map("cart_id") @db.Uuid
     productId String @map("product_id") @db.Uuid
 
     // Relations
     cart Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
-    skus  Sku  @relation(name: "skuStores", fields: [productId], references: [id], onDelete: Cascade)
+    skus Sku  @relation(name: "skuStores", fields: [productId], references: [id], onDelete: Cascade)
+
+
 
     @@index([cartId])
     @@index([productId])
