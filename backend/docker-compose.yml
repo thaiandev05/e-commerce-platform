@@ -15,11 +15,12 @@ services:
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
-      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m # Giảm từ 1GB xuống 512MB
+      - bootstrap.memory_lock=true
     ulimits:
       memlock:
-        soft: -1
-        hard: -1
+        soft: 262144
+        hard: 262144
     volumes:
       - es_data:/usr/share/elasticsearch/data
     ports:
@@ -27,6 +28,14 @@ services:
       - "9300:9300"
     networks:
       - app-network
+    deploy:
+      resources:
+        limits:
+          memory: 1GB # Giới hạn memory tối đa
+          cpus: '1.0' # Giới hạn CPU
+        reservations:
+          memory: 512MB # Memory tối thiểu được đảm bảo
+          cpus: '0.5' # CPU tối thiểu được đảm bảo
 volumes:
   es_data:
 

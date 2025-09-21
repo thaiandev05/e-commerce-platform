@@ -1,11 +1,11 @@
 import { Body, Controller, Post, UsePipes, ValidationPipe } from "@nestjs/common";
-import { GenemiService } from "./genemi-chatbot.service";
 import { GetResponseDto } from "./get-ai-response.dto";
+import { GenemiChatBotService } from "./genemi-chatbot.service";
 
 @Controller('genemi')
 export class GenemiController {
 	constructor(
-		private readonly service: GenemiService
+		private readonly service: GenemiChatBotService
 	) { }
 
 	@Post('sending-prompt')
