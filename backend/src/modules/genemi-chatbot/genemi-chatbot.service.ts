@@ -6,6 +6,7 @@ import { v4 } from 'uuid'
 import { PrismaService } from "@/prisma/prisma.service";
 import { FaqService } from "./service/faq.service";
 import { TrackingService } from "./service/tracking.service";
+import { RecommentService } from "./service/recomment.service";
 @Injectable()
 export class GenemiChatBotService {
 	private readonly googleAI: GoogleGenerativeAI
@@ -17,7 +18,8 @@ export class GenemiChatBotService {
 		private readonly configService: ConfigService,
 		private readonly prismaService: PrismaService,
 		private readonly faqService: FaqService,
-		private readonly trackService: TrackingService
+		private readonly trackService: TrackingService,
+		private readonly recommentService: RecommentService
 	) {
 		try {
 			const genemiApiKey = configService.getOrThrow<string>("GENEMI_API_KEY")
@@ -132,11 +134,14 @@ export class GenemiChatBotService {
 
 		// check tracking
 		if (data.payload && Boolean(data.isTracking)) {
-			console.log(data)
 			if (!data.orderId || !data.userId) {
 				throw new BadRequestException('Order ID and User ID are required for tracking');
 			}
 			return this.trackService.handleTracking(data.payload, data.orderId, data.userId)
+		}
+
+		if(data.isRecommendation) {
+			return this.recommentService.handleRecommendation(data.prompt)
 		}
 
 		const result = await chat.sendMessage(data.prompt)

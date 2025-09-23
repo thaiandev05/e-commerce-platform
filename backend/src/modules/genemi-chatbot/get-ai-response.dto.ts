@@ -35,4 +35,6 @@ export class GetResponseDto {
 	isTracking?: boolean = false
 
 	orderId?: string
+
+	isRecommendation?: boolean = false
 }
