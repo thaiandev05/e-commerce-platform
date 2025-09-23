@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { GenemiController } from './genemi-chatbot.controller';
 import { GenemiChatBotService } from './genemi-chatbot.service';
-import { QuickReplyService } from './service/quick-reply.service';
+import { FaqService } from './service/faq.service';
 
 @Module({
-	providers: [GenemiChatBotService, QuickReplyService],
+	providers: [GenemiChatBotService, FaqService],
 	controllers: [GenemiController]
 })
 export class GenemiChatbotModule {}

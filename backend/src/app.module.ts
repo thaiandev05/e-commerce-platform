@@ -22,6 +22,7 @@ import { EventbusModule } from './modules/eventbus/eventbus.module';
 import { ElasticsearchModule } from './modules/elasticsearch/elasticsearch.module';
 import { CartModule } from './modules/cart/cart.module';
 import { StripeModule } from './modules/stripe/stripe.module';
+import { GenemiChatbotModule } from './modules/genemi-chatbot/genemi-chatbot.module';
 @Module({
   imports: [
     PrismaModule,
@@ -46,7 +47,7 @@ import { StripeModule } from './modules/stripe/stripe.module';
     }),
     ScheduleModule.forRoot(),
     EmailModule, AuthModule, ShopModule, UserModule, FileModule, TaskModule, RedisModule, ProductModule, EventbusModule, ElasticsearchModule, CartModule,
-    StripeModule
+    StripeModule, GenemiChatbotModule
   ],
   controllers: [AppController],
   providers: [
