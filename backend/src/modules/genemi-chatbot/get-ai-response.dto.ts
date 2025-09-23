@@ -31,4 +31,8 @@ export class GetResponseDto {
 	userId?: string
 
 	payload?: string
+
+	isTracking?: boolean = false
+
+	orderId?: string
 }

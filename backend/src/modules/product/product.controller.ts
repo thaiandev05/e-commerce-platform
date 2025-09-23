@@ -119,7 +119,7 @@ export class ProductController {
 	@ApiResponse({ status: 200, description: 'Order detail returned successfully' })
 	@ApiBadRequestResponse({ description: 'Invalid input / validation error' })
 	@ApiResponse({ status: 404, description: 'Order not found' })
-	async getOrder(@Req() req: express.Request, @Query('orderId') orderId: string) {
-		return this.productService.getOrder(req, orderId);
+	async getOrder(@Body('userId') userId: string, @Query('orderId') orderId: string) {
+		return this.productService.getOrder(userId, orderId);
 	}
 }

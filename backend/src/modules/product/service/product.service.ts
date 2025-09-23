@@ -26,7 +26,7 @@ export class ProductService {
 		return await this.prismaService.spu.findUnique({ where: { id: productId } })
 	}
 
-	private async getSkubyId(productId: string) {
+	public async getSkubyId(productId: string) {
 		return await this.prismaService.sku.findUnique({ where: { id: productId } })
 	}
 
@@ -244,16 +244,17 @@ export class ProductService {
 		})
 	}
 
-	async getOrder(req: Request, orderId: string) {
+	async getOrder(userId: string, orderId: string) {
 		// check availableuser
 		const availableUser = await this.prismaService.user.findUnique({
-			where: { id: req.user?.id },
+			where: { id: userId },
 			select: {
 				Order: {
 					select: { id: true }
 				}
 			}
 		})
+		console.log(availableUser)
 		if (!availableUser) throw new NotFoundException("User not found")
 
 		// check avaiable order
@@ -261,7 +262,7 @@ export class ProductService {
 		if (!avaiableOrder) throw new NotFoundException("Order not found")
 
 		// check permission
-		if (availableUser.Order.map(order => order.id).includes(avaiableOrder.id)) {
+		if (!availableUser.Order.map(order => order.id).includes(orderId)) {
 			throw new ForbiddenException("You are not author order")
 		}
 
