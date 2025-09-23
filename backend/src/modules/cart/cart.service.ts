@@ -1,5 +1,5 @@
 import { PrismaService } from "@/prisma/prisma.service";
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { Request } from "express";
 @Injectable()
 export class CartService {
@@ -19,6 +19,13 @@ export class CartService {
 	private async getProductById(productId: string) {
 		if (productId === 'unknow') throw new BadRequestException("System have not receive productId")
 		return await this.prismaService.sku.findUnique({ where: { id: productId } })
+	}
+
+	// load cart
+	async checkCart(userId: string) {
+		return await this.prismaService.cart.findUnique({
+			where: { ownId: userId }
+		})
 	}
 
 	// create cart object	
@@ -73,6 +80,41 @@ export class CartService {
 		// remove
 		return await this.prismaService.storeProduct.delete({
 			where: { id: storeProductId }
+		})
+	}
+
+	// update quantity product in cart
+	async updateQuantityProductInCart(userId: string, cartId: string, storeProductId: string, quantity: number) {
+		const availableUser = await this.getUserById(userId)
+		if (!availableUser) throw new NotFoundException("User not found")
+
+		const avaialbeCart = await this.prismaService.cart.findUnique({
+			where: { id: cartId },
+			select: {
+				id: true,
+				storeProducts: {
+					select: { id: true }
+				}
+			}
+		})
+		if (!avaialbeCart) throw new NotFoundException("Cart not exist")
+
+		// ccheck permission
+		if (avaialbeCart.id !== availableUser.cart?.id) {
+			throw new ForbiddenException("You are not author cart")
+		}
+
+		// check product is in cart
+		if (!avaialbeCart.storeProducts.map(product => product.id).includes(storeProductId)) {
+			throw new NotFoundException("Product not found in cart")
+		}
+
+		// update quantity
+		return await this.prismaService.storeProduct.update({
+			where: { id: storeProductId },
+			data: {
+				quantity: quantity
+			}
 		})
 	}
 }

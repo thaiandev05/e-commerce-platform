@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Query, UsePipes, ValidationPipe, HttpException, HttpStatus, UseInterceptors } from "@nestjs/common";
-import { GetResponseDto } from "./get-ai-response.dto";
+import { GetResponseDto } from "./dto/get-ai-response.dto";
 import { GenemiChatBotService } from "./genemi-chatbot.service";
 import { Public } from "@/common/decorator/public.decorator";
 import { ApiTags, ApiOperation, ApiResponse } from "@nestjs/swagger";

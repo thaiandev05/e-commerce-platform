@@ -1,12 +1,13 @@
 import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { ChatSession, GenerativeModel, GoogleGenerativeAI } from '@google/generative-ai'
-import { GetResponseDto } from "./get-ai-response.dto";
+import { GetResponseDto } from "./dto/get-ai-response.dto";
 import { v4 } from 'uuid'
 import { PrismaService } from "@/prisma/prisma.service";
 import { FaqService } from "./service/faq.service";
 import { TrackingService } from "./service/tracking.service";
 import { RecommentService } from "./service/recomment.service";
+import { CheckoutAndCart } from "./service/checkoutAndCart.service";
 @Injectable()
 export class GenemiChatBotService {
 	private readonly googleAI: GoogleGenerativeAI
@@ -19,7 +20,8 @@ export class GenemiChatBotService {
 		private readonly prismaService: PrismaService,
 		private readonly faqService: FaqService,
 		private readonly trackService: TrackingService,
-		private readonly recommentService: RecommentService
+		private readonly recommentService: RecommentService,
+		private readonly checkoutService: CheckoutAndCart
 	) {
 		try {
 			const genemiApiKey = configService.getOrThrow<string>("GENEMI_API_KEY")
@@ -140,8 +142,21 @@ export class GenemiChatBotService {
 			return this.trackService.handleTracking(data.payload, data.orderId, data.userId)
 		}
 
-		if(data.isRecommendation) {
+		// check is recomment
+		if (data.isRecommendation) {
 			return this.recommentService.handleRecommendation(data.prompt)
+		}
+
+		// check checkout
+		if (data.isCheckout) {
+			return this.checkoutService.handleCheckout(
+				data.checkoutPrompt || '',
+				data.userId || '',
+				data.productId || '',
+				data.cartId || '',
+				data.storeProductId || '',
+				data.quantity || 0
+			)
 		}
 
 		const result = await chat.sendMessage(data.prompt)

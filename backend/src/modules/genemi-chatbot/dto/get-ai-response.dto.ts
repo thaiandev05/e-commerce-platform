@@ -37,4 +37,12 @@ export class GetResponseDto {
 	orderId?: string
 
 	isRecommendation?: boolean = false
+
+	isCheckout?: boolean = false
+
+	productId?: string
+	cartId?: string
+	storeProductId?: string
+	quantity?: number
+	checkoutPrompt?: string
 }

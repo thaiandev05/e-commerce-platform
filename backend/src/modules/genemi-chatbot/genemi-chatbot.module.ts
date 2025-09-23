@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
+import { ProductModule } from '../product/product.module';
 import { GenemiController } from './genemi-chatbot.controller';
 import { GenemiChatBotService } from './genemi-chatbot.service';
 import { FaqService } from './service/faq.service';
-import { TrackingService } from './service/tracking.service';
-import { ProductModule } from '../product/product.module';
 import { RecommentService } from './service/recomment.service';
+import { TrackingService } from './service/tracking.service';
+import { CartModule } from '../cart/cart.module';
+import { CheckoutAndCart } from './service/checkoutAndCart.service';
 
 @Module({
-	imports: [ProductModule],
-	providers: [GenemiChatBotService, FaqService, TrackingService, RecommentService],
+	imports: [ProductModule, CartModule],
+	providers: [GenemiChatBotService, FaqService, TrackingService, RecommentService, CheckoutAndCart],
 	controllers: [GenemiController]
 })
 export class GenemiChatbotModule {}
