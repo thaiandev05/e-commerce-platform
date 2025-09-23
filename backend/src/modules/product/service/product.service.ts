@@ -244,5 +244,27 @@ export class ProductService {
 		})
 	}
 
+	async getOrder(req: Request, orderId: string) {
+		// check availableuser
+		const availableUser = await this.prismaService.user.findUnique({
+			where: { id: req.user?.id },
+			select: {
+				Order: {
+					select: { id: true }
+				}
+			}
+		})
+		if (!availableUser) throw new NotFoundException("User not found")
 
+		// check avaiable order
+		const avaiableOrder = await this.prismaService.order.findUnique({ where: { id: orderId } })
+		if (!avaiableOrder) throw new NotFoundException("Order not found")
+
+		// check permission
+		if (availableUser.Order.map(order => order.id).includes(avaiableOrder.id)) {
+			throw new ForbiddenException("You are not author order")
+		}
+
+		return avaiableOrder
+	}
 }
