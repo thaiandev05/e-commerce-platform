@@ -22,20 +22,20 @@ model User {
     lastActived     DateTime?      @map("last_actived") @db.Timestamptz()
 
     // relation
-    roles           UserRole[]
-    flags           UserFlag[]
-    sessions        Session[]    @relation("sessions")
-    codes           Code?
-    Oauth2User      Oauth2User[] @relation("oauth2")
-    shops           Shop[]
-    CreditCard      CreditCard[] @relation("payments")
-    cart            Cart?        @relation("ownCart")
-    Vouchers        Voucher[]
-    Order           Order[]
-    clients         Room[]       @relation("client")
-    supports        Room[]       @relation("support")
-    sender  Message[]    @relation("sender")
-    receiver Message[]    @relation("receiver")
+    roles      UserRole[]
+    flags      UserFlag[]
+    sessions   Session[]    @relation("sessions")
+    codes      Code?
+    Oauth2User Oauth2User[] @relation("oauth2")
+    shops      Shop[]
+    CreditCard CreditCard[] @relation("payments")
+    cart       Cart?        @relation("ownCart")
+    Vouchers   Voucher[]
+    Order      Order[]
+    clients    Room[]       @relation("client")
+    supports   Room[]       @relation("support")
+    sender     Message[]    @relation("sender")
+    receiver   Message[]    @relation("receiver")
 
     @@index([email])
     @@index([username])

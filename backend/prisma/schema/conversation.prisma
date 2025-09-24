@@ -30,9 +30,10 @@ model Message {
     updatedAt DateTime @updatedAt
 
     // foreign keys
-    senderId   String  @db.Uuid
-    receiverId String  @db.Uuid
-    repToId    String? @db.Uuid
+    senderId       String  @db.Uuid
+    receiverId     String  @db.Uuid
+    repToId        String? @db.Uuid
+    isMessageReply Boolean @default(false)
 
     // relations
     sender   User @relation(name: "sender", fields: [senderId], references: [id], onDelete: Cascade)
@@ -40,6 +41,7 @@ model Message {
     room     Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
 
     @@index([senderId])
+    @@index([isMessageReply])
     @@index([receiverId])
     @@index([roomId])
     @@index([createdAt]) // For chronological queries

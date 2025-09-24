@@ -161,7 +161,8 @@ exports.Prisma.MessageScalarFieldEnum = {
   updatedAt: 'updatedAt',
   senderId: 'senderId',
   receiverId: 'receiverId',
-  repToId: 'repToId'
+  repToId: 'repToId',
+  isMessageReply: 'isMessageReply'
 };
 
 exports.Prisma.CategoryScalarFieldEnum = {

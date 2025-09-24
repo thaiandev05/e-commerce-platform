@@ -1,12 +1,13 @@
 import { PrismaService } from "@/prisma/prisma.service";
 import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { User } from "@prisma/generated/prisma";
+import { Message, User } from "@prisma/generated/prisma";
 import { randomUUID } from "crypto";
 import { Request } from 'express';
 import Redis from "ioredis";
 import { CHAT_CONSTANR } from "../chat.constant";
 import { CreateMessageDto } from "../dto/create-message.dto";
 import { MessageProducer } from "./handle_queue/message.producer";
+import { UpdateMessageDto } from "../dto/update-message.dto";
 @Injectable()
 export class MessageService {
 	constructor(
@@ -34,6 +35,11 @@ export class MessageService {
 	// check available room
 	async getRoomWithId(roomId: string) {
 		return await this.prismaService.room.findUnique({ where: { id: roomId } })
+	}
+
+	// check available message
+	async getMessageWithId(messageId: string) {
+		return await this.prismaService.message.findUnique({ where: { id: messageId } })
 	}
 
 	// validate room
@@ -93,6 +99,30 @@ export class MessageService {
 			messageId,
 			message: 'Message queued'
 		}
+	}
 
+	// update message
+	async updateMessage(dto: UpdateMessageDto): Promise<Message> {
+		// validate
+		const room = await this.getRoomWithId(dto.roomId)
+		if (!room) throw new NotFoundException("Room not found")
+
+		let message
+		if (dto.isRepLy) {
+			message = await this.prismaService.message.findUnique({
+				where: { id: dto.messageId, isMessageReply: true }
+			})
+		} else {
+			message = await this.getMessageWithId(dto.messageId)
+		}
+		if (!message) throw new NotFoundException("Message not found")
+
+		// update new Message
+		return await this.prismaService.message.update({
+			where: { id: message.id },
+			data: {
+				content: dto.newContent
+			}
+		})
 	}
 }
