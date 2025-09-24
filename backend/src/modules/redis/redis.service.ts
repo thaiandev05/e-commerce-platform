@@ -16,9 +16,15 @@ export class RedisService {
 	}
 
 	async set<T>(key: string, value: T): Promise<void> {
-		const serialized = typeof value === 'string' ? value : JSON.stringify(value)
-		await this.redis.set(key, serialized, "EX", REDIS_CONSTANTS.TIME_FILE_CACHE.CACHE_LARGE_DATA)
+		const serialized = typeof value === 'string' ? value : JSON.stringify(value);
+		await this.redis.set(
+			key,
+			serialized,
+			"EX",
+			REDIS_CONSTANTS.TIME_FILE_CACHE.CACHE_LARGE_DATA
+		);
 	}
+
 
 	async del(key: string): Promise<void> {
 		await this.redis.del(key);

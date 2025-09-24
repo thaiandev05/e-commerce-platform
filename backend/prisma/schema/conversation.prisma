@@ -30,16 +30,18 @@ model Message {
     updatedAt DateTime @updatedAt
 
     // foreign keys
-    senderId String  @db.Uuid
-    receiverId  String  @db.Uuid
-    repToId   String? @db.Uuid
+    senderId   String  @db.Uuid
+    receiverId String  @db.Uuid
+    repToId    String? @db.Uuid
 
     // relations
-    sender User @relation(name: "sender", fields: [senderId], references: [id], onDelete: Cascade)
-    receiver  User @relation(name: "receiver", fields: [receiverId], references: [id], onDelete: Cascade)
-    room    Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+    sender   User @relation(name: "sender", fields: [senderId], references: [id], onDelete: Cascade)
+    receiver User @relation(name: "receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+    room     Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
 
     @@index([senderId])
     @@index([receiverId])
     @@index([roomId])
+    @@index([createdAt]) // For chronological queries
+    @@index([roomId, createdAt]) // Composite for room message history
 }

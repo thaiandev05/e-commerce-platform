@@ -1,18 +1,34 @@
 import { PrismaService } from "@/prisma/prisma.service";
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
-import { Request } from 'express'
+import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { User } from "@prisma/generated/prisma";
+import { randomUUID } from "crypto";
+import { Request } from 'express';
+import Redis from "ioredis";
+import { CHAT_CONSTANR } from "../chat.constant";
 import { CreateMessageDto } from "../dto/create-message.dto";
-import { Message } from "@prisma/generated/prisma";
+import { MessageProducer } from "./handle_queue/message.producer";
 @Injectable()
 export class MessageService {
-
 	constructor(
-		private readonly prismaService: PrismaService
+		private readonly prismaService: PrismaService,
+		@Inject('REDIS_CLIENT') private readonly redis: Redis,
+		private readonly messageProducer: MessageProducer
 	) { }
+
 	// check available user
-	async getUserWithId(userId: string) {
-		if (userId === 'unknow') throw new BadRequestException("Non user request")
-		return await this.prismaService.user.findUnique({ where: { id: userId } })
+	async getUserWithId(key: string) {
+		// check available in cache
+		const cache = await this.redis.get(key)
+		if (cache && cache !== '__NULL__') return JSON.parse(cache) as User
+
+		const userId = key.split('user:').join('')
+		const user = await this.prismaService.user.findUnique({
+			where: { id: userId },
+			select: { id: true, username: true } // Only needed fields
+		})
+
+		if (user) await this.redis.set(key, JSON.stringify(user))
+		else await this.redis.set(key, '__NULL__')
 	}
 
 	// check available room
@@ -20,18 +36,36 @@ export class MessageService {
 		return await this.prismaService.room.findUnique({ where: { id: roomId } })
 	}
 
+	// validate room
+	async validateUserInRoom(roomId: string, userId: string) {
+		const room = await this.prismaService.room.findFirst({
+			where: {
+				id: roomId,
+				OR: [
+					{ clientId: userId },
+					{ supportId: userId }
+				]
+			}
+		});
+
+		if (!room) {
+			throw new BadRequestException("Room not found or user not in conversation");
+		}
+		return room;
+	}
+
 	// create messgae
-	async createMessage(req: Request, dto: CreateMessageDto): Promise<Message> {
-		// check available user
+	async createMessage(req: Request, dto: CreateMessageDto) {
 		const senderId = req.user?.id || 'unknow'
-		const sender = await this.getUserWithId(senderId)
+		const senderKey = CHAT_CONSTANR.CACHE_USER(senderId)
+		const receiverKey = CHAT_CONSTANR.CACHE_USER(dto.receiverId)
+		const [sender, receiver, room] = await Promise.all([
+			this.getUserWithId(senderKey),
+			this.getUserWithId(receiverKey),
+			this.getRoomWithId(dto.roomId)
+		])
 		if (!sender) throw new NotFoundException("Sender not found")
-
-		const receiver = await this.getUserWithId(dto.receiverId)
 		if (!receiver) throw new NotFoundException("Receiver not found")
-
-		// check available room
-		const room = await this.getRoomWithId(dto.roomId)
 		if (!room) throw new NotFoundException("Room not found")
 
 		// check reply
@@ -41,21 +75,24 @@ export class MessageService {
 		}
 
 		// check available in room
-		if (room.clientId !== sender.id && room.supportId !== sender.id) {
-			throw new BadRequestException("One of user have not in this conversation")
+		await this.validateUserInRoom(dto.roomId, sender.id)
+
+		const messageId = randomUUID()
+		const message = {
+			id: messageId,
+			content: dto.content,
+			roomId: room.id,
+			senderId: sender.id,
+			receiverId: receiver.id,
+			repToId: repToUser ?? null
 		}
 
-		// create message 
-		const newMessage = await this.prismaService.message.create({
-			data: {
-				content: dto.content,
-				roomId: room.id,
-				senderId: sender.id,
-				receiverId: receiver.id,
-				...(repToUser && { repToId: repToUser })
-			}
-		})
+		// emit event to producer 
+		await this.messageProducer.sendMessageEvent(message)
+		return {
+			messageId,
+			message: 'Message queued'
+		}
 
-		return newMessage
 	}
 }
