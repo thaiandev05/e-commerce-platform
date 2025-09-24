@@ -8,6 +8,7 @@ import { CHAT_CONSTANR } from "../chat.constant";
 import { CreateMessageDto } from "../dto/create-message.dto";
 import { MessageProducer } from "./handle_queue/message.producer";
 import { UpdateMessageDto } from "../dto/update-message.dto";
+import { DeleteMessageDto } from "../dto/delete-message.dto";
 @Injectable()
 export class MessageService {
 	constructor(
@@ -102,7 +103,7 @@ export class MessageService {
 	}
 
 	// update message
-	async updateMessage(dto: UpdateMessageDto): Promise<Message> {
+	async updateMessage(dto: UpdateMessageDto, messageId: string): Promise<Message> {
 		// validate
 		const room = await this.getRoomWithId(dto.roomId)
 		if (!room) throw new NotFoundException("Room not found")
@@ -110,10 +111,10 @@ export class MessageService {
 		let message
 		if (dto.isRepLy) {
 			message = await this.prismaService.message.findUnique({
-				where: { id: dto.messageId, isMessageReply: true }
+				where: { id: messageId, isMessageReply: true }
 			})
 		} else {
-			message = await this.getMessageWithId(dto.messageId)
+			message = await this.getMessageWithId(messageId)
 		}
 		if (!message) throw new NotFoundException("Message not found")
 
@@ -123,6 +124,24 @@ export class MessageService {
 			data: {
 				content: dto.newContent
 			}
+		})
+	}
+
+	// delete message
+	async deleteMessage(messageId: string, dto: DeleteMessageDto) {
+		let message
+		if (dto.isRepLy) {
+			message = await this.prismaService.message.findUnique({
+				where: { id: messageId, isMessageReply: true }
+			})
+		} else {
+			message = await this.getMessageWithId(messageId)
+		}
+		if (!message) throw new NotFoundException("Message not found")
+
+		// delete
+		return await this.prismaService.message.delete({
+			where: { id: messageId }
 		})
 	}
 }

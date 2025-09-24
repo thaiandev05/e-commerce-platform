@@ -1,8 +1,10 @@
-import { Body, Controller, Patch, Post, Req } from "@nestjs/common";
-import { MessageService } from "./service/message.service";
-import express from 'express'
+import { Body, Controller, Delete, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
+import express from 'express';
 import { CreateMessageDto } from "./dto/create-message.dto";
+import { DeleteMessageDto } from "./dto/delete-message.dto";
 import { UpdateMessageDto } from "./dto/update-message.dto";
+import { IsAuthorMessage } from "./guard/isAuhtorMessage.guard";
+import { MessageService } from "./service/message.service";
 @Controller('test')
 export class TestController {
 
@@ -16,7 +18,14 @@ export class TestController {
 	}
 
 	@Patch('update-message')
-	async updateMessage(@Body() dto: UpdateMessageDto) {
-		return this.messageService.updateMessage(dto)
+	@UseGuards(IsAuthorMessage)
+	async updateMessage(@Body() dto: UpdateMessageDto, @Query('messageId') messageId: string) {
+		return this.messageService.updateMessage(dto, messageId)
+	}
+
+	@Delete('delete-message')
+	@UseGuards(IsAuthorMessage)
+	async deleteMessage(@Query('messageId') messageId: string, @Body() dto: DeleteMessageDto) {
+		return this.messageService.deleteMessage(messageId, dto)
 	}
 }
