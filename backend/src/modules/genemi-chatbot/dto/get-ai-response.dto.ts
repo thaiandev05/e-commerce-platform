@@ -45,4 +45,6 @@ export class GetResponseDto {
 	storeProductId?: string
 	quantity?: number
 	checkoutPrompt?: string
+	isAfterSale?: boolean = false
+	afterSaleReq?: string
 }

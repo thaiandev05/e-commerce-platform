@@ -8,6 +8,7 @@ import { FaqService } from "./service/faq.service";
 import { TrackingService } from "./service/tracking.service";
 import { RecommentService } from "./service/recomment.service";
 import { CheckoutAndCart } from "./service/checkoutAndCart.service";
+import { AfterSaleService } from "./service/after-sale.service";
 @Injectable()
 export class GenemiChatBotService {
 	private readonly googleAI: GoogleGenerativeAI
@@ -21,7 +22,8 @@ export class GenemiChatBotService {
 		private readonly faqService: FaqService,
 		private readonly trackService: TrackingService,
 		private readonly recommentService: RecommentService,
-		private readonly checkoutService: CheckoutAndCart
+		private readonly checkoutService: CheckoutAndCart,
+		private readonly afterSaleService: AfterSaleService
 	) {
 		try {
 			const genemiApiKey = configService.getOrThrow<string>("GENEMI_API_KEY")
@@ -157,6 +159,11 @@ export class GenemiChatBotService {
 				data.storeProductId || '',
 				data.quantity || 0
 			)
+		}	
+
+		// check afterservice
+		if(data.isAfterSale) {
+			return this.afterSaleService.handleAfterSale(data.afterSaleReq || '')
 		}
 
 		const result = await chat.sendMessage(data.prompt)
