@@ -1,6 +1,6 @@
 import { PrismaService } from "@/prisma/prisma.service";
 import { BadRequestException, CanActivate, ExecutionContext, Injectable, NotFoundException } from "@nestjs/common";
-import { Observable } from "rxjs";
+import { User } from "@prisma/generated/prisma";
 
 @Injectable()
 export class IsAuthorMessage implements CanActivate {
@@ -9,34 +9,35 @@ export class IsAuthorMessage implements CanActivate {
 		private readonly prismaService: PrismaService
 	) { }
 
-	async canActivate(context: ExecutionContext) {
+	async canActivate(context: ExecutionContext): Promise<boolean> {
 		// get request in http
 		const request = context.switchToHttp().getRequest()
 
 		// get data in request
-		const user = request.user
-		const messageId = request.params?.messageId || request.query?.messageId
+		const user: User = request.user
+		const messageId: string = request.params?.messageId || request.query?.messageId
 
-		if (!user || !messageId) throw new BadRequestException("Lost data in request")
+		if (!user || !messageId) {
+			throw new BadRequestException("User and messageId are required")
+		}
 
-		// check available user
-		const availableUser = await this.prismaService.user.findUnique({
+		// check if user exists and get their messages
+		const userWithMessages = await this.prismaService.user.findUnique({
 			where: { id: user.id },
 			select: {
-				sender: {
-					select: { id: true }
-				},
-				receiver: {
-					select: { id: true }
-				}
+				sender: true,
+				receiver: true
 			}
 		})
-		if (!availableUser) throw new NotFoundException("User not found")
 
-		const haveSenderMessage = availableUser.sender.map(message => message.id).includes(messageId)
-		const haveReceiMessage = availableUser.receiver.map(message => message.id).includes(messageId)
+		if (!userWithMessages) {
+			throw new NotFoundException("User not found")
+		}
 
-		if (!haveReceiMessage && !haveSenderMessage) return false
-		return true
+		// check if user is sender or receiver of the message
+		const isSender = userWithMessages.sender.some(message => message.id === messageId)
+		const isReceiver = userWithMessages.receiver.some(message => message.id === messageId)
+
+		return isSender || isReceiver
 	}
 }
