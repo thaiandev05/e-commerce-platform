@@ -140,6 +140,30 @@ exports.Prisma.CodeScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.RoomScalarFieldEnum = {
+  id: 'id',
+  nameRoom: 'nameRoom',
+  socketRoomId: 'socketRoomId',
+  totalMessages: 'totalMessages',
+  lastMessageSupportIndex: 'lastMessageSupportIndex',
+  lastMessageClientIndex: 'lastMessageClientIndex',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  supportId: 'supportId',
+  clientId: 'clientId'
+};
+
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  roomId: 'roomId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  repToId: 'repToId'
+};
+
 exports.Prisma.CategoryScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -557,6 +581,8 @@ exports.StatusOrder = exports.$Enums.StatusOrder = {
 exports.Prisma.ModelName = {
   Session: 'Session',
   Code: 'Code',
+  Room: 'Room',
+  Message: 'Message',
   Category: 'Category',
   Brand: 'Brand',
   Spu: 'Spu',

@@ -1,0 +1,45 @@
+model Room {
+    id                      String   @id @default(uuid()) @db.Uuid
+    nameRoom                String?
+    socketRoomId            String
+    totalMessages           Int      @default(0)
+    lastMessageSupportIndex Int      @default(0)
+    lastMessageClientIndex  Int      @default(0)
+    createdAt               DateTime @default(now())
+    updatedAt               DateTime @updatedAt
+
+    // foreign keys
+    supportId String @unique @db.Uuid
+    clientId  String @unique @db.Uuid
+
+    // relations
+    support User      @relation(name: "support", fields: [supportId], references: [id], onDelete: Cascade)
+    client  User      @relation(name: "client", fields: [clientId], references: [id], onDelete: Cascade)
+    Message Message[]
+
+    @@unique([supportId, clientId])
+    @@index([supportId])
+    @@index([clientId])
+}
+
+model Message {
+    id        String   @id @default(uuid()) @db.Uuid
+    content   String
+    roomId    String   @db.Uuid
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // foreign keys
+    senderId String  @db.Uuid
+    receiverId  String  @db.Uuid
+    repToId   String? @db.Uuid
+
+    // relations
+    sender User @relation(name: "sender", fields: [senderId], references: [id], onDelete: Cascade)
+    receiver  User @relation(name: "receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+    room    Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+    @@index([senderId])
+    @@index([receiverId])
+    @@index([roomId])
+}

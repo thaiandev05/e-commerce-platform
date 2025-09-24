@@ -23,6 +23,7 @@ import { ElasticsearchModule } from './modules/elasticsearch/elasticsearch.modul
 import { CartModule } from './modules/cart/cart.module';
 import { StripeModule } from './modules/stripe/stripe.module';
 import { GenemiChatbotModule } from './modules/genemi-chatbot/genemi-chatbot.module';
+import { ChatModule } from './modules/chat/chat.module';
 @Module({
   imports: [
     PrismaModule,
@@ -47,7 +48,7 @@ import { GenemiChatbotModule } from './modules/genemi-chatbot/genemi-chatbot.mod
     }),
     ScheduleModule.forRoot(),
     EmailModule, AuthModule, ShopModule, UserModule, FileModule, TaskModule, RedisModule, ProductModule, EventbusModule, ElasticsearchModule, CartModule,
-    StripeModule, GenemiChatbotModule
+    StripeModule, GenemiChatbotModule, ChatModule
   ],
   controllers: [AppController],
   providers: [

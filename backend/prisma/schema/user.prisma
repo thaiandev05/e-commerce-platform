@@ -22,16 +22,20 @@ model User {
     lastActived     DateTime?      @map("last_actived") @db.Timestamptz()
 
     // relation
-    roles      UserRole[]
-    flags      UserFlag[]
-    sessions   Session[]    @relation("sessions")
-    codes      Code?
-    Oauth2User Oauth2User[] @relation("oauth2")
-    shops      Shop[]
-    CreditCard CreditCard[] @relation("payments")
-    cart       Cart?        @relation("ownCart")
-    Vouchers   Voucher[]
-    Order      Order[]
+    roles           UserRole[]
+    flags           UserFlag[]
+    sessions        Session[]    @relation("sessions")
+    codes           Code?
+    Oauth2User      Oauth2User[] @relation("oauth2")
+    shops           Shop[]
+    CreditCard      CreditCard[] @relation("payments")
+    cart            Cart?        @relation("ownCart")
+    Vouchers        Voucher[]
+    Order           Order[]
+    clients         Room[]       @relation("client")
+    supports        Room[]       @relation("support")
+    sender  Message[]    @relation("sender")
+    receiver Message[]    @relation("receiver")
 
     @@index([email])
     @@index([username])
@@ -100,7 +104,7 @@ model Order {
     createdAt     DateTime      @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt     DateTime      @updatedAt @map("updated_at") @db.Timestamptz()
     price         Decimal?      @map("sale_price") @db.Decimal(12, 2)
-    quantity      Int           @map("quantity") @default(1)
+    quantity      Int           @default(1) @map("quantity")
     // foreign key
     ownId         String        @db.Uuid
 
