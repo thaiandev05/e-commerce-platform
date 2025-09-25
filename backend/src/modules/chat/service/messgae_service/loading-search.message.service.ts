@@ -22,9 +22,20 @@ export class LoadingAndSearchService {
 		})
 		if (!user) throw new NotFoundException("User not found")
 
+		const room = await this.prismaService.room.findUnique({ where: { id: roomId } })
+		if (!room) throw new NotFoundException("Room not found")
+
+		const isClient = (userId === room.clientId) ? true : false
+
+		let cursor: string
+		if (dto.isUseCursor && isClient) {
+			cursor = room.lastMessageClientIndex || 'unknow'
+		}
+		cursor = room.lastMessageSupportIndex || 'unknow'
+
 		// get cache
 		const messageRoomKey = CHAT_CONSTANR.CACHE_MESSAGE_ROOM(roomId)
-		const cacheKey = `${messageRoomKey}:${dto?.page || 1}:${dto?.limit || 20}:${dto?.cursor || ''}`
+		const cacheKey = `${messageRoomKey}:${dto?.page || 1}:${dto?.limit || 20}:${cursor || ''}`
 		const cache = await this.redis.get(cacheKey)
 		if (cache && cache !== '_NULL_') {
 			return JSON.parse(cache)
@@ -62,10 +73,10 @@ export class LoadingAndSearchService {
 			}
 		}
 
-		if (dto?.isUseCursor && dto?.cursor) {
+		if (dto?.isUseCursor && cursor) {
 			query.take = take + 1 // Take one extra to check if there are more
 			query.cursor = {
-				id: dto.cursor
+				id: cursor
 			}
 			query.skip = 1 // Skip the cursor itself
 		} else {
