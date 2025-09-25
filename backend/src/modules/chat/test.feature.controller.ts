@@ -7,6 +7,7 @@ import { IsAuthorMessage } from "./guard/isAuhtorMessage.guard";
 import { MessageService } from "./service/messgae_service/message.service";
 import { IsvalidRoomGuard } from "./guard/isValidInRoom.guard";
 import { LoadingMessageDto } from "./dto/loading-message.dto";
+import { FindingMessageDto } from "./dto/finding-message.dto";
 @Controller('test')
 export class TestController {
 
@@ -33,7 +34,13 @@ export class TestController {
 
 	@Get('load-message')
 	@UseGuards(IsvalidRoomGuard)
-	async loadingMessage(@Req() req: express.Request,@Query('roomId')roomId: string,  @Body() dto: LoadingMessageDto) {
-		return this.messageService.loadingMessage(req,roomId, dto)
+	async loadingMessage(@Req() req: express.Request, @Query('roomId') roomId: string, @Body() dto: LoadingMessageDto) {
+		return this.messageService.loadingMessage(req, roomId, dto)
+	}
+
+	@Get('finding-message')
+	@UseGuards(IsvalidRoomGuard)
+	async findingMessage(@Req() req: express.Request, @Query('roomId') roomId: string, @Body() dto: FindingMessageDto) {
+		return this.messageService.findingMessages(req, roomId, dto)
 	}
 }

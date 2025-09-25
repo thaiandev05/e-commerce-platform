@@ -11,6 +11,7 @@ import { UpdateMessageDto } from "../../dto/update-message.dto";
 import { DeleteMessageDto } from "../../dto/delete-message.dto";
 import { LoadingAndSearchService } from "./loading-search.message.service";
 import { LoadingMessageDto } from "../../dto/loading-message.dto";
+import { FindingMessageDto } from "../../dto/finding-message.dto";
 @Injectable()
 export class MessageService {
 	constructor(
@@ -150,6 +151,11 @@ export class MessageService {
 
 	// loading messages
 	async loadingMessage(req: Request, roomId: string, dto: LoadingMessageDto) {
-		return this.loadMessageService.loadingMessage(req,roomId, dto)
+		return this.loadMessageService.loadingMessage(req, roomId, dto)
+	}
+
+	// finding messages
+	async findingMessages(req: Request, roomId: string, dto: FindingMessageDto) {
+		return this.loadMessageService.findingMessage(req, roomId, dto)
 	}
 }
