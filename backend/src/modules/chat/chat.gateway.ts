@@ -1,20 +1,20 @@
-import {
-	WebSocketGateway,
-	WebSocketServer,
-	SubscribeMessage,
-	OnGatewayInit,
-	OnGatewayConnection,
-	OnGatewayDisconnect,
-	MessageBody,
-	ConnectedSocket,
-} from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
-import { Logger, UseGuards } from '@nestjs/common';
-import { ChatgateWayService } from './service/chat.gateway.service';
-import { createAdapter } from '@socket.io/redis-adapter';
-import { createClient } from 'redis';
+import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import {
+	ConnectedSocket,
+	MessageBody,
+	OnGatewayConnection,
+	OnGatewayDisconnect,
+	OnGatewayInit,
+	SubscribeMessage,
+	WebSocketGateway,
+	WebSocketServer,
+} from '@nestjs/websockets';
+import { createAdapter } from '@socket.io/redis-adapter';
+import { createClient } from 'redis';
+import { Server, Socket } from 'socket.io';
+import { ChatgateWayService } from './service/chat.gateway.service';
 
 @WebSocketGateway({
 	cors: {
@@ -337,24 +337,71 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	}
 
 	/**
-	 * Authenticate socket connection using JWT token
+	 * Authenticate socket connection using Access Token and Refresh Token
 	 */
 	private async authenticateSocket(client: Socket): Promise<any> {
 		try {
-			const token = this.extractTokenFromSocket(client);
-			if (!token) {
+			const tokens = this.extractTokensFromSocket(client);
+			if (!tokens.accessToken) {
 				return null;
 			}
 
-			// Verify JWT token
-			const payload = await this.jwtService.verifyAsync(token, {
-				secret: this.configService.get<string>('JWT_SECRET') || 'your-secret-key',
-			});
+			try {
+				// Try to verify access token first
+				const payload = await this.jwtService.verifyAsync(tokens.accessToken, {
+					secret: this.configService.get<string>('JWT_ACCESS_SECRET') || this.configService.get<string>('JWT_SECRET') || 'your-secret-key',
+				});
 
-			// Get user from service
-			const user = await this.chatGatewayService.getUserById(payload.userId || payload.sub);
+				// Get user from service
+				const user = await this.chatGatewayService.getUserById(payload.userId || payload.sub);
 
-			return user;
+				if (user) {
+					this.logger.log(`User authenticated successfully with access token: ${user.username}`);
+					return user;
+				}
+
+			} catch (accessTokenError) {
+				this.logger.warn(`Access token verification failed: ${accessTokenError.message}`);
+
+				// If access token is expired/invalid, try refresh token
+				if (tokens.refreshToken) {
+					try {
+						const refreshPayload = await this.jwtService.verifyAsync(tokens.refreshToken, {
+							secret: this.configService.get<string>('JWT_SECRET'),
+						});
+
+						// Get user from refresh token
+						const user = await this.chatGatewayService.getUserById(refreshPayload.userId || refreshPayload.sub);
+
+						if (user) {
+							this.logger.log(`User authenticated with refresh token: ${user.username}`);
+
+							// Generate new access token and send to client
+							const newAccessToken = await this.jwtService.signAsync(
+								{ userId: user.id, username: user.username },
+								{
+									secret: this.configService.get<string>('JWT_SECRET'),
+									expiresIn: this.configService.get<string>('JWT_ACCESS_EXPIRES_IN') || '15m',
+								}
+							);
+
+							// Send new token to client
+							client.emit('tokenRefreshed', {
+								accessToken: newAccessToken,
+								message: 'Access token refreshed successfully'
+							});
+
+							return user;
+						}
+
+					} catch (refreshTokenError) {
+						this.logger.warn(`Refresh token verification failed: ${refreshTokenError.message}`);
+					}
+				}
+			}
+
+			return null;
+
 		} catch (error) {
 			this.logger.error(`Socket authentication failed: ${error.message}`);
 			return null;
@@ -362,27 +409,48 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	}
 
 	/**
-	 * Extract JWT token from socket handshake
+	 * Extract Access Token and Refresh Token from socket handshake
 	 */
-	private extractTokenFromSocket(client: Socket): string | null {
-		// Try to get token from authorization header
+	private extractTokensFromSocket(client: Socket): { accessToken: string | null; refreshToken: string | null } {
+		let accessToken: string | null = null;
+		let refreshToken: string | null = null;
+
+		// Try to get tokens from authorization header
 		const authHeader = client.handshake.headers.authorization;
 		if (authHeader && authHeader.startsWith('Bearer ')) {
-			return authHeader.substring(7);
+			accessToken = authHeader.substring(7);
 		}
 
-		// Try to get token from query parameters
-		const tokenFromQuery = client.handshake.query.token;
-		if (tokenFromQuery && typeof tokenFromQuery === 'string') {
-			return tokenFromQuery;
+		// Try to get tokens from query parameters
+		const accessTokenFromQuery = client.handshake.query.accessToken || client.handshake.query.access_token;
+		if (accessTokenFromQuery && typeof accessTokenFromQuery === 'string') {
+			accessToken = accessTokenFromQuery;
 		}
 
-		// Try to get token from auth object in handshake
-		const authToken = client.handshake.auth?.token;
-		if (authToken && typeof authToken === 'string') {
-			return authToken;
+		const refreshTokenFromQuery = client.handshake.query.refreshToken || client.handshake.query.refresh_token;
+		if (refreshTokenFromQuery && typeof refreshTokenFromQuery === 'string') {
+			refreshToken = refreshTokenFromQuery;
 		}
 
-		return null;
+		// Try to get tokens from auth object in handshake
+		const authAccessToken = client.handshake.auth?.accessToken || client.handshake.auth?.access_token;
+		if (authAccessToken && typeof authAccessToken === 'string') {
+			accessToken = authAccessToken;
+		}
+
+		const authRefreshToken = client.handshake.auth?.refreshToken || client.handshake.auth?.refresh_token;
+		if (authRefreshToken && typeof authRefreshToken === 'string') {
+			refreshToken = authRefreshToken;
+		}
+
+		// Fallback: if only 'token' is provided, assume it's access token
+		if (!accessToken) {
+			const fallbackToken = client.handshake.query.token || client.handshake.auth?.token;
+			if (fallbackToken && typeof fallbackToken === 'string') {
+				accessToken = fallbackToken;
+			}
+		}
+
+		return { accessToken, refreshToken };
 	}
 }
