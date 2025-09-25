@@ -5,6 +5,7 @@ import Redis from "ioredis";
 import { CHAT_CONSTANR } from "../../chat.constant";
 import { User_Custom } from "../../interface/chat.interface";
 import { CreateRoomDto } from "../../dto/create-room.dto";
+import { LoadingRoomDto } from "../../dto/loading-room.dto";
 @Injectable()
 export class RoomService {
 
@@ -79,5 +80,104 @@ export class RoomService {
 		})
 
 		return newRoom
+	}
+
+	async loadingRoom(req: Request, dto: LoadingRoomDto) {
+		// check available user
+		const userId = req.user?.id || 'unknow'
+		const user = await this.prismaService.user.findUnique({
+			where: { id: userId }
+		})
+		if (!user) throw new NotFoundException("User not found")
+
+		const page = dto?.page || 1
+		const take = dto?.limit || 10
+		const skip = (page - 1) * take
+
+		let query: any = {
+			where: {
+				OR: [
+					{ clientId: userId },
+					{ supportId: userId }
+				]
+			},
+			include: {
+				support: {
+					select: {
+						id: true,
+						fullname: true,
+						username: true,
+						avatarUrl: true
+					}
+				},
+				client: {
+					select: {
+						id: true,
+						fullname: true,
+						username: true,
+						avatarUrl: true
+					}
+				},
+				Message: {
+					select: {
+						id: true,
+						content: true,
+						createdAt: true,
+						senderId: true
+					},
+					orderBy: {
+						createdAt: 'desc'
+					},
+					take: 1
+				}
+			},
+			orderBy: {
+				updatedAt: 'desc'
+			}
+		}
+
+		if (dto?.isUseCursor && dto.cursor) {
+			query.take = take + 1
+			query.cursor = {
+				id: dto.cursor
+			}
+			query.skip = 1 // Skip the cursor itself
+		} else {
+			query.take = take
+			query.skip = skip
+		}
+
+		const rooms = await this.prismaService.room.findMany(query)
+
+		let hasNextPage = false
+		let nextCursor: string | null = null
+
+		if (dto?.isUseCursor && rooms.length > take) {
+			hasNextPage = true
+			rooms.pop()
+			nextCursor = rooms[rooms.length - 1].id
+		} else if (!dto?.isUseCursor) {
+			const totalCount = await this.prismaService.room.count({
+				where: {
+					OR: [
+						{ clientId: user.id },
+						{ supportId: user.id }
+					]
+				}
+			})
+			hasNextPage = skip + take < totalCount
+		}
+
+		const result = {
+			data: rooms,
+			paginations: {
+				page: dto?.isUseCursor ? null : page,
+				limit: take,
+				hasNextPage,
+				nextCursor: dto?.isUseCursor ? nextCursor : null
+			}
+		}
+
+		return result
 	}
 }
