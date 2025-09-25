@@ -1,7 +1,8 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { EventPattern, Payload } from "@nestjs/microservices";
-import type { Message_Queue } from "../../interface/chat.interface";
+
 import { BatchInsertService } from "./batch-insert.service";
+import type { Message_Queue } from "@/modules/chat/interface/chat.interface";
 
 @Injectable()
 export class MessageConsumer {

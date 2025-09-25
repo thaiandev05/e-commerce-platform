@@ -1,6 +1,6 @@
+import { Message_Queue } from "@/modules/chat/interface/chat.interface";
 import { PrismaService } from "@/prisma/prisma.service";
 import { Injectable } from "@nestjs/common";
-import { Message_Queue } from "../../interface/chat.interface";
 
 @Injectable()
 export class BatchInsertService {

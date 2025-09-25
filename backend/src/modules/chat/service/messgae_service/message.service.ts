@@ -6,12 +6,12 @@ import { Request } from 'express';
 import Redis from "ioredis";
 import { CHAT_CONSTANR } from "../../chat.constant";
 import { CreateMessageDto } from "../../dto/create-message.dto";
-import { MessageProducer } from "../handle_queue/message.producer";
 import { UpdateMessageDto } from "../../dto/update-message.dto";
 import { DeleteMessageDto } from "../../dto/delete-message.dto";
 import { LoadingAndSearchService } from "./loading-search.message.service";
 import { LoadingMessageDto } from "../../dto/loading-message.dto";
 import { FindingMessageDto } from "../../dto/finding-message.dto";
+import { MessageProducer } from "./handle_queue/message.producer";
 @Injectable()
 export class MessageService {
 	constructor(

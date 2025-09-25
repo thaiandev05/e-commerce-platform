@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<script>
+		// Connect với authentication
+		const socket = io('ws://localhost:3000', {
+			auth: {
+				token: 'your-jwt-token'
+			}
+		});
+
+		// Join room
+		socket.emit('joinConversation', { roomId: 'room-id' });
+
+		// Send message  
+		socket.emit('sendMessage', {
+			roomId: 'room-id',
+			content: 'Hello world',
+			receiverId: 'receiver-id'
+		});
+
+		// Listen for events
+		socket.on('newMessage', (data) => console.log('New message:', data));
+		socket.on('userJoinedRoom', (data) => console.log('User joined:', data));
+	</script>
+</body>
+
+</html>

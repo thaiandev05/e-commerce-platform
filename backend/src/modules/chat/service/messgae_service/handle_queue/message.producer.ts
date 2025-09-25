@@ -1,6 +1,7 @@
+import { Message_Queue } from "@/modules/chat/interface/chat.interface";
 import { Inject, Injectable } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
-import { Message_Queue } from "../../interface/chat.interface";
+
 
 @Injectable()
 export class MessageProducer {

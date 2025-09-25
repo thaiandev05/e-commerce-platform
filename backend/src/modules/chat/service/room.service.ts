@@ -2,10 +2,10 @@ import { PrismaService } from "@/prisma/prisma.service";
 import { ConflictException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { Request } from 'express';
 import Redis from "ioredis";
-import { CHAT_CONSTANR } from "../../chat.constant";
-import { User_Custom } from "../../interface/chat.interface";
-import { CreateRoomDto } from "../../dto/create-room.dto";
-import { LoadingRoomDto } from "../../dto/loading-room.dto";
+import { CHAT_CONSTANR } from "../chat.constant";
+import { User_Custom } from "../interface/chat.interface";
+import { CreateRoomDto } from "../dto/create-room.dto";
+import { LoadingRoomDto } from "../dto/loading-room.dto";
 @Injectable()
 export class RoomService {
 

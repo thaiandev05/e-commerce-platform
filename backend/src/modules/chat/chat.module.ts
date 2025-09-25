@@ -1,19 +1,32 @@
 import { Module } from "@nestjs/common";
 import { MessageService } from "./service/messgae_service/message.service";
 import { ClientsModule, Transport } from "@nestjs/microservices";
-import { MessageProducer } from "./service/handle_queue/message.producer";
 import { LoadingAndSearchService } from "./service/messgae_service/loading-search.message.service";
-import { MessageConsumer } from "./service/handle_queue/message.consumer";
-import { BatchInsertService } from "./service/handle_queue/batch-insert.service";
 import { ChatgateWayService } from "./service/chat.gateway.service";
 import { PrismaModule } from "@/prisma/prisma.module";
-import { RoomService } from "./service/messgae_service/room.service";
+import { RoomService } from "./service/room.service";
 import { MessageController } from "./constroller/message.feature.controller";
 import { RoomController } from "./constroller/room.feature.controller";
+import { MessageProducer } from "./service/messgae_service/handle_queue/message.producer";
+import { MessageConsumer } from "./service/messgae_service/handle_queue/message.consumer";
+import { BatchInsertService } from "./service/messgae_service/handle_queue/batch-insert.service";
+import { ChatGateway } from "./chat.gateway";
+import { JwtModule } from "@nestjs/jwt";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 
 @Module({
 	imports: [
 		PrismaModule,
+		JwtModule.registerAsync({
+			imports: [ConfigModule],
+			useFactory: async (configService: ConfigService) => ({
+				secret: configService.get<string>('JWT_SECRET') || 'your-secret-key',
+				signOptions: {
+					expiresIn: configService.get<string>('JWT_EXPIRES_IN') || '7d',
+				},
+			}),
+			inject: [ConfigService],
+		}),
 		ClientsModule.register([
 			{
 				name: 'MESSAGE_QUEUE',
@@ -35,7 +48,8 @@ import { RoomController } from "./constroller/room.feature.controller";
 		MessageConsumer,
 		BatchInsertService,
 		ChatgateWayService,
-		RoomService
+		RoomService,
+		ChatGateway, // Add WebSocket Gateway
 	],
 	controllers: [MessageController, RoomController]
 })
