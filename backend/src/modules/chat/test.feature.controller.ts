@@ -43,4 +43,9 @@ export class TestController {
 	async findingMessage(@Req() req: express.Request, @Query('roomId') roomId: string, @Body() dto: FindingMessageDto) {
 		return this.messageService.findingMessages(req, roomId, dto)
 	}
+
+	@Patch('mark-seen-message')
+	async makeSeenMessage(@Req() req: express.Request, @Query('roomId') roomId: string, @Query('messageId') messageId: string) {
+		return this.messageService.makeSeenMessage(req, roomId, messageId)
+	}
 }

@@ -3,14 +3,13 @@ model Room {
     nameRoom                String?
     socketRoomId            String
     totalMessages           Int      @default(0)
-    lastMessageSupportIndex Int      @default(0)
-    lastMessageClientIndex  Int      @default(0)
+    lastMessageSupportIndex String?   @db.Uuid
+    lastMessageClientIndex  String?   @db.Uuid
     createdAt               DateTime @default(now())
     updatedAt               DateTime @updatedAt
-
     // foreign keys
-    supportId String  @db.Uuid
-    clientId  String  @db.Uuid
+    supportId               String   @db.Uuid
+    clientId                String   @db.Uuid
 
     // relations
     support User      @relation(name: "support", fields: [supportId], references: [id], onDelete: Cascade)

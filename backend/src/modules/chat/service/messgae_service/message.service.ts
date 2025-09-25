@@ -158,4 +158,35 @@ export class MessageService {
 	async findingMessages(req: Request, roomId: string, dto: FindingMessageDto) {
 		return this.loadMessageService.findingMessage(req, roomId, dto)
 	}
+
+	// mark seen 
+	async makeSeenMessage(req: Request, roomId: string, messageId: string) {
+		// validate
+		const room = await this.getRoomWithId(roomId)
+		if (!room) throw new NotFoundException("Room not found")
+
+		// check available message
+		const message = await this.prismaService.message.findUnique({ where: { id: messageId } })
+		if (!message) throw new NotFoundException("Message not found")
+
+		const userId = req.user?.id
+		const isClient = (room.clientId === userId) ? true : false
+
+		// update index user
+		if (isClient) {
+			return await this.prismaService.room.update({
+				where: { id: room.id },
+				data: {
+					lastMessageClientIndex: messageId
+				}
+			})
+		}
+
+		return await this.prismaService.room.update({
+			where: { id: room.id },
+			data: {
+				lastMessageSupportIndex: messageId
+			}
+		})
+	}
 }

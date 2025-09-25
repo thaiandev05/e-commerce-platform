@@ -6788,14 +6788,10 @@ export namespace Prisma {
 
   export type RoomAvgAggregateOutputType = {
     totalMessages: number | null
-    lastMessageSupportIndex: number | null
-    lastMessageClientIndex: number | null
   }
 
   export type RoomSumAggregateOutputType = {
     totalMessages: number | null
-    lastMessageSupportIndex: number | null
-    lastMessageClientIndex: number | null
   }
 
   export type RoomMinAggregateOutputType = {
@@ -6803,8 +6799,8 @@ export namespace Prisma {
     nameRoom: string | null
     socketRoomId: string | null
     totalMessages: number | null
-    lastMessageSupportIndex: number | null
-    lastMessageClientIndex: number | null
+    lastMessageSupportIndex: string | null
+    lastMessageClientIndex: string | null
     createdAt: Date | null
     updatedAt: Date | null
     supportId: string | null
@@ -6816,8 +6812,8 @@ export namespace Prisma {
     nameRoom: string | null
     socketRoomId: string | null
     totalMessages: number | null
-    lastMessageSupportIndex: number | null
-    lastMessageClientIndex: number | null
+    lastMessageSupportIndex: string | null
+    lastMessageClientIndex: string | null
     createdAt: Date | null
     updatedAt: Date | null
     supportId: string | null
@@ -6841,14 +6837,10 @@ export namespace Prisma {
 
   export type RoomAvgAggregateInputType = {
     totalMessages?: true
-    lastMessageSupportIndex?: true
-    lastMessageClientIndex?: true
   }
 
   export type RoomSumAggregateInputType = {
     totalMessages?: true
-    lastMessageSupportIndex?: true
-    lastMessageClientIndex?: true
   }
 
   export type RoomMinAggregateInputType = {
@@ -6982,8 +6974,8 @@ export namespace Prisma {
     nameRoom: string | null
     socketRoomId: string
     totalMessages: number
-    lastMessageSupportIndex: number
-    lastMessageClientIndex: number
+    lastMessageSupportIndex: string | null
+    lastMessageClientIndex: string | null
     createdAt: Date
     updatedAt: Date
     supportId: string
@@ -7097,8 +7089,8 @@ export namespace Prisma {
       nameRoom: string | null
       socketRoomId: string
       totalMessages: number
-      lastMessageSupportIndex: number
-      lastMessageClientIndex: number
+      lastMessageSupportIndex: string | null
+      lastMessageClientIndex: string | null
       createdAt: Date
       updatedAt: Date
       supportId: string
@@ -7533,8 +7525,8 @@ export namespace Prisma {
     readonly nameRoom: FieldRef<"Room", 'String'>
     readonly socketRoomId: FieldRef<"Room", 'String'>
     readonly totalMessages: FieldRef<"Room", 'Int'>
-    readonly lastMessageSupportIndex: FieldRef<"Room", 'Int'>
-    readonly lastMessageClientIndex: FieldRef<"Room", 'Int'>
+    readonly lastMessageSupportIndex: FieldRef<"Room", 'String'>
+    readonly lastMessageClientIndex: FieldRef<"Room", 'String'>
     readonly createdAt: FieldRef<"Room", 'DateTime'>
     readonly updatedAt: FieldRef<"Room", 'DateTime'>
     readonly supportId: FieldRef<"Room", 'String'>
@@ -42625,8 +42617,8 @@ export namespace Prisma {
     nameRoom?: StringNullableFilter<"Room"> | string | null
     socketRoomId?: StringFilter<"Room"> | string
     totalMessages?: IntFilter<"Room"> | number
-    lastMessageSupportIndex?: IntFilter<"Room"> | number
-    lastMessageClientIndex?: IntFilter<"Room"> | number
+    lastMessageSupportIndex?: UuidNullableFilter<"Room"> | string | null
+    lastMessageClientIndex?: UuidNullableFilter<"Room"> | string | null
     createdAt?: DateTimeFilter<"Room"> | Date | string
     updatedAt?: DateTimeFilter<"Room"> | Date | string
     supportId?: UuidFilter<"Room"> | string
@@ -42641,8 +42633,8 @@ export namespace Prisma {
     nameRoom?: SortOrderInput | SortOrder
     socketRoomId?: SortOrder
     totalMessages?: SortOrder
-    lastMessageSupportIndex?: SortOrder
-    lastMessageClientIndex?: SortOrder
+    lastMessageSupportIndex?: SortOrderInput | SortOrder
+    lastMessageClientIndex?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     supportId?: SortOrder
@@ -42661,8 +42653,8 @@ export namespace Prisma {
     nameRoom?: StringNullableFilter<"Room"> | string | null
     socketRoomId?: StringFilter<"Room"> | string
     totalMessages?: IntFilter<"Room"> | number
-    lastMessageSupportIndex?: IntFilter<"Room"> | number
-    lastMessageClientIndex?: IntFilter<"Room"> | number
+    lastMessageSupportIndex?: UuidNullableFilter<"Room"> | string | null
+    lastMessageClientIndex?: UuidNullableFilter<"Room"> | string | null
     createdAt?: DateTimeFilter<"Room"> | Date | string
     updatedAt?: DateTimeFilter<"Room"> | Date | string
     supportId?: UuidFilter<"Room"> | string
@@ -42677,8 +42669,8 @@ export namespace Prisma {
     nameRoom?: SortOrderInput | SortOrder
     socketRoomId?: SortOrder
     totalMessages?: SortOrder
-    lastMessageSupportIndex?: SortOrder
-    lastMessageClientIndex?: SortOrder
+    lastMessageSupportIndex?: SortOrderInput | SortOrder
+    lastMessageClientIndex?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     supportId?: SortOrder
@@ -42698,8 +42690,8 @@ export namespace Prisma {
     nameRoom?: StringNullableWithAggregatesFilter<"Room"> | string | null
     socketRoomId?: StringWithAggregatesFilter<"Room"> | string
     totalMessages?: IntWithAggregatesFilter<"Room"> | number
-    lastMessageSupportIndex?: IntWithAggregatesFilter<"Room"> | number
-    lastMessageClientIndex?: IntWithAggregatesFilter<"Room"> | number
+    lastMessageSupportIndex?: UuidNullableWithAggregatesFilter<"Room"> | string | null
+    lastMessageClientIndex?: UuidNullableWithAggregatesFilter<"Room"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Room"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Room"> | Date | string
     supportId?: UuidWithAggregatesFilter<"Room"> | string
@@ -45111,8 +45103,8 @@ export namespace Prisma {
     nameRoom?: string | null
     socketRoomId: string
     totalMessages?: number
-    lastMessageSupportIndex?: number
-    lastMessageClientIndex?: number
+    lastMessageSupportIndex?: string | null
+    lastMessageClientIndex?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     support: UserCreateNestedOneWithoutSupportsInput
@@ -45125,8 +45117,8 @@ export namespace Prisma {
     nameRoom?: string | null
     socketRoomId: string
     totalMessages?: number
-    lastMessageSupportIndex?: number
-    lastMessageClientIndex?: number
+    lastMessageSupportIndex?: string | null
+    lastMessageClientIndex?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     supportId: string
@@ -45139,8 +45131,8 @@ export namespace Prisma {
     nameRoom?: NullableStringFieldUpdateOperationsInput | string | null
     socketRoomId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
-    lastMessageSupportIndex?: IntFieldUpdateOperationsInput | number
-    lastMessageClientIndex?: IntFieldUpdateOperationsInput | number
+    lastMessageSupportIndex?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageClientIndex?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     support?: UserUpdateOneRequiredWithoutSupportsNestedInput
@@ -45153,8 +45145,8 @@ export namespace Prisma {
     nameRoom?: NullableStringFieldUpdateOperationsInput | string | null
     socketRoomId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
-    lastMessageSupportIndex?: IntFieldUpdateOperationsInput | number
-    lastMessageClientIndex?: IntFieldUpdateOperationsInput | number
+    lastMessageSupportIndex?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageClientIndex?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     supportId?: StringFieldUpdateOperationsInput | string
@@ -45167,8 +45159,8 @@ export namespace Prisma {
     nameRoom?: string | null
     socketRoomId: string
     totalMessages?: number
-    lastMessageSupportIndex?: number
-    lastMessageClientIndex?: number
+    lastMessageSupportIndex?: string | null
+    lastMessageClientIndex?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     supportId: string
@@ -45180,8 +45172,8 @@ export namespace Prisma {
     nameRoom?: NullableStringFieldUpdateOperationsInput | string | null
     socketRoomId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
-    lastMessageSupportIndex?: IntFieldUpdateOperationsInput | number
-    lastMessageClientIndex?: IntFieldUpdateOperationsInput | number
+    lastMessageSupportIndex?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageClientIndex?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -45191,8 +45183,8 @@ export namespace Prisma {
     nameRoom?: NullableStringFieldUpdateOperationsInput | string | null
     socketRoomId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
-    lastMessageSupportIndex?: IntFieldUpdateOperationsInput | number
-    lastMessageClientIndex?: IntFieldUpdateOperationsInput | number
+    lastMessageSupportIndex?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageClientIndex?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     supportId?: StringFieldUpdateOperationsInput | string
@@ -47823,6 +47815,18 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type UuidNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
+  }
+
   export type MessageListRelationFilter = {
     every?: MessageWhereInput
     some?: MessageWhereInput
@@ -47853,8 +47857,6 @@ export namespace Prisma {
 
   export type RoomAvgOrderByAggregateInput = {
     totalMessages?: SortOrder
-    lastMessageSupportIndex?: SortOrder
-    lastMessageClientIndex?: SortOrder
   }
 
   export type RoomMaxOrderByAggregateInput = {
@@ -47885,8 +47887,6 @@ export namespace Prisma {
 
   export type RoomSumOrderByAggregateInput = {
     totalMessages?: SortOrder
-    lastMessageSupportIndex?: SortOrder
-    lastMessageClientIndex?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -47905,7 +47905,7 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type UuidNullableFilter<$PrismaModel = never> = {
+  export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -47914,7 +47914,10 @@ export namespace Prisma {
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
+    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -47961,21 +47964,6 @@ export namespace Prisma {
     receiverId?: SortOrder
     repToId?: SortOrder
     isMessageReply?: SortOrder
-  }
-
-  export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -52527,6 +52515,17 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedUuidNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -52554,22 +52553,6 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedUuidNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -52582,6 +52565,11 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -53764,8 +53752,8 @@ export namespace Prisma {
     nameRoom?: string | null
     socketRoomId: string
     totalMessages?: number
-    lastMessageSupportIndex?: number
-    lastMessageClientIndex?: number
+    lastMessageSupportIndex?: string | null
+    lastMessageClientIndex?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     support: UserCreateNestedOneWithoutSupportsInput
@@ -53777,8 +53765,8 @@ export namespace Prisma {
     nameRoom?: string | null
     socketRoomId: string
     totalMessages?: number
-    lastMessageSupportIndex?: number
-    lastMessageClientIndex?: number
+    lastMessageSupportIndex?: string | null
+    lastMessageClientIndex?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     supportId: string
@@ -53976,8 +53964,8 @@ export namespace Prisma {
     nameRoom?: NullableStringFieldUpdateOperationsInput | string | null
     socketRoomId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
-    lastMessageSupportIndex?: IntFieldUpdateOperationsInput | number
-    lastMessageClientIndex?: IntFieldUpdateOperationsInput | number
+    lastMessageSupportIndex?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageClientIndex?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     support?: UserUpdateOneRequiredWithoutSupportsNestedInput
@@ -53989,8 +53977,8 @@ export namespace Prisma {
     nameRoom?: NullableStringFieldUpdateOperationsInput | string | null
     socketRoomId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
-    lastMessageSupportIndex?: IntFieldUpdateOperationsInput | number
-    lastMessageClientIndex?: IntFieldUpdateOperationsInput | number
+    lastMessageSupportIndex?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageClientIndex?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     supportId?: StringFieldUpdateOperationsInput | string
@@ -58331,8 +58319,8 @@ export namespace Prisma {
     nameRoom?: string | null
     socketRoomId: string
     totalMessages?: number
-    lastMessageSupportIndex?: number
-    lastMessageClientIndex?: number
+    lastMessageSupportIndex?: string | null
+    lastMessageClientIndex?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     support: UserCreateNestedOneWithoutSupportsInput
@@ -58344,8 +58332,8 @@ export namespace Prisma {
     nameRoom?: string | null
     socketRoomId: string
     totalMessages?: number
-    lastMessageSupportIndex?: number
-    lastMessageClientIndex?: number
+    lastMessageSupportIndex?: string | null
+    lastMessageClientIndex?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     supportId: string
@@ -58367,8 +58355,8 @@ export namespace Prisma {
     nameRoom?: string | null
     socketRoomId: string
     totalMessages?: number
-    lastMessageSupportIndex?: number
-    lastMessageClientIndex?: number
+    lastMessageSupportIndex?: string | null
+    lastMessageClientIndex?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     client: UserCreateNestedOneWithoutClientsInput
@@ -58380,8 +58368,8 @@ export namespace Prisma {
     nameRoom?: string | null
     socketRoomId: string
     totalMessages?: number
-    lastMessageSupportIndex?: number
-    lastMessageClientIndex?: number
+    lastMessageSupportIndex?: string | null
+    lastMessageClientIndex?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     clientId: string
@@ -58750,8 +58738,8 @@ export namespace Prisma {
     nameRoom?: StringNullableFilter<"Room"> | string | null
     socketRoomId?: StringFilter<"Room"> | string
     totalMessages?: IntFilter<"Room"> | number
-    lastMessageSupportIndex?: IntFilter<"Room"> | number
-    lastMessageClientIndex?: IntFilter<"Room"> | number
+    lastMessageSupportIndex?: UuidNullableFilter<"Room"> | string | null
+    lastMessageClientIndex?: UuidNullableFilter<"Room"> | string | null
     createdAt?: DateTimeFilter<"Room"> | Date | string
     updatedAt?: DateTimeFilter<"Room"> | Date | string
     supportId?: UuidFilter<"Room"> | string
@@ -61148,8 +61136,8 @@ export namespace Prisma {
     nameRoom?: string | null
     socketRoomId: string
     totalMessages?: number
-    lastMessageSupportIndex?: number
-    lastMessageClientIndex?: number
+    lastMessageSupportIndex?: string | null
+    lastMessageClientIndex?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     supportId: string
@@ -61160,8 +61148,8 @@ export namespace Prisma {
     nameRoom?: string | null
     socketRoomId: string
     totalMessages?: number
-    lastMessageSupportIndex?: number
-    lastMessageClientIndex?: number
+    lastMessageSupportIndex?: string | null
+    lastMessageClientIndex?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     clientId: string
@@ -61459,8 +61447,8 @@ export namespace Prisma {
     nameRoom?: NullableStringFieldUpdateOperationsInput | string | null
     socketRoomId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
-    lastMessageSupportIndex?: IntFieldUpdateOperationsInput | number
-    lastMessageClientIndex?: IntFieldUpdateOperationsInput | number
+    lastMessageSupportIndex?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageClientIndex?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     support?: UserUpdateOneRequiredWithoutSupportsNestedInput
@@ -61472,8 +61460,8 @@ export namespace Prisma {
     nameRoom?: NullableStringFieldUpdateOperationsInput | string | null
     socketRoomId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
-    lastMessageSupportIndex?: IntFieldUpdateOperationsInput | number
-    lastMessageClientIndex?: IntFieldUpdateOperationsInput | number
+    lastMessageSupportIndex?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageClientIndex?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     supportId?: StringFieldUpdateOperationsInput | string
@@ -61485,8 +61473,8 @@ export namespace Prisma {
     nameRoom?: NullableStringFieldUpdateOperationsInput | string | null
     socketRoomId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
-    lastMessageSupportIndex?: IntFieldUpdateOperationsInput | number
-    lastMessageClientIndex?: IntFieldUpdateOperationsInput | number
+    lastMessageSupportIndex?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageClientIndex?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     supportId?: StringFieldUpdateOperationsInput | string
@@ -61497,8 +61485,8 @@ export namespace Prisma {
     nameRoom?: NullableStringFieldUpdateOperationsInput | string | null
     socketRoomId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
-    lastMessageSupportIndex?: IntFieldUpdateOperationsInput | number
-    lastMessageClientIndex?: IntFieldUpdateOperationsInput | number
+    lastMessageSupportIndex?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageClientIndex?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     client?: UserUpdateOneRequiredWithoutClientsNestedInput
@@ -61510,8 +61498,8 @@ export namespace Prisma {
     nameRoom?: NullableStringFieldUpdateOperationsInput | string | null
     socketRoomId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
-    lastMessageSupportIndex?: IntFieldUpdateOperationsInput | number
-    lastMessageClientIndex?: IntFieldUpdateOperationsInput | number
+    lastMessageSupportIndex?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageClientIndex?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientId?: StringFieldUpdateOperationsInput | string
@@ -61523,8 +61511,8 @@ export namespace Prisma {
     nameRoom?: NullableStringFieldUpdateOperationsInput | string | null
     socketRoomId?: StringFieldUpdateOperationsInput | string
     totalMessages?: IntFieldUpdateOperationsInput | number
-    lastMessageSupportIndex?: IntFieldUpdateOperationsInput | number
-    lastMessageClientIndex?: IntFieldUpdateOperationsInput | number
+    lastMessageSupportIndex?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageClientIndex?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     clientId?: StringFieldUpdateOperationsInput | string
