@@ -42654,8 +42654,6 @@ export namespace Prisma {
 
   export type RoomWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    supportId?: string
-    clientId?: string
     supportId_clientId?: RoomSupportIdClientIdCompoundUniqueInput
     AND?: RoomWhereInput | RoomWhereInput[]
     OR?: RoomWhereInput[]
@@ -42667,10 +42665,12 @@ export namespace Prisma {
     lastMessageClientIndex?: IntFilter<"Room"> | number
     createdAt?: DateTimeFilter<"Room"> | Date | string
     updatedAt?: DateTimeFilter<"Room"> | Date | string
+    supportId?: UuidFilter<"Room"> | string
+    clientId?: UuidFilter<"Room"> | string
     support?: XOR<UserScalarRelationFilter, UserWhereInput>
     client?: XOR<UserScalarRelationFilter, UserWhereInput>
     Message?: MessageListRelationFilter
-  }, "id" | "supportId" | "clientId" | "supportId_clientId">
+  }, "id" | "supportId_clientId">
 
   export type RoomOrderByWithAggregationInput = {
     id?: SortOrder

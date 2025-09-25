@@ -24,6 +24,7 @@ export const chunk = <T>(array: T[], size: number): T[][] => {
 };
 
 const usedSkuCodes = new Set<string>();
+const usedUsernames = new Set<string>();
 
 export function generateSku(): string {
 	let skuCode: string;
@@ -46,6 +47,19 @@ export function generateSku(): string {
 
 	usedSkuCodes.add(skuCode);
 	return skuCode;
+}
+
+export function generateUniqueUsername(baseUsername: string): string {
+	let username = baseUsername;
+	let counter = 0;
+
+	while (usedUsernames.has(username)) {
+		counter++;
+		username = `${baseUsername}_${counter}`;
+	}
+
+	usedUsernames.add(username);
+	return username.slice(0, 50); // Ensure it doesn't exceed database limit
 }
 
 export function generateSlug(name: string, index?: number): string {
@@ -83,13 +97,6 @@ const vietnameseProducts = [
 ];
 
 // --- Generate consistent IDs ---
-export const roleIds = unique([
-	faker.string.uuid(), // ROOT
-	faker.string.uuid(), // ADMINISTRATOR
-	faker.string.uuid(), // SUPPORTER
-	faker.string.uuid(), // SELLER
-	faker.string.uuid()  // USER
-]); export const permissionIds = unique(Array.from({ length: 20 }, (_, i) => i + 1));
 export const userIds = unique(Array.from({ length: 50 }, () => faker.string.uuid()));
 export const categoryIds = unique(Array.from({ length: vietnameseCategories.length }, () => faker.string.uuid()));
 export const brandIds = unique(Array.from({ length: vietnameseBrands.length }, () => faker.string.uuid()));
@@ -104,107 +111,8 @@ export const orderIds = unique(Array.from({ length: 50 }, () => faker.string.uui
 export const voucherIds = unique(Array.from({ length: 20 }, () => faker.string.uuid()));
 export const spuImageIds = unique(Array.from({ length: 200 }, () => faker.string.uuid()));
 export const skuImageIds = unique(Array.from({ length: 400 }, () => faker.string.uuid()));
-
-// --- Generate Roles & Permissions ---
-export const roles: Prisma.RoleCreateManyInput[] = [
-	{
-		id: roleIds[0],
-		roleName: 'ROOT',
-	},
-	{
-		id: roleIds[1],
-		roleName: 'ADMINISTRATOR',
-	},
-	{
-		id: roleIds[2],
-		roleName: 'SUPPORTER',
-	},
-	{
-		id: roleIds[3],
-		roleName: 'SELLER',
-	},
-	{
-		id: roleIds[4],
-		roleName: 'USER',
-	}
-];
-
-export const permissions: Prisma.PermissionCreateManyInput[] = [
-	{ permissionName: 'manage_users' },
-	{ permissionName: 'manage_products' },
-	{ permissionName: 'manage_shops' },
-	{ permissionName: 'manage_orders' },
-	{ permissionName: 'view_analytics' },
-	{ permissionName: 'manage_categories' },
-	{ permissionName: 'manage_brands' },
-	{ permissionName: 'moderate_reviews' },
-	{ permissionName: 'handle_support' },
-	{ permissionName: 'create_product' },
-	{ permissionName: 'edit_product' },
-	{ permissionName: 'delete_product' },
-	{ permissionName: 'manage_inventory' },
-	{ permissionName: 'view_shop_analytics' },
-	{ permissionName: 'manage_shop_settings' },
-	{ permissionName: 'create_shop' },
-	{ permissionName: 'view_profile' },
-	{ permissionName: 'edit_profile' },
-	{ permissionName: 'place_order' },
-	{ permissionName: 'write_review' }
-];
-
-// Role-Permission mappings
-// NOTE: RolePermission schema has an issue - it has Permission[] relationship instead of permissionId
-// This needs to be fixed in the schema first. For now, we'll skip RolePermission seeding.
-// 
-// SCHEMA FIX NEEDED:
-// model RolePermission {
-//     id           String     @id @default(uuid()) @db.Uuid
-//     roleId       String     @map("role_id") @db.Uuid
-//     permissionId Int        @map("permission_id") // ADD THIS
-//     createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz()
-//
-//     role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
-//     permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade) // CHANGE THIS
-//
-//     @@unique([roleId, permissionId]) // ADD THIS
-//     @@index([roleId])
-//     @@index([permissionId]) // ADD THIS
-//     @@map("role_permissions")
-// }
-
-export const rolePermissions: Prisma.RolePermissionCreateManyInput[] = [
-	// ROOT role - all permissions (1-20)
-	...Array.from({ length: 20 }, (_, i) => ({
-		id: faker.string.uuid(),
-		roleId: roleIds[0], // ROOT
-		permissionId: i + 1
-	})),
-
-	// ADMINISTRATOR role - most permissions (1-15)
-	...Array.from({ length: 15 }, (_, i) => ({
-		id: faker.string.uuid(),
-		roleId: roleIds[1], // ADMINISTRATOR
-		permissionId: i + 1
-	})),
-
-	// SUPPORTER role - support related permissions (8-9)
-	{ id: faker.string.uuid(), roleId: roleIds[2], permissionId: 8 }, // moderate_reviews
-	{ id: faker.string.uuid(), roleId: roleIds[2], permissionId: 9 }, // handle_support
-
-	// SELLER role - shop and product management (10-16)
-	...Array.from({ length: 7 }, (_, i) => ({
-		id: faker.string.uuid(),
-		roleId: roleIds[3], // SELLER
-		permissionId: i + 10 // permissions 10-16
-	})),
-
-	// USER role - basic permissions (17-20)
-	...Array.from({ length: 4 }, (_, i) => ({
-		id: faker.string.uuid(),
-		roleId: roleIds[4], // USER
-		permissionId: i + 17 // permissions 17-20
-	}))
-];
+export const roomIds = unique(Array.from({ length: 20 }, () => faker.string.uuid()));
+export const messageIds = unique(Array.from({ length: 100 }, () => faker.string.uuid()));
 
 // --- Generate Users ---
 export const users: Prisma.UserCreateManyInput[] = userIds.map((id, i) => {
@@ -213,7 +121,7 @@ export const users: Prisma.UserCreateManyInput[] = userIds.map((id, i) => {
 		return {
 			id,
 			fullname: 'Super Admin',
-			username: 'root',
+			username: generateUniqueUsername('root'),
 			email: 'root@admin.com',
 			phone: '0901234567',
 			hashingPassword: '$2b$10$examplehashedpassword', // In real app, hash properly
@@ -229,12 +137,32 @@ export const users: Prisma.UserCreateManyInput[] = userIds.map((id, i) => {
 		};
 	}
 
-	if (i < 5) {
+	if (i === 1) {
+		return {
+			id,
+			fullname: 'Test User',
+			username: generateUniqueUsername('test'),
+			email: 'test@example.com',
+			phone: '0912345678',
+			hashingPassword: '$argon2id$v=19$m=65536,t=3,p=4$9TTVixk6rBfhAY7NPnrCCg$L9ondZo+27oDnUyenL0GqUfrkwRfZUAfdOGLtRE4uYY', // argon2 hash for "andev"
+			accountType: AccountType.EMAIL,
+			avatarUrl: faker.image.avatar().slice(0, 500),
+			address: 'Hà Nội',
+			city: 'Hà Nội',
+			state: 'Hà Nội',
+			visible: UserVisibility.PUBLIC,
+			status: Status.ACTIVE,
+			isVerified: true,
+			lastActived: new Date(),
+		};
+	}
+
+	if (i < 6) {
 		// Create some admin users
 		return {
 			id,
 			fullname: faker.person.fullName(),
-			username: `admin${i}`,
+			username: generateUniqueUsername(`admin${i}`),
 			email: `admin${i}@company.com`,
 			phone: faker.phone.number().slice(0, 20),
 			hashingPassword: '$2b$10$examplehashedpassword',
@@ -250,12 +178,12 @@ export const users: Prisma.UserCreateManyInput[] = userIds.map((id, i) => {
 		};
 	}
 
-	if (i < 15) {
+	if (i < 16) {
 		// Create seller users
 		return {
 			id,
 			fullname: faker.person.fullName(),
-			username: `seller${i}`,
+			username: generateUniqueUsername(`seller${i}`),
 			email: `seller${i}@shop.com`,
 			phone: faker.phone.number().slice(0, 20),
 			hashingPassword: '$2b$10$examplehashedpassword',
@@ -275,7 +203,7 @@ export const users: Prisma.UserCreateManyInput[] = userIds.map((id, i) => {
 	return {
 		id,
 		fullname: faker.person.fullName(),
-		username: `user${i}_${faker.internet.username()}`.slice(0, 50),
+		username: generateUniqueUsername(`user${i}_${faker.internet.username()}`),
 		email: faker.internet.email().slice(0, 255),
 		phone: faker.phone.number().slice(0, 20),
 		hashingPassword: '$2b$10$examplehashedpassword',
@@ -292,34 +220,6 @@ export const users: Prisma.UserCreateManyInput[] = userIds.map((id, i) => {
 		lastActived: faker.date.recent({ days: 90 }),
 	};
 });
-
-// User-Role assignments
-export const userRoles: Prisma.UserRoleCreateManyInput[] = [
-	// Assign ROOT role to first user
-	{
-		id: faker.string.uuid(),
-		userId: userIds[0],
-		roleId: roleIds[0], // ROOT
-	},
-	// Assign ADMINISTRATOR roles to admin users
-	...userIds.slice(1, 5).map(userId => ({
-		id: faker.string.uuid(),
-		userId,
-		roleId: roleIds[1], // ADMINISTRATOR
-	})),
-	// Assign SELLER roles to seller users
-	...userIds.slice(5, 15).map(userId => ({
-		id: faker.string.uuid(),
-		userId,
-		roleId: roleIds[3], // SELLER
-	})),
-	// Assign USER roles to remaining users
-	...userIds.slice(15).map(userId => ({
-		id: faker.string.uuid(),
-		userId,
-		roleId: roleIds[4], // USER
-	}))
-];
 
 // --- Generate Categories ---
 export const categories: Prisma.CategoryCreateManyInput[] = categoryIds.map((id, index) => ({
@@ -776,13 +676,87 @@ export const skuVariationValues: Prisma.SkuVariationValueCreateManyInput[] = [];
 // Note: This requires spuVariationIds which are created after SPU variations are seeded
 // Will be generated in the service after spuVariations are created
 
+// --- Generate Rooms (Chat Support) ---
+export const rooms: Prisma.RoomCreateManyInput[] = roomIds.map((id, index) => {
+	// Since supportId is unique, each room must have different supportId
+	// We'll use different users for both support and client
+	const supportUserIndex = index % userIds.length;
+	const clientUserIndex = (index + 1) % userIds.length;
+
+	// Make sure supportId and clientId are different
+	const supportId = userIds[supportUserIndex];
+	const clientId = supportUserIndex === (index + 1) % userIds.length
+		? userIds[(index + 2) % userIds.length]
+		: userIds[clientUserIndex];
+
+	return {
+		id,
+		nameRoom: `Hỗ trợ khách hàng ${index + 1}`,
+		socketRoomId: `room_${id}`,
+		totalMessages: faker.number.int({ min: 0, max: 50 }),
+		lastMessageSupportIndex: faker.number.int({ min: 0, max: 10 }),
+		lastMessageClientIndex: faker.number.int({ min: 0, max: 10 }),
+		supportId,
+		clientId,
+		createdAt: faker.date.recent({ days: 30 }),
+		updatedAt: faker.date.recent({ days: 15 })
+	};
+});
+
+// --- Generate Messages ---
+export const messages: Prisma.MessageCreateManyInput[] = messageIds.map((id, index) => {
+	const roomIndex = index % rooms.length;
+	const room = rooms[roomIndex];
+	const isFromSupport = faker.datatype.boolean(0.6); // 60% messages from support
+	const senderId = isFromSupport ? room.supportId : room.clientId;
+	const receiverId = isFromSupport ? room.clientId : room.supportId;
+
+	const supportMessages = [
+		'Xin chào! Tôi có thể giúp gì cho bạn?',
+		'Cảm ơn bạn đã liên hệ với chúng tôi.',
+		'Tôi sẽ kiểm tra thông tin và phản hồi bạn ngay.',
+		'Bạn có thể cung cấp thêm chi tiết không?',
+		'Chúng tôi sẽ xử lý vấn đề này trong 24h.',
+		'Tôi đã ghi nhận yêu cầu của bạn.',
+		'Bạn còn cần hỗ trợ gì khác không?',
+		'Rất vui được hỗ trợ bạn!',
+		'Vấn đề của bạn đã được giải quyết chưa?',
+		'Cảm ơn bạn đã phản hồi.'
+	];
+
+	const clientMessages = [
+		'Tôi cần hỗ trợ về sản phẩm này.',
+		'Đơn hàng của tôi chưa được giao.',
+		'Làm thế nào để đổi trả sản phẩm?',
+		'Tôi muốn hủy đơn hàng.',
+		'Sản phẩm có bảo hành không?',
+		'Khi nào có hàng trở lại?',
+		'Giá sản phẩm này có giảm không?',
+		'Tôi không nhận được email xác nhận.',
+		'Làm sao để theo dõi đơn hàng?',
+		'Cảm ơn bạn đã hỗ trợ!'
+	];
+
+	const messageContent = isFromSupport
+		? faker.helpers.arrayElement(supportMessages)
+		: faker.helpers.arrayElement(clientMessages);
+
+	return {
+		id,
+		content: messageContent,
+		roomId: room?.id || roomIds[roomIndex % roomIds.length], // Fallback to roomId if room.id is undefined
+		senderId,
+		receiverId,
+		repToId: faker.datatype.boolean(0.1) ? faker.helpers.arrayElement(messageIds.slice(0, index)) : null, // 10% are replies
+		isMessageReply: faker.datatype.boolean(0.1),
+		createdAt: faker.date.recent({ days: 20 }),
+		updatedAt: faker.date.recent({ days: 10 })
+	};
+});
+
 // Export all collections
 export const seedCollections = {
-	roles,
-	permissions,
-	rolePermissions,
 	users,
-	userRoles,
 	categories,
 	brands,
 	shops,
@@ -806,6 +780,8 @@ export const seedCollections = {
 	spuAttributes,
 	skuAttributes,
 	spuTags,
-	spuVariations
+	spuVariations,
+	rooms,
+	messages
 	// skuVariationValues will be generated dynamically
 };

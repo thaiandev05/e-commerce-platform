@@ -36,26 +36,18 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 			await this.clearExistingData();
 
 			console.log('📊 Seed data statistics:');
-			console.log(`- ${seedCollections.roles.length} roles`);
-			console.log(`- ${seedCollections.permissions.length} permissions`);
 			console.log(`- ${seedCollections.users.length} users`);
-			console.log(`- ${seedCollections.userRoles.length} user-role assignments`);
 			console.log(`- ${seedCollections.categories.length} categories`);
 			console.log(`- ${seedCollections.brands.length} brands`);
 			console.log(`- ${seedCollections.shops.length} shops`);
 			console.log(`- ${seedCollections.spus.length} SPUs`);
 			console.log(`- ${seedCollections.skus.length} SKUs`);
+			console.log(`- ${seedCollections.rooms.length} chat rooms`);
+			console.log(`- ${seedCollections.messages.length} messages`);
 
-			// Seed core authentication and authorization data
-			console.log('🔐 Seeding roles and permissions...');
-			await this.role.createMany({ data: seedCollections.roles });
-			await this.permission.createMany({ data: seedCollections.permissions });
-
+			// Seed core user data
 			console.log('👥 Seeding users...');
 			await this.user.createMany({ data: seedCollections.users });
-
-			console.log('🔗 Seeding user roles...');
-			await this.userRole.createMany({ data: seedCollections.userRoles });
 
 			// Seed product catalog structure
 			console.log('🏪 Seeding categories...');
@@ -123,6 +115,13 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 			console.log('🎫 Seeding voucher usage...');
 			await this.voucherUsed.createMany({ data: seedCollections.voucherUsed });
 
+			// Seed chat/support data
+			console.log('🏠 Seeding chat rooms...');
+			await this.room.createMany({ data: seedCollections.rooms });
+
+			console.log('💬 Seeding messages...');
+			await this.message.createMany({ data: seedCollections.messages });
+
 			// Seed product images and relationships
 			console.log('📸 Seeding SPU images...');
 			await this.spuImage.createMany({ data: seedCollections.spuImages });
@@ -171,7 +170,19 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 	 */
 	private async clearExistingData(): Promise<void> {
 		const operations = [
-			// Clear product relationships first
+			// Clear order and voucher relationships first (highest level dependencies)
+			() => this.voucherUsed.deleteMany(),
+			() => this.orderProduct.deleteMany(),
+			() => this.order.deleteMany(),
+			() => this.voucher.deleteMany(),
+			() => this.storeProduct.deleteMany(),
+			() => this.cart.deleteMany(),
+
+			// Clear chat/support data
+			() => this.message.deleteMany(),
+			() => this.room.deleteMany(),
+
+			// Clear product relationships
 			() => this.skuVariationValue.deleteMany(),
 			() => this.spuVariation.deleteMany(),
 			() => this.skuAttribute.deleteMany(),
@@ -202,14 +213,8 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 			() => this.session.deleteMany(),
 			() => this.code.deleteMany(),
 
-			// Clear auth relationships
-			() => this.userRole.deleteMany(),
-			() => this.rolePermission.deleteMany(),
-
-			// Clear users and auth
+			// Clear users
 			() => this.user.deleteMany(),
-			() => this.role.deleteMany(),
-			() => this.permission.deleteMany(),
 		];
 
 		for (const operation of operations) {

@@ -182,7 +182,6 @@ export class SeedService {
 						email: { type: 'keyword' },
 						city: { type: 'text' },
 						state: { type: 'text' },
-						roles: { type: 'keyword' },
 						isVerified: { type: 'boolean' }
 					}
 				};
@@ -353,7 +352,6 @@ export class SeedService {
 				email: true,
 				city: true,
 				state: true,
-				roles: true,
 				isVerified: true,
 				status: true,
 				createdAt: true,
@@ -373,7 +371,6 @@ export class SeedService {
 					email: user.email,
 					city: user.city,
 					state: user.state,
-					roles: user.roles,
 					isVerified: user.isVerified,
 					status: user.status,
 					createdAt: user.createdAt,

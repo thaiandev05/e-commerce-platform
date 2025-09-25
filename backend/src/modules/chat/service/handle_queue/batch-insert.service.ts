@@ -16,7 +16,7 @@ export class BatchInsertService {
 	async addMessageToQueue(message: Message_Queue) {
 		this.messageQueue.push(message)
 		if (this.messageQueue.length >= this.BATCH_SIZE) {
-			await this.batchInsert();
+			await this.batchInsert()
 		}
 	}
 

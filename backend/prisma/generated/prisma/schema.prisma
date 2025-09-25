@@ -55,8 +55,8 @@ model Room {
   updatedAt               DateTime @updatedAt
 
   // foreign keys
-  supportId String @unique @db.Uuid
-  clientId  String @unique @db.Uuid
+  supportId String @db.Uuid
+  clientId  String @db.Uuid
 
   // relations
   support User      @relation(name: "support", fields: [supportId], references: [id], onDelete: Cascade)

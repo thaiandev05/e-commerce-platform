@@ -4,17 +4,20 @@ import { Message, User } from "@prisma/generated/prisma";
 import { randomUUID } from "crypto";
 import { Request } from 'express';
 import Redis from "ioredis";
-import { CHAT_CONSTANR } from "../chat.constant";
-import { CreateMessageDto } from "../dto/create-message.dto";
-import { MessageProducer } from "./handle_queue/message.producer";
-import { UpdateMessageDto } from "../dto/update-message.dto";
-import { DeleteMessageDto } from "../dto/delete-message.dto";
+import { CHAT_CONSTANR } from "../../chat.constant";
+import { CreateMessageDto } from "../../dto/create-message.dto";
+import { MessageProducer } from "../handle_queue/message.producer";
+import { UpdateMessageDto } from "../../dto/update-message.dto";
+import { DeleteMessageDto } from "../../dto/delete-message.dto";
+import { LoadingAndSearchService } from "./loading-search.message.service";
+import { LoadingMessageDto } from "../../dto/loading-message.dto";
 @Injectable()
 export class MessageService {
 	constructor(
 		private readonly prismaService: PrismaService,
 		@Inject('REDIS_CLIENT') private readonly redis: Redis,
-		private readonly messageProducer: MessageProducer
+		private readonly messageProducer: MessageProducer,
+		private readonly loadMessageService: LoadingAndSearchService
 	) { }
 
 	// check available user
@@ -143,5 +146,10 @@ export class MessageService {
 		return await this.prismaService.message.delete({
 			where: { id: messageId }
 		})
+	}
+
+	// loading messages
+	async loadingMessage(req: Request, roomId: string, dto: LoadingMessageDto) {
+		return this.loadMessageService.loadingMessage(req,roomId, dto)
 	}
 }
