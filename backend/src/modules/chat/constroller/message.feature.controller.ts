@@ -1,15 +1,15 @@
 import { Body, Controller, Delete, Get, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
 import express from 'express';
-import { CreateMessageDto } from "./dto/create-message.dto";
-import { DeleteMessageDto } from "./dto/delete-message.dto";
-import { UpdateMessageDto } from "./dto/update-message.dto";
-import { IsAuthorMessage } from "./guard/isAuhtorMessage.guard";
-import { MessageService } from "./service/messgae_service/message.service";
-import { IsvalidRoomGuard } from "./guard/isValidInRoom.guard";
-import { LoadingMessageDto } from "./dto/loading-message.dto";
-import { FindingMessageDto } from "./dto/finding-message.dto";
-@Controller('test')
-export class TestController {
+import { CreateMessageDto } from "../dto/create-message.dto";
+import { DeleteMessageDto } from "../dto/delete-message.dto";
+import { UpdateMessageDto } from "../dto/update-message.dto";
+import { IsAuthorMessage } from "../guard/isAuhtorMessage.guard";
+import { MessageService } from "../service/messgae_service/message.service";
+import { IsvalidRoomGuard } from "../guard/isValidInRoom.guard";
+import { LoadingMessageDto } from "../dto/loading-message.dto";
+import { FindingMessageDto } from "../dto/finding-message.dto";
+@Controller('message')
+export class MessageController {
 
 	constructor(
 		private readonly messageService: MessageService

@@ -6,3 +6,13 @@ export interface Message_Queue {
 	receiverId: string
 	repToId: string | null
 }
+
+export interface User_Custom {
+	id: string;
+	username: string;
+	roles: {
+		role: {
+			roleName: string;
+		};
+	}[];
+}

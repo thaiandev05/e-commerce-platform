@@ -1,6 +1,5 @@
 import { Module } from "@nestjs/common";
 import { MessageService } from "./service/messgae_service/message.service";
-import { TestController } from "./test.feature.controller";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { MessageProducer } from "./service/handle_queue/message.producer";
 import { LoadingAndSearchService } from "./service/messgae_service/loading-search.message.service";
@@ -8,6 +7,9 @@ import { MessageConsumer } from "./service/handle_queue/message.consumer";
 import { BatchInsertService } from "./service/handle_queue/batch-insert.service";
 import { ChatgateWayService } from "./service/chat.gateway.service";
 import { PrismaModule } from "@/prisma/prisma.module";
+import { RoomService } from "./service/messgae_service/room.service";
+import { MessageController } from "./constroller/message.feature.controller";
+import { RoomController } from "./constroller/room.feature.controller";
 
 @Module({
 	imports: [
@@ -32,9 +34,10 @@ import { PrismaModule } from "@/prisma/prisma.module";
 		LoadingAndSearchService,
 		MessageConsumer,
 		BatchInsertService,
-		ChatgateWayService
+		ChatgateWayService,
+		RoomService
 	],
-	controllers: [TestController]
+	controllers: [MessageController, RoomController]
 })
 export class ChatModule {
 
