@@ -1,37 +1,96 @@
-import { IsOptional, IsString, IsAlphanumeric, MinLength, MaxLength, IsUrl, IsEmail } from 'class-validator';
+import { IsString, IsNotEmpty, IsEmail, IsOptional, Length, Matches, IsDateString } from 'class-validator'
+import { Transform } from 'class-transformer'
+import { ApiProperty } from '@nestjs/swagger'
 
-export class changeDetailUserDto {
+export class ChangeDetailDto {
+	@ApiProperty({
+		description: 'User first name',
+		example: 'John',
+		minLength: 2,
+		maxLength: 50,
+		required: false
+	})
 	@IsOptional()
 	@IsString()
-	@MinLength(2, { message: 'Full name must be at least 2 characters.' })
-	@MaxLength(50, { message: 'Full name must be at most 50 characters.' })
-	fullname?: string
+	@Length(2, 50)
+	@Transform(({ value }) => value?.trim())
+	firstName?: string
 
-	@IsOptional()
-	@IsAlphanumeric()
-	@MinLength(3, { message: 'Username must be at least 3 characters.' })
-	@MaxLength(20, { message: 'Username must be at most 20 characters.' })
-	username?: string
-
+	@ApiProperty({
+		description: 'User last name',
+		example: 'Doe',
+		minLength: 2,
+		maxLength: 50,
+		required: false
+	})
 	@IsOptional()
 	@IsString()
-	@MaxLength(255, { message: 'Address must be at most 255 characters.' })
+	@Length(2, 50)
+	@Transform(({ value }) => value?.trim())
+	lastName?: string
+
+	@ApiProperty({
+		description: 'User email address',
+		example: 'john.doe@example.com',
+		format: 'email',
+		required: false
+	})
+	@IsOptional()
+	@IsEmail({}, {
+		message: 'Please provide a valid email address'
+	})
+	@Transform(({ value }) => value?.trim().toLowerCase())
+	email?: string
+
+	@ApiProperty({
+		description: 'User phone number',
+		example: '+1234567890',
+		minLength: 10,
+		maxLength: 15,
+		required: false
+	})
+	@IsOptional()
+	@IsString()
+	@Length(10, 15)
+	@Matches(/^[\+]?[1-9][\d]{0,15}$/, {
+		message: 'Phone number must be a valid format'
+	})
+	@Transform(({ value }) => value?.trim())
+	phoneNumber?: string
+
+	@ApiProperty({
+		description: 'User date of birth',
+		example: '1990-01-15',
+		type: String,
+		format: 'date',
+		required: false
+	})
+	@IsOptional()
+	@IsDateString()
+	dateOfBirth?: Date
+
+	@ApiProperty({
+		description: 'User address',
+		example: '123 Main Street, City, State',
+		minLength: 5,
+		maxLength: 200,
+		required: false
+	})
+	@IsOptional()
+	@IsString()
+	@Length(5, 200)
+	@Transform(({ value }) => value?.trim())
 	address?: string
 
+	@ApiProperty({
+		description: 'User bio/description',
+		example: 'Software developer passionate about technology',
+		maxLength: 500,
+		required: false
+	})
 	@IsOptional()
 	@IsString()
-	@MaxLength(100, { message: 'City must be at most 100 characters.' })
-	city?: string
-
-	@IsOptional()
-	@IsString()
-	@MaxLength(100, { message: 'Country must be at most 100 characters.' })
-	country?: string
-
-	@IsOptional()
-	@IsString()
-	@MinLength(7, { message: 'Phone must be at least 7 characters.' })
-	@MaxLength(20, { message: 'Phone must be at most 20 characters.' })
-	phone?: string
-
+	@Length(0, 500)
+	@Transform(({ value }) => value?.trim())
+	bio?: string
 }

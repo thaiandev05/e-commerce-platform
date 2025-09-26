@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Req, Patch, Res } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiOperation, ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import express from 'express';
@@ -19,10 +19,18 @@ export class AuthController {
 	) { }
 	@Public()
 	@Post('register')
-	@ApiOperation({ summary: 'Register a new user' })
-	@ApiCreatedResponse({ description: 'User successfully registered' })
-	@ApiBadRequestResponse({ description: 'Invalid input / validation error' })
-	@ApiBody({ type: RegisterDto })
+	@ApiOperation({ summary: 'User registration' })
+	@ApiResponse({ status: 201, description: 'Registration successful' })
+	@ApiResponse({ status: 400, description: 'Invalid registration data' })
+	@ApiBody({
+		schema: {
+			properties: {
+				email: { type: 'string', example: 'user@example.com' },
+				password: { type: 'string', example: 'password123' },
+				name: { type: 'string', example: 'John Doe' }
+			}
+		}
+	})
 	async register(@Body() dto: RegisterDto) {
 		return this.authService.register(dto)
 	}
@@ -33,14 +41,21 @@ export class AuthController {
 	@ApiBadRequestResponse({ description: 'Invalid code or request' })
 	@ApiBody({ type: VerifyAccountWithCodeDto })
 	async verifyAccountWithCode(@Body() dto: VerifyAccountWithCodeDto) {
-		return this.authService.verifyAccountWithCode(dto)	
+		return this.authService.verifyAccountWithCode(dto)
 	}
 	@Public()
 	@Post('login')
-	@ApiOperation({ summary: 'Login a user' })
+	@ApiOperation({ summary: 'User login' })
 	@ApiResponse({ status: 200, description: 'Login successful' })
-	@ApiBadRequestResponse({ description: 'Invalid credentials or request' })
-	@ApiBody({ type: LoginDto })
+	@ApiResponse({ status: 401, description: 'Invalid credentials' })
+	@ApiBody({
+		schema: {
+			properties: {
+				email: { type: 'string', example: 'user@example.com' },
+				password: { type: 'string', example: 'password123' }
+			}
+		}
+	})
 	async login(@Res({ passthrough: true }) res: express.Response, @Body() dto: LoginDto) {
 		return this.authService.login(dto, res)
 	}
@@ -82,11 +97,11 @@ export class AuthController {
 
 	@Public()
 	@Post('logout')
-	@ApiOperation({ summary: 'Logout current session' })
+	@ApiBearerAuth('JWT-auth')
+	@ApiOperation({ summary: 'User logout' })
 	@ApiResponse({ status: 200, description: 'Logout successful' })
-	@ApiBadRequestResponse({ description: 'Invalid session or request' })
-	async logout(@Res({ passthrough: true }) res: express.Response, @Cookies('session_id') sessionId: string) {
-		return this.authService.logout(res, sessionId)
+	async logout(@Req() req: any) {
+		// ...existing code...
 	}
 
 	@Patch('change-password')

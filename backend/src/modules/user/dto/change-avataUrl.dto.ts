@@ -1,11 +1,30 @@
-import { IsOptional, IsUrl, IsString, MaxLength } from 'class-validator';
+import { IsString, IsNotEmpty, IsUrl, IsOptional } from 'class-validator';
+import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ChangeAvataUrlDto {
-	@ApiProperty({ example: 'https://example.com/avatar.jpg', description: 'URL of the user avatar', required: false })
+export class ChangeAvatarUrlDto {
+	@ApiProperty({
+		description: 'New avatar URL',
+		example: 'https://example.com/avatar.jpg',
+		type: String,
+		format: 'url'
+	})
+	@IsString()
+	@IsNotEmpty()
+	@IsUrl({}, {
+		message: 'Avatar URL must be a valid URL'
+	})
+	@Transform(({ value }) => value?.trim())
+	avatarUrl: string;
+
+	@ApiProperty({
+		description: 'Alt text for the avatar image',
+		example: 'User profile picture',
+		required: false,
+		maxLength: 100
+	})
 	@IsOptional()
 	@IsString()
-	@IsUrl({}, { message: 'Invalid URL for avatar.' })
-	@MaxLength(2048, { message: 'Avatar URL must be at most 2048 characters.' })
-	avataUrl?: string
+	@Transform(({ value }) => value?.trim())
+	altText?: string;
 }
