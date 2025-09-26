@@ -9,6 +9,7 @@ import { Sku } from "@prisma/generated/prisma";
 import { REDIS_CONSTANTS } from "../redis/redis.constants";
 import { CommentProducer } from "./handle_queue/comment.produder";
 import { UpdateCommentDto } from "./dto/update-comment.dto";
+import { DeleteCommentDto } from "./dto/delete-comment.dto";
 @Injectable()
 export class CommentService {
 
@@ -119,6 +120,29 @@ export class CommentService {
 		return await this.prismaService.comment.update({
 			where: { id: comment.id },
 			data: { content: dto.newContent }
+		})
+	}
+
+	async deleteComment(req: Request, commentId: string, dto: DeleteCommentDto) {
+		// validate sender and product
+		const userKey = CHAT_CONSTANR.CACHE_USER(req.user?.id || '')
+		const skuKey = REDIS_CONSTANTS.CACHE_SKU(dto.skuId)
+		const [user, sku] = await Promise.all([
+			await this.getUserWithId(userKey),
+			await this.getProductWithId(skuKey)
+		])
+		if (!user || typeof user === "string") throw new NotFoundException("User not found")
+		if (!sku) throw new NotFoundException("Product not found")
+
+		// validate comment
+		const comment = await this.prismaService.comment.findUnique({
+			where: { id: commentId }
+		})
+		if (!comment) throw new NotFoundException("Comment not found")
+
+		// update comment
+		return await this.prismaService.comment.delete({
+			where: { id: comment.id }
 		})
 	}
 }

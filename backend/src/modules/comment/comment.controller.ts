@@ -1,8 +1,9 @@
-import { Body, Controller, Patch, Post, Query, Req } from "@nestjs/common";
+import { Body, Controller, Delete, Patch, Post, Query, Req } from "@nestjs/common";
 import express from 'express'
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { CommentService } from "./comment.service";
 import { UpdateCommentDto } from "./dto/update-comment.dto";
+import { DeleteCommentDto } from "./dto/delete-comment.dto";
 @Controller('comment')
 export class CommentController {
 
@@ -18,5 +19,10 @@ export class CommentController {
 	@Patch('update-comment')
 	async updateComment(@Req() req: express.Request, @Query('commentId') commentId: string, @Body() dto: UpdateCommentDto) {
 		return this.commentService.updateComment(req, commentId, dto)
+	}
+
+	@Delete('delete-comment')
+	async deleteComment(@Req() req: express.Request, @Query('commentId') commentId: string, @Body() dto: DeleteCommentDto) {
+		return this.commentService.deleteComment(req, commentId, dto)
 	}
 }
