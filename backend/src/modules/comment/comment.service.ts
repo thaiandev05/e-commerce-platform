@@ -2,17 +2,19 @@ import { PrismaService } from "@/prisma/prisma.service";
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { Request } from "express";
 import Redis from "ioredis";
-import { CommentUser } from "./comment.interface";
+import { Comment_Queue, CommentUser } from "./comment.interface";
 import { CreateCommentDto } from "./dto/create-comment.dto";
 import { CHAT_CONSTANR } from "../chat/chat.constant";
 import { Sku } from "@prisma/generated/prisma";
 import { REDIS_CONSTANTS } from "../redis/redis.constants";
+import { CommentProducer } from "./handle_queue/comment.produder";
 @Injectable()
 export class CommentService {
 
 	constructor(
 		private readonly prismaService: PrismaService,
-		@Inject("REDIS_CLIENT") private readonly redis: Redis
+		@Inject("REDIS_CLIENT") private readonly redis: Redis,
+		private readonly commentProducer: CommentProducer
 	) { }
 
 	// get user with id
@@ -67,7 +69,7 @@ export class CommentService {
 			await this.getUserWithId(userKey),
 			await this.getProductWithId(skuKey)
 		])
-		if (!user) throw new NotFoundException("User not found")
+		if (!user || typeof user === "string") throw new NotFoundException("User not found")
 		if (!sku) throw new NotFoundException("Product not found")
 
 		// validate comment reped if isReply = true
@@ -78,8 +80,21 @@ export class CommentService {
 			if (!replyToComment) throw new NotFoundException("Comment not found")
 		}
 
+		// data comment
+		const commentQueue: Comment_Queue = {
+			content: dto.content,
+			ownId: user.id,
+			skuId,
+			isReply: (dto.isReply) ? true : false,
+			repToComment: (dto.repToCommentId) ? dto.repToCommentId : undefined
+		}
+
 		// emit even to producer
-		
+		await this.commentProducer.sendCommentEvent(commentQueue)
+
+		return {
+			success: true
+		}
 
 	}
 }

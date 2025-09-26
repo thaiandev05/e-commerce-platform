@@ -24,6 +24,7 @@ import { CartModule } from './modules/cart/cart.module';
 import { StripeModule } from './modules/stripe/stripe.module';
 import { GenemiChatbotModule } from './modules/genemi-chatbot/genemi-chatbot.module';
 import { ChatModule } from './modules/chat/chat.module';
+import { CommentModule } from './modules/comment/comment.module';
 @Module({
   imports: [
     PrismaModule,
@@ -48,7 +49,7 @@ import { ChatModule } from './modules/chat/chat.module';
     }),
     ScheduleModule.forRoot(),
     EmailModule, AuthModule, ShopModule, UserModule, FileModule, TaskModule, RedisModule, ProductModule, EventbusModule, ElasticsearchModule, CartModule,
-    StripeModule, GenemiChatbotModule, ChatModule
+    StripeModule, GenemiChatbotModule, ChatModule, CommentModule
   ],
   controllers: [AppController],
   providers: [
