@@ -1,10 +1,10 @@
-import { Body, Controller, Delete, Get, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
 import express from 'express';
 import { CreateMessageDto } from "../dto/create-message.dto";
 import { DeleteMessageDto } from "../dto/delete-message.dto";
 import { UpdateMessageDto } from "../dto/update-message.dto";
 import { IsAuthorMessage } from "../guard/isAuhtorMessage.guard";
-import { MessageService } from "../service/messgae_service/message.service";
+import { MessageService } from "../service/message_service/message.service";
 import { IsvalidRoomGuard } from "../guard/isValidInRoom.guard";
 import { LoadingMessageDto } from "../dto/loading-message.dto";
 import { FindingMessageDto } from "../dto/finding-message.dto";
@@ -16,8 +16,8 @@ export class MessageController {
 	) { }
 	// test message
 	@Post('create-message')
-	async createMessage(@Req() req: express.Request, @Body() dto: CreateMessageDto) {
-		return this.messageService.createMessage(req, dto)
+	async createMessage(@Param('senderId') senderId: string, @Body() dto: CreateMessageDto) {
+		return this.messageService.createMessage(senderId, dto)
 	}
 
 	@Patch('update-message')

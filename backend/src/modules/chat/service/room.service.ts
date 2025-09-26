@@ -36,8 +36,13 @@ export class RoomService {
 			} // Only needed fields
 		})
 
-		if (user) await this.redis.set(key, JSON.stringify(user))
-		else await this.redis.set(key, '__NULL__')
+		if (user) {
+			await this.redis.set(key, JSON.stringify(user))
+			return user
+		} else {
+			await this.redis.set(key, '__NULL__')
+			return null
+		}
 	}
 
 	// check available room
@@ -48,8 +53,8 @@ export class RoomService {
 	async createRoom(req: Request, dto: CreateRoomDto) {
 		// check available 
 		const [requestUser, otherUser] = await Promise.all([
-			this.getUserWithId(req.user?.id || 'unkow'),
-			this.getUserWithId(dto.otherUserId)
+			this.getUserWithId(CHAT_CONSTANR.CACHE_USER(req.user?.id || 'unknown')),
+			this.getUserWithId(CHAT_CONSTANR.CACHE_USER(dto.otherUserId))
 		])
 		if (!requestUser) throw new NotFoundException("Requester not found")
 		if (!otherUser) throw new NotFoundException("Other user not found")
@@ -59,9 +64,10 @@ export class RoomService {
 		if (rolesUser) {
 			clientId = requestUser.id
 			supportId = dto.otherUserId
+		} else {
+			clientId = otherUser.id
+			supportId = requestUser.id
 		}
-		clientId = otherUser.id
-		supportId = requestUser.id
 
 		// check available room 
 		const room = await this.prismaService.room.findUnique({

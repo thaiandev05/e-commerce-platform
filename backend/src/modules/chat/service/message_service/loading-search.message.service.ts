@@ -16,7 +16,7 @@ export class LoadingAndSearchService {
 	// loading message
 	async loadingMessage(req: Request, roomId: string, dto: LoadingMessageDto) {
 		// check available user
-		const userId = req.user?.id || 'unknow'
+		const userId = req.user?.id || 'unknown'
 		const user = await this.prismaService.user.findUnique({
 			where: { id: userId }
 		})
@@ -27,11 +27,14 @@ export class LoadingAndSearchService {
 
 		const isClient = (userId === room.clientId) ? true : false
 
-		let cursor: string
-		if (dto.isUseCursor && isClient) {
-			cursor = room.lastMessageClientIndex || 'unknow'
+		let cursor: string | null = null
+		if (dto.isUseCursor) {
+			if (isClient) {
+				cursor = room.lastMessageClientIndex || null
+			} else {
+				cursor = room.lastMessageSupportIndex || null
+			}
 		}
-		cursor = room.lastMessageSupportIndex || 'unknow'
 
 		// get cache
 		const messageRoomKey = CHAT_CONSTANR.CACHE_MESSAGE_ROOM(roomId)
@@ -129,7 +132,7 @@ export class LoadingAndSearchService {
 
 	async findingMessage(req: Request, roomId: string, dto: FindingMessageDto) {
 		// check available user
-		const userId = req.user?.id || 'unknow'
+		const userId = req.user?.id || 'unknown'
 		const user = await this.prismaService.user.findUnique({
 			where: { id: userId }
 		})

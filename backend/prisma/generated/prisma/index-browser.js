@@ -140,6 +140,17 @@ exports.Prisma.CodeScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.CommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  isReply: 'isReply',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  ownId: 'ownId',
+  repToCommentId: 'repToCommentId',
+  skuId: 'skuId'
+};
+
 exports.Prisma.RoomScalarFieldEnum = {
   id: 'id',
   nameRoom: 'nameRoom',
@@ -582,6 +593,7 @@ exports.StatusOrder = exports.$Enums.StatusOrder = {
 exports.Prisma.ModelName = {
   Session: 'Session',
   Code: 'Code',
+  Comment: 'Comment',
   Room: 'Room',
   Message: 'Message',
   Category: 'Category',

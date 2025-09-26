@@ -239,6 +239,14 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				return;
 			}
 
+			// Validate required fields
+			if (!data.roomId || !data.content || !data.receiverId) {
+				client.emit('messageError', {
+					error: 'Missing required fields: roomId, content, or receiverId',
+				});
+				return;
+			}
+
 			const messageData = {
 				...data,
 				senderId: user.id,
@@ -247,34 +255,45 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			const result = await this.chatGatewayService.sendMessage(messageData);
 
 			if (result.success) {
-				// Broadcast message to all clients in the room
+				// Broadcast message to all clients in the room (including sender)
 				this.server.to(data.roomId).emit('newMessage', {
-					...result.message,
+					id: result.message?.id,
+					content: data.content,
+					roomId: data.roomId,
 					sender: {
 						id: user.id,
 						username: user.username,
 						fullname: user.fullname,
 					},
+					receiverId: data.receiverId,
+					repToId: data.repToId || null,
 					timestamp: new Date().toISOString(),
+					createdAt: new Date().toISOString(),
 				});
 
 				// Send confirmation to sender
 				client.emit('messageDelivered', {
 					messageId: result.message?.id,
 					roomId: data.roomId,
+					content: data.content,
 					timestamp: new Date().toISOString(),
+					status: 'delivered'
 				});
 
 				this.logger.log(`Message sent to room ${data.roomId} by user ${user.username}`);
 			} else {
 				client.emit('messageError', {
-					error: result.error,
+					error: result.error || 'Failed to send message',
+					timestamp: new Date().toISOString(),
 				});
+
+				this.logger.warn(`Message failed for user ${user.username} in room ${data.roomId}: ${result.error}`);
 			}
 		} catch (error) {
 			this.logger.error(`Error sending message: ${error.message}`, error.stack);
 			client.emit('messageError', {
-				error: 'Failed to send message',
+				error: 'Internal server error while sending message',
+				timestamp: new Date().toISOString(),
 			});
 		}
 	}
@@ -349,7 +368,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			try {
 				// Try to verify access token first
 				const payload = await this.jwtService.verifyAsync(tokens.accessToken, {
-					secret: this.configService.get<string>('JWT_ACCESS_SECRET') || this.configService.get<string>('JWT_SECRET') || 'your-secret-key',
+					secret: this.configService.get<string>('JWT_SECRET') || 'your-secret-key',
 				});
 
 				// Get user from service
@@ -358,7 +377,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				if (user) {
 					this.logger.log(`User authenticated successfully with access token: ${user.username}`);
 					return user;
-				}
+				}	
 
 			} catch (accessTokenError) {
 				this.logger.warn(`Access token verification failed: ${accessTokenError.message}`);

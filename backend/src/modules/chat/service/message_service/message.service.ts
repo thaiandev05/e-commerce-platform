@@ -33,8 +33,13 @@ export class MessageService {
 			select: { id: true, username: true } // Only needed fields
 		})
 
-		if (user) await this.redis.set(key, JSON.stringify(user))
-		else await this.redis.set(key, '__NULL__')
+		if (user) {
+			await this.redis.set(key, JSON.stringify(user))
+			return user
+		} else {
+			await this.redis.set(key, '__NULL__')
+			return null
+		}
 	}
 
 	// check available room
@@ -65,9 +70,8 @@ export class MessageService {
 		return room;
 	}
 
-	// create messgae
-	async createMessage(req: Request, dto: CreateMessageDto) {
-		const senderId = req.user?.id || 'unknow'
+	// create message
+	async createMessage(senderId: string, dto: CreateMessageDto) {
 		const senderKey = CHAT_CONSTANR.CACHE_USER(senderId)
 		const receiverKey = CHAT_CONSTANR.CACHE_USER(dto.receiverId)
 		const [sender, receiver, room] = await Promise.all([

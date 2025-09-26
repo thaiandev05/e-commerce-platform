@@ -1,0 +1,22 @@
+model Comment {
+    id        String   @id @default(uuid()) @db.Uuid
+    content   String
+    isReply   Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    // foreign keys
+    ownId          String  @db.Uuid
+    repToCommentId String? @db.Uuid
+    skuId          String  @db.Uuid
+
+    // relations
+    own          User      @relation(fields: [ownId], references: [id], onDelete: Cascade)
+    sku          Sku       @relation(fields: [skuId], references: [id], onDelete: Cascade)
+    repToComment Comment?  @relation(name: "ReplyToComment", fields: [repToCommentId], references: [id], onDelete: Cascade)
+    Comment      Comment[] @relation(name: "ReplyToComment")
+
+    @@index([createdAt])
+    @@index([updatedAt])
+    @@map("commment")
+}

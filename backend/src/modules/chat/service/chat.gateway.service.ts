@@ -2,6 +2,8 @@ import { PrismaService } from "@/prisma/prisma.service";
 import { Injectable, Logger, OnModuleDestroy } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import Redis from "ioredis";
+import { MessageService } from "./message_service/message.service";
+import { RoomService } from "./room.service";
 
 @Injectable()
 export class ChatgateWayService implements OnModuleDestroy {
@@ -9,7 +11,9 @@ export class ChatgateWayService implements OnModuleDestroy {
 	private readonly redis: Redis
 	constructor(
 		private readonly prismaService: PrismaService,
-		private readonly configService: ConfigService
+		private readonly configService: ConfigService,
+		private readonly messageService: MessageService,
+		private readonly roomService: RoomService
 	) {
 		const redisUrl = this.configService.getOrThrow<string>("REDIS_URL")
 		this.redis = new Redis(redisUrl)
@@ -264,6 +268,11 @@ export class ChatgateWayService implements OnModuleDestroy {
 	/**
 	 * Send message to room
 	 */
+	// ...existing code...
+
+	/**
+	 * Send message to room
+	 */
 	async sendMessage(data: {
 		roomId: string;
 		content: string;
@@ -292,46 +301,42 @@ export class ChatgateWayService implements OnModuleDestroy {
 				};
 			}
 
-			// Create message in database
-			const message = await this.prismaService.message.create({
-				data: {
-					content: data.content,
-					roomId: data.roomId,
-					senderId: data.senderId,
-					receiverId: data.receiverId,
-					repToId: data.repToId || null,
-					isMessageReply: !!data.repToId,
-				},
-				include: {
-					sender: {
-						select: {
-							id: true,
-							username: true,
-							fullname: true,
-						}
-					},
-					receiver: {
-						select: {
-							id: true,
-							username: true,
-							fullname: true,
-						}
-					}
-				}
-			});
+			// Create request object for messageService.createMessage
+			const mockRequest = {
+				user: { id: data.senderId }
+			} as any;
 
-			// Update room message count
-			await this.prismaService.room.update({
-				where: { id: data.roomId },
-				data: {
-					totalMessages: { increment: 1 },
-					updatedAt: new Date(),
-				}
-			});
+			// Prepare message data for service
+			const messageDto = {
+				roomId: data.roomId,
+				content: data.content,
+				receiverId: data.receiverId,
+				repToId: data.repToId,
+				isRepLy: Boolean(data.repToId)
+			};
+
+			// Call message service to create message
+			const messageResult = await this.messageService.createMessage(mockRequest, messageDto);
+
+			if (messageResult) {
+				this.logger.log(`Message created successfully: ${messageResult.messageId}`);
+
+				return {
+					success: true,
+					message: {
+						id: messageResult.messageId,
+						content: data.content,
+						roomId: data.roomId,
+						senderId: data.senderId,
+						receiverId: data.receiverId,
+						repToId: data.repToId
+					}
+				};
+			}
 
 			return {
-				success: true,
-				message
+				success: false,
+				error: 'Failed to create message'
 			};
 
 		} catch (error) {
@@ -343,6 +348,7 @@ export class ChatgateWayService implements OnModuleDestroy {
 		}
 	}
 
+	// ...existing code...
 	/**
 	 * Get active users in room from Redis
 	 */

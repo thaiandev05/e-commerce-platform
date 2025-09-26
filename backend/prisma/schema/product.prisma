@@ -110,8 +110,8 @@ model Sku {
     skuAttributes      SkuAttribute[]
     skuVariationValues SkuVariationValue[]
     productOrder       OrderProduct[]
-
-    stores StoreProduct[] @relation("skuStores")
+    comments           Comment[]
+    stores             StoreProduct[]      @relation("skuStores")
 
     @@index([skuCode])
     @@index([spuId])

@@ -44,6 +44,29 @@ enum AccountType {
   @@map("account_type")
 }
 
+model Comment {
+  id        String   @id @default(uuid()) @db.Uuid
+  content   String
+  isReply   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // foreign keys
+  ownId          String  @db.Uuid
+  repToCommentId String? @db.Uuid
+  skuId          String  @db.Uuid
+
+  // relations
+  own          User      @relation(fields: [ownId], references: [id], onDelete: Cascade)
+  sku          Sku       @relation(fields: [skuId], references: [id], onDelete: Cascade)
+  repToComment Comment?  @relation(name: "ReplyToComment", fields: [repToCommentId], references: [id], onDelete: Cascade)
+  Comment      Comment[] @relation(name: "ReplyToComment")
+
+  @@index([createdAt])
+  @@index([updatedAt])
+  @@map("commment")
+}
+
 model Room {
   id                      String   @id @default(uuid()) @db.Uuid
   nameRoom                String?
@@ -205,8 +228,8 @@ model Sku {
   skuAttributes      SkuAttribute[]
   skuVariationValues SkuVariationValue[]
   productOrder       OrderProduct[]
-
-  stores StoreProduct[] @relation("skuStores")
+  comments           Comment[]
+  stores             StoreProduct[]      @relation("skuStores")
 
   @@index([skuCode])
   @@index([spuId])
@@ -633,6 +656,7 @@ model User {
   supports   Room[]       @relation("support")
   sender     Message[]    @relation("sender")
   receiver   Message[]    @relation("receiver")
+  ownComment Comment[]
 
   @@index([email])
   @@index([username])
