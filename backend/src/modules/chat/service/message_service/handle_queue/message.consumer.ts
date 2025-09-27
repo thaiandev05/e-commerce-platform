@@ -6,7 +6,7 @@ import type { Message_Queue } from '@/modules/chat/interface/chat.interface';
 
 @ApiTags('Messages')
 @Controller('messages')
-export class MessageController {
+export class MessageConsumer {
     private client: ClientProxy;
 
     constructor() {

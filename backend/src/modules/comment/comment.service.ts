@@ -102,6 +102,7 @@ export class CommentService {
 	async updateComment(req: Request, commentId: string, dto: UpdateCommentDto) {
 		// validate sender and product
 		const userKey = CHAT_CONSTANR.CACHE_USER(req.user?.id || '')
+		if (!dto.skuId) throw new NotFoundException("SKU ID is required")
 		const skuKey = REDIS_CONSTANTS.CACHE_SKU(dto.skuId)
 		const [user, sku] = await Promise.all([
 			await this.getUserWithId(userKey),
@@ -119,13 +120,13 @@ export class CommentService {
 		// update comment
 		return await this.prismaService.comment.update({
 			where: { id: comment.id },
-			data: { content: dto.newContent }
+			data: { content: dto.content }
 		})
 	}
-
 	async deleteComment(req: Request, commentId: string, dto: DeleteCommentDto) {
 		// validate sender and product
 		const userKey = CHAT_CONSTANR.CACHE_USER(req.user?.id || '')
+		if (!dto.skuId) throw new NotFoundException("SKU ID is required")
 		const skuKey = REDIS_CONSTANTS.CACHE_SKU(dto.skuId)
 		const [user, sku] = await Promise.all([
 			await this.getUserWithId(userKey),

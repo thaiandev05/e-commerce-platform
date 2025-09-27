@@ -8,11 +8,11 @@ import { RoomService } from "./service/room.service";
 import { MessageController } from "./constroller/message.feature.controller";
 import { RoomController } from "./constroller/room.feature.controller";
 import { MessageProducer } from "./service/message_service/handle_queue/message.producer";
-import { MessageConsumer } from "./service/message_service/handle_queue/message.consumer";
 import { BatchInsertService } from "./service/message_service/handle_queue/batch-insert.service";
 import { ChatGateway } from "./chat.gateway";
 import { JwtModule } from "@nestjs/jwt";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { MessageConsumer } from "./service/message_service/handle_queue/message.consumer";
 
 @Module({
 	imports: [
@@ -45,13 +45,12 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 		MessageService,
 		MessageProducer,
 		LoadingAndSearchService,
-		MessageConsumer,
 		BatchInsertService,
 		ChatgateWayService,
 		RoomService,
 		ChatGateway, // Add WebSocket Gateway
 	],
-	controllers: [MessageController, RoomController]
+	controllers: [MessageController, RoomController, MessageConsumer]
 })
 export class ChatModule {
 

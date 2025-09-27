@@ -1,4 +1,4 @@
-import { IsOptional, IsNumber, IsString, IsUUID, IsDateString, Min, Max } from 'class-validator'
+import { IsOptional, IsNumber, IsString, IsUUID, IsDateString, Min, Max, IsBoolean } from 'class-validator'
 import { Type, Transform } from 'class-transformer'
 import { ApiPropertyOptional } from '@nestjs/swagger'
 
@@ -38,28 +38,43 @@ export class LoadingMessageDto {
 	roomId?: string
 
 	@ApiPropertyOptional({
-		description: 'Load messages before this date',
-		example: '2025-09-26T10:00:00Z'
+		description: 'Page number for pagination',
+		minimum: 1,
+		default: 1,
+		example: 1
 	})
 	@IsOptional()
-	@IsDateString({}, { message: 'Invalid date format' })
-	before?: string
+	@IsNumber({}, { message: 'Page must be a number' })
+	@Type(() => Number)
+	@Min(1, { message: 'Page must be at least 1' })
+	page?: number = 1
 
 	@ApiPropertyOptional({
-		description: 'Load messages after this date',
-		example: '2025-09-25T10:00:00Z'
+		description: 'Number of messages to skip (calculated field)',
+		minimum: 0,
+		example: 0
 	})
 	@IsOptional()
-	@IsDateString({}, { message: 'Invalid date format' })
-	after?: string
+	@IsNumber({}, { message: 'Skip must be a number' })
+	@Type(() => Number)
+	@Min(0, { message: 'Skip must be at least 0' })
+	skip?: number
 
 	@ApiPropertyOptional({
-		description: 'Search keyword in message content',
-		example: 'product question',
-		maxLength: 100
+		description: 'Whether to use cursor-based pagination',
+		default: false,
+		example: false
 	})
 	@IsOptional()
-	@IsString()
-	@Transform(({ value }) => value?.trim())
-	search?: string
+	@IsBoolean({ message: 'IsUseCursor must be a boolean' })
+	@Type(() => Boolean)
+	isUseCursor?: boolean = false
+
+	@ApiPropertyOptional({
+		description: 'Cursor for pagination (used with cursor-based pagination)',
+		example: 'eyJpZCI6MTIzLCJ0aW1lc3RhbXAiOiIyMDIzLTA5LTI3VDEwOjAwOjAwWiJ9'
+	})
+	@IsOptional()
+	@IsString({ message: 'Cursor must be a string' })
+	cursor?: string
 }

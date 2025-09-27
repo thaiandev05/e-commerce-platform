@@ -1,5 +1,5 @@
-import { IsString, IsOptional, IsBoolean, IsNotEmpty, Length, IsUUID, IsArray, IsEnum } from 'class-validator'
-import { Transform } from 'class-transformer'
+import { IsString, IsOptional, IsBoolean, IsNotEmpty, Length, IsUUID, IsArray, IsEnum, IsNumber, Min, Max, IsUrl } from 'class-validator'
+import { Transform, Type } from 'class-transformer'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 
 export enum RoomType {
@@ -65,9 +65,15 @@ export class CreateRoomDto {
 	@ApiPropertyOptional({
 		description: 'Maximum number of participants allowed',
 		example: 10,
-		default: 2
+		default: 2,
+		minimum: 2,
+		maximum: 1000
 	})
 	@IsOptional()
+	@IsNumber({}, { message: 'Max participants must be a number' })
+	@Type(() => Number)
+	@Min(2, { message: 'Maximum participants must be at least 2' })
+	@Max(1000, { message: 'Maximum participants cannot exceed 1000' })
 	maxParticipants?: number = 2
 
 	@ApiPropertyOptional({
@@ -76,5 +82,15 @@ export class CreateRoomDto {
 	})
 	@IsOptional()
 	@IsString()
+	@IsUrl({}, { message: 'Avatar URL must be a valid URL' })
 	avatarUrl?: string
+
+	@ApiProperty({
+		description: 'Other user ID for direct chat',
+		example: 'uuid-other-user'
+	})
+	@IsString()
+	@IsNotEmpty()
+	@IsUUID('4', { message: 'Other user ID must be a valid UUID' })
+	otherUserId: string
 }

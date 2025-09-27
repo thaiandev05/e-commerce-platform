@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNotEmpty, Length } from 'class-validator'
+import { IsString, IsOptional, IsNotEmpty, Length, IsBoolean } from 'class-validator'
 import { Transform } from 'class-transformer'
 import { ApiPropertyOptional } from '@nestjs/swagger'
 
@@ -26,4 +26,12 @@ export class UpdateMessageDto {
 	@Length(1, 200, { message: 'Update reason must be between 1 and 200 characters' })
 	@Transform(({ value }) => value?.trim())
 	updateReason?: string
+
+	roomId: string
+
+	@IsOptional()
+	@IsBoolean()
+	@Transform(({ value }) => value === true || value === 'true')
+	isReply?: boolean = false
+
 }

@@ -140,7 +140,7 @@ export class LoadingAndSearchService {
 
 		// get cache
 		const messageRoomKey = CHAT_CONSTANR.CACHE_MESSAGE_ROOM(roomId)
-		const cacheKey = `${messageRoomKey}:search:${dto?.prompt}:${dto?.page || 1}:${dto?.limit || 20}`
+		const cacheKey = `${messageRoomKey}:search:${dto?.search}:${dto?.page || 1}:${dto?.limit || 20}`
 		const cache = await this.redis.get(cacheKey)
 		if (cache && cache !== '_NULL_') {
 			return JSON.parse(cache)
@@ -155,7 +155,7 @@ export class LoadingAndSearchService {
 			where: {
 				roomId: roomId,
 				content: {
-					contains: dto?.prompt,
+					contains: dto?.search,
 					mode: 'insensitive'
 				}
 			},
@@ -209,7 +209,7 @@ export class LoadingAndSearchService {
 				where: {
 					roomId: roomId,
 					content: {
-						contains: dto?.prompt,
+						contains: dto?.search,
 						mode: 'insensitive'
 					}
 				}
@@ -228,7 +228,7 @@ export class LoadingAndSearchService {
 					where: {
 						roomId: roomId,
 						content: {
-							contains: dto?.prompt,
+							contains: dto?.search,
 							mode: 'insensitive'
 						}
 					}

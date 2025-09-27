@@ -42,4 +42,5 @@ export class CreateMessageDto {
 	@IsNotEmpty()
 	@IsUUID('4', { message: 'Invalid receiver ID format' })
 	receiverId: string
+
 }

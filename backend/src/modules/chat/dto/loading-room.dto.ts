@@ -95,4 +95,45 @@ export class LoadingRoomDto {
 	@IsBoolean()
 	@Transform(({ value }) => value === true || value === 'true')
 	unreadOnly?: boolean = false
+
+	@ApiPropertyOptional({
+		description: 'Page number for pagination',
+		minimum: 1,
+		default: 1,
+		example: 1
+	})
+	@IsOptional()
+	@IsNumber({}, { message: 'Page must be a number' })
+	@Type(() => Number)
+	@Min(1, { message: 'Page must be at least 1' })
+	page?: number = 1
+
+	@ApiPropertyOptional({
+		description: 'Number of messages to skip (calculated field)',
+		minimum: 0,
+		example: 0
+	})
+	@IsOptional()
+	@IsNumber({}, { message: 'Skip must be a number' })
+	@Type(() => Number)
+	@Min(0, { message: 'Skip must be at least 0' })
+	skip?: number
+
+	@ApiPropertyOptional({
+		description: 'Whether to use cursor-based pagination',
+		default: false,
+		example: false
+	})
+	@IsOptional()
+	@IsBoolean({ message: 'IsUseCursor must be a boolean' })
+	@Type(() => Boolean)
+	isUseCursor?: boolean = false
+
+	@ApiPropertyOptional({
+		description: 'Cursor for pagination (used with cursor-based pagination)',
+		example: 'eyJpZCI6MTIzLCJ0aW1lc3RhbXAiOiIyMDIzLTA5LTI3VDEwOjAwOjAwWiJ9'
+	})
+	@IsOptional()
+	@IsString({ message: 'Cursor must be a string' })
+	cursor?: string
 }

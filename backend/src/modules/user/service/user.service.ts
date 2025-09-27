@@ -1,9 +1,9 @@
 import { PrismaService } from '@/prisma/prisma.service';
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { Request } from 'express';
-import { changeDetailUserDto } from '../dto/change-detail.dto';
-import { ChangeAvataUrlDto } from '../dto/change-avataUrl.dto';
 import { AddCreditCardDto } from '../dto/add-credit-card.dto';
+import { ChangeDetailDto } from '../dto/change-detail.dto';
+import { ChangeAvatarUrlDto } from '../dto/change-avataUrl.dto';
 @Injectable()
 export class UserService {
 	constructor(
@@ -11,7 +11,7 @@ export class UserService {
 	) { }
 
 	// change detail user
-	async changeDetailUser(req: Request, accountId: string, dto: changeDetailUserDto) {
+	async changeDetailUser(req: Request, accountId: string, dto: ChangeDetailDto) {
 		const userId = req.user?.id
 		if (!userId) throw new BadRequestException("Not found user in request")
 
@@ -20,7 +20,7 @@ export class UserService {
 			where: { id: userId },
 			data: {
 				...(dto.address && { address: dto.address }),
-				...(dto.city && { city: dto.city }),
+				...(dto.address && { city: dto.address }),
 				...(dto.fullname && { fullname: dto.fullname }),
 				...(dto.username && { username: dto.username })
 			}
@@ -33,14 +33,14 @@ export class UserService {
 	}
 
 	// change avatar user
-	async changeAvataUrl(req: Request, accountId: string, dto: ChangeAvataUrlDto) {
+	async changeAvataUrl(req: Request, accountId: string, dto: ChangeAvatarUrlDto) {
 		const userId = req.user?.id
 		if (!userId) throw new BadRequestException("Not found user in request")
 
 		// update avataUrl
 		const newUser = await this.prismaService.user.update({
 			where: { id: userId },
-			data: { avatarUrl: dto.avataUrl }
+			data: { avatarUrl: dto.avatarUrl }
 		})
 
 		return {

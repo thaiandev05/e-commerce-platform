@@ -1,14 +1,14 @@
-import { Body, Controller, Get, Patch, Put, Query, Req, UseGuards } from "@nestjs/common";
-import { UserService } from "./service/user.service";
-import express from 'express';
-import { changeDetailUserDto } from "./dto/change-detail.dto";
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery, ApiBody } from '@nestjs/swagger';
-import { ChangeAvataUrlDto } from "./dto/change-avataUrl.dto";
-import { IsAuthorAccount } from "./guard/IsAuthorAccount.guard";
-import { AddCreditCardDto } from "./dto/add-credit-card.dto";
 import { Public } from "@/common/decorator/public.decorator";
+import { Body, Controller, Get, Patch, Put, Query, Req, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import express from 'express';
+import { AddCreditCardDto } from "./dto/add-credit-card.dto";
+import { ChangeAvatarUrlDto } from "./dto/change-avataUrl.dto";
+import { ChangeDetailDto } from "./dto/change-detail.dto";
 import { SearchUserLikeNameDto } from "./dto/search-user-like-name.dto";
+import { IsAuthorAccount } from "./guard/IsAuthorAccount.guard";
 import { UserSearchService } from "./service/user.search.service";
+import { UserService } from "./service/user.service";
 
 @ApiTags('user')
 @ApiBearerAuth()
@@ -23,11 +23,11 @@ export class UserConctroller {
 	@UseGuards(IsAuthorAccount)
 	@ApiOperation({ summary: 'Change current user details' })
 	@ApiQuery({ name: 'accountId', required: false, description: 'Account id (optional)' })
-	@ApiBody({ type: changeDetailUserDto })
+	@ApiBody({ type: ChangeDetailDto })
 	@ApiResponse({ status: 200, description: 'User details updated.' })
 	@ApiResponse({ status: 400, description: 'Bad Request.' })
 	@ApiResponse({ status: 401, description: 'Unauthorized.' })
-	async changeDetail(@Req() req: express.Request, @Query('accountId') accountId: string, @Body() dto: changeDetailUserDto) {
+	async changeDetail(@Req() req: express.Request, @Query('accountId') accountId: string, @Body() dto: ChangeDetailDto) {
 		return this.userService.changeDetailUser(req, accountId, dto)
 	}
 
@@ -35,11 +35,11 @@ export class UserConctroller {
 	@UseGuards(IsAuthorAccount)
 	@ApiOperation({ summary: 'Change user avatar URL' })
 	@ApiQuery({ name: 'accountId', required: false, description: 'Account id (optional)' })
-	@ApiBody({ type: ChangeAvataUrlDto })
+	@ApiBody({ type: ChangeAvatarUrlDto })
 	@ApiResponse({ status: 200, description: 'Avatar updated.' })
 	@ApiResponse({ status: 400, description: 'Bad Request.' })
 	@ApiResponse({ status: 401, description: 'Unauthorized.' })
-	async changeAvataUrl(@Req() req: express.Request, @Query('accountId') accountId: string, @Body() dto: ChangeAvataUrlDto) {
+	async changeAvataUrl(@Req() req: express.Request, @Query('accountId') accountId: string, @Body() dto: ChangeAvatarUrlDto) {
 		return this.userService.changeAvataUrl(req, accountId, dto)
 	}
 

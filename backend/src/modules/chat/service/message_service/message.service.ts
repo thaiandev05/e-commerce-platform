@@ -85,7 +85,7 @@ export class MessageService {
 
 		// check reply
 		let repToUser
-		if (dto.isRepLy) {
+		if (dto.isReply) {
 			repToUser = receiver.id
 		}
 
@@ -117,7 +117,7 @@ export class MessageService {
 		if (!room) throw new NotFoundException("Room not found")
 
 		let message
-		if (dto.isRepLy) {
+		if (dto.isReply) {
 			message = await this.prismaService.message.findUnique({
 				where: { id: messageId, isMessageReply: true }
 			})
@@ -130,7 +130,7 @@ export class MessageService {
 		return await this.prismaService.message.update({
 			where: { id: message.id },
 			data: {
-				content: dto.newContent
+				content: dto.content
 			}
 		})
 	}
@@ -138,7 +138,7 @@ export class MessageService {
 	// delete message
 	async deleteMessage(messageId: string, dto: DeleteMessageDto) {
 		let message
-		if (dto.isRepLy) {
+		if (dto.isReply) {
 			message = await this.prismaService.message.findUnique({
 				where: { id: messageId, isMessageReply: true }
 			})

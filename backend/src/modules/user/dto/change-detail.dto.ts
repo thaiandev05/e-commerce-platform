@@ -14,7 +14,7 @@ export class ChangeDetailDto {
 	@IsString()
 	@Length(2, 50)
 	@Transform(({ value }) => value?.trim())
-	firstName?: string
+	fullname?: string
 
 	@ApiProperty({
 		description: 'User last name',
@@ -27,7 +27,7 @@ export class ChangeDetailDto {
 	@IsString()
 	@Length(2, 50)
 	@Transform(({ value }) => value?.trim())
-	lastName?: string
+	username?: string
 
 	@ApiProperty({
 		description: 'User email address',
