@@ -12,18 +12,22 @@ E-Commerce Backend Platform là một hệ thống backend hiện đại đượ
 - **Xác thực 2 bước**: Gửi mã xác thực qua email
 - **Phân quyền**: Hệ thống role-based với các vai trò: ROOT, ADMINISTRATOR, SUPPORTER, COLLABORATOR, SELLER, USER
 - **Guard bảo mật**: Rate limiting, role-based access control
+- **Device detection**: Phát hiện thiết bị đăng nhập mới
 
 ### 👤 Quản lý người dùng
 - **Hồ sơ người dùng**: Quản lý thông tin cá nhân, avatar, địa chỉ
 - **Phân loại khách hàng**: Diamond, Gold, Silver, Copper customer tiers
-- **Quản lý thanh toán**: Lưu trữ thông tin credit card
+- **Quản lý địa chỉ**: Multiple shipping addresses
 - **Trạng thái tài khoản**: Active, banned, locked, verified status
+- **Social profiles**: Liên kết với mạng xã hội
 
 ### 🏪 Quản lý Shop
 - **Tạo và quản lý shop**: Đăng ký shop, xác thực shop
 - **Hồ sơ shop**: Logo, banner, mô tả, thông tin liên hệ
 - **Đánh giá shop**: Hệ thống rating và review
 - **Trạng thái shop**: Pending, approved, rejected, suspended
+- **Shop analytics**: Thống kê doanh thu, sản phẩm
+- **Shop verification**: Xác thực shop qua email và admin
 
 ### 📦 Quản lý sản phẩm
 - **SPU/SKU Model**: Standard Product Unit và Stock Keeping Unit
@@ -31,21 +35,91 @@ E-Commerce Backend Platform là một hệ thống backend hiện đại đượ
 - **Thương hiệu**: Quản lý brand với logo và website
 - **Thuộc tính sản phẩm**: Màu sắc, kích thước, material, v.v.
 - **Quản lý kho**: Inventory tracking và stock management
+- **Hình ảnh sản phẩm**: Upload và quản lý hình ảnh SPU/SKU
+- **Giá sản phẩm**: Pricing tiers và discount management
+- **Product variants**: Quản lý biến thể sản phẩm
 
-### 🔍 Tìm kiếm & Phân tích
-- **Elasticsearch**: Tìm kiếm sản phẩm nhanh và chính xác
+### 🛒 Giỏ hàng & Đặt hàng
+- **Shopping Cart**: Thêm, sửa, xóa sản phẩm trong giỏ hàng
+- **Cart persistence**: Lưu giỏ hàng cho user đã đăng nhập
+- **Cart validation**: Kiểm tra tồn kho và giá sản phẩm
+- **Checkout process**: Quy trình thanh toán hoàn chỉnh
+- **Order management**: Quản lý đơn hàng với nhiều trạng thái
+- **Order tracking**: Theo dõi trạng thái đơn hàng
+
+### 💬 Chat & Hỗ trợ Real-time
+- **Real-time chat**: WebSocket chat giữa user và shop
+- **Chat rooms**: Hỗ trợ nhiều loại phòng chat (DIRECT, GROUP, SUPPORT, SELLER_BUYER)
+- **Message history**: Lưu trữ và phân trang lịch sử tin nhắn
+- **File sharing**: Chia sẻ hình ảnh, file trong chat
+- **Online status**: Hiển thị trạng thái online/offline
+- **Message notifications**: Thông báo tin nhắn mới
+- **Chat moderation**: Quản lý và kiểm duyệt tin nhắn
+
+### 💳 Thanh toán (Stripe Integration)
+- **Payment processing**: Xử lý thanh toán an toàn với Stripe
+- **Payment methods**: Credit/Debit cards, digital wallets
+- **Payment intents**: Tạo và xác nhận payment intent
+- **Webhook handling**: Xử lý webhook từ Stripe
+- **Refund management**: Quản lý hoàn tiền
+- **Payment history**: Lịch sử giao dịch chi tiết
+
+### 💬 Bình luận & Đánh giá
+- **Product reviews**: Hệ thống đánh giá sản phẩm với sao
+- **Comment system**: Bình luận phân cấp (nested comments)
+- **Rating aggregation**: Tính toán điểm đánh giá trung bình
+- **Comment moderation**: Kiểm duyệt bình luận
+- **Review verification**: Xác thực người mua đã sở hữu sản phẩm
+- **Helpful votes**: Vote bình luận hữu ích
+
+### 🤖 AI Chatbot (Google Gemini)
+- **Intelligent responses**: Chatbot thông minh với Google Gemini AI
+- **Natural language processing**: Xử lý ngôn ngữ tự nhiên
+- **Product recommendations**: Gợi ý sản phẩm thông minh
+- **Customer support**: Hỗ trợ khách hàng 24/7
+- **Multi-language support**: Hỗ trợ đa ngôn ngữ
+- **Context awareness**: Hiểu context cuộc hội thoại
+
+### 🔍 Tìm kiếm & Phân tích (Elasticsearch)
+- **Advanced search**: Tìm kiếm sản phẩm nhanh và chính xác
 - **Full-text search**: Tìm kiếm theo tên, mô tả, thương hiệu
-- **Analytics**: Theo dõi lượt tìm kiếm và hành vi người dùng
+- **Filters**: Lọc theo giá, danh mục, thương hiệu, rating
+- **Search suggestions**: Gợi ý từ khóa tự động
+- **Search analytics**: Theo dõi từ khóa phổ biến
+- **Fuzzy search**: Tìm kiếm mờ, chịu lỗi chính tả
+- **Faceted search**: Tìm kiếm đa chiều
 
-### 📧 Hệ thống Email
+### 📧 Hệ thống Email (RabbitMQ Queue)
 - **Queue-based email**: Sử dụng RabbitMQ để gửi email bất đồng bộ
-- **Email templates**: Các mẫu email cho xác thực, thông báo
-- **Notification system**: Thông báo đăng ký, đổi mật khẩu, phát hiện thiết bị mới
+- **Email templates**: Các mẫu email HTML đẹp mắt
+- **Notification types**: 
+  - Xác thực tài khoản
+  - Thông báo đổi mật khẩu
+  - Phát hiện thiết bị mới
+  - Xác thực shop
+  - Thông báo đơn hàng
+- **Email tracking**: Theo dõi trạng thái gửi email
+- **Retry mechanism**: Cơ chế retry khi gửi thất bại
 
-### 📄 API Documentation
+### 📄 API Documentation & GraphQL
 - **Swagger UI**: Tài liệu API tự động tại `/docs`
 - **GraphQL**: Hỗ trợ GraphQL endpoint với playground
 - **RESTful API**: Thiết kế API theo chuẩn REST
+- **API versioning**: Quản lý phiên bản API
+- **Rate limiting**: Giới hạn request per endpoint
+
+### 📁 Quản lý File & Media
+- **File upload**: Upload hình ảnh, documents
+- **Image processing**: Resize, compress hình ảnh
+- **File validation**: Kiểm tra loại file và kích thước
+- **Static file serving**: Phục vụ file tĩnh
+- **CDN ready**: Sẵn sàng tích hợp CDN
+
+### 🔄 Event Bus & Background Tasks
+- **Event-driven architecture**: Xử lý sự kiện bất đồng bộ
+- **Background jobs**: Xử lý tác vụ nền
+- **Scheduled tasks**: Tác vụ định kỳ
+- **Queue management**: Quản lý hàng đợi tác vụ
 
 ## 🛠️ Công nghệ sử dụng
 
@@ -53,11 +127,12 @@ E-Commerce Backend Platform là một hệ thống backend hiện đại đượ
 - **NestJS** - Progressive Node.js framework
 - **TypeScript** - Type-safe JavaScript
 - **GraphQL** - Query language và runtime
+- **Socket.IO** - Real-time WebSocket communication
 
 ### Database & ORM
 - **PostgreSQL** - Primary database
-- **Prisma** - Modern database ORM
-- **Redis** - Caching và session storage
+- **Prisma** - Modern database ORM với type safety
+- **Redis** - Caching, session storage và real-time data
 
 ### Search & Analytics
 - **Elasticsearch** - Full-text search engine
@@ -66,22 +141,35 @@ E-Commerce Backend Platform là một hệ thống backend hiện đại đượ
 ### Authentication & Security
 - **JWT** - JSON Web Tokens
 - **Passport.js** - Authentication middleware
-- **Argon2** - Password hashing
+- **Argon2** - Password hashing algorithm
 - **Rate limiting** - Request throttling
+- **CORS** - Cross-Origin Resource Sharing
+- **Helmet.js** - Security headers
+
+### Payment Processing
+- **Stripe** - Payment gateway
+- **Webhook security** - Signature verification
 
 ### File Upload & Storage
 - **Multer** - File upload handling
 - **Static file serving** - Express static middleware
+- **Image optimization** - Sharp image processing
 
-### Message Queue
-- **RabbitMQ** - Message broker cho email service
+### Message Queue & Email
+- **RabbitMQ** - Message broker
 - **AMQP** - Advanced Message Queuing Protocol
+- **Nodemailer** - Email sending service
 
-### Validation & Documentation
+### AI & Machine Learning
+- **Google Gemini AI** - Advanced AI chatbot
+- **Natural Language Processing** - Text analysis
+
+### Development & Documentation
 - **Class Validator** - DTO validation
 - **Class Transformer** - Object transformation
-- **Swagger** - API documentation
-- **ESLint & Prettier** - Code formatting
+- **Swagger/OpenAPI** - API documentation
+- **ESLint & Prettier** - Code quality
+- **Jest** - Testing framework
 
 ## 📁 Cấu trúc dự án
 
