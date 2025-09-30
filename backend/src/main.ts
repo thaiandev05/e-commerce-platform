@@ -10,6 +10,7 @@ import * as bodyParser from 'body-parser';
 import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet'
 import csurf from 'csurf'
+import { MyLogger } from './modules/logger/logger.service';
 // Global BigInt serializer to handle BigInt values in JSON responses
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -17,7 +18,7 @@ import csurf from 'csurf'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-
+  app.useLogger(new MyLogger())
   // Enable cookie parser middleware
   app.use(cookieParser());
 

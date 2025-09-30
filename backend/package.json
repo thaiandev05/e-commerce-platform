@@ -58,6 +58,7 @@
     "cache-manager": "^7.2.0",
     "cache-manager-ioredis-yet": "^2.1.2",
     "cacheable": "^1.10.4",
+    "chalk": "^5.6.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "cookie-parser": "^1.4.7",
@@ -83,7 +84,9 @@
     "socket.io": "^4.8.1",
     "stripe": "^18.5.0",
     "swagger-ui-express": "^4.6.3",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "winston": "^3.18.2",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -99,6 +102,7 @@
     "@types/node": "^22.10.7",
     "@types/passport-google-oauth20": "^2.0.16",
     "@types/supertest": "^6.0.2",
+    "@types/winston": "^2.4.4",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
