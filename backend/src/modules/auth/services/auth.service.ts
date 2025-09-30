@@ -38,6 +38,26 @@ export class AuthService extends OtherService {
 
 	}
 
+	// validate user existence
+	private async validateUserExists(account: string) {
+		const whereClause =
+		{
+			AND: [
+				{ OR: [{ email: account }, { username: account }] },
+				{ isVerified: true }
+			]
+		}
+		return await this.prismaService.user.findFirst({ where: whereClause, omit: { hashingPassword: false } })
+	}
+
+	// validate password
+	private async validatePassword(hashedPassword: string | null, plainPassword: string): Promise<boolean> {
+		if (!hashedPassword) {
+			throw new ForbiddenException("Account or password is not correct");
+		}
+		return verify(hashedPassword, plainPassword);
+	}
+
 	// register 
 	public async register(dto: RegisterDto) {
 		// find available account
@@ -47,7 +67,8 @@ export class AuthService extends OtherService {
 					{ email: dto.email },
 					{ username: dto.username }
 				]
-			}
+			},
+			omit: { hashingPassword: false }
 		})
 
 		if (availableAccount) throw new BadRequestException("Email or username is available")
@@ -135,15 +156,7 @@ export class AuthService extends OtherService {
 	// login
 	public async login(dto: LoginDto, res: Response) {
 		// check existed account
-		const existingAccount = await this.prismaService.user.findFirst({
-			where: {
-				OR: [
-					{ email: dto.account },
-					{ username: dto.account }
-				]
-			},
-			omit: { hashingPassword: false }
-		})
+		const existingAccount = await this.validateUserExists(dto.account)
 		if (!existingAccount) throw new BadRequestException("Account is not existed")
 
 		// check active
@@ -153,8 +166,9 @@ export class AuthService extends OtherService {
 		if (!existingAccount.hashingPassword) {
 			throw new ForbiddenException("Account or password is not correct");
 		}
-		const isMatched = await verify(existingAccount.hashingPassword, dto.password)
-		if (!isMatched) throw new ForbiddenException("Account or password is not correct")
+
+		// validate password
+		await this.validatePassword(existingAccount.hashingPassword, dto.password)
 
 		// get 
 		const hardWare = this.getClientInfo(res.req as Request)

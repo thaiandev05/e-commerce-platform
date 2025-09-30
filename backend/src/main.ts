@@ -8,7 +8,8 @@ import express from 'express'
 import { join } from 'path';
 import * as bodyParser from 'body-parser';
 import { ValidationPipe } from '@nestjs/common';
-
+import helmet from 'helmet'
+import csurf from 'csurf'
 // Global BigInt serializer to handle BigInt values in JSON responses
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -57,7 +58,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
-
+  app.use(helmet());
   app.use('/upload', express.static(join(__dirname, '..', 'upload')))
   app.use('/payment/webhook', bodyParser.raw({ type: 'application/json' }))
   app.getHttpAdapter().getInstance().set('trust proxy', 1)
