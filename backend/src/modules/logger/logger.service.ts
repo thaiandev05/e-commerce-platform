@@ -1,5 +1,5 @@
 import { LoggerService, LogLevel } from '@nestjs/common'
-import { createLogger, format, level, Logger, transports } from 'winston'
+import { createLogger, format, Logger, transports } from 'winston'
 import DailyRotateFile from 'winston-daily-rotate-file'
 import chalk from 'chalk'
 

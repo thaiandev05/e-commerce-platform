@@ -18,7 +18,7 @@ import { MyLogger } from './modules/logger/logger.service';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.useLogger(new MyLogger())
+  // app.useLogger(new MyLogger())
   // Enable cookie parser middleware
   app.use(cookieParser());
 
