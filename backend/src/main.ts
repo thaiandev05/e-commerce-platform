@@ -32,6 +32,17 @@ async function bootstrap() {
       },
     }
   })
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      validateCustomDecorators: true
+    })
+  );
+
+  
   const config = new DocumentBuilder()
     .setTitle('E-commerce API')
     .setDescription('E-commerce platform API documentation')
