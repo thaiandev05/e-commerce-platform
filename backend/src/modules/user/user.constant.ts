@@ -1,3 +1,1 @@
-export const USER_CONSTANTS = {
-	
-}
+export const USER_CONSTANTS = {};

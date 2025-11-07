@@ -4,12 +4,12 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
-import express from 'express'
+import express from 'express';
 import { join } from 'path';
 import * as bodyParser from 'body-parser';
 import { ValidationPipe } from '@nestjs/common';
-import helmet from 'helmet'
-import csurf from 'csurf'
+import helmet from 'helmet';
+import csurf from 'csurf';
 import { MyLogger } from './modules/logger/logger.service';
 // Global BigInt serializer to handle BigInt values in JSON responses
 (BigInt.prototype as any).toJSON = function () {
@@ -30,19 +30,18 @@ async function bootstrap() {
       queueOptions: {
         durable: false,
       },
-    }
-  })
+    },
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
-      validateCustomDecorators: true
-    })
+      validateCustomDecorators: true,
+    }),
   );
 
-  
   const config = new DocumentBuilder()
     .setTitle('E-commerce API')
     .setDescription('E-commerce platform API documentation')
@@ -71,11 +70,11 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
   app.use(helmet());
-  app.use('/upload', express.static(join(__dirname, '..', 'upload')))
-  app.use('/payment/webhook', bodyParser.raw({ type: 'application/json' }))
-  app.getHttpAdapter().getInstance().set('trust proxy', 1)
+  app.use('/upload', express.static(join(__dirname, '..', 'upload')));
+  app.use('/payment/webhook', bodyParser.raw({ type: 'application/json' }));
+  app.getHttpAdapter().getInstance().set('trust proxy', 1);
   app.useGlobalPipes(new ValidationPipe());
-  await app.startAllMicroservices()
+  await app.startAllMicroservices();
   await app.listen(4000);
 }
 bootstrap();

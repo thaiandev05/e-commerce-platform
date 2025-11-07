@@ -1,5 +1,11 @@
-import { Type } from "class-transformer";
-import { IsArray, ValidateNested, IsString, IsNumber, IsPositive } from "class-validator";
+import { Type } from 'class-transformer';
+import {
+  IsArray,
+  ValidateNested,
+  IsString,
+  IsNumber,
+  IsPositive,
+} from 'class-validator';
 
 export class Items {
   @IsString()

@@ -10,8 +10,15 @@ import { CheckoutAndCart } from './service/checkoutAndCart.service';
 import { AfterSaleService } from './service/after-sale.service';
 
 @Module({
-	imports: [ProductModule, CartModule],
-	providers: [GenemiChatBotService, FaqService, TrackingService, RecommentService, CheckoutAndCart, AfterSaleService],
-	controllers: [GenemiController]
+  imports: [ProductModule, CartModule],
+  providers: [
+    GenemiChatBotService,
+    FaqService,
+    TrackingService,
+    RecommentService,
+    CheckoutAndCart,
+    AfterSaleService,
+  ],
+  controllers: [GenemiController],
 })
 export class GenemiChatbotModule {}

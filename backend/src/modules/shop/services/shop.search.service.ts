@@ -1,402 +1,403 @@
-import { PrismaService } from "@/prisma/prisma.service";
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { GetShopDetailWithSpusDto } from "../dto/get-shop-detail-with-spus.dto";
-import { FindShopByNameDto } from "../dto/find-shop.dto";
-import { RedisService } from "@/modules/redis/redis.service";
-import { REDIS_CONSTANTS } from "@/modules/redis/redis.constants";
-import { SHOP_CONSTANT } from "../shop.constant";
+import { PrismaService } from '@/prisma/prisma.service';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { GetShopDetailWithSpusDto } from '../dto/get-shop-detail-with-spus.dto';
+import { FindShopByNameDto } from '../dto/find-shop.dto';
+import { RedisService } from '@/modules/redis/redis.service';
+import { REDIS_CONSTANTS } from '@/modules/redis/redis.constants';
+import { SHOP_CONSTANT } from '../shop.constant';
 
 @Injectable()
 export class SearchServiceShop {
-	constructor(
-		private readonly prismaService: PrismaService,
-		private readonly redisService: RedisService
-	) {
-	}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly redisService: RedisService,
+  ) {}
 
-	async getDetailerShop(shopId: string, dto: GetShopDetailWithSpusDto) {
-		// Ensure take value is properly calculated
-		const takeValue = dto.take || dto.limit || 10;
-		const skipValue = dto.skip || (dto.page ? ((dto.page - 1) * takeValue) : 0);
-		const useCursor = dto.useCursor || !!dto.cursor;
+  async getDetailerShop(shopId: string, dto: GetShopDetailWithSpusDto) {
+    // Ensure take value is properly calculated
+    const takeValue = dto.take || dto.limit || 10;
+    const skipValue = dto.skip || (dto.page ? (dto.page - 1) * takeValue : 0);
+    const useCursor = dto.useCursor || !!dto.cursor;
 
-		// Build shop include options
-		const shopInclude: any = {};
+    // Build shop include options
+    const shopInclude: any = {};
 
-		if (dto.includeOwner) {
-			shopInclude.owner = {
-				select: {
-					id: true,
-					email: true,
-					firstName: true,
-					lastName: true,
-					avatar: true
-				}
-			};
-		}
+    if (dto.includeOwner) {
+      shopInclude.owner = {
+        select: {
+          id: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+          avatar: true,
+        },
+      };
+    }
 
-		if (dto.includeTotalSpuCount) {
-			shopInclude._count = {
-				select: {
-					spus: true
-				}
-			};
-		}
+    if (dto.includeTotalSpuCount) {
+      shopInclude._count = {
+        select: {
+          spus: true,
+        },
+      };
+    }
 
-		// Get shop details
-		const shop = await this.prismaService.shop.findUnique({
-			where: { id: shopId },
-			include: shopInclude
-		});
+    // Get shop details
+    const shop = await this.prismaService.shop.findUnique({
+      where: { id: shopId },
+      include: shopInclude,
+    });
 
-		if (!shop) throw new NotFoundException('Shop is not available');
+    if (!shop) throw new NotFoundException('Shop is not available');
 
-		// Build SPU where conditions
-		const spuWhere: any = { shopId };
+    // Build SPU where conditions
+    const spuWhere: any = { shopId };
 
-		if (dto.search) {
-			spuWhere.OR = [
-				{ name: { contains: dto.search, mode: 'insensitive' } },
-				{ description: { contains: dto.search, mode: 'insensitive' } },
-				{ shortDesc: { contains: dto.search, mode: 'insensitive' } }
-			];
-		}
+    if (dto.search) {
+      spuWhere.OR = [
+        { name: { contains: dto.search, mode: 'insensitive' } },
+        { description: { contains: dto.search, mode: 'insensitive' } },
+        { shortDesc: { contains: dto.search, mode: 'insensitive' } },
+      ];
+    }
 
-		if (dto.status) spuWhere.status = dto.status;
-		if (typeof dto.isActive === 'boolean') spuWhere.isActive = dto.isActive;
-		if (dto.categoryId) spuWhere.categoryId = dto.categoryId;
-		if (dto.brandId) spuWhere.brandId = dto.brandId;
+    if (dto.status) spuWhere.status = dto.status;
+    if (typeof dto.isActive === 'boolean') spuWhere.isActive = dto.isActive;
+    if (dto.categoryId) spuWhere.categoryId = dto.categoryId;
+    if (dto.brandId) spuWhere.brandId = dto.brandId;
 
-		// Build SPU include options
-		const spuInclude: any = {
-			category: {
-				select: {
-					id: true,
-					name: true,
-					slug: true
-				}
-			},
-			brand: {
-				select: {
-					id: true,
-					name: true,
-					slug: true,
-					logoUrl: true
-				}
-			}
-		};
+    // Build SPU include options
+    const spuInclude: any = {
+      category: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+        },
+      },
+      brand: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          logoUrl: true,
+        },
+      },
+    };
 
-		if (dto.includeSkuCount) {
-			spuInclude._count = {
-				select: {
-					skus: true
-				}
-			};
-		}
+    if (dto.includeSkuCount) {
+      spuInclude._count = {
+        select: {
+          skus: true,
+        },
+      };
+    }
 
-		if (dto.includeSpuImages) {
-			spuInclude.spuImages = {
-				take: 5,
-				orderBy: { sortOrder: 'asc' },
-				select: {
-					id: true,
-					imageUrl: true,
-					altText: true,
-					isMain: true,
-					sortOrder: true
-				}
-			};
-		}
+    if (dto.includeSpuImages) {
+      spuInclude.spuImages = {
+        take: 5,
+        orderBy: { sortOrder: 'asc' },
+        select: {
+          id: true,
+          imageUrl: true,
+          altText: true,
+          isMain: true,
+          sortOrder: true,
+        },
+      };
+    }
 
-		if (dto.includeSpuAttributes) {
-			spuInclude.spuAttributes = {
-				include: {
-					attribute: {
-						select: {
-							id: true,
-							name: true,
-							displayName: true,
-							type: true
-						}
-					},
-					attributeValue: {
-						select: {
-							id: true,
-							value: true,
-							displayName: true,
-							colorCode: true,
-							imageUrl: true
-						}
-					}
-				}
-			};
-		}
+    if (dto.includeSpuAttributes) {
+      spuInclude.spuAttributes = {
+        include: {
+          attribute: {
+            select: {
+              id: true,
+              name: true,
+              displayName: true,
+              type: true,
+            },
+          },
+          attributeValue: {
+            select: {
+              id: true,
+              value: true,
+              displayName: true,
+              colorCode: true,
+              imageUrl: true,
+            },
+          },
+        },
+      };
+    }
 
-		if (dto.includeSpuTags) {
-			spuInclude.spuTags = {
-				include: {
-					tag: {
-						select: {
-							id: true,
-							name: true,
-							slug: true,
-							color: true
-						}
-					}
-				}
-			};
-		}
+    if (dto.includeSpuTags) {
+      spuInclude.spuTags = {
+        include: {
+          tag: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+              color: true,
+            },
+          },
+        },
+      };
+    }
 
-		if (dto.includeSpuVariations) {
-			spuInclude.spuVariations = {
-				include: {
-					attribute: {
-						select: {
-							id: true,
-							name: true,
-							displayName: true,
-							type: true
-						}
-					}
-				},
-				orderBy: { sortOrder: 'asc' }
-			};
-		}
+    if (dto.includeSpuVariations) {
+      spuInclude.spuVariations = {
+        include: {
+          attribute: {
+            select: {
+              id: true,
+              name: true,
+              displayName: true,
+              type: true,
+            },
+          },
+        },
+        orderBy: { sortOrder: 'asc' },
+      };
+    }
 
-		// Prepare query options with special handling for timeAccess sorting
-		let orderBy: any;
-		const sortBy = dto.sortBy || 'createdAt';
-		const sortOrder = dto.sortOrder || 'desc';
+    // Prepare query options with special handling for timeAccess sorting
+    let orderBy: any;
+    const sortBy = dto.sortBy || 'createdAt';
+    const sortOrder = dto.sortOrder || 'desc';
 
-		if (sortBy === 'timeAccess') {
-			// For timeAccess, we usually want to show most accessed items first (desc by default)
-			// But respect user's sortOrder preference
-			orderBy = { timeAccess: sortOrder };
-		} else {
-			orderBy = { [sortBy]: sortOrder };
-		}
+    if (sortBy === 'timeAccess') {
+      // For timeAccess, we usually want to show most accessed items first (desc by default)
+      // But respect user's sortOrder preference
+      orderBy = { timeAccess: sortOrder };
+    } else {
+      orderBy = { [sortBy]: sortOrder };
+    }
 
-		const queryOptions: any = {
-			where: spuWhere,
-			include: spuInclude,
-			take: takeValue + 1, // Take one extra to check if there's a next page
-			orderBy,
-		};
+    const queryOptions: any = {
+      where: spuWhere,
+      include: spuInclude,
+      take: takeValue + 1, // Take one extra to check if there's a next page
+      orderBy,
+    };
 
-		// Use cursor-based pagination if cursor is provided
-		if (useCursor && dto.cursor) {
-			queryOptions.cursor = { id: dto.cursor };
-			queryOptions.skip = 1; // Skip the cursor item itself
-			queryOptions.take = takeValue + 1; // Ensure take is set for cursor pagination
-		} else if (dto.page) {
-			// Fallback to offset pagination
-			queryOptions.skip = skipValue;
-			queryOptions.take = takeValue;
-		}
+    // Use cursor-based pagination if cursor is provided
+    if (useCursor && dto.cursor) {
+      queryOptions.cursor = { id: dto.cursor };
+      queryOptions.skip = 1; // Skip the cursor item itself
+      queryOptions.take = takeValue + 1; // Ensure take is set for cursor pagination
+    } else if (dto.page) {
+      // Fallback to offset pagination
+      queryOptions.skip = skipValue;
+      queryOptions.take = takeValue;
+    }
 
-		// Get SPUs
-		const spus = await this.prismaService.spu.findMany(queryOptions)
+    // Get SPUs
+    const spus = await this.prismaService.spu.findMany(queryOptions);
 
-		// Check if there are more items
-		const hasNextPage = spus.length > takeValue;
-		if (hasNextPage) {
-			spus.pop(); // Remove the extra item
-		}
+    // Check if there are more items
+    const hasNextPage = spus.length > takeValue;
+    if (hasNextPage) {
+      spus.pop(); // Remove the extra item
+    }
 
-		// Get next cursor
-		const nextCursor = hasNextPage && spus.length > 0 ? spus[spus.length - 1].id : null;
+    // Get next cursor
+    const nextCursor =
+      hasNextPage && spus.length > 0 ? spus[spus.length - 1].id : null;
 
-		// For cursor pagination, we don't need total count (expensive operation)
-		// Only calculate if explicitly using offset pagination
-		let totalSpus: number | undefined;
-		let totalPages: number | undefined;
+    // For cursor pagination, we don't need total count (expensive operation)
+    // Only calculate if explicitly using offset pagination
+    let totalSpus: number | undefined;
+    let totalPages: number | undefined;
 
-		if (dto.page && !useCursor) {
-			totalSpus = await this.prismaService.spu.count({ where: spuWhere });
-			totalPages = Math.ceil(totalSpus / takeValue);
-		}
+    if (dto.page && !useCursor) {
+      totalSpus = await this.prismaService.spu.count({ where: spuWhere });
+      totalPages = Math.ceil(totalSpus / takeValue);
+    }
 
-		return {
-			success: true,
-			data: {
-				shop,
-				spus,
-				pagination: useCursor
-					? {
-						// Cursor-based pagination response
-						limit: takeValue,
-						hasNext: hasNextPage,
-						nextCursor,
-						cursor: dto.cursor
-					}
-					: {
-						// Offset-based pagination response
-						page: dto.page || 1,
-						limit: takeValue,
-						total: totalSpus!,
-						totalPages: totalPages!,
-						hasNext: hasNextPage,
-						hasPrev: (dto.page || 1) > 1
-					}
-			}
-		};
-	}
+    return {
+      success: true,
+      data: {
+        shop,
+        spus,
+        pagination: useCursor
+          ? {
+              // Cursor-based pagination response
+              limit: takeValue,
+              hasNext: hasNextPage,
+              nextCursor,
+              cursor: dto.cursor,
+            }
+          : {
+              // Offset-based pagination response
+              page: dto.page || 1,
+              limit: takeValue,
+              total: totalSpus!,
+              totalPages: totalPages!,
+              hasNext: hasNextPage,
+              hasPrev: (dto.page || 1) > 1,
+            },
+      },
+    };
+  }
 
-	async findShopHaveNameLike(shopName: string, dto: FindShopByNameDto) {
-		//check available in cache
-		const key = SHOP_CONSTANT.SHOPS_LIKE_NAME_LEY(shopName)
-		const cached = await this.redisService.get(key)
-		if (cached) return cached
+  async findShopHaveNameLike(shopName: string, dto: FindShopByNameDto) {
+    //check available in cache
+    const key = SHOP_CONSTANT.SHOPS_LIKE_NAME_LEY(shopName);
+    const cached = await this.redisService.get(key);
+    if (cached) return cached;
 
-		// Ensure take value is properly calculated
-		const takeValue = dto.take || dto.limit || 10;
-		const skipValue = dto.skip || (dto.page ? ((dto.page - 1) * takeValue) : 0);
-		const useCursor = dto.useCursor || !!dto.cursor;
+    // Ensure take value is properly calculated
+    const takeValue = dto.take || dto.limit || 10;
+    const skipValue = dto.skip || (dto.page ? (dto.page - 1) * takeValue : 0);
+    const useCursor = dto.useCursor || !!dto.cursor;
 
-		// Build shop include options
-		const shopInclude: any = {};
+    // Build shop include options
+    const shopInclude: any = {};
 
-		if (dto.includeTotalSpuCount) {
-			shopInclude._count = {
-				select: {
-					spus: true
-				}
-			};
-		}
+    if (dto.includeTotalSpuCount) {
+      shopInclude._count = {
+        select: {
+          spus: true,
+        },
+      };
+    }
 
-		// Prepare query options
-		const queryOptions: any = {
-			where: {
-				name: {
-					contains: shopName,
-					mode: "insensitive"
-				},
-				isActive: true // Only show active shops
-			},
-			include: shopInclude,
-			take: takeValue + 1, // Take one extra to check if there's a next page
-			orderBy: { [dto.sortBy || 'createdAt']: dto.sortOrder || 'desc' }
-		};
+    // Prepare query options
+    const queryOptions: any = {
+      where: {
+        name: {
+          contains: shopName,
+          mode: 'insensitive',
+        },
+        isActive: true, // Only show active shops
+      },
+      include: shopInclude,
+      take: takeValue + 1, // Take one extra to check if there's a next page
+      orderBy: { [dto.sortBy || 'createdAt']: dto.sortOrder || 'desc' },
+    };
 
-		// Use cursor-based pagination if cursor is provided
-		if (useCursor && dto.cursor) {
-			queryOptions.cursor = { id: dto.cursor };
-			queryOptions.skip = 1; // Skip the cursor item itself
-			queryOptions.take = takeValue + 1; // Ensure take is set for cursor pagination
-		} else if (dto.page) {
-			// Fallback to offset pagination
-			queryOptions.skip = skipValue;
-			queryOptions.take = takeValue;
-		}
+    // Use cursor-based pagination if cursor is provided
+    if (useCursor && dto.cursor) {
+      queryOptions.cursor = { id: dto.cursor };
+      queryOptions.skip = 1; // Skip the cursor item itself
+      queryOptions.take = takeValue + 1; // Ensure take is set for cursor pagination
+    } else if (dto.page) {
+      // Fallback to offset pagination
+      queryOptions.skip = skipValue;
+      queryOptions.take = takeValue;
+    }
 
-		// Find many shops
-		const shops = await this.prismaService.shop.findMany(queryOptions);
+    // Find many shops
+    const shops = await this.prismaService.shop.findMany(queryOptions);
 
-		// checking fallback if shops not found
-		if (!shops) {
-			await this.redisService.set(key, null)
-			throw new NotFoundException("Shops not found")
-		}
+    // checking fallback if shops not found
+    if (!shops) {
+      await this.redisService.set(key, null);
+      throw new NotFoundException('Shops not found');
+    }
 
-		// Check if there are more items
-		const hasNextPage = shops.length > takeValue;
-		if (hasNextPage) {
-			shops.pop(); // Remove the extra item
-		}
+    // Check if there are more items
+    const hasNextPage = shops.length > takeValue;
+    if (hasNextPage) {
+      shops.pop(); // Remove the extra item
+    }
 
-		// Get next cursor
-		const nextCursor = hasNextPage && shops.length > 0 ? shops[shops.length - 1].id : null;
+    // Get next cursor
+    const nextCursor =
+      hasNextPage && shops.length > 0 ? shops[shops.length - 1].id : null;
 
-		// For cursor pagination, we don't need total count (expensive operation)
-		// Only calculate if explicitly using offset pagination
-		let totalShops: number | undefined;
-		let totalPages: number | undefined;
+    // For cursor pagination, we don't need total count (expensive operation)
+    // Only calculate if explicitly using offset pagination
+    let totalShops: number | undefined;
+    let totalPages: number | undefined;
 
-		if (dto.page && !useCursor) {
-			totalShops = await this.prismaService.shop.count({
-				where: {
-					name: {
-						contains: shopName,
-						mode: 'insensitive'
-					},
-					isActive: true
-				}
-			});
-			totalPages = Math.ceil(totalShops / takeValue);
-		}
+    if (dto.page && !useCursor) {
+      totalShops = await this.prismaService.shop.count({
+        where: {
+          name: {
+            contains: shopName,
+            mode: 'insensitive',
+          },
+          isActive: true,
+        },
+      });
+      totalPages = Math.ceil(totalShops / takeValue);
+    }
 
-		// save cache
-		await this.redisService.set(key, shops)
+    // save cache
+    await this.redisService.set(key, shops);
 
-		return {
-			success: true,
-			data: {
-				shops,
-				pagination: useCursor
-					? {
-						// Cursor-based pagination response
-						limit: takeValue,
-						hasNext: hasNextPage,
-						nextCursor,
-						cursor: dto.cursor
-					}
-					: {
-						// Offset-based pagination response
-						page: dto.page || 1,
-						limit: takeValue,
-						total: totalShops!,
-						totalPages: totalPages!,
-						hasNext: hasNextPage,
-						hasPrev: (dto.page || 1) > 1
-					}
-			}
-		};
-	}
+    return {
+      success: true,
+      data: {
+        shops,
+        pagination: useCursor
+          ? {
+              // Cursor-based pagination response
+              limit: takeValue,
+              hasNext: hasNextPage,
+              nextCursor,
+              cursor: dto.cursor,
+            }
+          : {
+              // Offset-based pagination response
+              page: dto.page || 1,
+              limit: takeValue,
+              total: totalShops!,
+              totalPages: totalPages!,
+              hasNext: hasNextPage,
+              hasPrev: (dto.page || 1) > 1,
+            },
+      },
+    };
+  }
 
-	/**
-	 * Get most popular SPUs in a shop based on access count
-	 */
-	async getPopularSpusInShop(shopId: string, limit: number = 10) {
-		return await this.prismaService.spu.findMany({
-			where: {
-				shopId,
-				isActive: true,
-				status: 'PUBLISHED'
-			},
-			orderBy: {
-				timeAccess: 'desc'
-			},
-			take: limit,
-			include: {
-				spuImages: {
-					take: 1,
-					where: { isMain: true },
-					select: {
-						id: true,
-						imageUrl: true,
-						altText: true
-					}
-				},
-				category: {
-					select: {
-						id: true,
-						name: true,
-						slug: true
-					}
-				},
-				brand: {
-					select: {
-						id: true,
-						name: true,
-						slug: true
-					}
-				},
-				_count: {
-					select: {
-						skus: true
-					}
-				}
-			}
-		});
-	}
+  /**
+   * Get most popular SPUs in a shop based on access count
+   */
+  async getPopularSpusInShop(shopId: string, limit: number = 10) {
+    return await this.prismaService.spu.findMany({
+      where: {
+        shopId,
+        isActive: true,
+        status: 'PUBLISHED',
+      },
+      orderBy: {
+        timeAccess: 'desc',
+      },
+      take: limit,
+      include: {
+        spuImages: {
+          take: 1,
+          where: { isMain: true },
+          select: {
+            id: true,
+            imageUrl: true,
+            altText: true,
+          },
+        },
+        category: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+        },
+        brand: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+        },
+        _count: {
+          select: {
+            skus: true,
+          },
+        },
+      },
+    });
+  }
 }

@@ -9,72 +9,86 @@ import { randomUUID } from 'crypto';
 
 @Injectable()
 export class TokenService {
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+    private readonly prismaService: PrismaService,
+    @Inject(forwardRef(() => AuthService))
+    private readonly authService: AuthService,
+  ) {}
 
-	constructor(
-		private readonly jwtService: JwtService,
-		private readonly configService: ConfigService,
-		private readonly prismaService: PrismaService,
-		@Inject(forwardRef(() => AuthService))
-		private readonly authService: AuthService
-	) { }
+  // generate tokens
+  async generateTokens(user: User) {
+    // create payload
+    const payload: Payload = {
+      sub: user.id,
+      email: user.email,
+      createdAt: new Date(),
+    };
 
-	// generate tokens
-	async generateTokens(user: User) {
-		// create payload 
-		const payload: Payload = {
-			sub: user.id,
-			email: user.email,
-			createdAt: new Date()
-		}
+    // generate accessToken and refreshToken
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(payload, {
+        secret: this.configService.getOrThrow<string>('JWT_SECRET'),
+        expiresIn: this.configService.getOrThrow<string>(
+          'TIME_LIFE_ACCESS_TOKEN',
+        ),
+      }),
+      this.jwtService.signAsync(payload, {
+        secret: this.configService.getOrThrow<string>('JWT_SECRET'),
+        expiresIn: this.configService.getOrThrow<string>(
+          'TIME_LIFE_REFRESH_TOKEN',
+        ),
+      }),
+    ]);
 
-		// generate accessToken and refreshToken
-		const [accessToken, refreshToken] = await Promise.all([
-			this.jwtService.signAsync(payload, {
-				secret: this.configService.getOrThrow<string>("JWT_SECRET"),
-				expiresIn: this.configService.getOrThrow<string>("TIME_LIFE_ACCESS_TOKEN")
-			}),
-			this.jwtService.signAsync(payload, {
-				secret: this.configService.getOrThrow<string>("JWT_SECRET"),
-				expiresIn: this.configService.getOrThrow<string>("TIME_LIFE_REFRESH_TOKEN")
-			})
-		])
+    return { accessToken, refreshToken };
+  }
 
-		return { accessToken, refreshToken }
-	}
+  // store session
+  async storeSession(
+    userAgent: string,
+    userIp: string,
+    hashingRefreshToken: string,
+    user: User,
+    sid?: string,
+  ) {
+    // find existing session for this user and user agent
+    const sessionId = sid || randomUUID();
+    const existingSession = await this.prismaService.session.findUnique({
+      where: { id: sessionId },
+    });
 
-	// store session
-	async storeSession(userAgent: string, userIp: string, hashingRefreshToken: string, user: User, sid?: string) {
-		// find existing session for this user and user agent
-		const sessionId = sid || randomUUID()
-		const existingSession = await this.prismaService.session.findUnique({
-			where: { id: sessionId }
-		})
+    if (existingSession) {
+      // detect other device login
+      await this.authService.detectDevice(
+        user.email,
+        userAgent,
+        userIp,
+        existingSession.id,
+      );
 
-		if (existingSession) {
-			// detect other device login
-			await this.authService.detectDevice(user.email, userAgent, userIp, existingSession.id)
+      // update existing session
+      return await this.prismaService.session.update({
+        where: { id: existingSession.id },
+        data: {
+          hashingRefreshToken,
+          userIp,
+          loginedAt: new Date(),
+          logoutedAt: null, // Reset logout time on new login
+        },
+      });
+    }
 
-			// update existing session
-			return await this.prismaService.session.update({
-				where: { id: existingSession.id },
-				data: {
-					hashingRefreshToken,
-					userIp,
-					loginedAt: new Date(),
-					logoutedAt: null // Reset logout time on new login
-				}
-			})
-		}
-
-		// create new session
-		return await this.prismaService.session.create({
-			data: {
-				hashingRefreshToken,
-				userIp,
-				userId: user.id,
-				userAgent,
-				loginedAt: new Date()
-			}
-		})
-	}
+    // create new session
+    return await this.prismaService.session.create({
+      data: {
+        hashingRefreshToken,
+        userIp,
+        userId: user.id,
+        userAgent,
+        loginedAt: new Date(),
+      },
+    });
+  }
 }

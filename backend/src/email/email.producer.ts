@@ -1,25 +1,32 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { ClientProxy } from "@nestjs/microservices";
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class EmailProducer {
-	constructor(
-		@Inject('EMAIL_SERVICE') private readonly client: ClientProxy
-	) { }
+  constructor(@Inject('EMAIL_SERVICE') private readonly client: ClientProxy) {}
 
-	async sendVerifyCodeRegister(data: { to: string, code: string }) {
-		await this.client.emit('send-code-register', data)
-	}
+  async sendVerifyCodeRegister(data: { to: string; code: string }) {
+    await this.client.emit('send-code-register', data);
+  }
 
-	async sendDetectOtherDevice(data: { to: string, userAgent: string, userIp: string }) {
-		await this.client.emit('send-detect-other-device', data)
-	}
+  async sendDetectOtherDevice(data: {
+    to: string;
+    userAgent: string;
+    userIp: string;
+  }) {
+    await this.client.emit('send-detect-other-device', data);
+  }
 
-	async sendChangePasswordNotificaiton(data: { to: string, userName: string, userIp: string, userAgent: string }) {
-		await this.client.emit('send-notification-changepassword', data)
-	}
+  async sendChangePasswordNotificaiton(data: {
+    to: string;
+    userName: string;
+    userIp: string;
+    userAgent: string;
+  }) {
+    await this.client.emit('send-notification-changepassword', data);
+  }
 
-	async sendVerifyShop(data: { to: string, linkVerify: string }) {
-		await this.client.emit('send-notification-verify-shop', data)
-	}
+  async sendVerifyShop(data: { to: string; linkVerify: string }) {
+    await this.client.emit('send-notification-verify-shop', data);
+  }
 }

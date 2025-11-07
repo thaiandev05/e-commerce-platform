@@ -4,14 +4,14 @@ import { ExecutionContext } from '@nestjs/common';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
-	canActivate(context: ExecutionContext) {
-		return super.canActivate(context);
-	}
+  canActivate(context: ExecutionContext) {
+    return super.canActivate(context);
+  }
 
-	handleRequest(err: any, user: any, info: any) {
-		if (err || !user) {
-			throw err || new UnauthorizedException('Invalid token');
-		}
-		return user;
-	}
+  handleRequest(err: any, user: any, info: any) {
+    if (err || !user) {
+      throw err || new UnauthorizedException('Invalid token');
+    }
+    return user;
+  }
 }

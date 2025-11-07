@@ -5,8 +5,8 @@ import { ProductModule } from '../product/product.module';
 import { EventConsumer } from './even.consumer';
 @Global()
 @Module({
-	imports: [EventEmitterModule.forRoot(), ProductModule],
-	providers: [EventBustService, EventConsumer],
-	exports: [EventBustService]
+  imports: [EventEmitterModule.forRoot(), ProductModule],
+  providers: [EventBustService, EventConsumer],
+  exports: [EventBustService],
 })
-export class EventbusModule { }
+export class EventbusModule {}

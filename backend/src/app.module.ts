@@ -29,27 +29,40 @@ import { CommentModule } from './modules/comment/comment.module';
   imports: [
     PrismaModule,
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
     }),
     ThrottlerModule.forRoot({
       throttlers: [
         {
           ttl: 60000,
-          limit: 10
-        }
-      ]
+          limit: 10,
+        },
+      ],
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       graphiql: process.env.NODE_ENV !== 'production',
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
-      installSubscriptionHandlers: true,// ho tro realtime socket
-      context: ({ req }) => ({ req })
+      installSubscriptionHandlers: true, // ho tro realtime socket
+      context: ({ req }) => ({ req }),
     }),
     ScheduleModule.forRoot(),
-    EmailModule, AuthModule, ShopModule, UserModule, FileModule, TaskModule, RedisModule, ProductModule, EventbusModule, ElasticsearchModule, CartModule,
-    StripeModule, GenemiChatbotModule, ChatModule, CommentModule
+    EmailModule,
+    AuthModule,
+    ShopModule,
+    UserModule,
+    FileModule,
+    TaskModule,
+    RedisModule,
+    ProductModule,
+    EventbusModule,
+    ElasticsearchModule,
+    CartModule,
+    StripeModule,
+    GenemiChatbotModule,
+    ChatModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [
@@ -57,8 +70,8 @@ import { CommentModule } from './modules/comment/comment.module';
     {
       provide: APP_GUARD,
       inject: [Reflector],
-      useFactory: (reflector: Reflector) => new CookieGuard(reflector)
-    }
+      useFactory: (reflector: Reflector) => new CookieGuard(reflector),
+    },
   ],
 })
-export class AppModule { }
+export class AppModule {}

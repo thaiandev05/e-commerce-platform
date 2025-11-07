@@ -1,109 +1,116 @@
-import { ShopQl } from "@/modules/shop/entity/shop.entity";
-import { Field, ObjectType, registerEnumType } from "@nestjs/graphql";
-import { User, AccountType, UserRole, UserFlag, UserVisibility, UserRoleS } from "@prisma/generated/prisma";
+import { ShopQl } from '@/modules/shop/entity/shop.entity';
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+import {
+  User,
+  AccountType,
+  UserRole,
+  UserFlag,
+  UserVisibility,
+  UserRoleS,
+} from '@prisma/generated/prisma';
 
 registerEnumType(AccountType, {
-	name: 'AccountType'
-})
+  name: 'AccountType',
+});
 
 registerEnumType(UserRoleS, {
-	name: 'UserRole'
-})
+  name: 'UserRole',
+});
 
 registerEnumType(UserFlag, {
-	name: 'UserFlag'
-})
+  name: 'UserFlag',
+});
 
 registerEnumType(UserVisibility, {
-	name: 'UserVisibility'
-})
+  name: 'UserVisibility',
+});
 
 @ObjectType()
 export class UserQl implements Partial<User> {
-	@Field(type => String, {})
-	id: string
+  @Field((type) => String, {})
+  id: string;
 
-	@Field(type => String)
-	fullname: string
+  @Field((type) => String)
+  fullname: string;
 
-	@Field(type => String)
-	username: string
+  @Field((type) => String)
+  username: string;
 
-	@Field(type => String)
-	email: string
+  @Field((type) => String)
+  email: string;
 
-	@Field(type => String, {
-		nullable: true
-	})
-	phone: string
+  @Field((type) => String, {
+    nullable: true,
+  })
+  phone: string;
 
-	@Field(type => String, {
-		nullable: true
-	})
-	hashingPassword: string
+  @Field((type) => String, {
+    nullable: true,
+  })
+  hashingPassword: string;
 
-	@Field(type => AccountType, {
-		defaultValue: AccountType.EMAIL
-	})
-	accountType: AccountType
+  @Field((type) => AccountType, {
+    defaultValue: AccountType.EMAIL,
+  })
+  accountType: AccountType;
 
-	@Field(type => String, {
-		nullable: true
-	})
-	avatarUrl: string
+  @Field((type) => String, {
+    nullable: true,
+  })
+  avatarUrl: string;
 
-	@Field(type => String, {
-		nullable: true
-	})
-	address: string
+  @Field((type) => String, {
+    nullable: true,
+  })
+  address: string;
 
-	@Field(type => String, {
-		nullable: true
-	})
-	city: string
+  @Field((type) => String, {
+    nullable: true,
+  })
+  city: string;
 
-	@Field(type => String, {
-		nullable: true
-	})
-	state: string
+  @Field((type) => String, {
+    nullable: true,
+  })
+  state: string;
 
-	@Field(type => [UserRoleS])
-	roles: UserRole[]
+  @Field((type) => [UserRoleS])
+  roles: UserRole[];
 
-	@Field(type => [UserFlag])
-	flags: UserFlag[]
+  @Field((type) => [UserFlag])
+  flags: UserFlag[];
 
-	@Field(type => Date)
-	createdAt: Date
+  @Field((type) => Date)
+  createdAt: Date;
 
-	@Field(type => Date)
-	updatedAt: Date
+  @Field((type) => Date)
+  updatedAt: Date;
 
-	@Field(type => UserVisibility, {
-		defaultValue: UserVisibility.PUBLIC
-	})
-	visible: UserVisibility
+  @Field((type) => UserVisibility, {
+    defaultValue: UserVisibility.PUBLIC,
+  })
+  visible: UserVisibility;
 
-	@Field(type => Boolean, {
-		defaultValue: false
-	})
-	isBanned: boolean
+  @Field((type) => Boolean, {
+    defaultValue: false,
+  })
+  isBanned: boolean;
 
-	@Field(type => Boolean, {
-		defaultValue: false
-	})
-	isLocked: boolean
+  @Field((type) => Boolean, {
+    defaultValue: false,
+  })
+  isLocked: boolean;
 
-	@Field(type => Boolean, {
-		defaultValue: false
-	})
-	isVerified: boolean
+  @Field((type) => Boolean, {
+    defaultValue: false,
+  })
+  isVerified: boolean;
 
-	@Field(type => Date, {
-		nullable: true
-	})
-	lastActived: Date
+  @Field((type) => Date, {
+    nullable: true,
+  })
+  lastActived: Date;
 
-	@Field(type => [ShopQl], { nullable: true })
-	shop?: ShopQl[]
+  @Field((type) => [ShopQl], { nullable: true })
+  shop?: ShopQl[];
 }

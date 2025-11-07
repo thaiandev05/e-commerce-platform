@@ -12,13 +12,16 @@ import { PrismaService } from '@/prisma/prisma.service';
 @Module({
   imports: [EmailModule, RedisModule],
   providers: [
-    ShopService, SearchServiceShop, ShopResolver,
+    ShopService,
+    SearchServiceShop,
+    ShopResolver,
     {
       provide: APP_GUARD,
       inject: [Reflector, PrismaService],
-      useFactory: (reflector: Reflector, prismaService: PrismaService) => new RolesGuard(reflector, prismaService)
-    }
+      useFactory: (reflector: Reflector, prismaService: PrismaService) =>
+        new RolesGuard(reflector, prismaService),
+    },
   ],
-  controllers: [ShopController]
+  controllers: [ShopController],
 })
-export class ShopModule { }
+export class ShopModule {}

@@ -23,4 +23,4 @@ import Redis from 'ioredis';
   ],
   exports: ['REDIS_CLIENT', RedisService],
 })
-export class RedisModule { }
+export class RedisModule {}

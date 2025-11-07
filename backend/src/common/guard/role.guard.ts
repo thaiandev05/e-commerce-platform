@@ -1,55 +1,60 @@
-import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from "@nestjs/common";
-import { Reflector } from "@nestjs/core";
-import { ROLES_KEY } from "../decorator/role.decorator";
-import { IS_PUBLIC_KEY } from "../decorator/public.decorator";
-import { User } from "@prisma/generated/prisma";
-import { ForbiddenError } from "@nestjs/apollo";
-import { PrismaService } from "@/prisma/prisma.service";
+import {
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { ROLES_KEY } from '../decorator/role.decorator';
+import { IS_PUBLIC_KEY } from '../decorator/public.decorator';
+import { User } from '@prisma/generated/prisma';
+import { ForbiddenError } from '@nestjs/apollo';
+import { PrismaService } from '@/prisma/prisma.service';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-	constructor(
-		private reflector: Reflector,
-		private readonly prismaService: PrismaService
-	) { }
+  constructor(
+    private reflector: Reflector,
+    private readonly prismaService: PrismaService,
+  ) {}
 
-	async canActivate(context: ExecutionContext) {
-		// Check if endpoint is public
-		const isPublic = this.reflector.getAllAndOverride<boolean>(
-			IS_PUBLIC_KEY,
-			[context.getHandler(), context.getClass()]
-		);
-		if (isPublic) return true;
+  async canActivate(context: ExecutionContext) {
+    // Check if endpoint is public
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+    if (isPublic) return true;
 
-		const requiredRoles = this.reflector.getAllAndOverride<string[]>(
-			ROLES_KEY,
-			[context.getHandler(), context.getClass()]
-		)
+    const requiredRoles = this.reflector.getAllAndOverride<string[]>(
+      ROLES_KEY,
+      [context.getHandler(), context.getClass()],
+    );
 
-		// controller not required reole
-		if (!requiredRoles) return true
-		const request = context.switchToHttp().getRequest()
-		const user: User = request.user
+    // controller not required reole
+    if (!requiredRoles) return true;
+    const request = context.switchToHttp().getRequest();
+    const user: User = request.user;
 
-		if (!user) throw new ForbiddenError("User not auth")
+    if (!user) throw new ForbiddenError('User not auth');
 
-		// get list roles
-		const availableUser = await this.prismaService.user.findUnique({
-			where: { id: user.id },
-			include: {
-				roles: true
-			}
-		})
+    // get list roles
+    const availableUser = await this.prismaService.user.findUnique({
+      where: { id: user.id },
+      include: {
+        roles: true,
+      },
+    });
 
-		const userRoleIds = availableUser?.roles.map(role => role.roleId) ?? [];
-		const hasRole = requiredRoles.some(role => userRoleIds.includes(role));
+    const userRoleIds = availableUser?.roles.map((role) => role.roleId) ?? [];
+    const hasRole = requiredRoles.some((role) => userRoleIds.includes(role));
 
-		if (!hasRole) {
-			throw new ForbiddenException(
-				`You do not have permission. Required: ${requiredRoles.join(', ')}`
-			)
-		}
+    if (!hasRole) {
+      throw new ForbiddenException(
+        `You do not have permission. Required: ${requiredRoles.join(', ')}`,
+      );
+    }
 
-		return hasRole;
-	}
+    return hasRole;
+  }
 }

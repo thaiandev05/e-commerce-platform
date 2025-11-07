@@ -9,14 +9,17 @@ import { ProductService } from './service/product.service';
 
 @Module({
   imports: [ElasticsearchModule],
-  providers: [ProductService, ProductSearchService,
+  providers: [
+    ProductService,
+    ProductSearchService,
     {
       provide: APP_GUARD,
       inject: [Reflector, PrismaService],
-      useFactory: (reflector: Reflector, prismaService: PrismaService) => new RolesGuard(reflector, prismaService)
-    }
+      useFactory: (reflector: Reflector, prismaService: PrismaService) =>
+        new RolesGuard(reflector, prismaService),
+    },
   ],
   controllers: [ProductController],
-  exports: [ProductService]
+  exports: [ProductService],
 })
-export class ProductModule { }
+export class ProductModule {}

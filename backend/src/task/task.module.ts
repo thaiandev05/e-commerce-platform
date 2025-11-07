@@ -4,6 +4,6 @@ import { ElasticsearchModule } from '@/modules/elasticsearch/elasticsearch.modul
 
 @Module({
   imports: [ElasticsearchModule],
-  providers: [TaskService]
+  providers: [TaskService],
 })
 export class TaskModule {}

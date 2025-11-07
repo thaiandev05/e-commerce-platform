@@ -18,13 +18,21 @@ import { OtherService } from './services/auth.other.service';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.getOrThrow<string>("JWT_SECRET"),
-        signOptions: { expiresIn: '1d' }
-      })
-    })
+        secret: configService.getOrThrow<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '1d' },
+      }),
+    }),
   ],
-  providers: [AuthService, TokenService, GoogleStrategy, FacebookStrategy, JwtStrategy, CookieStrategy, OtherService],
+  providers: [
+    AuthService,
+    TokenService,
+    GoogleStrategy,
+    FacebookStrategy,
+    JwtStrategy,
+    CookieStrategy,
+    OtherService,
+  ],
   controllers: [AuthController],
-  exports: [AuthService]
+  exports: [AuthService],
 })
-export class AuthModule { }
+export class AuthModule {}

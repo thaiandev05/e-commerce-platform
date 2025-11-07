@@ -1,6 +1,9 @@
 import { Logger, Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ElasticsearchService, ElasticsearchModule as NestElasticsearchModule } from '@nestjs/elasticsearch';
+import {
+  ElasticsearchService,
+  ElasticsearchModule as NestElasticsearchModule,
+} from '@nestjs/elasticsearch';
 import { ElasticsearchServiceCustom } from './elasticsearch.service';
 
 @Module({
@@ -15,14 +18,12 @@ import { ElasticsearchServiceCustom } from './elasticsearch.service';
     }),
   ],
   providers: [ElasticsearchServiceCustom],
-  exports: [ElasticsearchServiceCustom]
+  exports: [ElasticsearchServiceCustom],
 })
 export class ElasticsearchModule implements OnModuleInit {
   private readonly logger = new Logger(ElasticsearchModule.name);
 
-  constructor(
-    private readonly es: ElasticsearchService
-  ) { }
+  constructor(private readonly es: ElasticsearchService) {}
 
   async onModuleInit() {
     try {
@@ -49,24 +50,24 @@ export class ElasticsearchModule implements OnModuleInit {
     return {
       analyzer: {
         custom_vn_analyzer: {
-          type: "custom" as const,
-          tokenizer: "standard",
-          filter: ["lowercase", "asciifolding"],
+          type: 'custom' as const,
+          tokenizer: 'standard',
+          filter: ['lowercase', 'asciifolding'],
         },
         search_analyzer: {
-          type: "custom" as const,
-          tokenizer: "keyword",
-          filter: ["lowercase", "trim"],
+          type: 'custom' as const,
+          tokenizer: 'keyword',
+          filter: ['lowercase', 'trim'],
         },
         autocomplete_analyzer: {
-          type: "custom" as const,
-          tokenizer: "standard",
-          filter: ["lowercase", "asciifolding", "edge_ngram_filter"],
+          type: 'custom' as const,
+          tokenizer: 'standard',
+          filter: ['lowercase', 'asciifolding', 'edge_ngram_filter'],
         },
       },
       filter: {
         edge_ngram_filter: {
-          type: "edge_ngram" as const,
+          type: 'edge_ngram' as const,
           min_gram: 2,
           max_gram: 20,
         },
@@ -96,7 +97,10 @@ export class ElasticsearchModule implements OnModuleInit {
               analyzer: 'custom_vn_analyzer',
               fields: {
                 keyword: { type: 'keyword' },
-                autocomplete: { type: 'text', analyzer: 'autocomplete_analyzer' },
+                autocomplete: {
+                  type: 'text',
+                  analyzer: 'autocomplete_analyzer',
+                },
               },
             },
             slug: { type: 'keyword' },
@@ -131,7 +135,10 @@ export class ElasticsearchModule implements OnModuleInit {
               analyzer: 'custom_vn_analyzer',
               fields: {
                 keyword: { type: 'keyword' },
-                autocomplete: { type: 'text', analyzer: 'autocomplete_analyzer' },
+                autocomplete: {
+                  type: 'text',
+                  analyzer: 'autocomplete_analyzer',
+                },
               },
             },
             slug: { type: 'keyword' },
@@ -162,7 +169,10 @@ export class ElasticsearchModule implements OnModuleInit {
               analyzer: 'custom_vn_analyzer',
               fields: {
                 keyword: { type: 'keyword' },
-                autocomplete: { type: 'text', analyzer: 'autocomplete_analyzer' },
+                autocomplete: {
+                  type: 'text',
+                  analyzer: 'autocomplete_analyzer',
+                },
               },
             },
             slug: { type: 'keyword' },
@@ -199,7 +209,10 @@ export class ElasticsearchModule implements OnModuleInit {
               properties: {
                 attributeId: { type: 'keyword' },
                 attributeName: { type: 'keyword' },
-                attributeDisplayName: { type: 'text', analyzer: 'custom_vn_analyzer' },
+                attributeDisplayName: {
+                  type: 'text',
+                  analyzer: 'custom_vn_analyzer',
+                },
                 value: { type: 'text', analyzer: 'custom_vn_analyzer' },
                 displayName: { type: 'text', analyzer: 'custom_vn_analyzer' },
                 colorCode: { type: 'keyword' },
@@ -397,7 +410,10 @@ export class ElasticsearchModule implements OnModuleInit {
               analyzer: 'custom_vn_analyzer',
               fields: {
                 keyword: { type: 'keyword' },
-                autocomplete: { type: 'text', analyzer: 'autocomplete_analyzer' },
+                autocomplete: {
+                  type: 'text',
+                  analyzer: 'autocomplete_analyzer',
+                },
               },
             },
             slug: { type: 'keyword' },

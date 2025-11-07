@@ -3,9 +3,9 @@ import {
   ExecutionContext,
   Injectable,
   NestInterceptor,
-} from '@nestjs/common'
-import { Observable } from 'rxjs'
-import { map, catchError } from 'rxjs/operators'
+} from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class ResponseInterceptor<T> implements NestInterceptor<T, any> {
@@ -21,8 +21,8 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, any> {
           success: false,
           error: err.message || 'Internal server error',
           timestamp: new Date().toISOString(),
-        }
+        };
       }),
-    )
+    );
   }
 }
